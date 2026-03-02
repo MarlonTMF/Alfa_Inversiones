@@ -16,9 +16,8 @@ export class Mapa implements AfterViewInit {
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: Object,
     private readonly http: HttpClient,
-    // Inyectamos las herramientas de Angular para crear componentes al vuelo
-    private injector: EnvironmentInjector,
-    private appRef: ApplicationRef
+    private readonly injector: EnvironmentInjector,
+    private readonly appRef: ApplicationRef
   ) {}
 
   ngAfterViewInit(): void {
@@ -67,13 +66,15 @@ export class Mapa implements AfterViewInit {
     this.http.get<any[]>('/mock-data/terrenos.json').subscribe({
       next: (terrenos) => {
         terrenos.forEach(terreno => {
-          const marker = L.marker(terreno.coordenadas).addTo(this.map);          
+          const areaTerreno = L.polygon(terreno.poligono, {
+            className: 'poligono-terreno' 
+          }).addTo(this.map);
           const popupComponent = createComponent(TerrenoPopup, {
             environmentInjector: this.injector
           });
           popupComponent.instance.terreno = terreno;
           popupComponent.changeDetectorRef.detectChanges();
-          marker.bindPopup(popupComponent.location.nativeElement);
+          areaTerreno.bindPopup(popupComponent.location.nativeElement);          
         });
       },
       error: (err) => console.error('Error al cargar el JSON de terrenos:', err)

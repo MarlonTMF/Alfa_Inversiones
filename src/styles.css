@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+.marcador-transparente {
+    background: transparent;
+    border: none;
+}
+.pin-inmobiliario {
+    width: 24px;
+    height: 24px;
+    background-color: #1e3a8a;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+}
+.pin-inmobiliario:hover {
+    transform: scale(1.3);
+    background-color: #3b82f6;
+    z-index: 1000 !important;
+}
+path.poligono-terreno {
+    stroke: #1e3a8a;
+    stroke-width: 3px;
+    fill: #3b82f6;
+    fill-opacity: 0.4;
+    transition: fill-opacity 0.2s ease, stroke-width 0.2s ease;
+    cursor: pointer;
+}
+
+path.poligono-terreno:hover {
+    fill-opacity: 0.7;
+    stroke-width: 4px; 
+}
