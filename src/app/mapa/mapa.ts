@@ -1,23 +1,22 @@
-import { Component, AfterViewInit, PLATFORM_ID, Inject, EnvironmentInjector, createComponent, ApplicationRef } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component, AfterViewInit, PLATFORM_ID, Inject, ChangeDetectorRef } from '@angular/core';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { TerrenoPopup } from '../terreno-popup/terreno-popup'; // Importa tu nuevo componente
 
 @Component({
   selector: 'app-mapa',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './mapa.html',
   styleUrl: './mapa.css',
 })
 export class Mapa implements AfterViewInit {
   private map: any;
+  terrenoSeleccionado: any = null;
 
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: Object,
     private readonly http: HttpClient,
-    private readonly injector: EnvironmentInjector,
-    private readonly appRef: ApplicationRef
+    private readonly cdr: ChangeDetectorRef // Nos ayuda a sincronizar Leaflet con Angular
   ) {}
 
   ngAfterViewInit(): void {
@@ -25,7 +24,6 @@ export class Mapa implements AfterViewInit {
       this.cargarMapaYGeolocalizacion();
     }
   }
-
   private cargarMapaYGeolocalizacion(): void {
     import('leaflet').then((L) => {
       const coordenadasFallback: [number, number] = [-17.3935, -66.157];
@@ -67,17 +65,27 @@ export class Mapa implements AfterViewInit {
       next: (terrenos) => {
         terrenos.forEach(terreno => {
           const areaTerreno = L.polygon(terreno.poligono, {
-            className: 'poligono-terreno' 
+            className: 'poligono-terreno'
           }).addTo(this.map);
-          const popupComponent = createComponent(TerrenoPopup, {
-            environmentInjector: this.injector
+          areaTerreno.bindTooltip(`
+            <div style="font-family: sans-serif; text-align: center;">
+              <strong>${terreno.ubicacion}</strong><br>
+              <span style="font-size: 11px; color: #666;">Clic para ver detalles</span>
+            </div>
+          `, { direction: 'top', sticky: true });
+          areaTerreno.on('click', () => {
+            this.terrenoSeleccionado = terreno;
+            this.cdr.detectChanges();
+            this.map.flyToBounds(areaTerreno.getBounds(), { padding: [200, 200], duration: 1 });
           });
-          popupComponent.instance.terreno = terreno;
-          popupComponent.changeDetectorRef.detectChanges();
-          areaTerreno.bindPopup(popupComponent.location.nativeElement);          
+
         });
       },
-      error: (err) => console.error('Error al cargar el JSON de terrenos:', err)
+      error: (err) => console.error('Error al cargar el JSON:', err)
     });
+  }
+
+  cerrarPanel(): void {
+    this.terrenoSeleccionado = null;
   }
 }
