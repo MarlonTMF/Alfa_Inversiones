@@ -1,0 +1,23 @@
+[
+  {
+    "id": "TER-001",
+    "coordenadas": [-17.3755, -66.1570],
+    "precio": 1200000,
+    "superficie": 1500,
+    "ubicacion": "Zona Norte, Av. América"
+  },
+  {
+    "id": "TER-002",
+    "coordenadas": [-17.3980, -66.1650],
+    "precio": 850000,
+    "superficie": 800,
+    "ubicacion": "Zona Central, cerca a la plaza"
+  },
+  {
+    "id": "TER-003",
+    "coordenadas": [-17.3650, -66.1400],
+    "precio": 2500000,
+    "superficie": 2500,
+    "ubicacion": "Cala Cala, área residencial"
+  }
+]
