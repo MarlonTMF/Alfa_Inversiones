@@ -2,33 +2,49 @@
     <div id="map" class="map-container"></div>
 
     @if (terrenoSeleccionado) {
-        <aside class="panel-lateral">
-        
+    <aside class="panel-lateral">
         <div class="panel-header">
-            <h3>Detalles del Activo</h3>
-            <button class="btn-cerrar" (click)="cerrarPanel()">✖</button>
+        <h3>Detalles del Activo</h3>
+        <button class="btn-cerrar" (click)="cerrarPanel()">✖</button>
+        </div>
+
+        <div class="imagen-terreno">
+        <img src="https://images.unsplash.com/photo-1524813686514-a57563d77965?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Vista del terreno">
+        
+        <div class="etiquetas-flotantes">
+            <span class="badge badge-verde">DISPONIBLE</span>
+            <span class="badge badge-gris">Uso Mixto</span>
+        </div>
         </div>
 
         <div class="panel-content">
-            <h2 class="titulo-ubicacion">{{ terrenoSeleccionado.ubicacion }}</h2>
-            
-            <div class="grid-datos">
+        <h2 class="titulo-ubicacion">{{ terrenoSeleccionado.ubicacion }}</h2>
+        
+        <div class="grid-datos">
             <div class="dato-tarjeta">
-                <span class="dato-label">Precio Solicitado</span>
-                <span class="dato-valor texto-azul">${{ terrenoSeleccionado.precio | number }}</span>
+            <span class="dato-label">Precio Solicitado</span>
+            <span class="dato-valor texto-azul">${{ terrenoSeleccionado.precio | number }}</span>
             </div>
             <div class="dato-tarjeta">
-                <span class="dato-label">Superficie Total</span>
-                <span class="dato-valor">{{ terrenoSeleccionado.superficie }} m²</span>
+            <span class="dato-label">Superficie Total</span>
+            <span class="dato-valor">{{ terrenoSeleccionado.superficie | number }} m²</span>
             </div>
+            <div class="dato-tarjeta tarjeta-destacada">
+            <span class="dato-label">Precio por m²</span>
+            <span class="dato-valor">${{ (terrenoSeleccionado.precio / terrenoSeleccionado.superficie) | number:'1.0-0' }}</span>
             </div>
-
-            <div class="placeholder-calculadora">
-            <p>🔒 <strong>Módulos Financieros</strong></p>
-            <p class="texto-pequeno">Aquí se integrarán la Calculadora de ROI para Inversionistas y la Validación de Costos (30-40%) para Constructores.</p>
+            <div class="dato-tarjeta">
+            <span class="dato-label">Topografía</span>
+            <span class="dato-valor texto-normal">Plana (100%)</span>
             </div>
         </div>
 
-        </aside>
+        <div class="placeholder-calculadora">
+            <p>🔒 <strong>Módulos Financieros</strong></p>
+            <p class="texto-pequeno">Aquí se integrarán la Calculadora de ROI para Inversionistas y la Validación de Costos (30-40%) para Constructores.</p>
+        </div>
+        </div>
+
+    </aside>
     }
 </div>
