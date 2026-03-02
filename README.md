@@ -1,59 +1,40 @@
-# PlataformaInmobiliaria
+# 🏢 Plataforma de Inteligencia Inmobiliaria - 365SOFT (Grupo 5)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.0.
+Repositorio central del sistema de soporte para la decisión geoespacial en inversiones inmobiliarias.
 
-## Development server
+## 📂 Estructura del Repositorio (Monorepo)
 
-To start a local development server, run:
+- `/frontEnd`: Aplicación cliente (Angular 17+, Leaflet, Tailwind/CSS).
+- `/backEnd`: API y base de datos (Stack a definir).
 
-```bash
-ng serve
-```
+---
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 💻 Estado del Frontend (Fase 1 completada)
 
-## Code scaffolding
+El Frontend ya cuenta con el núcleo visual geoespacial funcional:
+1. Mapa base interactivo centrado en Bolivia.
+2. Geolocalización del usuario.
+3. Renderizado de polígonos (terrenos) sobre el mapa.
+4. Panel lateral interactivo con detalles financieros y cálculo automático de `$/m²`.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### ⚠️ Contrato de Datos (Atención Backend)
+Actualmente, el Frontend está consumiendo un Mock Local en formato JSON. Para la integración real (Mes 2/3), el **Backend deberá exponer un endpoint (Ej: `GET /api/v1/terrenos`)** que devuelva una lista de objetos **exactamente con esta estructura**:
 
-```bash
-ng generate component component-name
-```
+\`\`\`json
+[
+  {
+    "id": "TER-001",
+    "poligono": [
+      [-17.3750, -66.1575],
+      [-17.3750, -66.1560],
+      [-17.3765, -66.1560],
+      [-17.3765, -66.1575]
+    ],
+    "precio": 1200000,
+    "superficie": 1500,
+    "ubicacion": "Zona Norte, Av. América"
+  }
+]
+\`\`\`
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+*Nota para el DB Admin: El área del terreno NO es un punto central (lat/lng), es un arreglo de coordenadas que forman el polígono de la manzana/lote.*
