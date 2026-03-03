@@ -38,3 +38,32 @@ Actualmente, el Frontend está consumiendo un Mock Local en formato JSON. Para l
 \`\`\`
 
 *Nota para el DB Admin: El área del terreno NO es un punto central (lat/lng), es un arreglo de coordenadas que forman el polígono de la manzana/lote.*
+
+
+
+### ⚠️ Contrato de Datos: Capas de Amenidades (Mes 2)
+
+Para la funcionalidad de activación de capas (Hospitales, Colegios, Mercados, Transporte), el **Frontend NO consumirá APIs externas de mapas directamente** por motivos de rendimiento y arquitectura. 
+
+El equipo de **Backend** es responsable de:
+1. Extraer los datos geoespaciales de Cochabamba (Se sugiere usar Overpass API / OpenStreetMap).
+2. Limpiar y almacenar estos puntos en la base de datos del proyecto.
+3. Exponer un endpoint (Ej: `GET /api/v1/amenidades`) que devuelva la data procesada con la siguiente estructura exacta:
+
+\`\`\`json
+[
+  { 
+    "id": "AM-001", 
+    "tipo": "hospital", 
+    "nombre": "Hospital Viedma", 
+    "coordenadas": [-17.385, -66.148] 
+  },
+  { 
+    "id": "AM-002", 
+    "tipo": "colegio", 
+    "nombre": "Colegio San Agustín", 
+    "coordenadas": [-17.380, -66.160] 
+  }
+]
+\`\`\`
+*Nota: El campo `tipo` debe ser estrictamente uno de estos valores: `hospital`, `colegio`, `mercado`, `transporte`. El Frontend mapeará automáticamente los íconos visuales basándose en este string.*

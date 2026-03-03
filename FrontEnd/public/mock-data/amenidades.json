@@ -1,0 +1,10 @@
+[
+    { "id": "AM-001", "tipo": "hospital", "nombre": "Hospital Viedma", "coordenadas": [-17.385, -66.148] },
+    { "id": "AM-002", "tipo": "hospital", "nombre": "Caja Nacional de Salud", "coordenadas": [-17.378, -66.152] },
+    { "id": "AM-003", "tipo": "colegio", "nombre": "Colegio San Agustín", "coordenadas": [-17.380, -66.160] },
+    { "id": "AM-004", "tipo": "colegio", "nombre": "Instituto Americano", "coordenadas": [-17.382, -66.165] },
+    { "id": "AM-005", "tipo": "mercado", "nombre": "La Cancha (San Antonio)", "coordenadas": [-17.4015, -66.1550] },
+    { "id": "AM-006", "tipo": "mercado", "nombre": "Mercado 25 de Mayo", "coordenadas": [-17.395, -66.158] },
+    { "id": "AM-007", "tipo": "transporte", "nombre": "Terminal de Buses", "coordenadas": [-17.405, -66.152] },
+    { "id": "AM-008", "tipo": "transporte", "nombre": "Parada Trufis Quillacollo", "coordenadas": [-17.398, -66.162] }
+]

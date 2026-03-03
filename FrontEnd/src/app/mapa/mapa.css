@@ -1,175 +1,192 @@
-/* Contenedor padre para poder posicionar el panel encima del mapa */
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .map-wrapper {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  display: flex;
 }
-
 .map-container {
+  flex: 1;
   height: 100%;
   width: 100%;
-  z-index: 0;
+  z-index: 10;
 }
 
-.panel-lateral {
+.panel-lateral-premium {
   position: absolute;
   top: 0;
   right: 0;
-  width: 400px;
+  width: 420px;
   height: 100%;
-  background-color: #ffffff;
-  box-shadow: -5px 0 25px rgba(0,0,0,0.15);
-  z-index: 1000;
+  background-color: #0f172a;
+  border-left: 1px solid #1e293b;
+  box-shadow: -15px 0 30px rgba(0,0,0,0.5);
+  z-index: 9000; 
   display: flex;
   flex-direction: column;
-  animation: deslizarIzquierda 0.3s ease-out forwards;
-  font-family: Arial, sans-serif;
+  color: #f8fafc;
 }
 
-/* Animación de entrada */
-@keyframes deslizarIzquierda {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+/* Animación de entrada profesional */
+@keyframes slideLeft {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-left {
+  animation: slideLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Encabezado del panel */
 .panel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background-color: #1e3a8a;
-  color: white;
+  padding: 20px 24px;
+  border-bottom: 1px solid #1e293b;
+  background-color: rgba(15, 23, 42, 0.95);
 }
 
-.panel-header h3 {
+.panel-title {
   margin: 0;
-  font-size: 16px;
-  font-weight: normal;
+  font-size: 14px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.btn-cerrar {
+.btn-cerrar-panel {
   background: transparent;
   border: none;
-  color: white;
-  font-size: 18px;
+  color: #64748b;
+  font-size: 20px;
+  font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: color 0.2s;
+}
+.btn-cerrar-panel:hover { color: #ffffff; }
+
+/* Sección de la fotografía */
+.panel-imagen-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  flex-shrink: 0;
 }
 
-.btn-cerrar:hover {
-  transform: scale(1.2);
+.panel-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-bottom: 1px solid #1e293b;
 }
 
-.panel-content {
+.etiqueta-estado {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: #10b981;
+  color: white;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* Cuerpo con scroll independiente */
+.panel-body {
   padding: 24px;
   flex: 1;
   overflow-y: auto;
 }
 
-.titulo-ubicacion {
-  margin: 0 0 24px 0;
-  font-size: 22px;
-  color: #111827;
+.subtitulo-ciudad {
+  font-size: 13px;
+  color: #3b82f6;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.grid-datos {
+.titulo-terreno {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 24px 0;
+  line-height: 1.2;
+}
+
+/* Cuadrícula de datos financieros */
+.metricas-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-bottom: 32px;
 }
 
-.dato-tarjeta {
-  background-color: #f3f4f6;
+.metrica-box {
+  background-color: #1e293b;
   padding: 16px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-}
-
-.dato-label {
-  display: block;
-  font-size: 12px;
-  color: #6b7280;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.dato-valor {
-  display: block;
-  font-size: 18px;
-  font-weight: bold;
-  color: #1f2937;
-}
-
-.texto-azul {
-  color: #2563eb;
-}
-
-.placeholder-calculadora {
-  background-color: #eff6ff;
-  border: 1px dashed #93c5fd;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  color: #1e3a8a;
-}
-
-.texto-pequeno {
-  font-size: 12px;
-  color: #3b82f6;
-  margin-top: 8px;
-}
-
-.imagen-terreno {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  background-color: #e5e7eb;
-}
-
-.imagen-terreno img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.etiquetas-flotantes {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
+  border-radius: 12px;
+  border: 1px solid #334155;
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.badge {
-  padding: 4px 8px;
-  border-radius: 4px;
+.metrica-box.highlight {
+  background-color: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.metrica-label {
   font-size: 11px;
-  font-weight: bold;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 600;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.badge-verde {
-  background-color: #10b981;
-  color: white;
+.metrica-valor {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f8fafc;
 }
 
-.badge-gris {
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #374151;
+.metrica-valor-verde {
+  font-size: 22px;
+  font-weight: 900;
+  color: #34d399;
 }
 
-
-.tarjeta-destacada {
-  background-color: #eff6ff;
-  border-color: #bfdbfe;
+/* Anuncio del próximo sprint */
+.placeholder-futuro {
+  background-color: rgba(59, 130, 246, 0.05);
+  border: 1px dashed rgba(59, 130, 246, 0.3);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
 }
 
-.texto-normal {
-  font-weight: normal;
-  font-size: 14px;
-  color: #4b5563;
-  margin-top: 4px;
+.placeholder-titulo {
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.placeholder-texto {
+  color: #64748b;
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.5;
 }
