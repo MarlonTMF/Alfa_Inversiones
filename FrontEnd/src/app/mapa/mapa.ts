@@ -152,11 +152,14 @@ export class Mapa implements AfterViewInit {
             this.zone.run(() => {
                 this.terrenoSeleccionado = terreno;
                 this.cdr.detectChanges();
-            });
-            const centroPoligono = areaTerreno.getBounds().getCenter();
-            this.map.flyTo(centroPoligono, 16, { 
-                animate: true,
-                duration: 1 
+                setTimeout(() => {
+                    this.map.invalidateSize();                     
+                    const centroPoligono = areaTerreno.getBounds().getCenter();
+                    this.map.flyTo(centroPoligono, 16, { 
+                        animate: true,
+                        duration: 1 
+                    });
+                }, 100);
             });
         });
     }
