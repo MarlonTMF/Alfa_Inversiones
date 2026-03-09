@@ -1,11 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { MapaConstructorModule } from './mapa_constructor/mapa_constructor.module';
 
 @Module({
-  imports: [MapaConstructorModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'database.sqlite',
+      entities: [__dirname + '/**/*.fuente-datos{.ts,.js}'],
+      synchronize: true,
+    }),
+    MapaConstructorModule,
+  ],
 })
 export class AppModule {}
