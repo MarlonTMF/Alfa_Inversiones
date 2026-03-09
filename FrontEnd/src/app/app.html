@@ -1,60 +1,108 @@
 <div class="app-layout">
     <header class="navbar">
-    <div class="brand">
-        <h1>365SOFT <span>| Inteligencia Inmobiliaria</span></h1>
-    </div>
+        <div class="brand">
+            <h1>365SOFT <span>| Inteligencia Inmobiliaria</span></h1>
+        </div>
 
-    <div class="search-container">
-        <span class="search-icon">🔍</span>
-        <input type="text" class="search-input" placeholder="Buscar por ID de activo o zona...">
-    </div>
+        <div class="search-container">
+            <span class="search-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" class="search-input" placeholder="Buscar por ID de activo o zona...">
+        </div>
 
-    <div class="user-profile">
-        <div class="avatar-circle">👤</div>
-    </div>
+        <div class="user-profile">
+            @if (usuarioActual) {
+                <div class="logged-in-container">
+                    <button class="profile-trigger" (click)="toggleMenuPerfil()">
+                        <div class="user-info">
+                            <span class="user-name">{{ usuarioActual.nombre }}</span>
+                            <span class="user-role">{{ usuarioActual.rol }}</span>
+                        </div>
+                        <div class="avatar-circle active-avatar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <svg class="chevron" [class.rotated]="mostrarMenuPerfil" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+
+                    @if (mostrarMenuPerfil) {
+                        <div class="profile-dropdown animate-fade-in-down">
+                            <div class="dropdown-header">
+                                <p class="dropdown-email">{{ usuarioActual.email }}</p>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                Mi Perfil
+                            </button>
+                            <button class="dropdown-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                Configuracion
+                            </button>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item logout-item" (click)="cerrarSesion()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                Cerrar Sesion
+                            </button>
+                        </div>
+                    }
+                </div>
+            } @else {
+                <button class="avatar-circle" (click)="mostrarLogin = true" aria-label="Abrir Login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </button>
+            }
+        </div>
     </header>
 
     <div class="main-body">
-    <aside class="sidebar">
-        <div class="sidebar-section">
-        <h3 class="section-title">Vista Principal</h3>
-        <a href="#" class="menu-item active">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
-            Mapa de Activos
-        </a>
-        </div>
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3 class="section-title">Vista Principal</h3>
+                <a href="#" class="menu-item active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+                    Mapa de Activos
+                </a>
+            </div>
 
-        <div class="sidebar-section">
-        <h3 class="section-title">Capas de Amenidades</h3>
-        
-        <label class="toggle-item">
-            <input type="checkbox" [checked]="amenidadesService.mostrarMercados()" (change)="amenidadesService.toggleMercados()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-            <span>Mercados</span>
-        </label>
-        
-        <label class="toggle-item">
-            <input type="checkbox" [checked]="amenidadesService.mostrarTransporte()" (change)="amenidadesService.toggleTransporte()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 21v-2"></path><path d="M16 21v-2"></path><path d="M4 11h16"></path><path d="M10 7h4"></path><path d="M8 15h.01"></path><path d="M16 15h.01"></path></svg>
-            <span>Transporte Público</span>
-        </label>
+            <div class="sidebar-section">
+                <h3 class="section-title">Capas de Amenidades</h3>
+                
+                <label class="toggle-item">
+                    <input type="checkbox" [checked]="amenidadesService.mostrarMercados()" (change)="amenidadesService.toggleMercados()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span>Mercados</span>
+                </label>
+                
+                <label class="toggle-item">
+                    <input type="checkbox" [checked]="amenidadesService.mostrarTransporte()" (change)="amenidadesService.toggleTransporte()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 21v-2"></path><path d="M16 21v-2"></path><path d="M4 11h16"></path><path d="M10 7h4"></path><path d="M8 15h.01"></path><path d="M16 15h.01"></path></svg>
+                    <span>Transporte Publico</span>
+                </label>
 
-        <label class="toggle-item">
-            <input type="checkbox" [checked]="amenidadesService.mostrarColegios()" (change)="amenidadesService.toggleColegios()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-            <span>Colegios</span>
-        </label>
+                <label class="toggle-item">
+                    <input type="checkbox" [checked]="amenidadesService.mostrarColegios()" (change)="amenidadesService.toggleColegios()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span>Colegios</span>
+                </label>
 
-        <label class="toggle-item">
-            <input type="checkbox" [checked]="amenidadesService.mostrarHospitales()" (change)="amenidadesService.toggleHospitales()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-            <span>Hospitales / Salud</span>
-        </label>
-        </div>
-    </aside>
+                <label class="toggle-item">
+                    <input type="checkbox" [checked]="amenidadesService.mostrarHospitales()" (change)="amenidadesService.toggleHospitales()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                    <span>Hospitales / Salud</span>
+                </label>
+            </div>
+        </aside>
 
-    <main class="content-area">
-        <router-outlet></router-outlet>
-    </main>
+        <main class="content-area">
+            <router-outlet></router-outlet>
+        </main>
     </div>
 </div>
+
+@if (mostrarLogin) {
+    <app-login 
+        (cerrarModal)="mostrarLogin = false" 
+        (loginExitoso)="procesarLogin($event)">
+    </app-login>
+}
