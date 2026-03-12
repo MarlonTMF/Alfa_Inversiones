@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TerrenoRepositorio } from '../../domain/interfaces/terreno.repositorio.js';
 import { TerrenoFuenteDatos } from '../fuentes-datos/terreno.fuente-datos.js';
 import { BoundingBoxDto } from '../../presentation/dto/bounding-box.dto.js';
 import { TerrenoRespuestaDto } from '../../presentation/dto/terreno-respuesta.dto.js';
+import { CrearTerrenoDto } from '../../presentation/dto/crear-terreno.dto.js';
 
 @Injectable()
 export class TerrenoRepositorioImpl implements TerrenoRepositorio {
@@ -16,10 +17,6 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
   async buscarPorBoundingBox(
     bbox: BoundingBoxDto,
   ): Promise<TerrenoRespuestaDto[]> {
-    // En SQLite no hay PostGIS, así que filtramos con lógica en query.
-    // Se buscan terrenos donde AL MENOS un vértice del polígono
-    // esté dentro del bounding box.
-    // Para producción con PostgreSQL+PostGIS, reemplazar con ST_Intersects.
     const terrenos = await this.terrenoRepo.find();
 
     return terrenos
@@ -39,5 +36,22 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
         superficie: terreno.superficie,
         poligono: terreno.poligono,
       }));
+  }
+
+  async crear(dto: CrearTerrenoDto): Promise<{ mensaje: string }> {
+    const existente = await this.terrenoRepo.findOne({ where: { id: dto.id } });
+    if (existente) {
+      throw new ConflictException(`El terreno ${dto.id} ya existe`);
+    }
+
+    await this.terrenoRepo.save({
+      id: dto.id,
+      ubicacion: dto.ubicacion,
+      precio: dto.precio,
+      superficie: dto.superficie,
+      poligono_json: JSON.stringify(dto.poligono),
+    });
+
+    return { mensaje: `Terreno ${dto.id} registrado exitosamente` };
   }
 }

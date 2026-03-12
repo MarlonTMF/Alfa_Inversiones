@@ -12,6 +12,7 @@ import { AmenidadRepositorioImpl } from './data/repositorios/amenidad.repositori
 // Domain
 import { TERRENO_REPOSITORIO } from './domain/interfaces/terreno.repositorio.js';
 import { ObtenerTerrenosCasoUso } from './domain/casos-uso/obtener-terrenos.caso-uso.js';
+import { CrearTerrenoCasoUso } from './domain/casos-uso/crear-terreno.caso-uso.js';
 import { AMENIDAD_REPOSITORIO } from './domain/interfaces/amenidad.repositorio.js';
 import { ObtenerAmenidadesCasoUso } from './domain/casos-uso/obtener-amenidades.caso-uso.js';
 
@@ -34,6 +35,7 @@ import { AmenidadesControlador } from './presentation/controladores/amenidades.c
       useClass: AmenidadRepositorioImpl,
     },
     ObtenerTerrenosCasoUso,
+    CrearTerrenoCasoUso,
     ObtenerAmenidadesCasoUso,
   ],
 })
