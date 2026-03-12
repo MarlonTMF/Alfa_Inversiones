@@ -1,0 +1,26 @@
+[
+    {
+        "rol": "admin",
+        "email": "admin@365soft.com",
+        "password": "123",
+        "nombre": "Super Orquestador"
+    },
+    {
+        "rol": "inversionista",
+        "email": "inv@empresa.com",
+        "password": "123",
+        "nombre": "Inversionista Capital"
+    },
+    {
+        "rol": "constructor",
+        "email": "const@empresa.com",
+        "password": "123",
+        "nombre": "Constructora Delta"
+    },
+    {
+        "rol": "propietario",
+        "email": "prop@empresa.com",
+        "password": "123",
+        "nombre": "Dueño Terreno Norte"
+    }
+]
