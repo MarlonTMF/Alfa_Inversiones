@@ -51,3 +51,4 @@ Thumbs.db
 *.sln
 *.sw?
 **/node_modules/
+BackEnd/dist/

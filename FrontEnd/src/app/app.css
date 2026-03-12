@@ -25,7 +25,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
-    z-index: 5000;
+    z-index: 6000;
 }
 
 .navbar-left {
@@ -89,6 +89,7 @@ body {
     display: flex;
     flex: 1;
     height: calc(100vh - 64px);
+    position: relative;
 }
 
 .sidebar {
@@ -98,7 +99,7 @@ body {
     display: flex;
     flex-direction: column;
     z-index: 4000;
-    transition: transform 0.3s ease;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-section {
@@ -169,8 +170,9 @@ body {
     border: none;
     color: #f8fafc;
     cursor: pointer;
-    padding: 4px;
+    padding: 8px;
     margin-right: 12px;
+    z-index: 6000;
 }
 
 @media (max-width: 900px) {
@@ -179,7 +181,9 @@ body {
     }
 
     .search-container {
-        width: 250px;
+        width: auto;
+        flex: 1;
+        margin: 0 16px;
     }
     
     .brand h1 span {
@@ -187,16 +191,18 @@ body {
     }
 
     .sidebar {
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        transform: translateX(-100%);
-        box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+        position: fixed !important;
+        left: -320px;
+        top: 64px;
+        height: calc(100vh - 64px);
+        width: 280px;
+        max-width: 80vw;
+        z-index: 5000;
+        box-shadow: 4px 0 16px rgba(0,0,0,0.5);
     }
     
     .sidebar.sidebar-visible {
-        transform: translateX(0);
+        left: 0;
     }
 }
 
