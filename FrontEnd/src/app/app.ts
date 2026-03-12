@@ -14,9 +14,14 @@ export class App {
     protected readonly title = signal('plataforma-inmobiliaria');
     public amenidadesService = inject(AmenidadesService);
     
+    public sidebarAbierto: boolean = false;
     public mostrarLogin: boolean = false;
     public usuarioActual: any = null;
     public mostrarMenuPerfil: boolean = false;
+
+    toggleSidebar(): void {
+        this.sidebarAbierto = !this.sidebarAbierto;
+    }
 
     procesarLogin(usuario: any): void {
         this.usuarioActual = usuario;

@@ -1,8 +1,18 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
+
 .app-layout {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-color: #0f172a; 
+    background-color: #0f172a;
     color: #f1f5f9;
 }
 
@@ -15,7 +25,12 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
-    z-index: 5000;
+    z-index: 6000;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
 }
 
 .brand h1 {
@@ -27,7 +42,7 @@
 
 .brand span {
     font-weight: 400;
-    color: #60a5fa; 
+    color: #60a5fa;
 }
 
 .search-container {
@@ -46,13 +61,18 @@
     color: #f8fafc;
     width: 100%;
     outline: none;
+    margin-left: 8px;
 }
-.search-input::placeholder { color: #64748b; }
+
+.search-input::placeholder {
+    color: #64748b;
+}
 
 .main-body {
     display: flex;
     flex: 1;
     height: calc(100vh - 64px);
+    position: relative;
 }
 
 .sidebar {
@@ -62,6 +82,7 @@
     display: flex;
     flex-direction: column;
     z-index: 4000;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar-section {
@@ -77,9 +98,11 @@
     letter-spacing: 0.05em;
     font-weight: 700;
 }
+
 .menu-item {
     display: flex;
     align-items: center;
+    gap: 12px;
     padding: 12px 16px;
     color: #94a3b8;
     text-decoration: none;
@@ -219,8 +242,14 @@
 }
 
 @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .animate-fade-in-down {
@@ -288,4 +317,52 @@
 
 .logout-item:hover svg {
     color: #f87171;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    color: #f8fafc;
+    cursor: pointer;
+    padding: 8px;
+    margin-right: 12px;
+    z-index: 6000;
+}
+
+@media (max-width: 900px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .search-container {
+        width: auto;
+        flex: 1;
+        margin: 0 16px;
+    }
+
+    .brand h1 span {
+        display: none;
+    }
+
+    .sidebar {
+        position: fixed !important;
+        left: -320px;
+        top: 64px;
+        height: calc(100vh - 64px);
+        width: 280px;
+        max-width: 80vw;
+        z-index: 5000;
+        box-shadow: 4px 0 16px rgba(0,0,0,0.5);
+    }
+
+    .sidebar.sidebar-visible {
+        left: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .search-container {
+        display: none;
+    }
 }

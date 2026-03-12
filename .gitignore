@@ -50,7 +50,8 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
-# BackEnd
+**/node_modules/
+
 BackEnd/dist/
 BackEnd/database.sqlite
 *.sqlite
