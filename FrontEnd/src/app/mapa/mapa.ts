@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, PLATFORM_ID, Inject, NgZone, effect, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, PLATFORM_ID, Inject, NgZone, effect, inject, ChangeDetectorRef } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AmenidadesService } from '../services/amenidades';
@@ -10,8 +10,9 @@ import { AmenidadesService } from '../services/amenidades';
     templateUrl: './mapa.html',
     styleUrl: './mapa.css',
 })
-export class Mapa implements AfterViewInit {
+export class Mapa implements AfterViewInit, OnDestroy {
     terrenoSeleccionado: any = null;
+    private isAnimating: boolean = false;
     private map: any;
     private L: any;
     private capaTerrenos: any;
@@ -38,6 +39,12 @@ export class Mapa implements AfterViewInit {
             mostrarMerc ? this.map.addLayer(this.capaMercados) : this.map.removeLayer(this.capaMercados);
             mostrarTrans ? this.map.addLayer(this.capaTransporte) : this.map.removeLayer(this.capaTransporte);
         });
+    }
+    ngOnDestroy(): void {
+        if (this.map) {
+            this.map.off();
+            this.map.remove();
+        }
     }
 
     ngAfterViewInit(): void {
@@ -74,12 +81,14 @@ export class Mapa implements AfterViewInit {
         if (this.map) {
             this.map.remove();
         }
-
-        this.map = L.map('map').setView([-17.3895, -66.1568], 13);// Centrado en Cochabamba por defecto
+        this.map = L.map('map', {
+            zoomControl: false 
+        }).setView([-17.3895, -66.1568], 13);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             maxZoom: 19,
             attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(this.map);
+        L.control.zoom({ position: 'bottomright' }).addTo(this.map);
         if (geolocalizado) {
             this.map.flyTo(centro, 13, { animate: true, duration: 1.5 });
             L.circleMarker(centro, {
@@ -87,10 +96,13 @@ export class Mapa implements AfterViewInit {
             }).addTo(this.map).bindPopup('Tu ubicación actual').openPopup();
         }
         this.inicializarCapasAmenidades(L);
-        this.consumirAmenidadesJSON(L);
+        this.consumirAmenidadesJSON(L);        
         this.map.on('moveend', () => {
-            this.obtenerTerrenosDelBackend();
+            if (!this.isAnimating) {
+                this.obtenerTerrenosDelBackend();
+            }
         });
+        
         this.obtenerTerrenosDelBackend();
     }
 
@@ -151,15 +163,16 @@ export class Mapa implements AfterViewInit {
         areaTerreno.on('click', () => {
             this.zone.run(() => {
                 this.terrenoSeleccionado = terreno;
-                this.cdr.detectChanges();
-                setTimeout(() => {
-                    this.map.invalidateSize();                     
-                    const centroPoligono = areaTerreno.getBounds().getCenter();
-                    this.map.flyTo(centroPoligono, 16, { 
-                        animate: true,
-                        duration: 1 
-                    });
-                }, 100);
+                this.cdr.detectChanges();                 
+                this.isAnimating = true;                 
+                const centroPoligono = areaTerreno.getBounds().getCenter();
+                this.map.flyTo(centroPoligono, 16, { 
+                    animate: true,
+                    duration: 1 
+                });
+                this.map.once('moveend', () => {
+                    this.isAnimating = false;
+                });
             });
         });
     }
@@ -176,27 +189,47 @@ export class Mapa implements AfterViewInit {
     }
 
     private clasificarYDibujarAmenidad(amenidad: any, L: any): void {
-        let emoji = '';
+        let svgIcon = '';
         let capaDestino = null;
-
+        let colorFondo = '';
         switch (amenidad.tipo) {
-            case 'hospital': emoji = 'H'; capaDestino = this.capaHospitales; break;
-            case 'colegio': emoji = 'C'; capaDestino = this.capaColegios; break;
-            case 'mercado': emoji = 'M'; capaDestino = this.capaMercados; break;
-            case 'transporte': emoji = 'T'; capaDestino = this.capaTransporte; break;
+            case 'hospital': 
+                svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>`;
+                colorFondo = '#ef4444'; // Rojo
+                capaDestino = this.capaHospitales; 
+                break;
+            case 'colegio': 
+                svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`;
+                colorFondo = '#f59e0b'; // Naranja
+                capaDestino = this.capaColegios; 
+                break;
+            case 'mercado': 
+                svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>`;
+                colorFondo = '#10b981'; // Verde
+                capaDestino = this.capaMercados; 
+                break;
+            case 'transporte': 
+                svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 21v-2"></path><path d="M16 21v-2"></path><path d="M4 11h16"></path><path d="M10 7h4"></path><path d="M8 15h.01"></path><path d="M16 15h.01"></path></svg>`;
+                colorFondo = '#6366f1'; // Indigo
+                capaDestino = this.capaTransporte; 
+                break;
         }
 
         if (capaDestino) {
-            this.crearMarcadorAmenidad(L, capaDestino, amenidad.coordenadas, emoji, amenidad.nombre);
+            this.crearMarcadorAmenidad(L, capaDestino, amenidad.coordenadas, svgIcon, colorFondo, amenidad.nombre);
         }
     }
 
-    private crearMarcadorAmenidad(L: any, capa: any, coordenadas: [number, number], emoji: string, nombre: string): void {
+    private crearMarcadorAmenidad(L: any, capa: any, coordenadas: [number, number], svgIcon: string, colorFondo: string, nombre: string): void {
         const icon = L.divIcon({
-            className: 'amenidad-icon',
-            html: `<div style="font-size: 14px; background: white; color: black; border-radius: 50%; padding: 4px; border: 1px solid #ccc; text-align: center; width: 24px; height: 24px; line-height: 14px; font-weight: bold;">${emoji}</div>`,
-            iconSize: [24, 24],
-            iconAnchor: [12, 12]
+            className: 'marcador-transparente', // Reutilizamos tu clase limpia del CSS
+            html: `
+                <div style="background-color: ${colorFondo}; color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 6px rgba(0,0,0,0.4); border: 2px solid white;">
+                    ${svgIcon}
+                </div>
+            `,
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
         });
 
         const marker = L.marker(coordenadas, { icon }).bindTooltip(nombre);

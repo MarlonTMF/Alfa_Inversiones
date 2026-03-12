@@ -2,6 +2,8 @@
     display: block;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
 .map-wrapper {
@@ -197,8 +199,7 @@
 }
 
 @media (max-width: 900px) {
-    .panel-lateral-premium,
-    :host {
+    .panel-lateral-premium {
         position: absolute !important;
         top: 0 !important;
         right: 0 !important;
@@ -221,8 +222,7 @@
 }
 
 @media (max-width: 600px) {
-    .panel-lateral-premium,
-    :host {
+    .panel-lateral-premium {
         width: 100vw !important;
         max-width: 100% !important;
         min-width: 100% !important;
