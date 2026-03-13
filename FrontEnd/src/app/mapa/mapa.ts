@@ -348,25 +348,32 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
         const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
 
-        this.amenidadesService.iniciarCarga();
+        this.amenidadesService.iniciarCarga(tipo);
         this.http.get<any>(url).subscribe({
             next: (data) => {
                 if (data && data.elements) {
                     // Guardamos en caché
                     this.amenidadesCache.set(tipo, { elements: data.elements, centro: centroActual });
                     this.renderizarDesdeCache(tipo, capa, data.elements);
-                    console.log(`OSM exitoso: ${data.elements.length} ${tipo} cargados.`);
+
+                    // Aseguramos que el ciclo de pintado de Leaflet/Angular ocurra antes de quitar la barra
+                    requestAnimationFrame(() => {
+                        // Un pequeño timeout para que el ojo humano vea los iconos aparecer antes de que muera la barra
+                        setTimeout(() => {
+                            this.amenidadesService.finalizarCarga(true);
+                        }, 50);
+                    });
                 } else {
                     console.log(`OSM: No se encontraron resultados para ${tipo} en esta zona.`);
                     capa.clearLayers();
+                    this.amenidadesService.finalizarCarga(false);
                 }
-                this.amenidadesService.finalizarCarga();
             },
             error: (err) => {
                 console.error(`Error Overpass OSM ${tipo}:`, err);
                 // Si hay error, al menos limpiamos para que no se vea info vieja/falsa
                 capa.clearLayers();
-                this.amenidadesService.finalizarCarga();
+                this.amenidadesService.finalizarCarga(false);
             }
         });
     }
