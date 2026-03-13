@@ -3,6 +3,11 @@
 
     <!-- BARRA DE FILTROS SUPERIOR ( GLASS ) -->
     <div class="top-filters-bar">
+        <!-- Progress bar de carga ( Premium / Glass ) -->
+        <div class="loader-line-container" *ngIf="amenidadesService.cargando()">
+            <div class="loader-line"></div>
+        </div>
+
         <button class="filter-pill" [class.active]="amenidadesService.mostrarMercados()"
             (click)="amenidadesService.toggleMercados()">
             🛒 Mercados

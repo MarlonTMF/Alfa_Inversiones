@@ -297,6 +297,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
         const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
 
+        this.amenidadesService.iniciarCarga();
         this.http.get<any>(url).subscribe({
             next: (data) => {
                 if (data && data.elements) {
@@ -308,11 +309,13 @@ export class Mapa implements AfterViewInit, OnDestroy {
                     console.log(`OSM: No se encontraron resultados para ${tipo} en esta zona.`);
                     capa.clearLayers();
                 }
+                this.amenidadesService.finalizarCarga();
             },
             error: (err) => {
                 console.error(`Error Overpass OSM ${tipo}:`, err);
                 // Si hay error, al menos limpiamos para que no se vea info vieja/falsa
                 capa.clearLayers();
+                this.amenidadesService.finalizarCarga();
             }
         });
     }
