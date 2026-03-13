@@ -12,7 +12,7 @@ import { AmenidadesService } from '../services/amenidades';
 })
 export class Mapa implements AfterViewInit, OnDestroy {
     terrenoSeleccionado: any = null;
-    terrenosCercanos: any[] = []; // Para el panel de exploración
+    terrenosCercanos = signal<any[]>([]); // Sincronización reactiva para el panel
     private isAnimating: boolean = false;
     private map: any;
     private L: any;
@@ -60,7 +60,13 @@ export class Mapa implements AfterViewInit, OnDestroy {
     private procesarTerrenos(terrenos: any[]): void {
         if (!this.map || !this.capaTerrenos) return;
         this.capaTerrenos.clearLayers();
-        this.terrenosCercanos = terrenos;
+
+        // Actualizamos el signal dentro de la zona para que la UI reaccione
+        this.zone.run(() => {
+            this.terrenosCercanos.set(terrenos);
+            this.cdr.detectChanges();
+        });
+
         terrenos.forEach(terreno => this.dibujarPoligono(terreno, this.L));
     }
 
@@ -128,9 +134,10 @@ export class Mapa implements AfterViewInit, OnDestroy {
             zoom: 15
         });
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        // Usamos OpenStreetMap estándar para mayor detalle y color (como en la referencia)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; CARTO'
+            attribution: '&copy; OpenStreetMap contributors'
         }).addTo(this.map);
 
         L.control.zoom({ position: 'bottomright' }).addTo(this.map);
@@ -144,10 +151,13 @@ export class Mapa implements AfterViewInit, OnDestroy {
         this.inicializarCapasAmenidades(L);
         this.mapReady.set(true);
 
+        // Los eventos de Leaflet deben correr en NgZone para avisar a Angular
         this.map.on('moveend', () => {
             if (!this.isAnimating) {
-                this.obtenerTerrenosDelBackend();
-                this.actualizarCapasAmenidades();
+                this.zone.run(() => {
+                    this.obtenerTerrenosDelBackend();
+                    this.actualizarCapasAmenidades();
+                });
             }
         });
 
@@ -174,40 +184,59 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     private dibujarPoligono(terreno: any, L: any): void {
-        // El Backend ya devuelve [lat, lng]. NO invertir.
-        const areaTerreno = L.polygon(terreno.poligono, {
-            className: 'poligono-terreno',
-            color: '#3b82f6',
-            weight: 2,
-            fillOpacity: 0.4
+        const centro = this.getCentroPoligono(terreno.poligono);
+
+        // SOLO dibujo el marcador de precisión (Punto Azul con borde negro/sombra)
+        // Esto soluciona el problema de los "cuadrados grandes"
+        const marcadorInversion = L.circleMarker(centro, {
+            radius: 9,
+            fillColor: '#2563eb',
+            color: '#ffffff',
+            weight: 3,
+            opacity: 1,
+            fillOpacity: 1,
+            className: 'marcador-precision-premium'
         });
-        this.capaTerrenos.addLayer(areaTerreno);
 
-        areaTerreno.bindTooltip(`<strong>${terreno.ubicacion || 'Terreno'}</strong>`, { direction: 'top', sticky: true });
+        // El polígono se usa solo como una capa invisible para mejorar el área de interacción si fuera necesario,
+        // pero para cumplir con la estética del usuario, no le pondremos color.
+        const areaInteractiva = L.polygon(terreno.poligono, {
+            color: 'transparent',
+            fillColor: 'transparent',
+            weight: 0
+        });
 
-        areaTerreno.on('click', () => {
+        this.capaTerrenos.addLayer(areaInteractiva);
+        this.capaTerrenos.addLayer(marcadorInversion);
+
+        marcadorInversion.bindTooltip(`<strong>${terreno.ubicacion || 'Inversión'}</strong>`, { direction: 'top', sticky: true });
+
+        const manejarClick = () => {
             this.zone.run(() => {
                 this.terrenoSeleccionado = terreno;
                 this.cdr.detectChanges();
                 this.isAnimating = true;
-                this.map.flyTo(areaTerreno.getBounds().getCenter(), 16, { animate: true, duration: 1.5 });
+                this.map.flyTo(centro, 17, { animate: true, duration: 1.5 });
                 this.map.once('moveend', () => { this.isAnimating = false; });
             });
-        });
+        };
+
+        marcadorInversion.on('click', manejarClick);
+        areaInteractiva.on('click', manejarClick);
     }
 
     private actualizarCapasAmenidades(): void {
         const filtros = [
-            { activo: this.amenidadesService.mostrarHospitales(), tipo: 'hospital', capa: this.capaHospitales },
-            { activo: this.amenidadesService.mostrarColegios(), tipo: 'colegio', capa: this.capaColegios },
-            { activo: this.amenidadesService.mostrarMercados(), tipo: 'mercado', capa: this.capaMercados },
+            { activo: this.amenidadesService.mostrarHospitales(), tipo: 'salud', capa: this.capaHospitales },
+            { activo: this.amenidadesService.mostrarColegios(), tipo: 'educacion', capa: this.capaColegios },
+            { activo: this.amenidadesService.mostrarMercados(), tipo: 'comercio', capa: this.capaMercados },
             { activo: this.amenidadesService.mostrarTransporte(), tipo: 'transporte', capa: this.capaTransporte }
         ];
 
         filtros.forEach(f => {
             if (f.activo) {
                 if (!this.map.hasLayer(f.capa)) this.map.addLayer(f.capa);
-                this.cargarAmenidadesDelBackend(f.tipo, f.capa);
+                this.cargarAmenidadesDesdeOSM(f.tipo, f.capa);
             } else {
                 if (this.map.hasLayer(f.capa)) this.map.removeLayer(f.capa);
                 f.capa.clearLayers();
@@ -215,31 +244,76 @@ export class Mapa implements AfterViewInit, OnDestroy {
         });
     }
 
-    private cargarAmenidadesDelBackend(tipo: string, capa: any): void {
-        const centro = this.map.getCenter();
-        const url = `http://localhost:3000/api/v1/amenidades?tipo=${tipo}&lat=${centro.lat}&lng=${centro.lng}&radio=3000`;
+    private cargarAmenidadesDesdeOSM(tipo: string, capa: any): void {
+        const bounds = this.map.getBounds();
+        const sw = bounds.getSouthWest();
+        const ne = bounds.getNorthEast();
 
-        this.http.get<any[]>(url).subscribe({
-            next: (amenidades) => {
+        // Tags ampliados para Santa Cruz y entorno real de OSM
+        const categoryTags: any = {
+            salud: '["amenity"~"hospital|clinic|doctors|pharmacy"]',
+            educacion: '["amenity"~"school|college|university|kindergarten"]',
+            comercio: '["shop"~"supermarket|convenience|marketplace|mall|department_store"]',
+            transporte: '["highway"~"bus_stop"]["bus"="yes"]'
+        };
+
+        // Si es transporte, también buscamos amenity=bus_station
+        let tagQuery = categoryTags[tipo] || '["amenity"~"hospital|school"]';
+
+        const bbox = `${sw.lat},${sw.lng},${ne.lat},${ne.lng}`;
+
+        // Consulta compleja: Nodos y Centros de áreas (Edificios)
+        let query = `[out:json];(node${tagQuery}(${bbox});way${tagQuery}(${bbox}););out center;`;
+
+        // Caso especial para transporte (unimos paradas y estaciones)
+        if (tipo === 'transporte') {
+            query = `[out:json];(node["highway"="bus_stop"](${bbox});node["amenity"="bus_station"](${bbox});way["amenity"="bus_station"](${bbox}););out center;`;
+        }
+
+        const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+
+        this.http.get<any>(url).subscribe({
+            next: (data) => {
                 capa.clearLayers();
-                amenidades.forEach(a => {
-                    const icon = this.crearIconoColoreado(a.tipo);
-                    const marker = this.L.marker([a.lat, a.lng], { icon }).bindTooltip(a.nombre);
-                    capa.addLayer(marker);
-                });
+                if (data && data.elements) {
+                    data.elements.forEach((el: any) => {
+                        const tags = el.tags || {};
+                        const nombre = tags.name || tags.operator || tags.brand || (tipo.charAt(0).toUpperCase() + tipo.slice(1));
+                        const lat = el.lat || el.center?.lat;
+                        const lon = el.lon || el.center?.lon;
+
+                        if (lat && lon) {
+                            const icon = this.crearIconoPremium(tipo);
+                            const marker = this.L.marker([lat, lon], { icon }).bindTooltip(nombre);
+                            capa.addLayer(marker);
+                        }
+                    });
+                }
             },
-            error: (err) => console.error(`Error Amenidades ${tipo}:`, err)
+            error: (err) => console.error(`Error Overpass OSM ${tipo}:`, err)
+        });
+    }
+
+    private crearIconoPremium(tipo: string): any {
+        const configs: any = {
+            salud: { color: '#ef4444', icon: '🏥' },
+            educacion: { color: '#f59e0b', icon: '🎓' },
+            comercio: { color: '#10b981', icon: '🛒' },
+            transporte: { color: '#3b82f6', icon: '🚌' }
+        };
+        const config = configs[tipo] || { color: '#333', icon: '📍' };
+
+        return this.L.divIcon({
+            className: 'marcador-premium-osm',
+            html: `<div style="background: ${config.color}; width: 32px; height: 32px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; font-size: 16px; transition: transform 0.2s;">${config.icon}</div>`,
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
         });
     }
 
     private crearIconoColoreado(tipo: string): any {
-        const colores: any = { hospital: '#ef4444', colegio: '#f59e0b', mercado: '#10b981', transporte: '#6366f1' };
-        return this.L.divIcon({
-            className: 'marcador-custom',
-            html: `<div style="background: ${colores[tipo] || '#333'}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
-            iconSize: [20, 20],
-            iconAnchor: [10, 10]
-        });
+        // Mantenido por compatibilidad si se usa en otros lugares, pero crearIconoPremium es el nuevo estándar
+        return this.crearIconoPremium(tipo);
     }
 
     cerrarPanel(): void { this.terrenoSeleccionado = null; }

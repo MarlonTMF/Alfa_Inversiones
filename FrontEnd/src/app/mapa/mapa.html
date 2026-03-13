@@ -3,24 +3,20 @@
 
     <!-- BARRA DE FILTROS SUPERIOR ( GLASS ) -->
     <div class="top-filters-bar">
-        <button class="filter-pill" 
-                [class.active]="amenidadesService.mostrarMercados()"
-                (click)="amenidadesService.toggleMercados()">
+        <button class="filter-pill" [class.active]="amenidadesService.mostrarMercados()"
+            (click)="amenidadesService.toggleMercados()">
             🛒 Mercados
         </button>
-        <button class="filter-pill" 
-                [class.active]="amenidadesService.mostrarTransporte()"
-                (click)="amenidadesService.toggleTransporte()">
+        <button class="filter-pill" [class.active]="amenidadesService.mostrarTransporte()"
+            (click)="amenidadesService.toggleTransporte()">
             🚌 Transporte
         </button>
-        <button class="filter-pill" 
-                [class.active]="amenidadesService.mostrarColegios()"
-                (click)="amenidadesService.toggleColegios()">
+        <button class="filter-pill" [class.active]="amenidadesService.mostrarColegios()"
+            (click)="amenidadesService.toggleColegios()">
             📚 Colegios
         </button>
-        <button class="filter-pill" 
-                [class.active]="amenidadesService.mostrarHospitales()"
-                (click)="amenidadesService.toggleHospitales()">
+        <button class="filter-pill" [class.active]="amenidadesService.mostrarHospitales()"
+            (click)="amenidadesService.toggleHospitales()">
             🏥 Salud
         </button>
     </div>
@@ -31,10 +27,8 @@
             <h3 class="explorer-title">📍 Explorador de Activos</h3>
         </div>
         <div class="explorer-content">
-            <div class="property-card-small" 
-                 *ngFor="let t of terrenosCercanos"
-                 [class.selected]="terrenoSeleccionado?.id === t.id"
-                 (click)="seleccionarTerrenoDesdeLista(t)">
+            <div class="property-card-small" *ngFor="let t of terrenosCercanos()"
+                [class.selected]="terrenoSeleccionado?.id === t.id" (click)="seleccionarTerrenoDesdeLista(t)">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 13px; font-weight: 700; color: white;">{{ t.ubicacion }}</span>
                     <span style="font-size: 11px; color: #10b981; font-weight: 800;">14.2%</span>
@@ -48,7 +42,7 @@
     <div class="bottom-detail-panel" *ngIf="terrenoSeleccionado">
         <div class="detail-card glass-panel animate-slide-up">
             <button class="btn-close-bottom" (click)="cerrarPanel()">✕</button>
-            
+
             <div class="detail-image-section">
                 <img src="https://picsum.photos/seed/prop1/600/400" alt="Terreno" class="detail-image">
             </div>
