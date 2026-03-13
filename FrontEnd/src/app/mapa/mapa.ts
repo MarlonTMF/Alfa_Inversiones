@@ -12,7 +12,11 @@ import { AmenidadesService } from '../services/amenidades';
 })
 export class Mapa implements AfterViewInit, OnDestroy {
     terrenoSeleccionado: any = null;
-    terrenosCercanos = signal<any[]>([]); // Sincronización reactiva para el panel
+    todosLosTerrenos = signal<any[]>([]); // Lista completa de activos
+    terrenosCercanos = signal<any[]>([]); // Lista filtrada/ordenada para la UI
+    terrenosVisiblesIds = signal<Set<string>>(new Set()); // IDs de terrenos visibles en el mapa
+    departamentoSeleccionado = signal<string>('Todos'); // Filtro de departamento
+
     private isAnimating: boolean = false;
     private map: any;
     private L: any;
@@ -47,6 +51,32 @@ export class Mapa implements AfterViewInit, OnDestroy {
                 this.actualizarCapasAmenidades();
             });
         });
+
+        // Efecto para actualizar la lista filtrada cuando cambian los terrenos, el filtro o la visibilidad
+        effect(() => {
+            const todos = this.todosLosTerrenos();
+            const filtro = this.departamentoSeleccionado();
+            const visibles = this.terrenosVisiblesIds();
+
+            let filtrados = todos;
+            if (filtro !== 'Todos') {
+                filtrados = todos.filter(t => t.departamento === filtro);
+            }
+
+            // Ordenamos: primero los que están visibles en el mapa
+            const ordenados = [...filtrados].sort((a, b) => {
+                const aVisible = visibles.has(a.id);
+                const bVisible = visibles.has(b.id);
+                if (aVisible && !bVisible) return -1;
+                if (!aVisible && bVisible) return 1;
+                return 0;
+            });
+
+            this.zone.run(() => {
+                this.terrenosCercanos.set(ordenados);
+                this.cdr.detectChanges();
+            });
+        });
     }
 
     ngOnDestroy(): void {
@@ -63,13 +93,28 @@ export class Mapa implements AfterViewInit, OnDestroy {
         if (!this.map || !this.capaTerrenos) return;
         this.capaTerrenos.clearLayers();
 
-        // Actualizamos el signal dentro de la zona para que la UI reaccione
+        // Actualizamos la lista completa
         this.zone.run(() => {
-            this.terrenosCercanos.set(terrenos);
-            this.cdr.detectChanges();
+            this.todosLosTerrenos.set(terrenos);
+            this.actualizarVisibilidadTerrenos();
         });
 
         terrenos.forEach(terreno => this.dibujarPoligono(terreno, this.L));
+    }
+
+    private actualizarVisibilidadTerrenos(): void {
+        if (!this.map) return;
+        const bounds = this.map.getBounds();
+        const visibles = new Set<string>();
+
+        this.todosLosTerrenos().forEach(t => {
+            const centro = this.getCentroPoligono(t.poligono);
+            if (bounds.contains(centro)) {
+                visibles.add(t.id);
+            }
+        });
+
+        this.terrenosVisiblesIds.set(visibles);
     }
 
     seleccionarTerrenoDesdeLista(terreno: any): void {
@@ -81,7 +126,13 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
         this.map.once('moveend', () => {
             this.isAnimating = false;
+            this.actualizarVisibilidadTerrenos();
         });
+    }
+
+    cambiarFiltroDepartamento(event: any): void {
+        const dpto = event.target.value;
+        this.departamentoSeleccionado.set(dpto);
     }
 
     private getCentroPoligono(coords: [number, number][]): [number, number] {
@@ -155,12 +206,12 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
         // Los eventos de Leaflet deben correr en NgZone para avisar a Angular
         this.map.on('moveend', () => {
-            if (!this.isAnimating) {
-                this.zone.run(() => {
-                    this.obtenerTerrenosDelBackend();
+            this.zone.run(() => {
+                this.actualizarVisibilidadTerrenos();
+                if (!this.isAnimating) {
                     this.actualizarCapasAmenidades();
-                });
-            }
+                }
+            });
         });
 
         this.obtenerTerrenosDelBackend();
@@ -176,8 +227,8 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
     private obtenerTerrenosDelBackend(): void {
         if (!this.map) return;
-        const bounds = this.map.getBounds();
-        const url = `http://localhost:3000/api/v1/terrenos?minLat=${bounds.getSouth()}&maxLat=${bounds.getNorth()}&minLng=${bounds.getWest()}&maxLng=${bounds.getEast()}`;
+        // Petición global sin bounds para tener todos los activos inicialmente
+        const url = `http://localhost:3000/api/v1/terrenos`;
 
         this.http.get<any[]>(url).subscribe({
             next: (terrenos) => this.procesarTerrenos(terrenos),

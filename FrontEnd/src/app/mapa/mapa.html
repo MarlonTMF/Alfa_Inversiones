@@ -31,14 +31,33 @@
         <div class="explorer-header">
             <h3 class="explorer-title">📍 Explorador de Activos</h3>
         </div>
+
+        <div class="explorer-filters">
+            <select class="department-select" (change)="cambiarFiltroDepartamento($event)">
+                <option value="Todos">🇧🇴 Todos los Departamentos</option>
+                <option value="Santa Cruz">Santa Cruz</option>
+                <option value="Cochabamba">Cochabamba</option>
+                <option value="La Paz">La Paz</option>
+                <option value="Tarija">Tarija</option>
+                <option value="Potosí">Potosí</option>
+                <option value="Oruro">Oruro</option>
+                <option value="Chuquisaca">Chuquisaca</option>
+                <option value="Beni">Beni</option>
+                <option value="Pando">Pando</option>
+            </select>
+        </div>
+
         <div class="explorer-content">
             <div class="property-card-small" *ngFor="let t of terrenosCercanos()"
-                [class.selected]="terrenoSeleccionado?.id === t.id" (click)="seleccionarTerrenoDesdeLista(t)">
+                [class.selected]="terrenoSeleccionado?.id === t.id"
+                [class.visible-on-map]="terrenosVisiblesIds().has(t.id)" (click)="seleccionarTerrenoDesdeLista(t)">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 13px; font-weight: 700; color: white;">{{ t.ubicacion }}</span>
-                    <span style="font-size: 11px; color: #10b981; font-weight: 800;">14.2%</span>
+                    <span style="font-size: 12px; font-weight: 700; color: white;">{{ t.ubicacion }}</span>
+                    <span *ngIf="terrenosVisiblesIds().has(t.id)"
+                        style="font-size: 10px; color: #10b981; font-weight: 800; background: rgba(16, 185, 129, 0.1); padding: 2px 6px; border-radius: 4px;">VISIBLE</span>
                 </div>
-                <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0;">Cochabamba • ${{ t.precio | number }}</p>
+                <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0;">{{ t.departamento || 'Bolivia' }} • ${{
+                    t.precio | number }}</p>
             </div>
         </div>
     </aside>

@@ -136,6 +136,35 @@
     border-color: var(--accent-blue);
 }
 
+.property-card-small.visible-on-map {
+    background: rgba(16, 185, 129, 0.1);
+    border-left: 3px solid var(--accent-emerald);
+}
+
+/* Selector de Departamento */
+.explorer-filters {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.department-select {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: white;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.department-select:focus {
+    border-color: var(--accent-blue);
+    background: rgba(30, 41, 59, 0.8);
+}
+
 /* TARJETA DE DETALLE INFERIOR */
 .bottom-detail-panel {
     position: absolute;

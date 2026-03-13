@@ -36,4 +36,7 @@ export class TerrenoFuenteDatos {
 
   @Column({ nullable: true })
   ciudad: string;
+
+  @Column({ nullable: true })
+  departamento: string;
 }

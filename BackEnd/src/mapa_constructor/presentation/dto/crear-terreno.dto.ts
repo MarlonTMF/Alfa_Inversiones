@@ -26,4 +26,8 @@ export class CrearTerrenoDto {
   @IsOptional()
   @IsString()
   documentos_metadata?: string;
+
+  @IsOptional()
+  @IsString()
+  departamento?: string;
 }
