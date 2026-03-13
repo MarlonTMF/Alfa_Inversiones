@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, PLATFORM_ID, Inject, NgZone, effect, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, PLATFORM_ID, Inject, NgZone, effect, inject, ChangeDetectorRef, signal } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AmenidadesService } from '../services/amenidades';
@@ -12,6 +12,7 @@ import { AmenidadesService } from '../services/amenidades';
 })
 export class Mapa implements AfterViewInit, OnDestroy {
     terrenoSeleccionado: any = null;
+    terrenosCercanos: any[] = []; // Para el panel de exploración
     private isAnimating: boolean = false;
     private map: any;
     private L: any;
@@ -20,7 +21,8 @@ export class Mapa implements AfterViewInit, OnDestroy {
     private capaTransporte: any;
     private capaColegios: any;
     private capaHospitales: any;
-    private readonly amenidadesService = inject(AmenidadesService);
+    public readonly amenidadesService = inject(AmenidadesService);
+    private mapReady = signal(false);
 
     constructor(
         @Inject(PLATFORM_ID) private readonly platformId: Object,
@@ -28,29 +30,57 @@ export class Mapa implements AfterViewInit, OnDestroy {
         private readonly zone: NgZone,
         private readonly cdr: ChangeDetectorRef
     ) {
+        // Efecto reactivo para filtros de amenidades
         effect(() => {
-            const mostrarHosp = this.amenidadesService.mostrarHospitales();
-            const mostrarCol = this.amenidadesService.mostrarColegios();
-            const mostrarMerc = this.amenidadesService.mostrarMercados();
-            const mostrarTrans = this.amenidadesService.mostrarTransporte();
-            if (!this.map || !this.capaHospitales) return;
-            mostrarHosp ? this.map.addLayer(this.capaHospitales) : this.map.removeLayer(this.capaHospitales);
-            mostrarCol ? this.map.addLayer(this.capaColegios) : this.map.removeLayer(this.capaColegios);
-            mostrarMerc ? this.map.addLayer(this.capaMercados) : this.map.removeLayer(this.capaMercados);
-            mostrarTrans ? this.map.addLayer(this.capaTransporte) : this.map.removeLayer(this.capaTransporte);
+            if (!this.mapReady()) return;
+
+            // Reaccionamos a cualquier cambio en los filtros
+            this.amenidadesService.mostrarHospitales();
+            this.amenidadesService.mostrarColegios();
+            this.amenidadesService.mostrarMercados();
+            this.amenidadesService.mostrarTransporte();
+
+            // Sincronizamos capas y cargamos datos reales
+            this.zone.run(() => {
+                this.actualizarCapasAmenidades();
+            });
         });
     }
+
     ngOnDestroy(): void {
-        if (this.map) {
-            this.map.off();
-            this.map.remove();
-        }
+        this.limpiarMapa();
     }
 
     ngAfterViewInit(): void {
         if (isPlatformBrowser(this.platformId)) {
             this.iniciarLeaflet();
         }
+    }
+
+    private procesarTerrenos(terrenos: any[]): void {
+        if (!this.map || !this.capaTerrenos) return;
+        this.capaTerrenos.clearLayers();
+        this.terrenosCercanos = terrenos;
+        terrenos.forEach(terreno => this.dibujarPoligono(terreno, this.L));
+    }
+
+    seleccionarTerrenoDesdeLista(terreno: any): void {
+        this.terrenoSeleccionado = terreno;
+        this.isAnimating = true;
+
+        const centro = this.getCentroPoligono(terreno.poligono);
+        this.map.flyTo(centro, 16, { animate: true, duration: 1.5 });
+
+        this.map.once('moveend', () => {
+            this.isAnimating = false;
+        });
+    }
+
+    private getCentroPoligono(coords: [number, number][]): [number, number] {
+        if (!coords || coords.length === 0) return [-17.7612, -63.1921];
+        let latSum = 0, lngSum = 0;
+        coords.forEach(c => { latSum += c[0]; lngSum += c[1]; });
+        return [latSum / coords.length, lngSum / coords.length];
     }
 
     private iniciarLeaflet(): void {
@@ -63,7 +93,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     private gestionarGeolocalizacion(L: any): void {
-        const coordenadasFallback: [number, number] = [-17.3935, -66.157];
+        const coordenadasFallback: [number, number] = [-17.7612, -63.1921]; // Equipetrol
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (posicion) => {
@@ -77,32 +107,50 @@ export class Mapa implements AfterViewInit, OnDestroy {
         }
     }
 
-    private construirMapa(L: any, centro: [number, number], geolocalizado: boolean): void {
+    private limpiarMapa(): void {
         if (this.map) {
+            this.map.off();
             this.map.remove();
+            this.map = null;
         }
+        const container = document.getElementById('map');
+        if (container && (container as any)._leaflet_id) {
+            (container as any)._leaflet_id = null;
+        }
+    }
+
+    private construirMapa(L: any, centro: [number, number], geolocalizado: boolean): void {
+        this.limpiarMapa();
+
         this.map = L.map('map', {
-            zoomControl: false 
-        }).setView([-17.3895, -66.1568], 13);
+            zoomControl: false,
+            center: centro,
+            zoom: 15
+        });
+
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+            attribution: '&copy; CARTO'
         }).addTo(this.map);
+
         L.control.zoom({ position: 'bottomright' }).addTo(this.map);
+
         if (geolocalizado) {
-            this.map.flyTo(centro, 13, { animate: true, duration: 1.5 });
             L.circleMarker(centro, {
                 radius: 8, fillColor: "#2563eb", color: "#ffffff", weight: 2, opacity: 1, fillOpacity: 0.8
-            }).addTo(this.map).bindPopup('Tu ubicación actual').openPopup();
+            }).addTo(this.map).bindPopup('Tu ubicación actual');
         }
+
         this.inicializarCapasAmenidades(L);
-        this.consumirAmenidadesJSON(L);        
+        this.mapReady.set(true);
+
         this.map.on('moveend', () => {
             if (!this.isAnimating) {
                 this.obtenerTerrenosDelBackend();
+                this.actualizarCapasAmenidades();
             }
         });
-        
+
         this.obtenerTerrenosDelBackend();
     }
 
@@ -113,29 +161,20 @@ export class Mapa implements AfterViewInit, OnDestroy {
         this.capaTransporte = L.layerGroup();
         this.capaTerrenos = L.layerGroup().addTo(this.map);
     }
+
     private obtenerTerrenosDelBackend(): void {
         if (!this.map) return;
         const bounds = this.map.getBounds();
-        const maxLat = bounds.getNorth();
-        const minLat = bounds.getSouth();
-        const maxLng = bounds.getEast();
-        const minLng = bounds.getWest();
-        const url = `http://localhost:3000/api/v1/terrenos?minLat=${minLat}&maxLat=${maxLat}&minLng=${minLng}&maxLng=${maxLng}`;
+        const url = `http://localhost:3000/api/v1/terrenos?minLat=${bounds.getSouth()}&maxLat=${bounds.getNorth()}&minLng=${bounds.getWest()}&maxLng=${bounds.getEast()}`;
+
         this.http.get<any[]>(url).subscribe({
-            next: (terrenos) => {
-                this.procesarTerrenos(terrenos);
-            },
-            error: (err) => console.error('Error al conectar con Backend:', err)
+            next: (terrenos) => this.procesarTerrenos(terrenos),
+            error: (err) => console.error('Error Backend Terrenos:', err)
         });
     }
 
-    private procesarTerrenos(terrenos: any[]): void {
-        this.capaTerrenos.clearLayers();
-        
-        terrenos.forEach(terreno => this.dibujarPoligono(terreno, this.L));
-    }
-
     private dibujarPoligono(terreno: any, L: any): void {
+        // El Backend ya devuelve [lat, lng]. NO invertir.
         const areaTerreno = L.polygon(terreno.poligono, {
             className: 'poligono-terreno',
             color: '#3b82f6',
@@ -144,99 +183,64 @@ export class Mapa implements AfterViewInit, OnDestroy {
         });
         this.capaTerrenos.addLayer(areaTerreno);
 
-        const ubicacionTexto = terreno.ubicacion || terreno.codigo || 'Terreno Disponible';
-        this.agregarTooltipHTML(areaTerreno, ubicacionTexto);
-        this.configurarEventos(areaTerreno, terreno);
-    }
+        areaTerreno.bindTooltip(`<strong>${terreno.ubicacion || 'Terreno'}</strong>`, { direction: 'top', sticky: true });
 
-    private agregarTooltipHTML(areaTerreno: any, ubicacion: string): void {
-        const contenidoHTML = `
-            <div style="font-family: sans-serif; text-align: center;">
-                <strong>${ubicacion}</strong><br>
-                <span style="font-size: 11px; color: #666;">Clic para ver detalles</span>
-            </div>
-        `;
-        areaTerreno.bindTooltip(contenidoHTML, { direction: 'top', sticky: true });
-    }
-
-    private configurarEventos(areaTerreno: any, terreno: any): void {
         areaTerreno.on('click', () => {
             this.zone.run(() => {
                 this.terrenoSeleccionado = terreno;
-                this.cdr.detectChanges();                 
-                this.isAnimating = true;                 
-                const centroPoligono = areaTerreno.getBounds().getCenter();
-                this.map.flyTo(centroPoligono, 16, { 
-                    animate: true,
-                    duration: 1 
-                });
-                this.map.once('moveend', () => {
-                    this.isAnimating = false;
-                });
+                this.cdr.detectChanges();
+                this.isAnimating = true;
+                this.map.flyTo(areaTerreno.getBounds().getCenter(), 16, { animate: true, duration: 1.5 });
+                this.map.once('moveend', () => { this.isAnimating = false; });
             });
         });
     }
 
-    private consumirAmenidadesJSON(L: any): void {
-        this.http.get<any[]>('/mock-data/amenidades.json').subscribe({
-            next: (amenidades) => this.procesarAmenidades(amenidades, L),
-            error: (err) => console.error(err)
+    private actualizarCapasAmenidades(): void {
+        const filtros = [
+            { activo: this.amenidadesService.mostrarHospitales(), tipo: 'hospital', capa: this.capaHospitales },
+            { activo: this.amenidadesService.mostrarColegios(), tipo: 'colegio', capa: this.capaColegios },
+            { activo: this.amenidadesService.mostrarMercados(), tipo: 'mercado', capa: this.capaMercados },
+            { activo: this.amenidadesService.mostrarTransporte(), tipo: 'transporte', capa: this.capaTransporte }
+        ];
+
+        filtros.forEach(f => {
+            if (f.activo) {
+                if (!this.map.hasLayer(f.capa)) this.map.addLayer(f.capa);
+                this.cargarAmenidadesDelBackend(f.tipo, f.capa);
+            } else {
+                if (this.map.hasLayer(f.capa)) this.map.removeLayer(f.capa);
+                f.capa.clearLayers();
+            }
         });
     }
 
-    private procesarAmenidades(amenidades: any[], L: any): void {
-        amenidades.forEach(amenidad => this.clasificarYDibujarAmenidad(amenidad, L));
-    }
+    private cargarAmenidadesDelBackend(tipo: string, capa: any): void {
+        const centro = this.map.getCenter();
+        const url = `http://localhost:3000/api/v1/amenidades?tipo=${tipo}&lat=${centro.lat}&lng=${centro.lng}&radio=3000`;
 
-    private clasificarYDibujarAmenidad(amenidad: any, L: any): void {
-        let svgIcon = '';
-        let capaDestino = null;
-        let colorFondo = '';
-        switch (amenidad.tipo) {
-            case 'hospital': 
-                svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>`;
-                colorFondo = '#ef4444'; // Rojo
-                capaDestino = this.capaHospitales; 
-                break;
-            case 'colegio': 
-                svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`;
-                colorFondo = '#f59e0b'; // Naranja
-                capaDestino = this.capaColegios; 
-                break;
-            case 'mercado': 
-                svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>`;
-                colorFondo = '#10b981'; // Verde
-                capaDestino = this.capaMercados; 
-                break;
-            case 'transporte': 
-                svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 21v-2"></path><path d="M16 21v-2"></path><path d="M4 11h16"></path><path d="M10 7h4"></path><path d="M8 15h.01"></path><path d="M16 15h.01"></path></svg>`;
-                colorFondo = '#6366f1'; // Indigo
-                capaDestino = this.capaTransporte; 
-                break;
-        }
-
-        if (capaDestino) {
-            this.crearMarcadorAmenidad(L, capaDestino, amenidad.coordenadas, svgIcon, colorFondo, amenidad.nombre);
-        }
-    }
-
-    private crearMarcadorAmenidad(L: any, capa: any, coordenadas: [number, number], svgIcon: string, colorFondo: string, nombre: string): void {
-        const icon = L.divIcon({
-            className: 'marcador-transparente', // Reutilizamos tu clase limpia del CSS
-            html: `
-                <div style="background-color: ${colorFondo}; color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 6px rgba(0,0,0,0.4); border: 2px solid white;">
-                    ${svgIcon}
-                </div>
-            `,
-            iconSize: [28, 28],
-            iconAnchor: [14, 14]
+        this.http.get<any[]>(url).subscribe({
+            next: (amenidades) => {
+                capa.clearLayers();
+                amenidades.forEach(a => {
+                    const icon = this.crearIconoColoreado(a.tipo);
+                    const marker = this.L.marker([a.lat, a.lng], { icon }).bindTooltip(a.nombre);
+                    capa.addLayer(marker);
+                });
+            },
+            error: (err) => console.error(`Error Amenidades ${tipo}:`, err)
         });
-
-        const marker = L.marker(coordenadas, { icon }).bindTooltip(nombre);
-        capa.addLayer(marker);
     }
 
-    cerrarPanel(): void {
-        this.terrenoSeleccionado = null;
+    private crearIconoColoreado(tipo: string): any {
+        const colores: any = { hospital: '#ef4444', colegio: '#f59e0b', mercado: '#10b981', transporte: '#6366f1' };
+        return this.L.divIcon({
+            className: 'marcador-custom',
+            html: `<div style="background: ${colores[tipo] || '#333'}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+        });
     }
+
+    cerrarPanel(): void { this.terrenoSeleccionado = null; }
 }

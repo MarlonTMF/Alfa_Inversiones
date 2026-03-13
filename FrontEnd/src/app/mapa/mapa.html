@@ -1,47 +1,87 @@
 <div class="map-wrapper">
     <div id="map" class="map-container"></div>
 
-    @if (terrenoSeleccionado) {
-    <aside class="panel-lateral-premium animate-slide-left">
-        
-        <div class="panel-header">
-            <h3 class="panel-title">Análisis del Activo</h3>
-            <button class="btn-cerrar-panel" (click)="cerrarPanel()">✕</button>
+    <!-- BARRA DE FILTROS SUPERIOR ( GLASS ) -->
+    <div class="top-filters-bar">
+        <button class="filter-pill" 
+                [class.active]="amenidadesService.mostrarMercados()"
+                (click)="amenidadesService.toggleMercados()">
+            🛒 Mercados
+        </button>
+        <button class="filter-pill" 
+                [class.active]="amenidadesService.mostrarTransporte()"
+                (click)="amenidadesService.toggleTransporte()">
+            🚌 Transporte
+        </button>
+        <button class="filter-pill" 
+                [class.active]="amenidadesService.mostrarColegios()"
+                (click)="amenidadesService.toggleColegios()">
+            📚 Colegios
+        </button>
+        <button class="filter-pill" 
+                [class.active]="amenidadesService.mostrarHospitales()"
+                (click)="amenidadesService.toggleHospitales()">
+            🏥 Salud
+        </button>
+    </div>
+
+    <!-- EXPLORADOR LATERAL IZQUIERDO -->
+    <aside class="explorer-panel glass-panel">
+        <div class="explorer-header">
+            <h3 class="explorer-title">📍 Explorador de Activos</h3>
         </div>
-
-        <div class="panel-imagen-wrapper">
-            <img src="https://picsum.photos/seed/prop1/600/400" alt="Vista del terreno" class="panel-imagen">
-            <div class="etiqueta-estado">DISPONIBLE</div>
-        </div>
-
-        <div class="panel-body">
-            <p class="subtitulo-ciudad">Cochabamba, Bolivia</p>
-            <h2 class="titulo-terreno">{{ terrenoSeleccionado.ubicacion }}</h2>
-            
-            <div class="metricas-grid">
-                <div class="metrica-box highlight">
-                    <span class="metrica-label">ROI Proyectado</span>
-                    <span class="metrica-valor-verde">14.2%</span>
+        <div class="explorer-content">
+            <div class="property-card-small" 
+                 *ngFor="let t of terrenosCercanos"
+                 [class.selected]="terrenoSeleccionado?.id === t.id"
+                 (click)="seleccionarTerrenoDesdeLista(t)">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 13px; font-weight: 700; color: white;">{{ t.ubicacion }}</span>
+                    <span style="font-size: 11px; color: #10b981; font-weight: 800;">14.2%</span>
                 </div>
-                <div class="metrica-box">
-                    <span class="metrica-label">Superficie Total</span>
-                    <span class="metrica-valor">{{ terrenoSeleccionado.superficie | number }} m²</span>
-                </div>
-                <div class="metrica-box">
-                    <span class="metrica-label">Precio Solicitado</span>
-                    <span class="metrica-valor">${{ terrenoSeleccionado.precio | number }}</span>
-                </div>
-                <div class="metrica-box">
-                    <span class="metrica-label">Precio por m²</span>
-                    <span class="metrica-valor">${{ (terrenoSeleccionado.precio / terrenoSeleccionado.superficie) | number:'1.0-0' }}</span>
-                </div>
-            </div>
-
-            <div class="placeholder-futuro">
-                <p class="placeholder-titulo">🔒 Módulos Financieros</p>
-                <p class="placeholder-texto">Aquí se integrará la validación de costos y due diligence en la Fase 2.</p>
+                <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0;">Cochabamba • ${{ t.precio | number }}</p>
             </div>
         </div>
     </aside>
-    }
+
+    <!-- TARJETA DE DETALLE INFERIOR ( GLASS ) -->
+    <div class="bottom-detail-panel" *ngIf="terrenoSeleccionado">
+        <div class="detail-card glass-panel animate-slide-up">
+            <button class="btn-close-bottom" (click)="cerrarPanel()">✕</button>
+            
+            <div class="detail-image-section">
+                <img src="https://picsum.photos/seed/prop1/600/400" alt="Terreno" class="detail-image">
+            </div>
+
+            <div class="detail-content-section">
+                <div class="detail-top-info">
+                    <div class="detail-title-group">
+                        <p class="detail-location">Bolivia • Cochabamba</p>
+                        <h2>{{ terrenoSeleccionado.ubicacion }}</h2>
+                    </div>
+                    <div class="roi-badge">
+                        <span class="roi-label">ROI Proyectado</span>
+                        <span class="roi-value">14.2%</span>
+                    </div>
+                </div>
+
+                <div class="detail-stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-info">
+                            <span class="stat-label">SUPERFICIE</span>
+                            <span class="stat-value">{{ terrenoSeleccionado.superficie | number }} m²</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <span class="stat-label">PRECIO</span>
+                            <span class="stat-value">${{ terrenoSeleccionado.precio | number }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

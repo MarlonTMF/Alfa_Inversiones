@@ -2,7 +2,7 @@ import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 @Entity('amenidades')
 export class AmenidadFuenteDatos {
-  @PrimaryColumn()
+  @PrimaryColumn('uuid')
   id: string;
 
   @Column()
@@ -11,9 +11,13 @@ export class AmenidadFuenteDatos {
   @Column()
   tipo: string;
 
-  @Column('decimal')
-  lat: number;
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Point',
+    srid: 4326,
+  })
+  coordenadas: any;
 
-  @Column('decimal')
-  lng: number;
+  @Column({ nullable: true })
+  ciudad: string;
 }
