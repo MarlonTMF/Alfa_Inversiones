@@ -34,13 +34,14 @@ export class Mapa implements AfterViewInit, OnDestroy {
         effect(() => {
             if (!this.mapReady()) return;
 
-            // Reaccionamos a cualquier cambio en los filtros
-            this.amenidadesService.mostrarHospitales();
-            this.amenidadesService.mostrarColegios();
-            this.amenidadesService.mostrarMercados();
-            this.amenidadesService.mostrarTransporte();
+            // Leemos los signals para suscribir el efecto
+            const h = this.amenidadesService.mostrarHospitales();
+            const c = this.amenidadesService.mostrarColegios();
+            const m = this.amenidadesService.mostrarMercados();
+            const t = this.amenidadesService.mostrarTransporte();
 
-            // Sincronizamos capas y cargamos datos reales
+            console.log('Filtros cambiados, actualizando capas de amenidades...');
+
             this.zone.run(() => {
                 this.actualizarCapasAmenidades();
             });
@@ -226,6 +227,8 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     private actualizarCapasAmenidades(): void {
+        if (!this.map) return;
+
         const filtros = [
             { activo: this.amenidadesService.mostrarHospitales(), tipo: 'salud', capa: this.capaHospitales },
             { activo: this.amenidadesService.mostrarColegios(), tipo: 'educacion', capa: this.capaColegios },
@@ -235,11 +238,22 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
         filtros.forEach(f => {
             if (f.activo) {
-                if (!this.map.hasLayer(f.capa)) this.map.addLayer(f.capa);
-                this.cargarAmenidadesDesdeOSM(f.tipo, f.capa);
+                // Si el filtro está activo, nos aseguramos que la capa esté en el mapa
+                if (!this.map.hasLayer(f.capa)) {
+                    this.map.addLayer(f.capa);
+                    console.log(`Capa ${f.tipo} activada, buscando en OpenStreetMap...`);
+                    this.cargarAmenidadesDesdeOSM(f.tipo, f.capa);
+                } else {
+                    // Si ya estaba activa, solo refrescamos si es necesario (ej. al mover el mapa)
+                    this.cargarAmenidadesDesdeOSM(f.tipo, f.capa);
+                }
             } else {
-                if (this.map.hasLayer(f.capa)) this.map.removeLayer(f.capa);
-                f.capa.clearLayers();
+                // Si el filtro se desactiva, limpiamos y quitamos la capa
+                if (this.map.hasLayer(f.capa)) {
+                    this.map.removeLayer(f.capa);
+                    f.capa.clearLayers();
+                    console.log(`Capa ${f.tipo} desactivada.`);
+                }
             }
         });
     }
@@ -249,7 +263,13 @@ export class Mapa implements AfterViewInit, OnDestroy {
         const sw = bounds.getSouthWest();
         const ne = bounds.getNorthEast();
 
-        // Tags ampliados para Santa Cruz y entorno real de OSM
+        // Evitar peticiones si el zoom es muy bajo para no saturar Overpass
+        if (this.map.getZoom() < 13) {
+            console.warn(`Zoom demasiado bajo para cargar amenidades (${tipo}).`);
+            capa.clearLayers();
+            return;
+        }
+
         const categoryTags: any = {
             salud: '["amenity"~"hospital|clinic|doctors|pharmacy"]',
             educacion: '["amenity"~"school|college|university|kindergarten"]',
@@ -257,25 +277,21 @@ export class Mapa implements AfterViewInit, OnDestroy {
             transporte: '["highway"~"bus_stop"]["bus"="yes"]'
         };
 
-        // Si es transporte, también buscamos amenity=bus_station
-        let tagQuery = categoryTags[tipo] || '["amenity"~"hospital|school"]';
-
+        const tagQuery = categoryTags[tipo] || '["amenity"~"hospital|school"]';
         const bbox = `${sw.lat},${sw.lng},${ne.lat},${ne.lng}`;
+        let query = `[out:json][timeout:25];(node${tagQuery}(${bbox});way${tagQuery}(${bbox}););out center;`;
 
-        // Consulta compleja: Nodos y Centros de áreas (Edificios)
-        let query = `[out:json];(node${tagQuery}(${bbox});way${tagQuery}(${bbox}););out center;`;
-
-        // Caso especial para transporte (unimos paradas y estaciones)
         if (tipo === 'transporte') {
-            query = `[out:json];(node["highway"="bus_stop"](${bbox});node["amenity"="bus_station"](${bbox});way["amenity"="bus_station"](${bbox}););out center;`;
+            query = `[out:json][timeout:25];(node["highway"="bus_stop"](${bbox});node["amenity"="bus_station"](${bbox});way["amenity"="bus_station"](${bbox}););out center;`;
         }
 
         const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
 
         this.http.get<any>(url).subscribe({
             next: (data) => {
-                capa.clearLayers();
                 if (data && data.elements) {
+                    console.log(`OSM: Recibidos ${data.elements.length} elementos para ${tipo}.`);
+                    capa.clearLayers(); // Limpiamos justo antes de añadir los nuevos para evitar parpadeo prolongado
                     data.elements.forEach((el: any) => {
                         const tags = el.tags || {};
                         const nombre = tags.name || tags.operator || tags.brand || (tipo.charAt(0).toUpperCase() + tipo.slice(1));
@@ -288,9 +304,16 @@ export class Mapa implements AfterViewInit, OnDestroy {
                             capa.addLayer(marker);
                         }
                     });
+                } else {
+                    console.log(`OSM: No se encontraron resultados para ${tipo} en esta zona.`);
+                    capa.clearLayers();
                 }
             },
-            error: (err) => console.error(`Error Overpass OSM ${tipo}:`, err)
+            error: (err) => {
+                console.error(`Error Overpass OSM ${tipo}:`, err);
+                // Si hay error, al menos limpiamos para que no se vea info vieja/falsa
+                capa.clearLayers();
+            }
         });
     }
 
