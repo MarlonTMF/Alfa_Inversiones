@@ -313,3 +313,31 @@
         padding-bottom: 12px;
     }
 }
+
+/* ESTILOS DE MARCADORES PREMIUM */
+.marcador-premium-osm {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 500 !important;
+}
+
+.marcador-premium-osm:hover {
+    transform: scale(1.2) translateY(-5px);
+    z-index: 1000 !important;
+}
+
+.marcador-precision-premium {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+    transition: transform 0.2s;
+    cursor: pointer;
+    z-index: 800 !important;
+}
+
+.marcador-precision-premium:hover {
+    transform: scale(1.4);
+    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.8));
+}
+
+.poligono-terreno-sutil {
+    pointer-events: none;
+    /* No bloquea el click en el punto */
+}
