@@ -23,6 +23,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     private capaHospitales: any;
     public readonly amenidadesService = inject(AmenidadesService);
     private mapReady = signal(false);
+    private amenidadesCache = new Map<string, { elements: any[], centro: [number, number] }>();
 
     constructor(
         @Inject(PLATFORM_ID) private readonly platformId: Object,
@@ -229,6 +230,8 @@ export class Mapa implements AfterViewInit, OnDestroy {
     private actualizarCapasAmenidades(): void {
         if (!this.map) return;
 
+        const centroActual = [this.map.getCenter().lat, this.map.getCenter().lng] as [number, number];
+
         const filtros = [
             { activo: this.amenidadesService.mostrarHospitales(), tipo: 'salud', capa: this.capaHospitales },
             { activo: this.amenidadesService.mostrarColegios(), tipo: 'educacion', capa: this.capaColegios },
@@ -238,35 +241,42 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
         filtros.forEach(f => {
             if (f.activo) {
-                // Si el filtro está activo, nos aseguramos que la capa esté en el mapa
                 if (!this.map.hasLayer(f.capa)) {
                     this.map.addLayer(f.capa);
-                    console.log(`Capa ${f.tipo} activada, buscando en OpenStreetMap...`);
-                    this.cargarAmenidadesDesdeOSM(f.tipo, f.capa);
-                } else {
-                    // Si ya estaba activa, solo refrescamos si es necesario (ej. al mover el mapa)
-                    this.cargarAmenidadesDesdeOSM(f.tipo, f.capa);
+                    console.log(`Capa ${f.tipo} activada.`);
+                }
+
+                // Lógica de Caché Inteligente:
+                const cache = this.amenidadesCache.get(f.tipo);
+                const distancia = cache ? this.calcularDistancia(centroActual, cache.centro) : Infinity;
+
+                // Solo consultamos si NO hay caché O si el usuario se ha movido más de 800 metros
+                if (!cache || distancia > 800) {
+                    console.log(`Buscando ${f.tipo} en red (Distancia desplazada: ${distancia.toFixed(0)}m)...`);
+                    this.cargarAmenidadesDesdeOSM(f.tipo, f.capa, centroActual);
+                } else if (f.capa.getLayers().length === 0) {
+                    // Si hay caché pero la capa está vacía (por haberla desactivado antes), restauramos desde caché
+                    console.log(`Restaurando ${f.tipo} desde caché local.`);
+                    this.renderizarDesdeCache(f.tipo, f.capa, cache.elements);
                 }
             } else {
-                // Si el filtro se desactiva, limpiamos y quitamos la capa
                 if (this.map.hasLayer(f.capa)) {
                     this.map.removeLayer(f.capa);
                     f.capa.clearLayers();
-                    console.log(`Capa ${f.tipo} desactivada.`);
+                    console.log(`Capa ${f.tipo} oculta.`);
                 }
             }
         });
     }
 
-    private cargarAmenidadesDesdeOSM(tipo: string, capa: any): void {
+    private cargarAmenidadesDesdeOSM(tipo: string, capa: any, centroActual: [number, number]): void {
         const bounds = this.map.getBounds();
         const sw = bounds.getSouthWest();
         const ne = bounds.getNorthEast();
 
         // Evitar peticiones si el zoom es muy bajo para no saturar Overpass
         if (this.map.getZoom() < 13) {
-            console.warn(`Zoom demasiado bajo para cargar amenidades (${tipo}).`);
-            capa.clearLayers();
+            console.warn(`Zoom demasiado bajo para ${tipo}.`);
             return;
         }
 
@@ -290,20 +300,10 @@ export class Mapa implements AfterViewInit, OnDestroy {
         this.http.get<any>(url).subscribe({
             next: (data) => {
                 if (data && data.elements) {
-                    console.log(`OSM: Recibidos ${data.elements.length} elementos para ${tipo}.`);
-                    capa.clearLayers(); // Limpiamos justo antes de añadir los nuevos para evitar parpadeo prolongado
-                    data.elements.forEach((el: any) => {
-                        const tags = el.tags || {};
-                        const nombre = tags.name || tags.operator || tags.brand || (tipo.charAt(0).toUpperCase() + tipo.slice(1));
-                        const lat = el.lat || el.center?.lat;
-                        const lon = el.lon || el.center?.lon;
-
-                        if (lat && lon) {
-                            const icon = this.crearIconoPremium(tipo);
-                            const marker = this.L.marker([lat, lon], { icon }).bindTooltip(nombre);
-                            capa.addLayer(marker);
-                        }
-                    });
+                    // Guardamos en caché
+                    this.amenidadesCache.set(tipo, { elements: data.elements, centro: centroActual });
+                    this.renderizarDesdeCache(tipo, capa, data.elements);
+                    console.log(`OSM exitoso: ${data.elements.length} ${tipo} cargados.`);
                 } else {
                     console.log(`OSM: No se encontraron resultados para ${tipo} en esta zona.`);
                     capa.clearLayers();
@@ -317,6 +317,36 @@ export class Mapa implements AfterViewInit, OnDestroy {
         });
     }
 
+    private renderizarDesdeCache(tipo: string, capa: any, elementos: any[]): void {
+        capa.clearLayers();
+        elementos.forEach((el: any) => {
+            const tags = el.tags || {};
+            const nombre = tags.name || tags.operator || tags.brand || (tipo.charAt(0).toUpperCase() + tipo.slice(1));
+            const lat = el.lat || el.center?.lat;
+            const lon = el.lon || el.center?.lon;
+            if (lat && lon) {
+                const icon = this.crearIconoPremium(tipo);
+                const marker = this.L.marker([lat, lon], { icon }).bindTooltip(nombre);
+                capa.addLayer(marker);
+            }
+        });
+    }
+
+    private calcularDistancia(p1: [number, number], p2: [number, number]): number {
+        const R = 6371e3; // Radio de la Tierra en metros
+        const φ1 = p1[0] * Math.PI / 180;
+        const φ2 = p2[0] * Math.PI / 180;
+        const Δφ = (p2[0] - p1[0]) * Math.PI / 180;
+        const Δλ = (p2[1] - p1[1]) * Math.PI / 180;
+
+        const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c; // Distancia en metros
+    }
+
     private crearIconoPremium(tipo: string): any {
         const configs: any = {
             salud: { color: '#ef4444', icon: '🏥' },
@@ -324,7 +354,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
             comercio: { color: '#10b981', icon: '🛒' },
             transporte: { color: '#3b82f6', icon: '🚌' }
         };
-        const config = configs[tipo] || { color: '#333', icon: '📍' };
+        const config = configs[tipo] || { color: '#333', icon: '' };
 
         return this.L.divIcon({
             className: 'marcador-premium-osm',
