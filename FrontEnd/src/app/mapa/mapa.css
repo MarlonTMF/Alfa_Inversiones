@@ -198,6 +198,51 @@
     line-height: 1.5;
 }
 
+.filter-chips-container {
+    position: absolute;
+    top: 16px;
+    left: 24px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    z-index: 4000;
+    pointer-events: none;
+}
+
+.filter-chip {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid #334155;
+    border-radius: 24px;
+    padding: 10px 18px;
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.filter-chip:hover {
+    background-color: rgba(30, 41, 59, 0.95);
+    color: #f8fafc;
+    border-color: #475569;
+}
+
+.filter-chip.active {
+    background-color: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.5);
+    color: #60a5fa;
+}
+
+.filter-chip svg {
+    color: inherit;
+}
+
 @media (max-width: 900px) {
     .panel-lateral-premium {
         position: absolute !important;
@@ -219,6 +264,24 @@
     .titulo-terreno {
         font-size: 20px;
     }
+
+    .filter-chips-container {
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 8px; 
+    }
+
+    .filter-chips-container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .filter-chip {
+        background-color: #1e293b;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
 }
 
 @media (max-width: 600px) {
@@ -228,11 +291,6 @@
         min-width: 100% !important;
         right: 0 !important;
         box-sizing: border-box;
-    }
-
-    .metricas-grid {
-        grid-template-columns: 1fr !important;
-        gap: 8px;
     }
 
     .panel-header h2 {

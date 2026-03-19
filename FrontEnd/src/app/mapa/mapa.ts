@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, PLATFORM_ID, Inject, NgZone, effect, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, PLATFORM_ID, Inject, NgZone, effect, inject, ChangeDetectorRef, signal } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AmenidadesService } from '../services/amenidades';
@@ -11,7 +11,7 @@ import { AmenidadesService } from '../services/amenidades';
     styleUrl: './mapa.css',
 })
 export class Mapa implements AfterViewInit, OnDestroy {
-    terrenoSeleccionado: any = null;
+    terrenoSeleccionado = signal<any>(null);
     private isAnimating: boolean = false;
     private map: any;
     private L: any;
@@ -20,7 +20,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     private capaTransporte: any;
     private capaColegios: any;
     private capaHospitales: any;
-    private readonly amenidadesService = inject(AmenidadesService);
+    public readonly amenidadesService = inject(AmenidadesService);
 
     constructor(
         @Inject(PLATFORM_ID) private readonly platformId: Object,
@@ -40,6 +40,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
             mostrarTrans ? this.map.addLayer(this.capaTransporte) : this.map.removeLayer(this.capaTransporte);
         });
     }
+    
     ngOnDestroy(): void {
         if (this.map) {
             this.map.off();
@@ -113,6 +114,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
         this.capaTransporte = L.layerGroup();
         this.capaTerrenos = L.layerGroup().addTo(this.map);
     }
+    
     private obtenerTerrenosDelBackend(): void {
         if (!this.map) return;
         const bounds = this.map.getBounds();
@@ -125,13 +127,12 @@ export class Mapa implements AfterViewInit, OnDestroy {
             next: (terrenos) => {
                 this.procesarTerrenos(terrenos);
             },
-            error: (err) => console.error('Error al conectar con Backend:', err)
+            error: (err) => console.error(err)
         });
     }
 
     private procesarTerrenos(terrenos: any[]): void {
         this.capaTerrenos.clearLayers();
-        
         terrenos.forEach(terreno => this.dibujarPoligono(terreno, this.L));
     }
 
@@ -160,22 +161,21 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     private configurarEventos(areaTerreno: any, terreno: any): void {
-        areaTerreno.on('click', () => {
-            this.zone.run(() => {
-                this.terrenoSeleccionado = terreno;
-                this.cdr.detectChanges();                 
-                this.isAnimating = true;                 
-                const centroPoligono = areaTerreno.getBounds().getCenter();
-                this.map.flyTo(centroPoligono, 16, { 
-                    animate: true,
-                    duration: 1 
-                });
-                this.map.once('moveend', () => {
-                    this.isAnimating = false;
-                });
+    areaTerreno.on('click', () => {
+        this.zone.run(() => {
+            this.terrenoSeleccionado.set(terreno);
+            this.isAnimating = true;                
+            const centroPoligono = areaTerreno.getBounds().getCenter();
+            this.map.flyTo(centroPoligono, 16, { 
+                animate: true,
+                duration: 1 
+            });
+            this.map.once('moveend', () => {
+                this.isAnimating = false;
             });
         });
-    }
+    });
+}
 
     private consumirAmenidadesJSON(L: any): void {
         this.http.get<any[]>('/mock-data/amenidades.json').subscribe({
@@ -195,22 +195,22 @@ export class Mapa implements AfterViewInit, OnDestroy {
         switch (amenidad.tipo) {
             case 'hospital': 
                 svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>`;
-                colorFondo = '#ef4444'; // Rojo
+                colorFondo = '#ef4444';
                 capaDestino = this.capaHospitales; 
                 break;
             case 'colegio': 
                 svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`;
-                colorFondo = '#f59e0b'; // Naranja
+                colorFondo = '#f59e0b';
                 capaDestino = this.capaColegios; 
                 break;
             case 'mercado': 
                 svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>`;
-                colorFondo = '#10b981'; // Verde
+                colorFondo = '#10b981';
                 capaDestino = this.capaMercados; 
                 break;
             case 'transporte': 
                 svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 21v-2"></path><path d="M16 21v-2"></path><path d="M4 11h16"></path><path d="M10 7h4"></path><path d="M8 15h.01"></path><path d="M16 15h.01"></path></svg>`;
-                colorFondo = '#6366f1'; // Indigo
+                colorFondo = '#6366f1';
                 capaDestino = this.capaTransporte; 
                 break;
         }
@@ -222,7 +222,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
     private crearMarcadorAmenidad(L: any, capa: any, coordenadas: [number, number], svgIcon: string, colorFondo: string, nombre: string): void {
         const icon = L.divIcon({
-            className: 'marcador-transparente', // Reutilizamos tu clase limpia del CSS
+            className: 'marcador-transparente',
             html: `
                 <div style="background-color: ${colorFondo}; color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 6px rgba(0,0,0,0.4); border: 2px solid white;">
                     ${svgIcon}
@@ -237,6 +237,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     cerrarPanel(): void {
-        this.terrenoSeleccionado = null;
+    this.terrenoSeleccionado.set(null);
     }
 }

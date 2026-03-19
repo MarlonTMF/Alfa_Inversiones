@@ -1,47 +1,68 @@
 <div class="map-wrapper">
+    <div class="filter-chips-container">
+        <button class="filter-chip" [class.active]="amenidadesService.mostrarMercados()" (click)="amenidadesService.toggleMercados()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            Mercados
+        </button>
+        <button class="filter-chip" [class.active]="amenidadesService.mostrarTransporte()" (click)="amenidadesService.toggleTransporte()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 21v-2"></path><path d="M16 21v-2"></path><path d="M4 11h16"></path><path d="M10 7h4"></path><path d="M8 15h.01"></path><path d="M16 15h.01"></path></svg>
+            Transporte Público
+        </button>
+        <button class="filter-chip" [class.active]="amenidadesService.mostrarColegios()" (click)="amenidadesService.toggleColegios()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            Colegios
+        </button>
+        <button class="filter-chip" [class.active]="amenidadesService.mostrarHospitales()" (click)="amenidadesService.toggleHospitales()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            Hospitales / Salud
+        </button>
+    </div>
+
     <div id="map" class="map-container"></div>
 
-    @if (terrenoSeleccionado) {
-    <aside class="panel-lateral-premium animate-slide-left">
+    <!-- Cambia @if (terrenoSeleccionado) por esto: -->
+@if (terrenoSeleccionado()) {
+<aside class="panel-lateral-premium animate-slide-left">
+    
+    <div class="panel-header">
+        <h3 class="panel-title">Análisis del Activo</h3>
+        <button class="btn-cerrar-panel" (click)="cerrarPanel()">✕</button>
+    </div>
+
+    <div class="panel-imagen-wrapper">
+        <img src="https://picsum.photos/seed/prop1/600/400" alt="Vista del terreno" class="panel-imagen">
+        <div class="etiqueta-estado">DISPONIBLE</div>
+    </div>
+
+    <div class="panel-body">
+        <p class="subtitulo-ciudad">Cochabamba, Bolivia</p>
+        <!-- Añade paréntesis a todas las variables así: -->
+        <h2 class="titulo-terreno">{{ terrenoSeleccionado().ubicacion }}</h2>
         
-        <div class="panel-header">
-            <h3 class="panel-title">Análisis del Activo</h3>
-            <button class="btn-cerrar-panel" (click)="cerrarPanel()">✕</button>
-        </div>
-
-        <div class="panel-imagen-wrapper">
-            <img src="https://picsum.photos/seed/prop1/600/400" alt="Vista del terreno" class="panel-imagen">
-            <div class="etiqueta-estado">DISPONIBLE</div>
-        </div>
-
-        <div class="panel-body">
-            <p class="subtitulo-ciudad">Cochabamba, Bolivia</p>
-            <h2 class="titulo-terreno">{{ terrenoSeleccionado.ubicacion }}</h2>
-            
-            <div class="metricas-grid">
-                <div class="metrica-box highlight">
-                    <span class="metrica-label">ROI Proyectado</span>
-                    <span class="metrica-valor-verde">14.2%</span>
-                </div>
-                <div class="metrica-box">
-                    <span class="metrica-label">Superficie Total</span>
-                    <span class="metrica-valor">{{ terrenoSeleccionado.superficie | number }} m²</span>
-                </div>
-                <div class="metrica-box">
-                    <span class="metrica-label">Precio Solicitado</span>
-                    <span class="metrica-valor">${{ terrenoSeleccionado.precio | number }}</span>
-                </div>
-                <div class="metrica-box">
-                    <span class="metrica-label">Precio por m²</span>
-                    <span class="metrica-valor">${{ (terrenoSeleccionado.precio / terrenoSeleccionado.superficie) | number:'1.0-0' }}</span>
-                </div>
+        <div class="metricas-grid">
+            <div class="metrica-box highlight">
+                <span class="metrica-label">ROI Proyectado</span>
+                <span class="metrica-valor-verde">14.2%</span>
             </div>
-
-            <div class="placeholder-futuro">
-                <p class="placeholder-titulo">🔒 Módulos Financieros</p>
-                <p class="placeholder-texto">Aquí se integrará la validación de costos y due diligence en la Fase 2.</p>
+            <div class="metrica-box">
+                <span class="metrica-label">Superficie Total</span>
+                <span class="metrica-valor">{{ terrenoSeleccionado().superficie | number }} m²</span>
+            </div>
+            <div class="metrica-box">
+                <span class="metrica-label">Precio Solicitado</span>
+                <span class="metrica-valor">${{ terrenoSeleccionado().precio | number }}</span>
+            </div>
+            <div class="metrica-box">
+                <span class="metrica-label">Precio por m²</span>
+                <span class="metrica-valor">${{ (terrenoSeleccionado().precio / terrenoSeleccionado().superficie) | number:'1.0-0' }}</span>
             </div>
         </div>
-    </aside>
+
+        <div class="placeholder-futuro">
+            <p class="placeholder-titulo">🔒 Módulos Financieros</p>
+            <p class="placeholder-texto">Aquí se integrará la validación de costos y due diligence en la Fase 2.</p>
+        </div>
+    </div>
+</aside>
     }
 </div>

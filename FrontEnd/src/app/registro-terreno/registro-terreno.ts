@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, PLATFORM_ID, Inject, NgZone, OnDestroy } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -10,10 +10,15 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
     templateUrl: './registro-terreno.html',
     styleUrl: './registro-terreno.css'
 })
-export class RegistroTerreno {
+export class RegistroTerreno implements OnDestroy {
     pasoActual: number = 1;
     formularioPaso2: FormGroup;
+    coordenadasSeleccionadas: string = '';
     
+    private map: any;
+    private L: any;
+    private marker: any;
+
     documentos: { [key: string]: File | null } = {
         folioReal: null,
         certificadoCatastral: null,
@@ -22,19 +27,27 @@ export class RegistroTerreno {
     };
     errorArchivo: string | null = null;
 
-    constructor(private fb: FormBuilder) {
+    constructor(
+        private fb: FormBuilder,
+        @Inject(PLATFORM_ID) private readonly platformId: Object,
+        private readonly zone: NgZone
+    ) {
         this.formularioPaso2 = this.fb.group({
             ciudad: ['Cochabamba'],
             distrito: [''],
             uv: [''],
             zona: [''],
             direccion: ['', Validators.required],
-            coordenadas: [''],
+            coordenadas: ['', Validators.required],
             superficie: ['', Validators.required],
             frente: [''],
             fondo: [''],
             precioBase: ['', Validators.required]
         });
+    }
+
+    ngOnDestroy(): void {
+        this.destruirMapa();
     }
 
     manejarArchivo(event: any, tipo: string): void {
@@ -88,7 +101,19 @@ export class RegistroTerreno {
     siguientePaso(): void {
         if (this.pasoActual === 1 && this.esValidoPaso1()) {
             this.pasoActual = 2;
+            this.activarMapa();
         } else if (this.pasoActual === 2 && this.formularioPaso2.valid) {
+            this.pasoActual = 3;
+        }
+    }
+
+    irAPaso(pasoDestino: number): void {
+        if (pasoDestino === 1) {
+            this.pasoActual = 1;
+        } else if (pasoDestino === 2 && this.esValidoPaso1()) {
+            this.pasoActual = 2;
+            this.activarMapa();
+        } else if (pasoDestino === 3 && this.esValidoPaso1() && this.formularioPaso2.valid) {
             this.pasoActual = 3;
         }
     }
@@ -98,6 +123,114 @@ export class RegistroTerreno {
         if (valor) {
             valor = Number.parseInt(valor, 10).toLocaleString('en-US'); 
             this.formularioPaso2.patchValue({ precioBase: valor });
+        }
+    }
+
+    private activarMapa(): void {
+        if (isPlatformBrowser(this.platformId)) {
+            setTimeout(() => {
+                this.iniciarLeafletInline();
+            }, 150);
+        }
+    }
+
+    private iniciarLeafletInline(): void {
+        if (this.map) {
+            this.map.invalidateSize();
+            return;
+        }
+
+        import('leaflet').then((L) => {
+            this.L = L;
+            let centro: [number, number] = [-17.3895, -66.1568];
+            
+            if (this.coordenadasSeleccionadas) {
+                 const partes = this.coordenadasSeleccionadas.split(',');
+                 if(partes.length === 2){
+                     centro = [parseFloat(partes[0]), parseFloat(partes[1])];
+                 }
+            }
+
+            this.zone.runOutsideAngular(() => {
+                this.map = L.map('mapa-inline-container', {
+                    zoomControl: false 
+                }).setView(centro, 15);
+
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; CARTO'
+                }).addTo(this.map);
+                
+                L.control.zoom({ position: 'bottomright' }).addTo(this.map);
+
+                const icon = L.divIcon({
+                    className: 'marcador-transparente',
+                    html: `
+                        <div style="background-color: #3b82f6; color: white; border-radius: 50%; width: 24px; height: 24px; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.5);"></div>
+                        <div style="width: 2px; height: 12px; background-color: #1e3a8a; margin: 0 auto;"></div>
+                    `,
+                    iconSize: [24, 36],
+                    iconAnchor: [12, 36]
+                });
+
+                this.marker = L.marker(centro, { 
+                    icon: icon,
+                    draggable: true 
+                }).addTo(this.map);
+
+                this.actualizarCoordenadas(centro[0], centro[1]);
+
+                this.marker.on('dragend', () => {
+                    const position = this.marker.getLatLng();
+                    this.zone.run(() => {
+                        this.actualizarCoordenadas(position.lat, position.lng);
+                    });
+                });
+
+                this.map.on('click', (e: any) => {
+                    this.marker.setLatLng(e.latlng);
+                    this.zone.run(() => {
+                        this.actualizarCoordenadas(e.latlng.lat, e.latlng.lng);
+                    });
+                });
+
+                setTimeout(() => {
+                    this.map.invalidateSize();
+                }, 300);
+            });
+        }).catch(err => console.error(err));
+    }
+
+    private actualizarCoordenadas(lat: number, lng: number): void {
+        this.coordenadasSeleccionadas = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+        this.formularioPaso2.patchValue({ coordenadas: this.coordenadasSeleccionadas });
+    }
+
+    obtenerUbicacionActual(): void {
+        if (navigator.geolocation && this.map && this.marker) {
+            navigator.geolocation.getCurrentPosition(
+                (posicion) => {
+                    const lat = posicion.coords.latitude;
+                    const lng = posicion.coords.longitude;
+                    this.zone.runOutsideAngular(() => {
+                        this.map.flyTo([lat, lng], 16, { animate: true });
+                        this.marker.setLatLng([lat, lng]);
+                    });
+                    this.actualizarCoordenadas(lat, lng);
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+        }
+    }
+
+    private destruirMapa(): void {
+        if (this.map) {
+            this.map.off();
+            this.map.remove();
+            this.map = null;
+            this.marker = null;
         }
     }
 }
