@@ -4,5 +4,7 @@ export class TerrenoRespuestaDto {
   precio: number;
   superficie: number;
   departamento?: string;
+  estado?: string;
+  uso_suelo?: string;
   poligono: [number, number][];
 }

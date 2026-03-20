@@ -26,6 +26,8 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
         'terreno.precio',
         'terreno.superficie',
         'terreno.departamento',
+        'terreno.estado',
+        'terreno.uso_suelo',
         'ST_AsGeoJSON(terreno.poligono) as poligono_geojson',
       ]);
 
@@ -52,6 +54,8 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
         precio: parseFloat(raw.terreno_precio),
         superficie: parseFloat(raw.terreno_superficie),
         departamento: raw.terreno_departamento,
+        estado: raw.terreno_estado,
+        uso_suelo: raw.terreno_uso_suelo || 'Uso Mixto',
         poligono: geojson.coordinates[0].map((coord: any) => [coord[1], coord[0]]),
       };
     });

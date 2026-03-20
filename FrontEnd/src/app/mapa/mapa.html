@@ -113,58 +113,54 @@
         </div>
     </aside>
 
-    <!-- TARJETA DE DETALLE INFERIOR ( GLASS ) -->
-    <div class="bottom-detail-panel" *ngIf="terrenoSeleccionado">
-        <div class="detail-card glass-panel animate-slide-up">
-            <button class="btn-close-bottom" (click)="cerrarPanel()">✕</button>
+    <!-- PANEL LATERAL DERECHO DE DETALLE -->
+    <aside class="panel-lateral" *ngIf="terrenoSeleccionado">
+        <div class="panel-header">
+            <h3>Detalles del Activo</h3>
+            <button class="btn-cerrar" (click)="cerrarPanel()">✖</button>
+        </div>
 
-            <div class="detail-image-section">
-                <img src="https://picsum.photos/seed/prop1/600/400" alt="Terreno" class="detail-image">
-            </div>
+        <div class="imagen-terreno">
+            <img src="https://images.unsplash.com/photo-1524813686514-a57563d77965?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                alt="Vista del terreno">
 
-            <div class="detail-content-section">
-                <div class="detail-top-info">
-                    <div class="detail-title-group">
-                        <p class="detail-location">Bolivia • Cochabamba</p>
-                        <h2>{{ terrenoSeleccionado.ubicacion }}</h2>
-                    </div>
-                    <div class="roi-badge">
-                        <span class="roi-label">ROI Proyectado</span>
-                        <span class="roi-value">14.2%</span>
-                    </div>
-                </div>
-
-                <div class="detail-stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="m3 11 18-5v12L3 14v-3z" />
-                                <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
-                            </svg>
-                        </div>
-                        <div class="stat-info">
-                            <span class="stat-label">SUPERFICIE</span>
-                            <span class="stat-value">{{ terrenoSeleccionado.superficie | number }} m²</span>
-                        </div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <line x1="12" y1="1" x2="12" y2="23" />
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                            </svg>
-                        </div>
-                        <div class="stat-info">
-                            <span class="stat-label">PRECIO</span>
-                            <span class="stat-value">${{ terrenoSeleccionado.precio | number }}</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="etiquetas-flotantes">
+                <span class="badge badge-verde" *ngIf="terrenoSeleccionado.estado">{{ terrenoSeleccionado.estado |
+                    uppercase }}</span>
+                <span class="badge badge-gris" *ngIf="terrenoSeleccionado.uso_suelo">{{ terrenoSeleccionado.uso_suelo
+                    }}</span>
             </div>
         </div>
-    </div>
+
+        <div class="panel-content">
+            <h2 class="titulo-ubicacion">{{ terrenoSeleccionado.ubicacion }}</h2>
+
+            <div class="grid-datos">
+                <div class="dato-tarjeta">
+                    <span class="dato-label">Precio Solicitado</span>
+                    <span class="dato-valor texto-azul">${{ terrenoSeleccionado.precio | number }}</span>
+                </div>
+                <div class="dato-tarjeta">
+                    <span class="dato-label">Superficie Total</span>
+                    <span class="dato-valor">{{ terrenoSeleccionado.superficie | number }} m²</span>
+                </div>
+                <div class="dato-tarjeta tarjeta-destacada">
+                    <span class="dato-label">Precio por m²</span>
+                    <span class="dato-valor">${{ (terrenoSeleccionado.precio / terrenoSeleccionado.superficie) |
+                        number:'1.0-0' }}</span>
+                </div>
+                <div class="dato-tarjeta">
+                    <span class="dato-label">Topografía</span>
+                    <span class="dato-valor texto-normal">Plana (100%)</span>
+                </div>
+            </div>
+
+            <div class="placeholder-calculadora">
+                <p>🔒 <strong>Módulos Financieros</strong></p>
+                <p class="texto-pequeno">Aquí se integrarán la Calculadora de ROI para Inversionistas y la Validación de
+                    Costos (30-40%) para Constructores.</p>
+            </div>
+        </div>
+
+    </aside>
 </div>

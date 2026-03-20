@@ -39,4 +39,7 @@ export class TerrenoFuenteDatos {
 
   @Column({ nullable: true })
   departamento: string;
+
+  @Column({ name: 'uso_suelo', nullable: true, default: 'Uso Mixto' })
+  uso_suelo: string;
 }
