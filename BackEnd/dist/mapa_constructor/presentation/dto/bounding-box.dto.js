@@ -19,24 +19,28 @@ class BoundingBoxDto {
 }
 exports.BoundingBoxDto = BoundingBoxDto;
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.Min)(-90),
     (0, class_validator_1.Max)(90),
     __metadata("design:type", Number)
 ], BoundingBoxDto.prototype, "minLat", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.Min)(-90),
     (0, class_validator_1.Max)(90),
     __metadata("design:type", Number)
 ], BoundingBoxDto.prototype, "maxLat", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.Min)(-180),
     (0, class_validator_1.Max)(180),
     __metadata("design:type", Number)
 ], BoundingBoxDto.prototype, "minLng", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.Min)(-180),
     (0, class_validator_1.Max)(180),

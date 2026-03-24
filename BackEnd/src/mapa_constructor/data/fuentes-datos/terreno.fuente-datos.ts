@@ -1,42 +1,37 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  AfterLoad,
-  BeforeInsert,
-  BeforeUpdate,
-} from 'typeorm';
+import { Entity, PrimaryColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity('terrenos')
 export class TerrenoFuenteDatos {
-  @PrimaryColumn()
+  @PrimaryColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50, unique: true, nullable: true })
+  codigo: string;
+
+  @Column({ type: 'varchar', length: 255 })
   ubicacion: string;
 
-  @Column('decimal')
+  @Column({ type: 'varchar', length: 100, default: 'Cochabamba' })
+  ciudad: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  departamento: string;
+
+  @Column({ type: 'numeric', precision: 15, scale: 2 })
   precio: number;
 
-  @Column('decimal')
+  @Column({ type: 'numeric', precision: 10, scale: 2 })
   superficie: number;
 
-  @Column('text')
-  poligono_json: string;
+  @Column({ type: 'geometry', spatialFeatureType: 'Polygon', srid: 4326 })
+  poligono: any;
 
-  // Campo virtual: se hidrata después de cargar de BD
-  poligono: [number, number][];
+  @Column({ type: 'varchar', length: 20, default: 'disponible' })
+  estado: string;
 
-  @AfterLoad()
-  parsearPoligono() {
-    this.poligono = JSON.parse(this.poligono_json) as [number, number][];
-  }
+  @Column({ type: 'uuid', nullable: true })
+  id_creador: string;
 
-  @BeforeInsert()
-  @BeforeUpdate()
-  serializarPoligono() {
-    if (this.poligono) {
-      this.poligono_json = JSON.stringify(this.poligono);
-    }
-  }
+  @CreateDateColumn({ type: 'timestamp with time zone', nullable: true })
+  fecha_creacion: Date;
 }

@@ -1,19 +1,22 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity('amenidades')
 export class AmenidadFuenteDatos {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ name: 'nombre', type: 'varchar', length: 150 })
   nombre: string;
 
-  @Column()
+  @Column({ name: 'tipo', type: 'varchar', length: 50 })
   tipo: string;
 
-  @Column('decimal')
-  lat: number;
+  @Column({ name: 'coordenadas', type: 'geometry', spatialFeatureType: 'Point', srid: 4326 })
+  coordenadas: any;
 
-  @Column('decimal')
-  lng: number;
+  @Column({ name: 'ciudad', type: 'varchar', length: 100, default: 'Cochabamba' })
+  ciudad: string;
+
+  @CreateDateColumn({ name: 'fecha_creacion', type: 'timestamp with time zone', nullable: true })
+  fecha_creacion: Date;
 }
