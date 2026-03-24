@@ -5,6 +5,8 @@ import { MapaConstructorModule } from './mapa_constructor/mapa_constructor.modul
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
 
 
+import { CalculosModule } from './calculos/calculos.module.js';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -16,6 +18,7 @@ import { AutenticacionModule } from './autenticacion/autenticacion.module';
     }),
     MapaConstructorModule,
     AutenticacionModule,
+    CalculosModule,
   ],
 })
 export class AppModule { }
