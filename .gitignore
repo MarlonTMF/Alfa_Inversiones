@@ -51,6 +51,8 @@ Thumbs.db
 *.sln
 *.sw?
 
-# Database
+# Database & BackEnd specific
 *.sqlite
-database.sqlite
+database.sqlite
+BackEnd/dist/
+BackEnd/database.sqlite
