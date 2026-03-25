@@ -5,6 +5,7 @@ import { MapaConstructorModule } from './mapa_constructor/mapa_constructor.modul
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { RegistroPropiedadesModule } from './registro_propiedades/registro-propiedades.module';
 import { CalculosModule } from './calculos/calculos.module.js';
+import { TrazabilidadModule } from './trazabilidad/trazabilidad.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { CalculosModule } from './calculos/calculos.module.js';
     AutenticacionModule,
     RegistroPropiedadesModule,
     CalculosModule,
+    TrazabilidadModule,
   ],
 })
 export class AppModule { }
