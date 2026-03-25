@@ -2,6 +2,7 @@ import { Component, PLATFORM_ID, Inject, NgZone, OnDestroy } from '@angular/core
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-registro-terreno',
@@ -30,7 +31,8 @@ export class RegistroTerreno implements OnDestroy {
     constructor(
         private fb: FormBuilder,
         @Inject(PLATFORM_ID) private readonly platformId: Object,
-        private readonly zone: NgZone
+        private readonly zone: NgZone,
+        private readonly http: HttpClient
     ) {
         this.formularioPaso2 = this.fb.group({
             ciudad: ['Cochabamba'],
@@ -130,7 +132,7 @@ export class RegistroTerreno implements OnDestroy {
         if (isPlatformBrowser(this.platformId)) {
             setTimeout(() => {
                 this.iniciarLeafletInline();
-            }, 150);
+            }, 100);
         }
     }
 
@@ -204,6 +206,32 @@ export class RegistroTerreno implements OnDestroy {
     private actualizarCoordenadas(lat: number, lng: number): void {
         this.coordenadasSeleccionadas = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
         this.formularioPaso2.patchValue({ coordenadas: this.coordenadasSeleccionadas });
+
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+        this.http.get<any>(url).subscribe({
+            next: (data) => {
+                if (data && data.address) {
+                    let direccionFinal = '';
+                    const calle = data.address.road || data.address.pedestrian || '';
+                    const numero = data.address.house_number || '';
+                    const barrio = data.address.neighbourhood || data.address.suburb || '';
+
+                    if (calle) {
+                        direccionFinal = `Calle ${calle}`;
+                        if (numero) direccionFinal += ` nro ${numero}`;
+                        if (barrio) direccionFinal += `, ${barrio}`;
+                    } else if (data.display_name) {
+                        const partes = data.display_name.split(',');
+                        direccionFinal = partes.slice(0, 2).join(',').trim();
+                    }
+
+                    if (direccionFinal) {
+                        this.formularioPaso2.patchValue({ direccion: direccionFinal });
+                    }
+                }
+            },
+            error: () => {}
+        });
     }
 
     obtenerUbicacionActual(): void {
@@ -218,9 +246,7 @@ export class RegistroTerreno implements OnDestroy {
                     });
                     this.actualizarCoordenadas(lat, lng);
                 },
-                (error) => {
-                    console.error(error);
-                }
+                () => {}
             );
         }
     }
