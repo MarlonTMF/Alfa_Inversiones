@@ -6,6 +6,7 @@ import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { RegistroPropiedadesModule } from './registro_propiedades/registro-propiedades.module';
 import { CalculosModule } from './calculos/calculos.module.js';
 import { TrazabilidadModule } from './trazabilidad/trazabilidad.module';
+import { OrquestacionModule } from './orquestacion/orquestacion.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { TrazabilidadModule } from './trazabilidad/trazabilidad.module';
     RegistroPropiedadesModule,
     CalculosModule,
     TrazabilidadModule,
+    OrquestacionModule,
   ],
 })
 export class AppModule { }
