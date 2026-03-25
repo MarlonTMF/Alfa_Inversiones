@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 // Data
-import { TerrenoFuenteDatos } from './data/fuentes-datos/terreno.fuente-datos.js';
+import { PropertyFuenteDatos } from '../registro_propiedades/data/fuentes-datos/property.fuente-datos.js';
 import { TerrenoRepositorioImpl } from './data/repositorios/terreno.repositorio-impl.js';
 import { AmenidadFuenteDatos } from './data/fuentes-datos/amenidad.fuente-datos.js';
 import { AmenidadRepositorioImpl } from './data/repositorios/amenidad.repositorio-impl.js';
@@ -22,7 +22,7 @@ import { AmenidadesControlador } from './presentation/controladores/amenidades.c
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([TerrenoFuenteDatos, AmenidadFuenteDatos]),
+    TypeOrmModule.forFeature([PropertyFuenteDatos, AmenidadFuenteDatos]),
   ],
   controllers: [TerrenosControlador, AmenidadesControlador],
   providers: [

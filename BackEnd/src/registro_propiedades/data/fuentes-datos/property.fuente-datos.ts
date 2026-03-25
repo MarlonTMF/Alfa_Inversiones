@@ -100,6 +100,24 @@ export class PropertyFuenteDatos {
     @Column({ name: 'updated_at', type: 'timestamp with time zone', nullable: true })
     updatedAt: Date;
 
+    // CAMPOS ESPACIALES (Para el Mapa)
+    @Column({
+        type: 'geometry',
+        spatialFeatureType: 'Polygon',
+        srid: 4326,
+        nullable: true,
+    })
+    polygon: any;
+
+    @Column({ name: 'land_use', type: 'varchar', nullable: true, default: 'Uso Mixto' })
+    landUse: string;
+
+    @Column({ type: 'varchar', nullable: true })
+    department: string;
+
+    @Column({ type: 'varchar', nullable: true })
+    code: string;
+
     // RELACIONES
     @OneToMany(() => LegalDocFuenteDatos, (doc) => doc.property, { cascade: true })
     legalDocs: LegalDocFuenteDatos[];
