@@ -44,9 +44,8 @@
 .top-filters-bar {
   position: absolute;
   top: 24px;
-  left: calc(320px + 48px);
-  /* 320px del panel + 48px de margen */
-  transform: none;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
   display: flex;
   gap: 12px;
