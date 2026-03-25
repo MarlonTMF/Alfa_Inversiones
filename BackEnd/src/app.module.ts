@@ -29,6 +29,7 @@ import { CalculosModule } from './calculos/calculos.module.js';
     MapaConstructorModule,
     AutenticacionModule,
     RegistroPropiedadesModule,
+    CalculosModule,
   ],
 })
 export class AppModule { }

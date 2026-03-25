@@ -1,23 +1,22 @@
 const { Client } = require('pg');
+const client = new Client({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'db_inmobiliaria',
+  password: 'Marlon22',
+  port: 5432,
+});
 
-async function test() {
-  const client = new Client({
-    connectionString: 'postgresql://Grupo5:Dracmil2001@181.188.156.195:18063/inmobiliaria',
-  });
-
+async function run() {
   try {
     await client.connect();
-    const res = await client.query(`
-      SELECT table_schema, table_name 
-      FROM information_schema.tables 
-      WHERE table_schema NOT IN ('information_schema', 'pg_catalog')
-    `);
-    console.log(JSON.stringify(res.rows, null, 2));
-  } catch (error) {
-    console.error('Connection error:', error);
+    const res = await client.query("SELECT column_name FROM information_schema.columns WHERE table_name = 'properties'");
+    console.log('COLUMNS_LIST: ' + res.rows.map(r => r.column_name).join(', '));
+  } catch (err) {
+    console.error(err);
   } finally {
     await client.end();
   }
 }
 
-test();
+run();

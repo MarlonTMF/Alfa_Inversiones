@@ -18,7 +18,8 @@ export class CalcularViabilidadCasoUso {
           [idToSearch]
         );
         if (!res.length) throw new NotFoundException('Propiedad no encontrada');
-        // Asume base_price_negotiation o (price_per_m2 * total_area) como costo
+
+        // Asuma base_price_negotiation o (price_per_m2 * total_area) como costo
         costoSuelo = Number(res[0].base_price_negotiation || (res[0].price_per_m2 * res[0].total_area));
       }
     }
