@@ -9,34 +9,37 @@ import {
 
 @Entity('terrenos')
 export class TerrenoFuenteDatos {
-  @PrimaryColumn()
+  @PrimaryColumn('uuid')
   id: string;
 
   @Column()
   ubicacion: string;
 
-  @Column('decimal')
+  @Column('decimal', { precision: 15, scale: 2 })
   precio: number;
 
-  @Column('decimal')
+  @Column('decimal', { precision: 10, scale: 2 })
   superficie: number;
 
-  @Column('text')
-  poligono_json: string;
+  @Column({
+    type: 'geometry',
+    spatialFeatureType: 'Polygon',
+    srid: 4326,
+  })
+  poligono: any;
 
-  // Campo virtual: se hidrata después de cargar de BD
-  poligono: [number, number][];
+  @Column()
+  estado: string;
 
-  @AfterLoad()
-  parsearPoligono() {
-    this.poligono = JSON.parse(this.poligono_json) as [number, number][];
-  }
+  @Column({ nullable: true })
+  codigo: string;
 
-  @BeforeInsert()
-  @BeforeUpdate()
-  serializarPoligono() {
-    if (this.poligono) {
-      this.poligono_json = JSON.stringify(this.poligono);
-    }
-  }
+  @Column({ nullable: true })
+  ciudad: string;
+
+  @Column({ nullable: true })
+  departamento: string;
+
+  @Column({ name: 'uso_suelo', nullable: true, default: 'Uso Mixto' })
+  uso_suelo: string;
 }
