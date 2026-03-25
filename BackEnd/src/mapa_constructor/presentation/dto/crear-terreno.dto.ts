@@ -30,4 +30,8 @@ export class CrearTerrenoDto {
   @IsOptional()
   @IsString()
   departamento?: string;
+
+  @IsOptional()
+  @IsString()
+  uso_suelo?: string;
 }

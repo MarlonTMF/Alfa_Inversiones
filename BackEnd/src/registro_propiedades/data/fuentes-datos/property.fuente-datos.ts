@@ -100,6 +100,9 @@ export class PropertyFuenteDatos {
     @Column({ name: 'updated_at', type: 'timestamp with time zone', nullable: true })
     updatedAt: Date;
 
+    @Column({ name: 'creator_id', type: 'uuid', nullable: true })
+    creatorId: string;
+
     // CAMPOS ESPACIALES (Para el Mapa)
     @Column({
         type: 'geometry',

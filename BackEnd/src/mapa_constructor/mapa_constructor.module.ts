@@ -1,7 +1,5 @@
 import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
 // Data
 import { PropertyFuenteDatos } from '../registro_propiedades/data/fuentes-datos/property.fuente-datos.js';

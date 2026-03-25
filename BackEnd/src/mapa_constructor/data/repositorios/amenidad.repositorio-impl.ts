@@ -16,38 +16,38 @@ export class AmenidadRepositorioImpl implements AmenidadRepositorio {
   async buscarPorRadio(
     consulta: ConsultaAmenidadesDto,
   ): Promise<AmenidadRespuestaDto[]> {
-    // Usamos ST_DWithin para búsqueda eficiente por radio (en metros)
-    const rawAmenidades = await this.amenidadRepo
-      .createQueryBuilder('amenidad')
+    // Usamos ST_DWithin con ::geography para calcular el radio en metros precisos.
+    const rawAmenidades = await this.amenidadRepo.createQueryBuilder('amenidad')
       .select([
-        'amenidad.id',
-        'amenidad.nombre',
-        'amenidad.tipo',
-        'ST_AsGeoJSON(amenidad.coordenadas) as coords_geojson',
+        'amenidad.id AS id',
+        'amenidad.nombre AS nombre',
+        'amenidad.tipo AS tipo',
       ])
-      .where(
-        `ST_DWithin(
-          amenidad.coordenadas, 
-          ST_SetSRID(ST_Point(:lng, :lat), 4326)::geography, 
-          :radio
-        )`,
-        {
-          lng: consulta.lng,
-          lat: consulta.lat,
-          radio: consulta.radio,
-        },
+      .addSelect('ST_AsGeoJSON(amenidad.coordenadas)', 'coordenadas_geojson')
+      .where('amenidad.tipo = :tipo', { tipo: consulta.tipo })
+      .andWhere(
+        'ST_DWithin(amenidad.coordenadas::geography, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography, :radio)',
+        { lng: consulta.lng, lat: consulta.lat, radio: consulta.radio }
       )
-      .andWhere('amenidad.tipo = :tipo', { tipo: consulta.tipo })
       .getRawMany();
 
-    return rawAmenidades.map((raw) => {
-      const geojson = JSON.parse(raw.coords_geojson);
+    return rawAmenidades.map((row) => {
+      let lat = 0;
+      let lng = 0;
+      if (row.coordenadas_geojson) {
+        const geojson = JSON.parse(row.coordenadas_geojson);
+        // GeoJSON Point format: { type: "Point", coordinates: [lng, lat] }
+        if (geojson.coordinates) {
+          lng = geojson.coordinates[0];
+          lat = geojson.coordinates[1];
+        }
+      }
       return {
-        id: raw.amenidad_id,
-        nombre: raw.amenidad_nombre,
-        tipo: raw.amenidad_tipo,
-        lat: geojson.coordinates[1],
-        lng: geojson.coordinates[0],
+        id: row.id,
+        nombre: row.nombre,
+        tipo: row.tipo,
+        lat,
+        lng,
       };
     });
   }

@@ -17,11 +17,11 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
   async buscarPorBoundingBox(
     bbox: BoundingBoxDto,
   ): Promise<TerrenoRespuestaDto[]> {
-    // Usamos QueryBuilder para búsqueda espacial nativa con PostGIS sobre la tabla de propiedades
+    // Usamos QueryBuilder para búsqueda espacial nativa con PostGIS sobre la tabla de propiedades (UNIFICADA)
     const query = this.propertyRepo
       .createQueryBuilder('property')
       .select([
-        'property.id',
+        'property.id as id',
         'property.name as ubicacion',
         'property.base_price_negotiation as precio',
         'property.total_area as superficie',
@@ -31,14 +31,15 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
         'ST_AsGeoJSON(property.polygon) as poligono_geojson',
       ]);
 
+    // Búsqueda espacial eficiente por Bounding Box (Overlap &&)
     if (bbox.minLng && bbox.minLat && bbox.maxLng && bbox.maxLat) {
       query.where(
         `property.polygon && ST_MakeEnvelope(:minLng, :minLat, :maxLng, :maxLat, 4326)`,
         {
-          minLng: bbox.minLng,
-          minLat: bbox.minLat,
-          maxLng: bbox.maxLng,
-          maxLat: bbox.maxLat,
+          minLng: Number(bbox.minLng),
+          minLat: Number(bbox.minLat),
+          maxLng: Number(bbox.maxLng),
+          maxLat: Number(bbox.maxLat),
         },
       );
     }
@@ -46,21 +47,30 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
     const rawProperties = await query.getRawMany();
 
     return rawProperties.map((raw) => {
-      const geojson = raw.poligono_geojson ? JSON.parse(raw.poligono_geojson) : null;
+      let coordinates: [number, number][] = [];
+      if (raw.poligono_geojson) {
+        const geojson = JSON.parse(raw.poligono_geojson);
+        // Leaflet espera [[lat, lng], [lat, lng]...]
+        if (geojson.coordinates && geojson.coordinates[0]) {
+          coordinates = geojson.coordinates[0].map(([lng, lat]: [number, number]) => [lat, lng]);
+        }
+      }
+
       return {
-        id: raw.property_id,
+        id: raw.id,
         ubicacion: raw.ubicacion,
         precio: parseFloat(raw.precio),
         superficie: parseFloat(raw.superficie),
         departamento: raw.departamento,
         estado: raw.estado,
         uso_suelo: raw.uso_suelo || 'Uso Mixto',
-        poligono: geojson ? geojson.coordinates[0].map((coord: any) => [coord[1], coord[0]]) : [],
+        poligono: coordinates,
       };
     });
   }
 
   async crear(dto: CrearTerrenoDto): Promise<{ mensaje: string }> {
+    // Verificar si ya existe en la tabla unificada
     const existentes = await this.propertyRepo.query(
       'SELECT id FROM properties WHERE id = $1',
       [dto.id],
@@ -69,17 +79,34 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
       throw new ConflictException(`La propiedad ${dto.id} ya existe`);
     }
 
+    // Convertir polígono Leaflet [[lat, lng]] a WKT POLYGON((lng lat, ...))
     const puntosWKT = dto.poligono
       .map((p) => `${p[1]} ${p[0]}`)
       .join(', ');
-    const wkt = `POLYGON((${puntosWKT}))`;
 
+    // Asegurar que el polígono esté cerrado para WKT
+    const primerPunto = `${dto.poligono[0][1]} ${dto.poligono[0][0]}`;
+    const ultimoPunto = `${dto.poligono[dto.poligono.length - 1][1]} ${dto.poligono[dto.poligono.length - 1][0]}`;
+    const wktData = primerPunto === ultimoPunto ? puntosWKT : `${puntosWKT}, ${primerPunto}`;
+
+    const wkt = `POLYGON((${wktData}))`;
+
+    // Inserción directa en la tabla unificada properties
     await this.propertyRepo.query(
-      `INSERT INTO properties (id, name, base_price_negotiation, total_area, polygon, department) 
-       VALUES ($1, $2, $3, $4, ST_GeomFromText($5, 4326), $6)`,
-      [dto.id, dto.ubicacion, dto.precio, dto.superficie, wkt, dto.departamento],
+      `INSERT INTO properties (id, name, base_price_negotiation, total_area, polygon, department, status, land_use) 
+       VALUES ($1, $2, $3, $4, ST_GeomFromText($5, 4326), $6, $7, $8)`,
+      [
+        dto.id,
+        dto.ubicacion,
+        dto.precio,
+        dto.superficie,
+        wkt,
+        dto.departamento,
+        'disponible',
+        dto.uso_suelo || 'Uso Mixto'
+      ],
     );
 
-    return { mensaje: `Propiedad ${dto.id} registrada exitosamente desde el mapa` };
+    return { mensaje: `Propiedad ${dto.id} registrada exitosamente en la tabla unificada` };
   }
 }

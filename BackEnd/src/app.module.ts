@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MapaConstructorModule } from './mapa_constructor/mapa_constructor.module';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { RegistroPropiedadesModule } from './registro_propiedades/registro-propiedades.module';
+import { CalculosModule } from './calculos/calculos.module.js';
 
 @Module({
   imports: [
