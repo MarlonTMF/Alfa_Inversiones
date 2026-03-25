@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { MapaConstructorModule } from './mapa_constructor/mapa_constructor.module';
 import { AutenticacionModule } from './autenticacion/autenticacion.module';
-
+import { OrquestacionModule } from './orquestacion/orquestacion.module.js';
 
 @Module({
   imports: [
@@ -16,6 +16,7 @@ import { AutenticacionModule } from './autenticacion/autenticacion.module';
     }),
     MapaConstructorModule,
     AutenticacionModule,
+    OrquestacionModule,
   ],
 })
 export class AppModule { }
