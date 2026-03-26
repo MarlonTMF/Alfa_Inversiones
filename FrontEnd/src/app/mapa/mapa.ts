@@ -11,11 +11,11 @@ import { AmenidadesService } from '../services/amenidades';
     styleUrl: './mapa.css',
 })
 export class Mapa implements AfterViewInit, OnDestroy {
-    terrenoSeleccionado: any = null;
-    todosLosTerrenos = signal<any[]>([]); // Lista completa de activos
-    terrenosCercanos = signal<any[]>([]); // Lista filtrada/ordenada para la UI
-    terrenosVisiblesIds = signal<Set<string>>(new Set()); // IDs de terrenos visibles en el mapa
-    departamentoSeleccionado = signal<string>('Todos'); // Filtro de departamento
+    terrenoSeleccionado = signal<any>(null);
+    todosLosTerrenos = signal<any[]>([]);
+    terrenosCercanos = signal<any[]>([]);
+    terrenosVisiblesIds = signal<Set<string>>(new Set());
+    departamentoSeleccionado = signal<string>('Todos');
 
     private isAnimating: boolean = false;
     private map: any;
@@ -35,24 +35,19 @@ export class Mapa implements AfterViewInit, OnDestroy {
         private readonly zone: NgZone,
         private readonly cdr: ChangeDetectorRef
     ) {
-        // Efecto reactivo para filtros de amenidades
         effect(() => {
             if (!this.mapReady()) return;
 
-            // Leemos los signals para suscribir el efecto
             const h = this.amenidadesService.mostrarHospitales();
             const c = this.amenidadesService.mostrarColegios();
             const m = this.amenidadesService.mostrarMercados();
             const t = this.amenidadesService.mostrarTransporte();
-
-            console.log('Filtros cambiados, actualizando capas de amenidades...');
 
             this.zone.run(() => {
                 this.actualizarCapasAmenidades();
             });
         });
 
-        // Efecto para actualizar la lista filtrada cuando cambian los terrenos, el filtro o la visibilidad
         effect(() => {
             const todos = this.todosLosTerrenos();
             const filtro = this.departamentoSeleccionado();
@@ -63,7 +58,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
                 filtrados = todos.filter(t => t.departamento === filtro);
             }
 
-            // Ordenamos: primero los que están visibles en el mapa
             const ordenados = [...filtrados].sort((a, b) => {
                 const aVisible = visibles.has(a.id);
                 const bVisible = visibles.has(b.id);
@@ -93,7 +87,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
         if (!this.map || !this.capaTerrenos) return;
         this.capaTerrenos.clearLayers();
 
-        // Actualizamos la lista completa
         this.zone.run(() => {
             this.todosLosTerrenos.set(terrenos);
             this.actualizarVisibilidadTerrenos();
@@ -118,7 +111,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     seleccionarTerrenoDesdeLista(terreno: any): void {
-        this.terrenoSeleccionado = terreno;
+        this.terrenoSeleccionado.set(terreno);
         this.isAnimating = true;
 
         const centro = this.getCentroPoligono(terreno.poligono);
@@ -152,7 +145,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     private gestionarGeolocalizacion(L: any): void {
-        const coordenadasFallback: [number, number] = [-17.7612, -63.1921]; // Equipetrol
+        const coordenadasFallback: [number, number] = [-17.7612, -63.1921];
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (posicion) => {
@@ -187,10 +180,9 @@ export class Mapa implements AfterViewInit, OnDestroy {
             zoom: 15
         });
 
-        // Usamos OpenStreetMap estándar para mayor detalle y color (como en la referencia)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(this.map);
 
         L.control.zoom({ position: 'bottomright' }).addTo(this.map);
@@ -204,7 +196,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
         this.inicializarCapasAmenidades(L);
         this.mapReady.set(true);
 
-        // Los eventos de Leaflet deben correr en NgZone para avisar a Angular
         this.map.on('moveend', () => {
             this.zone.run(() => {
                 this.actualizarVisibilidadTerrenos();
@@ -227,20 +218,17 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
     private obtenerTerrenosDelBackend(): void {
         if (!this.map) return;
-        // Petición global sin bounds para tener todos los activos inicialmente
         const url = `http://localhost:3000/api/v1/terrenos`;
 
         this.http.get<any[]>(url).subscribe({
             next: (terrenos) => this.procesarTerrenos(terrenos),
-            error: (err) => console.error('Error Backend Terrenos:', err)
+            error: (err) => console.error(err)
         });
     }
 
     private dibujarPoligono(terreno: any, L: any): void {
         const centro = this.getCentroPoligono(terreno.poligono);
 
-        // SOLO dibujo el marcador de precisión (Punto Azul con borde negro/sombra)
-        // Esto soluciona el problema de los "cuadrados grandes"
         const marcadorInversion = L.circleMarker(centro, {
             radius: 9,
             fillColor: '#2563eb',
@@ -251,8 +239,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
             className: 'marcador-precision-premium'
         });
 
-        // El polígono se usa solo como una capa invisible para mejorar el área de interacción si fuera necesario,
-        // pero para cumplir con la estética del usuario, no le pondremos color.
         const areaInteractiva = L.polygon(terreno.poligono, {
             color: 'transparent',
             fillColor: 'transparent',
@@ -266,11 +252,14 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
         const manejarClick = () => {
             this.zone.run(() => {
-                this.terrenoSeleccionado = terreno;
+                this.terrenoSeleccionado.set(terreno);
                 this.cdr.detectChanges();
                 this.isAnimating = true;
                 this.map.flyTo(centro, 17, { animate: true, duration: 1.5 });
-                this.map.once('moveend', () => { this.isAnimating = false; });
+                this.map.once('moveend', () => {
+                    this.isAnimating = false;
+                    this.actualizarVisibilidadTerrenos();
+                });
             });
         };
 
@@ -294,27 +283,20 @@ export class Mapa implements AfterViewInit, OnDestroy {
             if (f.activo) {
                 if (!this.map.hasLayer(f.capa)) {
                     this.map.addLayer(f.capa);
-                    console.log(`Capa ${f.tipo} activada.`);
                 }
 
-                // Lógica de Caché Inteligente:
                 const cache = this.amenidadesCache.get(f.tipo);
                 const distancia = cache ? this.calcularDistancia(centroActual, cache.centro) : Infinity;
 
-                // Solo consultamos si NO hay caché O si el usuario se ha movido más de 800 metros
                 if (!cache || distancia > 800) {
-                    console.log(`Buscando ${f.tipo} en red (Distancia desplazada: ${distancia.toFixed(0)}m)...`);
                     this.cargarAmenidadesDesdeOSM(f.tipo, f.capa, centroActual);
                 } else if (f.capa.getLayers().length === 0) {
-                    // Si hay caché pero la capa está vacía (por haberla desactivado antes), restauramos desde caché
-                    console.log(`Restaurando ${f.tipo} desde caché local.`);
                     this.renderizarDesdeCache(f.tipo, f.capa, cache.elements);
                 }
             } else {
                 if (this.map.hasLayer(f.capa)) {
                     this.map.removeLayer(f.capa);
                     f.capa.clearLayers();
-                    console.log(`Capa ${f.tipo} oculta.`);
                 }
             }
         });
@@ -325,9 +307,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
         const sw = bounds.getSouthWest();
         const ne = bounds.getNorthEast();
 
-        // Evitar peticiones si el zoom es muy bajo para no saturar Overpass
         if (this.map.getZoom() < 13) {
-            console.warn(`Zoom demasiado bajo para ${tipo}.`);
             return;
         }
 
@@ -352,26 +332,20 @@ export class Mapa implements AfterViewInit, OnDestroy {
         this.http.get<any>(url).subscribe({
             next: (data) => {
                 if (data && data.elements) {
-                    // Guardamos en caché
                     this.amenidadesCache.set(tipo, { elements: data.elements, centro: centroActual });
                     this.renderizarDesdeCache(tipo, capa, data.elements);
 
-                    // Aseguramos que el ciclo de pintado de Leaflet/Angular ocurra antes de quitar la barra
                     requestAnimationFrame(() => {
-                        // Un pequeño timeout para que el ojo humano vea los iconos aparecer antes de que muera la barra
                         setTimeout(() => {
                             this.amenidadesService.finalizarCarga(true);
                         }, 50);
                     });
                 } else {
-                    console.log(`OSM: No se encontraron resultados para ${tipo} en esta zona.`);
                     capa.clearLayers();
                     this.amenidadesService.finalizarCarga(false);
                 }
             },
             error: (err) => {
-                console.error(`Error Overpass OSM ${tipo}:`, err);
-                // Si hay error, al menos limpiamos para que no se vea info vieja/falsa
                 capa.clearLayers();
                 this.amenidadesService.finalizarCarga(false);
             }
@@ -394,7 +368,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     private calcularDistancia(p1: [number, number], p2: [number, number]): number {
-        const R = 6371e3; // Radio de la Tierra en metros
+        const R = 6371e3;
         const φ1 = p1[0] * Math.PI / 180;
         const φ2 = p2[0] * Math.PI / 180;
         const Δφ = (p2[0] - p1[0]) * Math.PI / 180;
@@ -405,7 +379,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
             Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        return R * c; // Distancia en metros
+        return R * c;
     }
 
     private crearIconoPremium(tipo: string): any {
@@ -426,9 +400,10 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     private crearIconoColoreado(tipo: string): any {
-        // Mantenido por compatibilidad si se usa en otros lugares, pero crearIconoPremium es el nuevo estándar
         return this.crearIconoPremium(tipo);
     }
 
-    cerrarPanel(): void { this.terrenoSeleccionado = null; }
+    cerrarPanel(): void {
+        this.terrenoSeleccionado.set(null);
+    }
 }
