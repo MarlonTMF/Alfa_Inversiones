@@ -36,7 +36,6 @@ body {
     overflow: hidden; 
 }
 
-/* --- MOBILE DRAWER (Sidebar Móvil) --- */
 .mobile-drawer {
     position: fixed;
     top: 0;

@@ -11,56 +11,44 @@ export class AmenidadRepositorioImpl implements AmenidadRepositorio {
   constructor(
     @InjectRepository(AmenidadFuenteDatos)
     private readonly amenidadRepo: Repository<AmenidadFuenteDatos>,
-  ) {}
+  ) { }
 
   async buscarPorRadio(
     consulta: ConsultaAmenidadesDto,
   ): Promise<AmenidadRespuestaDto[]> {
-    // Fórmula de Haversine simplificada para SQLite.
-    // En producción con PostGIS usar ST_DWithin.
-    const amenidades = await this.amenidadRepo.find({
-      where: { tipo: consulta.tipo },
+    // Usamos ST_DWithin con ::geography para calcular el radio en metros precisos.
+    const rawAmenidades = await this.amenidadRepo.createQueryBuilder('amenidad')
+      .select([
+        'amenidad.id AS id',
+        'amenidad.nombre AS nombre',
+        'amenidad.tipo AS tipo',
+      ])
+      .addSelect('ST_AsGeoJSON(amenidad.coordenadas)', 'coordenadas_geojson')
+      .where('amenidad.tipo = :tipo', { tipo: consulta.tipo })
+      .andWhere(
+        'ST_DWithin(amenidad.coordenadas::geography, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography, :radio)',
+        { lng: consulta.lng, lat: consulta.lat, radio: consulta.radio }
+      )
+      .getRawMany();
+
+    return rawAmenidades.map((row) => {
+      let lat = 0;
+      let lng = 0;
+      if (row.coordenadas_geojson) {
+        const geojson = JSON.parse(row.coordenadas_geojson);
+        // GeoJSON Point format: { type: "Point", coordinates: [lng, lat] }
+        if (geojson.coordinates) {
+          lng = geojson.coordinates[0];
+          lat = geojson.coordinates[1];
+        }
+      }
+      return {
+        id: row.id,
+        nombre: row.nombre,
+        tipo: row.tipo,
+        lat,
+        lng,
+      };
     });
-
-    const radioKm = consulta.radio / 1000;
-
-    return amenidades
-      .filter((amenidad) => {
-        const distancia = this.calcularDistanciaKm(
-          consulta.lat,
-          consulta.lng,
-          amenidad.lat,
-          amenidad.lng,
-        );
-        return distancia <= radioKm;
-      })
-      .map((amenidad) => ({
-        id: amenidad.id,
-        nombre: amenidad.nombre,
-        tipo: amenidad.tipo,
-        lat: amenidad.lat,
-        lng: amenidad.lng,
-      }));
-  }
-
-  private calcularDistanciaKm(
-    lat1: number,
-    lng1: number,
-    lat2: number,
-    lng2: number,
-  ): number {
-    const R = 6371;
-    const dLat = this.aRadianes(lat2 - lat1);
-    const dLng = this.aRadianes(lng2 - lng1);
-    const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(this.aRadianes(lat1)) *
-        Math.cos(this.aRadianes(lat2)) *
-        Math.sin(dLng / 2) ** 2;
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  }
-
-  private aRadianes(grados: number): number {
-    return grados * (Math.PI / 180);
   }
 }
