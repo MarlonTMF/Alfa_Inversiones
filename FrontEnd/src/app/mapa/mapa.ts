@@ -1,7 +1,8 @@
-import { Component, AfterViewInit, OnDestroy, PLATFORM_ID, Inject, NgZone, effect, inject, ChangeDetectorRef, signal } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, PLATFORM_ID, Inject, NgZone, effect, inject, ChangeDetectorRef } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AmenidadesService } from '../services/amenidades';
+import { ExploradorService } from '../services/explorador';
 
 @Component({
     selector: 'app-mapa',
@@ -11,12 +12,6 @@ import { AmenidadesService } from '../services/amenidades';
     styleUrl: './mapa.css',
 })
 export class Mapa implements AfterViewInit, OnDestroy {
-    terrenoSeleccionado = signal<any>(null);
-    todosLosTerrenos = signal<any[]>([]);
-    terrenosCercanos = signal<any[]>([]);
-    terrenosVisiblesIds = signal<Set<string>>(new Set());
-    departamentoSeleccionado = signal<string>('Todos');
-
     private isAnimating: boolean = false;
     private map: any;
     private L: any;
@@ -25,8 +20,10 @@ export class Mapa implements AfterViewInit, OnDestroy {
     private capaTransporte: any;
     private capaColegios: any;
     private capaHospitales: any;
+    
     public readonly amenidadesService = inject(AmenidadesService);
-    private mapReady = signal(false);
+    public readonly exploradorService = inject(ExploradorService); // <-- ACCESO GLOBAL
+    
     private amenidadesCache = new Map<string, { elements: any[], centro: [number, number] }>();
 
     constructor(
@@ -35,41 +32,37 @@ export class Mapa implements AfterViewInit, OnDestroy {
         private readonly zone: NgZone,
         private readonly cdr: ChangeDetectorRef
     ) {
+        // EFECTO 1: Reacciona a los filtros de amenidades
         effect(() => {
-            if (!this.mapReady()) return;
-
+            if (!this.map) return;
             const h = this.amenidadesService.mostrarHospitales();
             const c = this.amenidadesService.mostrarColegios();
             const m = this.amenidadesService.mostrarMercados();
             const t = this.amenidadesService.mostrarTransporte();
 
-            this.zone.run(() => {
+            this.zone.runOutsideAngular(() => {
                 this.actualizarCapasAmenidades();
             });
         });
 
+        // EFECTO 2: Reacciona a la selección desde el Navbar (ExploradorService)
         effect(() => {
-            const todos = this.todosLosTerrenos();
-            const filtro = this.departamentoSeleccionado();
-            const visibles = this.terrenosVisiblesIds();
-
-            let filtrados = todos;
-            if (filtro !== 'Todos') {
-                filtrados = todos.filter(t => t.departamento === filtro);
+            const terreno = this.exploradorService.terrenoSeleccionado();
+            if (terreno && this.map && !this.isAnimating) {
+                const centro = this.getCentroPoligono(terreno.poligono);
+                this.isAnimating = true;
+                
+                this.zone.runOutsideAngular(() => {
+                    this.map.flyTo(centro, 17, { animate: true, duration: 1.5 });
+                    this.map.once('moveend', () => {
+                        this.zone.run(() => {
+                            this.isAnimating = false;
+                            this.actualizarVisibilidadTerrenos();
+                            this.cdr.detectChanges();
+                        });
+                    });
+                });
             }
-
-            const ordenados = [...filtrados].sort((a, b) => {
-                const aVisible = visibles.has(a.id);
-                const bVisible = visibles.has(b.id);
-                if (aVisible && !bVisible) return -1;
-                if (!aVisible && bVisible) return 1;
-                return 0;
-            });
-
-            this.zone.run(() => {
-                this.terrenosCercanos.set(ordenados);
-                this.cdr.detectChanges();
-            });
         });
     }
 
@@ -87,12 +80,11 @@ export class Mapa implements AfterViewInit, OnDestroy {
         if (!this.map || !this.capaTerrenos) return;
         this.capaTerrenos.clearLayers();
 
-        this.zone.run(() => {
-            this.todosLosTerrenos.set(terrenos);
-            this.actualizarVisibilidadTerrenos();
-        });
-
+        // Mandamos los datos al servicio para que el Navbar los lea
+        this.exploradorService.actualizarTerrenos(terrenos);
+        
         terrenos.forEach(terreno => this.dibujarPoligono(terreno, this.L));
+        this.actualizarVisibilidadTerrenos();
     }
 
     private actualizarVisibilidadTerrenos(): void {
@@ -100,32 +92,15 @@ export class Mapa implements AfterViewInit, OnDestroy {
         const bounds = this.map.getBounds();
         const visibles = new Set<string>();
 
-        this.todosLosTerrenos().forEach(t => {
+        // Leemos desde la única fuente de la verdad: el servicio
+        this.exploradorService.todosLosTerrenos().forEach(t => {
             const centro = this.getCentroPoligono(t.poligono);
             if (bounds.contains(centro)) {
                 visibles.add(t.id);
             }
         });
 
-        this.terrenosVisiblesIds.set(visibles);
-    }
-
-    seleccionarTerrenoDesdeLista(terreno: any): void {
-        this.terrenoSeleccionado.set(terreno);
-        this.isAnimating = true;
-
-        const centro = this.getCentroPoligono(terreno.poligono);
-        this.map.flyTo(centro, 16, { animate: true, duration: 1.5 });
-
-        this.map.once('moveend', () => {
-            this.isAnimating = false;
-            this.actualizarVisibilidadTerrenos();
-        });
-    }
-
-    cambiarFiltroDepartamento(event: any): void {
-        const dpto = event.target.value;
-        this.departamentoSeleccionado.set(dpto);
+        this.exploradorService.actualizarVisibles(visibles);
     }
 
     private getCentroPoligono(coords: [number, number][]): [number, number] {
@@ -196,7 +171,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
         }
 
         this.inicializarCapasAmenidades(L);
-        this.mapReady.set(true);
 
         this.map.on('moveend', () => {
             this.zone.run(() => {
@@ -254,14 +228,8 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
         const manejarClick = () => {
             this.zone.run(() => {
-                this.terrenoSeleccionado.set(terreno);
+                this.exploradorService.seleccionarTerreno(terreno);
                 this.cdr.detectChanges();
-                this.isAnimating = true;
-                this.map.flyTo(centro, 17, { animate: true, duration: 1.5 });
-                this.map.once('moveend', () => {
-                    this.isAnimating = false;
-                    this.actualizarVisibilidadTerrenos();
-                });
             });
         };
 
@@ -401,11 +369,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
         });
     }
 
-    private crearIconoColoreado(tipo: string): any {
-        return this.crearIconoPremium(tipo);
-    }
-
     cerrarPanel(): void {
-        this.terrenoSeleccionado.set(null);
+        this.exploradorService.seleccionarTerreno(null);
     }
 }
