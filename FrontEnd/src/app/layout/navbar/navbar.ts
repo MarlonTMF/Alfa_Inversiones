@@ -3,6 +3,7 @@ import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Login } from '../../auth/login/login';
+import { ExploradorService } from '../../services/explorador';
 
 @Component({
     selector: 'app-navbar',
@@ -14,6 +15,7 @@ import { Login } from '../../auth/login/login';
 export class Navbar implements OnInit {
     private readonly platformId = inject(PLATFORM_ID);
     private readonly router = inject(Router);
+    public readonly exploradorService = inject(ExploradorService);
 
     @Output() toggleSidebarEvent = new EventEmitter<void>();
 
@@ -21,6 +23,7 @@ export class Navbar implements OnInit {
     public usuarioActual: any = null;
     public mostrarMenuPerfil: boolean = false;
     public esRutaMapa: boolean = true;
+    public mostrarExplorador: boolean = false;
 
     constructor() {
         this.esRutaMapa = this.router.url === '/' || this.router.url.includes('/mapa');
@@ -62,5 +65,25 @@ export class Navbar implements OnInit {
 
     toggleMenuPerfil(): void {
         this.mostrarMenuPerfil = !this.mostrarMenuPerfil;
+    }
+
+    abrirExplorador(): void {
+        this.mostrarExplorador = true;
+    }
+
+    cerrarExplorador(): void {
+        this.mostrarExplorador = false;
+    }
+
+    seleccionarActivo(terreno: any): void {
+        this.exploradorService.seleccionarTerreno(terreno);
+        this.cerrarExplorador();
+        if (!this.esRutaMapa) {
+            this.router.navigate(['/mapa']);
+        }
+    }
+    
+    cambiarDepartamento(event: any): void {
+        this.exploradorService.cambiarDepartamento(event.target.value);
     }
 }

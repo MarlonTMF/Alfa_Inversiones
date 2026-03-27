@@ -10,14 +10,59 @@
 
     @if (esRutaMapa) {
         <div class="search-container desktop-only">
-            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" class="search-input" placeholder="Buscar por ID de activo o zona...">
+            <div class="search-input-wrapper" (click)="abrirExplorador()">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" class="search-input" placeholder="Explorar activos y zonas..." readonly>
+                <svg class="chevron-icon" [class.rotated]="mostrarExplorador" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+
+            @if (mostrarExplorador) {
+                <div class="explorer-dropdown fade-in">
+                    <div class="explorer-header">
+                        <span class="explorer-title">Explorador de Activos</span>
+                        <button class="btn-close-explorer" (click)="cerrarExplorador()">✕</button>
+                    </div>
+                    
+                    <div class="explorer-filters">
+                        <select class="department-select" (change)="cambiarDepartamento($event)">
+                            <option value="Todos">🇧🇴 Todos los Departamentos</option>
+                            <option value="Santa Cruz">Santa Cruz</option>
+                            <option value="Cochabamba">Cochabamba</option>
+                            <option value="La Paz">La Paz</option>
+                            <option value="Tarija">Tarija</option>
+                            <option value="Potosí">Potosí</option>
+                            <option value="Oruro">Oruro</option>
+                            <option value="Chuquisaca">Chuquisaca</option>
+                            <option value="Beni">Beni</option>
+                            <option value="Pando">Pando</option>
+                        </select>
+                    </div>
+
+                    <div class="explorer-list">
+                        @for (t of exploradorService.terrenosFiltrados(); track t.id) {
+                            <div class="property-card-small" (click)="seleccionarActivo(t)">
+                                <div class="card-header">
+                                    <span class="card-title">{{ t.ubicacion }}</span>
+                                    @if (exploradorService.terrenosVisiblesIds().has(t.id)) {
+                                        <span class="badge-visible">VISIBLE</span>
+                                    }
+                                </div>
+                                <p class="card-subtitle">{{ t.departamento || 'Bolivia' }} • ${{ t.precio | number }}</p>
+                            </div>
+                        } @empty {
+                            <div class="empty-state">
+                                <p>No hay activos disponibles.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     }
 
-    <div style="display: flex; align-items: center; gap: 20px;">
+    <div class="navbar-right">
         @if (esRutaMapa) {
-            <button class="btn-primary desktop-only" routerLink="/registro-terreno" style="padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px; border: none; cursor: pointer;">
+            <button class="btn-primary desktop-only" routerLink="/registro-terreno">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 Publicar Propiedad
             </button>
@@ -60,8 +105,5 @@
 </header>
 
 @if (mostrarLogin) {
-    <app-login 
-        (cerrarModal)="mostrarLogin = false" 
-        (loginExitoso)="procesarLogin($event)">
-    </app-login>
+    <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin($event)"></app-login>
 }
