@@ -1,17 +1,15 @@
 <div class="portal-container">
     <div class="portal-header">
-        <div class="header-text">
-            <h1>Registro de <span>Propiedades</span></h1>
-            <p>Proporcione los detalles de su terreno para iniciar el proceso de valoración. Nuestro motor impulsado por IA verificará sus documentos automáticamente.</p>
-        </div>
+        <h1>Registro de <span>Propiedades</span></h1>
+        <p>Proporcione los detalles de su terreno para iniciar el proceso de valoración. Nuestro motor impulsado por IA verificará sus documentos automáticamente.</p>
     </div>
 
     <div class="portal-card">
         <div class="progress-bar-container">
             <div class="progress-info">
                 <span class="step-badge">PASO {{pasoActual}} DE 3</span>
-                <a class="next-hint" [attr.disabled]="!esValidoPaso1() ? true : null" (click)="siguientePaso()">
-                    Siguiente: <strong>Detalles del Terreno</strong> ➔
+                <a class="next-hint" [attr.disabled]="(pasoActual === 1 && !esValidoPaso1()) || (pasoActual === 2 && formularioPaso2.invalid) ? true : null" (click)="siguientePaso()">
+                    Siguiente: <strong>{{ pasoActual === 1 ? 'Especificaciones' : 'Revisión Final' }}</strong> ➔
                 </a>
             </div>
             
@@ -20,9 +18,9 @@
             </div>
             
             <div class="step-labels">
-                <span [class.active]="pasoActual >= 1">1. DOCUMENTACIÓN</span>
-                <span [class.active]="pasoActual >= 2">2. ESPECIFICACIONES</span>
-                <span [class.active]="pasoActual === 3">3. REVISIÓN</span>
+                <span [class.active]="pasoActual >= 1" (click)="irAPaso(1)" style="cursor: pointer;">1. DOCUMENTACIÓN</span>
+                <span [class.active]="pasoActual >= 2" [class.disabled-step]="!esValidoPaso1()" (click)="irAPaso(2)" style="cursor: pointer;">2. ESPECIFICACIONES</span>
+                <span [class.active]="pasoActual === 3" [class.disabled-step]="!esValidoPaso1() || formularioPaso2.invalid" (click)="irAPaso(3)" style="cursor: pointer;">3. REVISIÓN</span>
             </div>
         </div>
 
@@ -146,7 +144,7 @@
                 <div class="footer-actions">
                     <button class="btn-cancel" routerLink="/mapa">Cancelar</button>
                     <button class="btn-next" [disabled]="!esValidoPaso1()" (click)="siguientePaso()">
-                        Siguiente: Detalles del Terreno ➔
+                        Siguiente: Especificaciones ➔
                     </button>
                 </div>
             </div>
@@ -188,12 +186,15 @@
                         <input type="text" formControlName="direccion" placeholder="Av. Simón López esquina Washington...">
                     </div>
 
-                    <div class="map-picker-box">
-                        <p class="map-hint">Para mayor precisión, fije el punto exacto en el mapa interactivo.</p>
-                        <button type="button" class="btn-map-picker">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                            Fijar ubicación en Mapa
+                    <div class="inline-map-wrapper">
+                        <div id="mapa-inline-container"></div>
+                        <button type="button" class="btn-geo" (click)="obtenerUbicacionActual()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="2" y1="12" x2="4" y2="12"></line></svg>
+                            Usar mi ubicación actual
                         </button>
+                        <div class="map-coord-display">
+                            {{ coordenadasSeleccionadas ? 'Ubicación fijada: ' + coordenadasSeleccionadas : 'Haz clic o arrastra el pin para fijar la ubicación' }}
+                        </div>
                     </div>
                 </div>
 
@@ -205,21 +206,21 @@
 
                     <div class="form-grid-3">
                         <div class="input-group has-suffix">
-                            <label>SUPERFICIE TOTAL</label>
+                            <label>SUPERFICIE TOTAL (M²)</label>
                             <div class="input-wrapper">
                                 <input type="number" formControlName="superficie" placeholder="0.00">
                                 <span class="suffix">M²</span>
                             </div>
                         </div>
                         <div class="input-group has-suffix">
-                            <label>FRENTE</label>
+                            <label>FRENTE (M)</label>
                             <div class="input-wrapper">
                                 <input type="number" formControlName="frente" placeholder="0.00">
                                 <span class="suffix">M</span>
                             </div>
                         </div>
                         <div class="input-group has-suffix">
-                            <label>FONDO</label>
+                            <label>FONDO (M)</label>
                             <div class="input-wrapper">
                                 <input type="number" formControlName="fondo" placeholder="0.00">
                                 <span class="suffix">M</span>
@@ -243,7 +244,7 @@
                         <label>PRECIO BASE DE NEGOCIACIÓN ($US)</label>
                         <div class="input-wrapper">
                             <span class="prefix">$US</span>
-                            <input type="text" formControlName="precioBase" (keyup)="formatearPrecio($event)" placeholder="0">
+                            <input type="text" formControlName="precioBase" (keyup)="formatearPrecio($event)" placeholder="0.00">
                         </div>
                         <p class="input-hint">Indique el monto aproximado que espera recibir. Para la modalidad de <strong>SOCIEDAD POR PERMUTA</strong>, este valor servirá como base para el cálculo de metros construidos.</p>
                     </div>
@@ -251,6 +252,7 @@
 
                 <div class="footer-actions">
                     <button type="button" class="btn-cancel" (click)="pasoAnterior()">← Atrás</button>
+                    <button type="button" class="btn-cancel" routerLink="/mapa" style="margin-left: auto; margin-right: 16px;">Cancelar</button>
                     <button type="button" class="btn-next" [disabled]="formularioPaso2.invalid" (click)="siguientePaso()">
                         Siguiente: Revisión Final ➔
                     </button>
