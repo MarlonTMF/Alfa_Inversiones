@@ -165,9 +165,11 @@ export class Mapa implements AfterViewInit, OnDestroy {
             this.map.remove();
             this.map = null;
         }
-        const container = document.getElementById('map');
-        if (container && (container as any)._leaflet_id) {
-            (container as any)._leaflet_id = null;
+        if (isPlatformBrowser(this.platformId)) {
+            const container = document.getElementById('map');
+            if (container && (container as any)._leaflet_id) {
+                (container as any)._leaflet_id = null;
+            }
         }
     }
 
