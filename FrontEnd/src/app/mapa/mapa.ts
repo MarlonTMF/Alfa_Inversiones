@@ -3,11 +3,13 @@ import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AmenidadesService } from '../services/amenidades';
 import { ExploradorService } from '../services/explorador';
+import { TerrenoDetalle } from './terreno-detalle/terreno-detalle';
+import { MapaFiltros } from './mapa-filtros/mapa-filtros';
 
 @Component({
     selector: 'app-mapa',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, TerrenoDetalle, MapaFiltros],
     templateUrl: './mapa.html',
     styleUrl: './mapa.css',
 })
@@ -22,7 +24,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     private capaHospitales: any;
     
     public readonly amenidadesService = inject(AmenidadesService);
-    public readonly exploradorService = inject(ExploradorService); // <-- ACCESO GLOBAL
+    public readonly exploradorService = inject(ExploradorService);
     
     private amenidadesCache = new Map<string, { elements: any[], centro: [number, number] }>();
 
@@ -32,7 +34,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
         private readonly zone: NgZone,
         private readonly cdr: ChangeDetectorRef
     ) {
-        // EFECTO 1: Reacciona a los filtros de amenidades
         effect(() => {
             if (!this.map) return;
             const h = this.amenidadesService.mostrarHospitales();
@@ -45,7 +46,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
             });
         });
 
-        // EFECTO 2: Reacciona a la selección desde el Navbar (ExploradorService)
         effect(() => {
             const terreno = this.exploradorService.terrenoSeleccionado();
             if (terreno && this.map && !this.isAnimating) {
@@ -80,7 +80,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
         if (!this.map || !this.capaTerrenos) return;
         this.capaTerrenos.clearLayers();
 
-        // Mandamos los datos al servicio para que el Navbar los lea
         this.exploradorService.actualizarTerrenos(terrenos);
         
         terrenos.forEach(terreno => this.dibujarPoligono(terreno, this.L));
@@ -92,7 +91,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
         const bounds = this.map.getBounds();
         const visibles = new Set<string>();
 
-        // Leemos desde la única fuente de la verdad: el servicio
         this.exploradorService.todosLosTerrenos().forEach(t => {
             const centro = this.getCentroPoligono(t.poligono);
             if (bounds.contains(centro)) {
