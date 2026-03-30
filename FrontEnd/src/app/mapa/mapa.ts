@@ -35,6 +35,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     ) {
         effect(() => {
             if (!this.map) return;
+            
             this.amenidadesService.mostrarHospitales();
             this.amenidadesService.mostrarColegios();
             this.amenidadesService.mostrarMercados();
@@ -48,19 +49,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
         effect(() => {
             const terreno = this.exploradorService.terrenoSeleccionado();
             if (terreno && this.map && !this.isAnimating) {
-                const centro = this.getCentroPoligono(terreno.poligono);
-                this.isAnimating = true;
-                
-                this.zone.runOutsideAngular(() => {
-                    this.map.flyTo(centro, 17, { animate: true, duration: 1.5 });
-                    this.map.once('moveend', () => {
-                        this.zone.run(() => {
-                            this.isAnimating = false;
-                            this.actualizarVisibilidadTerrenos();
-                            this.cdr.detectChanges();
-                        });
-                    });
-                });
+                this.iniciarVueloHaciaTerreno(terreno);
             }
         });
     }
@@ -73,6 +62,33 @@ export class Mapa implements AfterViewInit, OnDestroy {
         if (isPlatformBrowser(this.platformId)) {
             this.iniciarLeaflet();
         }
+    }
+
+    private iniciarVueloHaciaTerreno(terreno: any): void {
+        const centro = this.getCentroPoligono(terreno.poligono);
+        this.isAnimating = true;
+        
+        this.zone.runOutsideAngular(() => {
+            this.map.flyTo(centro, 17, { animate: true, duration: 1.5 });
+            this.map.once('moveend', this.finalizarVuelo.bind(this));
+        });
+    }
+
+    private finalizarVuelo(): void {
+        this.zone.run(() => {
+            this.isAnimating = false;
+            this.actualizarVisibilidadTerrenos();
+            this.cdr.detectChanges();
+        });
+    }
+
+    private manejarMovimientoMapa(): void {
+        this.zone.run(() => {
+            this.actualizarVisibilidadTerrenos();
+            if (!this.isAnimating) {
+                this.actualizarCapasAmenidades();
+            }
+        });
     }
 
     private procesarTerrenos(terrenos: any[]): void {
@@ -169,14 +185,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
         this.inicializarCapasAmenidades(L);
 
-        this.map.on('moveend', () => {
-            this.zone.run(() => {
-                this.actualizarVisibilidadTerrenos();
-                if (!this.isAnimating) {
-                    this.actualizarCapasAmenidades();
-                }
-            });
-        });
+        this.map.on('moveend', this.manejarMovimientoMapa.bind(this));
 
         this.obtenerTerrenosDelBackend();
     }
@@ -270,11 +279,9 @@ export class Mapa implements AfterViewInit, OnDestroy {
                 } else if (f.capa.getLayers().length === 0) {
                     this.renderizarDesdeCache(f.tipo, f.capa, cache.elements);
                 }
-            } else {
-                if (this.map.hasLayer(f.capa)) {
-                    this.map.removeLayer(f.capa);
-                    f.capa.clearLayers();
-                }
+            } else if (this.map.hasLayer(f.capa)) {
+                this.map.removeLayer(f.capa);
+                f.capa.clearLayers();
             }
         });
     }

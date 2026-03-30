@@ -227,3 +227,48 @@
         grid-template-columns: 1fr !important;
     }
 }
+.modulo-financiero-card {
+    background: linear-gradient(145deg, rgba(59, 130, 246, 0.1), rgba(15, 23, 42, 0.5));
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 24px;
+}
+
+.modulo-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: #60a5fa;
+}
+
+.modulo-header h4 {
+    margin: 0;
+    font-size: 14px;
+}
+
+.modulo-financiero-card p {
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+}
+
+.btn-analisis {
+    width: 100%;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+.btn-analisis:hover {
+    background-color: #2563eb;
+}

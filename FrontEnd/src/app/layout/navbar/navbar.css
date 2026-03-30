@@ -267,16 +267,6 @@
     border-radius: 10px;
 }
 
-.property-card-small {
-    width: 100%;
-    text-align: left;
-    padding: 14px 16px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.2s;
-    cursor: pointer;
-}
 
 .property-card-small:hover {
     background: rgba(59, 130, 246, 0.1);
@@ -534,4 +524,30 @@
     .brand h1 span {
         display: none;
     }
+}
+/* Reset para el botón de la flecha */
+.btn-transparent {
+    background: transparent;
+    border: none;
+    padding: 4px;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Solo añadir 'font-family' y 'display: block' a la clase que ya tienes */
+.property-card-small {
+    width: 100%;
+    display: block; /* Obliga al botón a comportarse como un div */
+    text-align: left;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s;
+    cursor: pointer;
+    font-family: inherit; /* Hereda la fuente de la app, no la del sistema */
+    color: inherit;
 }

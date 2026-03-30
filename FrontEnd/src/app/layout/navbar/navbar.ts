@@ -64,6 +64,16 @@ export class Navbar {
         this.mostrarExplorador = false;
     }
 
+    toggleExplorador(event: Event): void {
+        event.stopPropagation();
+        this.mostrarExplorador = !this.mostrarExplorador;
+    }
+
+    onSearch(event: Event): void {
+        const valor = (event.target as HTMLInputElement).value;
+        this.exploradorService.buscarPorTexto(valor);
+    }
+
     seleccionarActivo(terreno: any): void {
         this.exploradorService.seleccionarTerreno(terreno);
         this.cerrarExplorador();

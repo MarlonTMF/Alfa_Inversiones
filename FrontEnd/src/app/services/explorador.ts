@@ -9,6 +9,7 @@ export class ExploradorService {
     public terrenoSeleccionado = signal<any>(null);
     public departamentoSeleccionado = signal<string>('Todos');
     public terrenosVisiblesIds = signal<Set<string>>(new Set());
+    public textoBusqueda = signal<string>('');
 
     constructor() {}
 
@@ -19,6 +20,11 @@ export class ExploradorService {
 
     cambiarDepartamento(departamento: string): void {
         this.departamentoSeleccionado.set(departamento);
+        this.aplicarFiltros();
+    }
+
+    buscarPorTexto(texto: string): void {
+        this.textoBusqueda.set(texto);
         this.aplicarFiltros();
     }
 
@@ -33,14 +39,20 @@ export class ExploradorService {
 
     private aplicarFiltros(): void {
         const todos = this.todosLosTerrenos();
-        const filtro = this.departamentoSeleccionado();
+        const filtroDep = this.departamentoSeleccionado();
+        const busqueda = this.textoBusqueda().toLowerCase().trim();
         const visibles = this.terrenosVisiblesIds();
 
         let filtrados = todos;
-        if (filtro !== 'Todos') {
-            filtrados = todos.filter(t => t.departamento === filtro);
+        if (filtroDep !== 'Todos') {
+            filtrados = filtrados.filter(t => t.departamento === filtroDep);
         }
-
+        if (busqueda) {
+            filtrados = filtrados.filter(t => 
+                (t.ubicacion && t.ubicacion.toLowerCase().includes(busqueda)) ||
+                (t.departamento && t.departamento.toLowerCase().includes(busqueda))
+            );
+        }
         const ordenados = [...filtrados].sort((a, b) => {
             const aVisible = visibles.has(a.id);
             const bVisible = visibles.has(b.id);

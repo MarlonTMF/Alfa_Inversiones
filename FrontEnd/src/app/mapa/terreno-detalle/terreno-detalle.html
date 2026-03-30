@@ -4,18 +4,42 @@
         <button class="btn-cerrar-panel" (click)="cerrarPanel()">✕</button>
     </div>
 
-    <div class="panel-imagen-wrapper">
-        <img src="https://images.unsplash.com/photo-1524813686514-a57563d77965?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Vista del terreno" class="panel-imagen">
-        <div class="etiquetas-flotantes">
-            @if (terreno.estado) {
-                <span class="badge badge-verde">{{ terreno.estado | uppercase }}</span>
-            } @else {
-                <span class="badge badge-verde">DISPONIBLE</span>
-            }
-            @if (terreno.uso_suelo) {
-                <span class="badge badge-gris">{{ terreno.uso_suelo }}</span>
-            }
+    <div class="media-carousel">
+        <div class="main-media-display">
+            @if (itemActivo?.tipo === 'imagen') {
+                <img [src]="itemActivo?.url" alt="Vista del terreno" class="media-main-img fade-in-media">
+            } @else if (itemActivo?.tipo === 'youtube') {
+                <iframe [src]="itemActivo?.url" class="media-main-video fade-in-media" title="Video del recorrido virtual de la propiedad" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>            }
+            
+            <div class="etiquetas-flotantes">
+                @if (terreno.estado) {
+                    <span class="badge badge-verde">{{ terreno.estado | uppercase }}</span>
+                } @else {
+                    <span class="badge badge-verde">DISPONIBLE</span>
+                }
+                @if (terreno.uso_suelo) {
+                    <span class="badge badge-gris">{{ terreno.uso_suelo }}</span>
+                }
+            </div>
         </div>
+
+        @if (mediaItems.length > 1) {
+            <div class="thumbnail-strip custom-scrollbar">
+                @for (item of mediaItems; track item.url) {
+                    <button type="button" 
+                        class="thumbnail-wrapper" 
+                        [class.active-thumb]="item === itemActivo"
+                        (click)="seleccionarMedia(item)">
+                        <img [src]="item.thumbnail" alt="Thumbnail">
+                        @if (item.tipo === 'youtube') {
+                            <div class="play-icon-overlay">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            </div>
+                        }
+                    </button>
+                }
+            </div>
+        }
     </div>
 
     <div class="panel-body">
@@ -41,9 +65,15 @@
             </div>
         </div>
 
-        <div class="placeholder-futuro">
-            <p class="placeholder-titulo">🔒 Módulos Financieros</p>
-            <p class="placeholder-texto">Aquí se integrarán la Calculadora de ROI para Inversionistas y la Validación de Costos (30-40%) para Constructores.</p>
+        <div class="modulo-financiero-card">
+            <div class="modulo-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <h4>Inteligencia Financiera</h4>
+            </div>
+            <p>Accede al modelo predictivo de ROI, incidencia y due diligence en tiempo real.</p>
+            <button class="btn-analisis" (click)="verAnalisisCompleto()">
+                Ver Análisis Completo ➔
+            </button>
         </div>
     </div>
 </aside>
