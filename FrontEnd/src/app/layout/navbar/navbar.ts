@@ -1,9 +1,10 @@
-import { Component, inject, OnInit, PLATFORM_ID, Output, EventEmitter } from '@angular/core';
-import { isPlatformBrowser, CommonModule } from '@angular/common';
+import { Component, inject, PLATFORM_ID, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Login } from '../../auth/login/login';
 import { ExploradorService } from '../../services/explorador';
+import { AuthService } from '../../auth/services/auth';
 
 @Component({
     selector: 'app-navbar',
@@ -12,15 +13,16 @@ import { ExploradorService } from '../../services/explorador';
     templateUrl: './navbar.html',
     styleUrl: './navbar.css'
 })
-export class Navbar implements OnInit {
+export class Navbar {
     private readonly platformId = inject(PLATFORM_ID);
     private readonly router = inject(Router);
+    
     public readonly exploradorService = inject(ExploradorService);
+    public readonly authService = inject(AuthService); // <-- Inyectamos el servicio
 
     @Output() toggleSidebarEvent = new EventEmitter<void>();
 
     public mostrarLogin: boolean = false;
-    public usuarioActual: any = null;
     public mostrarMenuPerfil: boolean = false;
     public esRutaMapa: boolean = true;
     public mostrarExplorador: boolean = false;
@@ -34,33 +36,18 @@ export class Navbar implements OnInit {
         });
     }
 
-    ngOnInit(): void {
-        if (isPlatformBrowser(this.platformId)) {
-            const usuarioGuardado = localStorage.getItem('usuario365');
-            if (usuarioGuardado) {
-                this.usuarioActual = JSON.parse(usuarioGuardado);
-            }
-        }
-    }
-
     toggleSidebar(): void {
         this.toggleSidebarEvent.emit();
     }
 
     procesarLogin(usuario: any): void {
-        this.usuarioActual = usuario;
+        this.authService.login(usuario); // Delega la lógica al servicio
         this.mostrarLogin = false;
-        if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem('usuario365', JSON.stringify(usuario));
-        }
     }
 
     cerrarSesion(): void {
-        this.usuarioActual = null;
+        this.authService.logout(); // Delega la lógica al servicio
         this.mostrarMenuPerfil = false;
-        if (isPlatformBrowser(this.platformId)) {
-            localStorage.removeItem('usuario365');
-        }
     }
 
     toggleMenuPerfil(): void {
