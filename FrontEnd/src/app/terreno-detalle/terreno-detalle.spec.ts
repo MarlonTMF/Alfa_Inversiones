@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TerrenoPopup } from './terreno-popup';
+import { TerrenoDetalle } from './terreno-detalle';
 
-describe('TerrenoPopup', () => {
-  let component: TerrenoPopup;
-  let fixture: ComponentFixture<TerrenoPopup>;
+describe('TerrenoDetalle', () => {
+  let component: TerrenoDetalle;
+  let fixture: ComponentFixture<TerrenoDetalle>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TerrenoPopup],
+      imports: [TerrenoDetalle],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TerrenoPopup);
+    fixture = TestBed.createComponent(TerrenoDetalle);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

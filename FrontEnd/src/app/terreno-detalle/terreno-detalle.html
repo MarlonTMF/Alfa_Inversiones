@@ -1,0 +1,49 @@
+<aside class="panel-lateral-premium animate-slide-left">
+    <div class="panel-header">
+        <h3 class="panel-title">Detalles del Activo</h3>
+        <button class="btn-cerrar-panel" (click)="cerrarPanel()">✕</button>
+    </div>
+
+    <div class="panel-imagen-wrapper">
+        <img src="https://images.unsplash.com/photo-1524813686514-a57563d77965?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Vista del terreno" class="panel-imagen">
+        <div class="etiquetas-flotantes">
+            @if (terreno.estado) {
+                <span class="badge badge-verde">{{ terreno.estado | uppercase }}</span>
+            } @else {
+                <span class="badge badge-verde">DISPONIBLE</span>
+            }
+            @if (terreno.uso_suelo) {
+                <span class="badge badge-gris">{{ terreno.uso_suelo }}</span>
+            }
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <p class="subtitulo-ciudad">{{ terreno.departamento || 'Cochabamba, Bolivia' }}</p>
+        <h2 class="titulo-terreno">{{ terreno.ubicacion }}</h2>
+        
+        <div class="metricas-grid">
+            <div class="metrica-box highlight">
+                <span class="metrica-label">Precio Solicitado</span>
+                <span class="metrica-valor-verde">${{ terreno.precio | number }}</span>
+            </div>
+            <div class="metrica-box">
+                <span class="metrica-label">Superficie Total</span>
+                <span class="metrica-valor">{{ terreno.superficie | number }} m²</span>
+            </div>
+            <div class="metrica-box highlight">
+                <span class="metrica-label">Precio por m²</span>
+                <span class="metrica-valor-verde">${{ (terreno.precio / terreno.superficie) | number:'1.0-0' }}</span>
+            </div>
+            <div class="metrica-box">
+                <span class="metrica-label">Topografía</span>
+                <span class="metrica-valor" style="font-weight: normal; font-size: 14px;">Plana (100%)</span>
+            </div>
+        </div>
+
+        <div class="placeholder-futuro">
+            <p class="placeholder-titulo">🔒 Módulos Financieros</p>
+            <p class="placeholder-texto">Aquí se integrarán la Calculadora de ROI para Inversionistas y la Validación de Costos (30-40%) para Constructores.</p>
+        </div>
+    </div>
+</aside>
