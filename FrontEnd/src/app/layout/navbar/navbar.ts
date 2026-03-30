@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Login } from '../../auth/login/login';
 import { ExploradorService } from '../../services/explorador';
 import { AuthService } from '../../auth/services/auth';
+import { AmenidadesService } from '../../services/amenidades';
 
 @Component({
     selector: 'app-navbar',
@@ -18,7 +19,8 @@ export class Navbar {
     private readonly router = inject(Router);
     
     public readonly exploradorService = inject(ExploradorService);
-    public readonly authService = inject(AuthService); // <-- Inyectamos el servicio
+    public readonly authService = inject(AuthService);
+    public readonly amenidadesService = inject(AmenidadesService);
 
     @Output() toggleSidebarEvent = new EventEmitter<void>();
 
@@ -41,12 +43,12 @@ export class Navbar {
     }
 
     procesarLogin(usuario: any): void {
-        this.authService.login(usuario); // Delega la lógica al servicio
+        this.authService.login(usuario);
         this.mostrarLogin = false;
     }
 
     cerrarSesion(): void {
-        this.authService.logout(); // Delega la lógica al servicio
+        this.authService.logout();
         this.mostrarMenuPerfil = false;
     }
 

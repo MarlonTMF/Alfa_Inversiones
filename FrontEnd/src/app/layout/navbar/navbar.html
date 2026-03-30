@@ -12,18 +12,26 @@
         <div class="search-container desktop-only">
             <div class="search-input-wrapper" (click)="abrirExplorador()">
                 <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" class="search-input" placeholder="Explorar activos y zonas..." readonly>
+                <input type="text" class="search-input" placeholder="Búsqueda avanzada y filtros..." readonly>
+                
+                <div class="filter-indicators">
+                    @if (amenidadesService.mostrarMercados() || amenidadesService.mostrarTransporte() || amenidadesService.mostrarColegios() || amenidadesService.mostrarHospitales()) {
+                        <span class="active-dot"></span>
+                    }
+                </div>
+                
                 <svg class="chevron-icon" [class.rotated]="mostrarExplorador" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
 
             @if (mostrarExplorador) {
                 <div class="explorer-dropdown fade-in">
                     <div class="explorer-header">
-                        <span class="explorer-title">Explorador de Activos</span>
+                        <span class="explorer-title">Búsqueda Avanzada</span>
                         <button class="btn-close-explorer" (click)="cerrarExplorador()">✕</button>
                     </div>
                     
-                    <div class="explorer-filters">
+                    <div class="explorer-section">
+                        <label class="section-label">UBICACIÓN</label>
                         <select class="department-select" (change)="cambiarDepartamento($event)">
                             <option value="Todos">🇧🇴 Todos los Departamentos</option>
                             <option value="Santa Cruz">Santa Cruz</option>
@@ -38,22 +46,47 @@
                         </select>
                     </div>
 
-                    <div class="explorer-list">
-                        @for (t of exploradorService.terrenosFiltrados(); track t.id) {
-                            <div class="property-card-small" (click)="seleccionarActivo(t)">
-                                <div class="card-header">
-                                    <span class="card-title">{{ t.ubicacion }}</span>
-                                    @if (exploradorService.terrenosVisiblesIds().has(t.id)) {
-                                        <span class="badge-visible">VISIBLE</span>
-                                    }
+                    <div class="explorer-section">
+                        <label class="section-label">PUNTOS DE INTERÉS (ENTORNO)</label>
+                        <div class="filter-chips-grid">
+                            <button class="filter-pill" [class.active]="amenidadesService.mostrarMercados()" (click)="amenidadesService.toggleMercados()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                                Mercados
+                            </button>
+                            <button class="filter-pill" [class.active]="amenidadesService.mostrarTransporte()" (click)="amenidadesService.toggleTransporte()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 19v2"/></svg>
+                                Transporte
+                            </button>
+                            <button class="filter-pill" [class.active]="amenidadesService.mostrarColegios()" (click)="amenidadesService.toggleColegios()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
+                                Colegios
+                            </button>
+                            <button class="filter-pill" [class.active]="amenidadesService.mostrarHospitales()" (click)="amenidadesService.toggleHospitales()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.66 0 3 1.34 3 3s-1.34 3-3 3H5c-1.66 0-3-1.34-3-3s1.34-3 3-3"/><path d="M5 14V4a2 2 0 0 1 2-2h12"/><path d="M7 18v.01"/><path d="M11 18v.01"/><path d="M15 18v.01"/><path d="M19 18v.01"/></svg>
+                                Salud
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="explorer-section no-border">
+                        <label class="section-label">ACTIVOS DISPONIBLES ({{ exploradorService.terrenosFiltrados().length }})</label>
+                        <div class="explorer-list">
+                            @for (t of exploradorService.terrenosFiltrados(); track t.id) {
+                                <div class="property-card-small" (click)="seleccionarActivo(t)">
+                                    <div class="card-header">
+                                        <span class="card-title">{{ t.ubicacion }}</span>
+                                        @if (exploradorService.terrenosVisiblesIds().has(t.id)) {
+                                            <span class="badge-visible">VISIBLE</span>
+                                        }
+                                    </div>
+                                    <p class="card-subtitle">{{ t.departamento || 'Bolivia' }} • ${{ t.precio | number }}</p>
                                 </div>
-                                <p class="card-subtitle">{{ t.departamento || 'Bolivia' }} • ${{ t.precio | number }}</p>
-                            </div>
-                        } @empty {
-                            <div class="empty-state">
-                                <p>No hay activos disponibles.</p>
-                            </div>
-                        }
+                            } @empty {
+                                <div class="empty-state">
+                                    <p>No hay activos disponibles con estos filtros.</p>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             }

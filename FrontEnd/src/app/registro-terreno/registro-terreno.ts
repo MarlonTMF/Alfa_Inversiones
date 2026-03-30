@@ -24,12 +24,13 @@ export class RegistroTerreno implements OnDestroy {
         folioReal: null,
         certificadoCatastral: null,
         cedula: null,
-        planos: null
+        planos: null,
+        multimedia: null
     };
     errorArchivo: string | null = null;
 
     constructor(
-        private fb: FormBuilder,
+        private readonly fb: FormBuilder,
         @Inject(PLATFORM_ID) private readonly platformId: Object,
         private readonly zone: NgZone,
         private readonly http: HttpClient
@@ -44,6 +45,7 @@ export class RegistroTerreno implements OnDestroy {
             superficie: ['', Validators.required],
             frente: [''],
             fondo: [''],
+            youtubeUrl: [''], // <-- Nuevo campo para el link
             precioBase: ['', Validators.required]
         });
     }
@@ -71,15 +73,26 @@ export class RegistroTerreno implements OnDestroy {
 
     private procesarArchivo(file: File, tipo: string): void {
         this.errorArchivo = null;
-        const tiposPermitidos = ['application/pdf', 'image/jpeg', 'image/png'];
         
-        if (!tiposPermitidos.includes(file.type)) {
-            this.errorArchivo = 'Solo se permiten formatos PDF, JPG y PNG.';
+        // Configuración por defecto (Documentos Legales)
+        let tiposPermitidos = ['application/pdf', 'image/jpeg', 'image/png'];
+        let maxSize = 15 * 1024 * 1024; // 15MB
+        let mensajeErrorTipo = 'Solo se permiten formatos PDF, JPG y PNG.';
+
+        // Configuración especial para Multimedia
+        if (tipo === 'multimedia') {
+            tiposPermitidos = ['image/jpeg', 'image/png', 'video/mp4', 'audio/mpeg', 'audio/mp3'];
+            maxSize = 50 * 1024 * 1024; // 50MB para videos
+            mensajeErrorTipo = 'Para multimedia solo se permiten JPG, PNG, MP4 o MP3.';
+        }
+        
+        if (!tiposPermitidos.includes(file.type) && !file.name.endsWith('.mp3')) { // fallback manual para mp3
+            this.errorArchivo = mensajeErrorTipo;
             return;
         }
         
-        if (file.size > 15 * 1024 * 1024) {
-            this.errorArchivo = 'El archivo supera el límite de 15MB.';
+        if (file.size > maxSize) {
+            this.errorArchivo = `El archivo supera el límite de ${maxSize / (1024 * 1024)}MB.`;
             return;
         }
         
@@ -121,7 +134,7 @@ export class RegistroTerreno implements OnDestroy {
     }
 
     formatearPrecio(event: any): void {
-        let valor = event.target.value.replace(/\D/g, "");
+        let valor = event.target.value.replaceAll(/\D/g, "");
         if (valor) {
             valor = Number.parseInt(valor, 10).toLocaleString('en-US'); 
             this.formularioPaso2.patchValue({ precioBase: valor });
@@ -147,10 +160,10 @@ export class RegistroTerreno implements OnDestroy {
             let centro: [number, number] = [-17.3895, -66.1568];
             
             if (this.coordenadasSeleccionadas) {
-                 const partes = this.coordenadasSeleccionadas.split(',');
-                 if(partes.length === 2){
-                     centro = [parseFloat(partes[0]), parseFloat(partes[1])];
-                 }
+                const partes = this.coordenadasSeleccionadas.split(',');
+                if(partes.length === 2){
+                    centro = [Number.parseFloat(partes[0]), Number.parseFloat(partes[1])];
+                }
             }
 
             this.zone.runOutsideAngular(() => {

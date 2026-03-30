@@ -4,12 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { AmenidadesService } from '../services/amenidades';
 import { ExploradorService } from '../services/explorador';
 import { TerrenoDetalle } from './terreno-detalle/terreno-detalle';
-import { MapaFiltros } from './mapa-filtros/mapa-filtros';
 
 @Component({
     selector: 'app-mapa',
     standalone: true,
-    imports: [CommonModule, TerrenoDetalle, MapaFiltros],
+    imports: [CommonModule, TerrenoDetalle],
     templateUrl: './mapa.html',
     styleUrl: './mapa.css',
 })
@@ -26,7 +25,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     public readonly amenidadesService = inject(AmenidadesService);
     public readonly exploradorService = inject(ExploradorService);
     
-    private amenidadesCache = new Map<string, { elements: any[], centro: [number, number] }>();
+    private readonly amenidadesCache = new Map<string, { elements: any[], centro: [number, number] }>();
 
     constructor(
         @Inject(PLATFORM_ID) private readonly platformId: Object,
@@ -36,10 +35,10 @@ export class Mapa implements AfterViewInit, OnDestroy {
     ) {
         effect(() => {
             if (!this.map) return;
-            const h = this.amenidadesService.mostrarHospitales();
-            const c = this.amenidadesService.mostrarColegios();
-            const m = this.amenidadesService.mostrarMercados();
-            const t = this.amenidadesService.mostrarTransporte();
+            this.amenidadesService.mostrarHospitales();
+            this.amenidadesService.mostrarColegios();
+            this.amenidadesService.mostrarMercados();
+            this.amenidadesService.mostrarTransporte();
 
             this.zone.runOutsideAngular(() => {
                 this.actualizarCapasAmenidades();
@@ -257,7 +256,17 @@ export class Mapa implements AfterViewInit, OnDestroy {
                 const distancia = cache ? this.calcularDistancia(centroActual, cache.centro) : Infinity;
 
                 if (!cache || distancia > 800) {
-                    this.cargarAmenidadesDesdeOSM(f.tipo, f.capa, centroActual);
+                    this.amenidadesService.obtenerAmenidades(f.tipo, centroActual[0], centroActual[1]).subscribe({
+                        next: (elementos) => {
+                            this.amenidadesCache.set(f.tipo, { elements: elementos, centro: centroActual });
+                            this.renderizarDesdeCache(f.tipo, f.capa, elementos);
+                            this.amenidadesService.finalizarCarga(true);
+                        },
+                        error: () => {
+                            f.capa.clearLayers();
+                            this.amenidadesService.finalizarCarga(false);
+                        }
+                    });
                 } else if (f.capa.getLayers().length === 0) {
                     this.renderizarDesdeCache(f.tipo, f.capa, cache.elements);
                 }
@@ -266,56 +275,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
                     this.map.removeLayer(f.capa);
                     f.capa.clearLayers();
                 }
-            }
-        });
-    }
-
-    private cargarAmenidadesDesdeOSM(tipo: string, capa: any, centroActual: [number, number]): void {
-        const bounds = this.map.getBounds();
-        const sw = bounds.getSouthWest();
-        const ne = bounds.getNorthEast();
-
-        if (this.map.getZoom() < 13) {
-            return;
-        }
-
-        const categoryTags: any = {
-            salud: '["amenity"~"hospital|clinic|doctors|pharmacy"]',
-            educacion: '["amenity"~"school|college|university|kindergarten"]',
-            comercio: '["shop"~"supermarket|convenience|marketplace|mall|department_store"]',
-            transporte: '["highway"~"bus_stop"]["bus"="yes"]'
-        };
-
-        const tagQuery = categoryTags[tipo] || '["amenity"~"hospital|school"]';
-        const bbox = `${sw.lat},${sw.lng},${ne.lat},${ne.lng}`;
-        let query = `[out:json][timeout:25];(node${tagQuery}(${bbox});way${tagQuery}(${bbox}););out center;`;
-
-        if (tipo === 'transporte') {
-            query = `[out:json][timeout:25];(node["highway"="bus_stop"](${bbox});node["amenity"="bus_station"](${bbox});way["amenity"="bus_station"](${bbox}););out center;`;
-        }
-
-        const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-
-        this.amenidadesService.iniciarCarga(tipo);
-        this.http.get<any>(url).subscribe({
-            next: (data) => {
-                if (data && data.elements) {
-                    this.amenidadesCache.set(tipo, { elements: data.elements, centro: centroActual });
-                    this.renderizarDesdeCache(tipo, capa, data.elements);
-
-                    requestAnimationFrame(() => {
-                        setTimeout(() => {
-                            this.amenidadesService.finalizarCarga(true);
-                        }, 50);
-                    });
-                } else {
-                    capa.clearLayers();
-                    this.amenidadesService.finalizarCarga(false);
-                }
-            },
-            error: (err) => {
-                capa.clearLayers();
-                this.amenidadesService.finalizarCarga(false);
             }
         });
     }
