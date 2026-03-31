@@ -10,17 +10,27 @@
 
     @if (esRutaMapa) {
         <div class="search-container desktop-only">
-            <div class="search-input-wrapper" (click)="abrirExplorador()">
+            <div class="search-input-wrapper" (click)="abrirExplorador()" (keydown.enter)="abrirExplorador()">
                 <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" class="search-input" placeholder="Búsqueda avanzada y filtros..." readonly>
+                
+                <input type="text" 
+                        class="search-input" 
+                        placeholder="Búsqueda por zona, activo..." 
+                        (input)="onSearch($event)"
+                        (keydown.enter)="cerrarExplorador()"
+                        (keydown.escape)="cerrarExplorador()">
                 
                 <div class="filter-indicators">
-                    @if (amenidadesService.mostrarMercados() || amenidadesService.mostrarTransporte() || amenidadesService.mostrarColegios() || amenidadesService.mostrarHospitales()) {
+                    @if (amenidadesService.mostrarMercados() || amenidadesService.mostrarTransporte() || amenidadesService.mostrarColegios() || amenidadesService.mostrarHospitales() || exploradorService.departamentoSeleccionado() !== 'Todos' || exploradorService.textoBusqueda() !== '') {
                         <span class="active-dot"></span>
                     }
                 </div>
                 
-                <svg class="chevron-icon" [class.rotated]="mostrarExplorador" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <button type="button" class="btn-transparent" (click)="toggleExplorador($event)">
+                    <svg class="chevron-icon" 
+                        [class.rotated]="mostrarExplorador" 
+                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
             </div>
 
             @if (mostrarExplorador) {
@@ -31,8 +41,8 @@
                     </div>
                     
                     <div class="explorer-section">
-                        <label class="section-label">UBICACIÓN</label>
-                        <select class="department-select" (change)="cambiarDepartamento($event)">
+                        <label for="dep-select" class="section-label">UBICACIÓN</label>
+                        <select id="dep-select" class="department-select" (change)="cambiarDepartamento($event)" [value]="exploradorService.departamentoSeleccionado()">
                             <option value="Todos">🇧🇴 Todos los Departamentos</option>
                             <option value="Santa Cruz">Santa Cruz</option>
                             <option value="Cochabamba">Cochabamba</option>
@@ -47,7 +57,7 @@
                     </div>
 
                     <div class="explorer-section">
-                        <label class="section-label">PUNTOS DE INTERÉS (ENTORNO)</label>
+                        <span class="section-label">PUNTOS DE INTERÉS (ENTORNO)</span>
                         <div class="filter-chips-grid">
                             <button class="filter-pill" [class.active]="amenidadesService.mostrarMercados()" (click)="amenidadesService.toggleMercados()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
@@ -69,10 +79,10 @@
                     </div>
 
                     <div class="explorer-section no-border">
-                        <label class="section-label">ACTIVOS DISPONIBLES ({{ exploradorService.terrenosFiltrados().length }})</label>
+                        <span class="section-label">ACTIVOS DISPONIBLES ({{ exploradorService.terrenosFiltrados().length }})</span>
                         <div class="explorer-list">
                             @for (t of exploradorService.terrenosFiltrados(); track t.id) {
-                                <div class="property-card-small" (click)="seleccionarActivo(t)">
+                                <button type="button" class="property-card-small" (click)="seleccionarActivo(t)">
                                     <div class="card-header">
                                         <span class="card-title">{{ t.ubicacion }}</span>
                                         @if (exploradorService.terrenosVisiblesIds().has(t.id)) {
@@ -80,7 +90,7 @@
                                         }
                                     </div>
                                     <p class="card-subtitle">{{ t.departamento || 'Bolivia' }} • ${{ t.precio | number }}</p>
-                                </div>
+                                </button>
                             } @empty {
                                 <div class="empty-state">
                                     <p>No hay activos disponibles con estos filtros.</p>
