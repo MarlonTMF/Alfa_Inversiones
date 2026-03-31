@@ -1,5 +1,5 @@
 import { FileStorageService, FileUploadResult } from '../../domain/services/file-storage.service.js';
-import ImageKit from '@imagekit/nodejs';
+import ImageKit, { toFile } from '@imagekit/nodejs';
 import { v2 as cloudinary } from 'cloudinary';
 
 export class HybridFileStorageService extends FileStorageService {
@@ -8,9 +8,7 @@ export class HybridFileStorageService extends FileStorageService {
     constructor() {
         super();
         this.imagekit = new ImageKit({
-            publicKey: process.env.IMAGEKIT_PUBLIC_KEY!,
             privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
-            urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT!,
         });
 
         cloudinary.config({
@@ -30,15 +28,16 @@ export class HybridFileStorageService extends FileStorageService {
 
     private async uploadToImageKit(file: Buffer, fileName: string): Promise<FileUploadResult> {
         try {
-            const response = await this.imagekit.upload({
-                file: file,
+            const uploadable = await toFile(file, fileName);
+            const response = await this.imagekit.files.upload({
+                file: uploadable,
                 fileName: fileName,
                 folder: '365_properties/photos'
             });
 
             return {
-                url: response.url,
-                publicId: response.fileId,
+                url: response.url ?? '',
+                publicId: response.fileId ?? '',
                 provider: 'imagekit'
             };
         } catch (error: unknown) {
@@ -66,7 +65,7 @@ export class HybridFileStorageService extends FileStorageService {
 
     async deleteFile(publicId: string, provider: 'imagekit' | 'cloudinary'): Promise<void> {
         if (provider === 'imagekit') {
-            await this.imagekit.deleteFile(publicId);
+            await this.imagekit.files.delete(publicId);
         } else {
             await cloudinary.uploader.destroy(publicId, { resource_type: 'video' });
         }

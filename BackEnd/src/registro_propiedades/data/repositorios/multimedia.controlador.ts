@@ -1,7 +1,7 @@
 import { Controller, Post, Param, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ImageKitService } from '../../../../imagekit.service.js';
-import { CloudinaryService } from '../../../../cloudinary.service.js';
+import { ImageKitService } from '../../../common/services/imagekit.service.js';
+import { CloudinaryService } from '../../../common/services/cloudinary.service.js';
 import { PropertyRepository } from '../../domain/interfaces/property.repository.js';
 
 @Controller('propiedades/:id/multimedia')

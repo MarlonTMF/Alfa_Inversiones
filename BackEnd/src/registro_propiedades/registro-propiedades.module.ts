@@ -8,6 +8,10 @@ import { CreatePropertyUseCase } from './domain/use-cases/create-property.use-ca
 import { GetAllPropertiesUseCase } from './domain/use-cases/get-all-properties.use-case.js';
 import { GetPropertyByIdUseCase } from './domain/use-cases/get-property-by-id.use-case.js';
 import { PropertyController } from './presentation/controllers/property.controller.js';
+import { MultimediaControlador } from './data/repositorios/multimedia.controlador.js';
+import { ImageKitService } from '../common/services/imagekit.service.js';
+import { CloudinaryService } from '../common/services/cloudinary.service.js';
+import { PropertyRepository } from './domain/interfaces/property.repository.js';
 
 // Entidades de Datos
 import { PropertyMultimediaFuenteDatos } from './data/fuentes-datos/property-multimedia.fuente-datos.js';
@@ -33,7 +37,7 @@ import { DeletePropertyMultimediaUseCase } from './domain/use-cases/delete-prope
             LegalTrackingStepFuenteDatos,
         ]),
     ],
-    controllers: [PropertyController],
+    controllers: [PropertyController, MultimediaControlador], // Registro del nuevo controlador
     providers: [
         // 1. Registro de los Casos de Uso Originales
         CreatePropertyUseCase,
@@ -44,11 +48,17 @@ import { DeletePropertyMultimediaUseCase } from './domain/use-cases/delete-prope
         AddPropertyMultimediaUseCase,
         GetPropertyMultimediaUseCase,
         DeletePropertyMultimediaUseCase,
+        ImageKitService,
+        CloudinaryService,
 
         // 3. Registro del Repositorio de Terrenos (Estilo actual)
         {
-            provide: 'PropertyRepository',
+            provide: 'PropertyRepository', // Mantenemos el string para los Casos de Uso viejos
             useClass: PropertyRepositoryImpl,
+        },
+        {
+            provide: PropertyRepository,   // Añadimos la clase para el nuevo controlador
+            useExisting: 'PropertyRepository', // Hacemos un alias para que sea la misma instancia
         },
 
         // 4. Registro de tu NUEVO Repositorio Multimedia (Estilo Clean Architecture)
