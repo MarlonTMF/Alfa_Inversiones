@@ -25,4 +25,11 @@ export abstract class PropertyRepository {
      * @returns Una promesa que se resuelve con un arreglo de propiedades.
      */
     abstract findAll(): Promise<PropertyFuenteDatos[]>;
+
+    /**
+     * Registra un nuevo recurso multimedia vinculado a una propiedad.
+     * @param propertyId ID de la propiedad.
+     * @param multimediaData Datos del recurso (url, type, public_id, etc).
+     */
+    abstract addMultimedia(propertyId: string, multimediaData: any): Promise<void>;
 }

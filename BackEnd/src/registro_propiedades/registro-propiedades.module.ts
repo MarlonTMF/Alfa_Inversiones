@@ -9,28 +9,58 @@ import { GetAllPropertiesUseCase } from './domain/use-cases/get-all-properties.u
 import { GetPropertyByIdUseCase } from './domain/use-cases/get-property-by-id.use-case.js';
 import { PropertyController } from './presentation/controllers/property.controller.js';
 
+// Entidades de Datos
+import { PropertyMultimediaFuenteDatos } from './data/fuentes-datos/property-multimedia.fuente-datos.js';
+// Repositorios e Implementación
+import { PropertyMultimediaRepository } from './domain/repositories/property-multimedia.repository.js';
+import { PropertyMultimediaRepositoryImpl } from './data/repositorios/property-multimedia.repository-impl.js';
+// Servicios de Infraestructura
+import { FileStorageService } from './domain/services/file-storage.service.js';
+import { HybridFileStorageService } from './infrastructure/storage/hybrid-file-storage.service.js';
+// Casos de Uso
+import { AddPropertyMultimediaUseCase } from './domain/use-cases/add-property-multimedia.use-case.js';
+import { GetPropertyMultimediaUseCase } from './domain/use-cases/get-property-multimedia.use-case.js';
+import { DeletePropertyMultimediaUseCase } from './domain/use-cases/delete-property-multimedia.use-case.js';
+
+// ... (tus imports están perfectos)
+
 @Module({
     imports: [
         TypeOrmModule.forFeature([
             PropertyFuenteDatos,
+            PropertyMultimediaFuenteDatos, // <-- Añadido correctamente
             LegalDocFuenteDatos,
             LegalTrackingStepFuenteDatos,
         ]),
     ],
     controllers: [PropertyController],
     providers: [
-        /**
-         * Registramos los casos de uso como proveedores.
-         */
+        // 1. Registro de los Casos de Uso Originales
         CreatePropertyUseCase,
         GetAllPropertiesUseCase,
         GetPropertyByIdUseCase,
-        /**
-         * Registramos el repositorio usando el token de la clase abstracta.
-         */
+
+        // 2. Registro de tus NUEVOS Casos de Uso Multimedia
+        AddPropertyMultimediaUseCase,
+        GetPropertyMultimediaUseCase,
+        DeletePropertyMultimediaUseCase,
+
+        // 3. Registro del Repositorio de Terrenos (Estilo actual)
         {
             provide: 'PropertyRepository',
             useClass: PropertyRepositoryImpl,
+        },
+
+        // 4. Registro de tu NUEVO Repositorio Multimedia (Estilo Clean Architecture)
+        {
+            provide: PropertyMultimediaRepository,
+            useClass: PropertyMultimediaRepositoryImpl,
+        },
+
+        // 5. Registro de tu NUEVO Servicio de Almacenamiento
+        {
+            provide: FileStorageService,
+            useClass: HybridFileStorageService,
         },
     ],
 })

@@ -64,6 +64,7 @@ export class PropertyRepositoryImpl extends PropertyRepository {
             ])
             .leftJoinAndSelect('property.legalDocs', 'legalDocs')
             .leftJoinAndSelect('property.trackingSteps', 'trackingSteps')
+            .leftJoinAndSelect('property.multimedia', 'multimedia')
             .where('property.id = :id', { id })
             .getRawAndEntities();
 
@@ -88,6 +89,7 @@ export class PropertyRepositoryImpl extends PropertyRepository {
                 'property',
                 'ST_AsGeoJSON(property.polygon) as polygon_geojson',
             ])
+            .leftJoinAndSelect('property.multimedia', 'multimedia')
             .getRawAndEntities();
 
         return result.entities.map((entity, index) => {
@@ -96,5 +98,24 @@ export class PropertyRepositoryImpl extends PropertyRepository {
             }
             return entity;
         });
+    }
+
+    /**
+     * Registra un recurso multimedia usando SQL directo para consistencia con el esquema.
+     */
+    async addMultimedia(propertyId: string, data: any): Promise<void> {
+        await this.repository.query(
+            `INSERT INTO property_multimedia (property_id, type, provider, url, public_id, is_main, label)
+             VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+            [
+                propertyId,
+                data.type, // 'photo' o 'video'
+                data.provider, // 'imagekit' o 'cloudinary'
+                data.url || data.secure_url,
+                data.public_id,
+                data.is_main || false,
+                data.label || null
+            ]
+        );
     }
 }

@@ -6,6 +6,8 @@ import {
 } from 'typeorm';
 import { LegalDocFuenteDatos } from './legal-doc.fuente-datos.js';
 import { LegalTrackingStepFuenteDatos } from './legal-tracking-step.fuente-datos.js';
+import { PropertyMultimediaFuenteDatos } from './property-multimedia.fuente-datos.js';
+
 
 @Entity('properties')
 export class PropertyFuenteDatos {
@@ -127,4 +129,8 @@ export class PropertyFuenteDatos {
 
     @OneToMany(() => LegalTrackingStepFuenteDatos, (step) => step.property, { cascade: true })
     trackingSteps: LegalTrackingStepFuenteDatos[];
+
+    @OneToMany(() => PropertyMultimediaFuenteDatos, (multimedia) => multimedia.property, { cascade: true })
+    multimedia: PropertyMultimediaFuenteDatos[];
+
 }
