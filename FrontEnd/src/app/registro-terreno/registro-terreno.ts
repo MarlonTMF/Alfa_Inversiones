@@ -45,7 +45,7 @@ export class RegistroTerreno implements OnDestroy {
             superficie: ['', Validators.required],
             frente: [''],
             fondo: [''],
-            youtubeUrl: [''], // <-- Nuevo campo para el link
+            youtubeUrl: [''],
             precioBase: ['', Validators.required]
         });
     }
@@ -74,19 +74,17 @@ export class RegistroTerreno implements OnDestroy {
     private procesarArchivo(file: File, tipo: string): void {
         this.errorArchivo = null;
         
-        // Configuración por defecto (Documentos Legales)
         let tiposPermitidos = ['application/pdf', 'image/jpeg', 'image/png'];
-        let maxSize = 15 * 1024 * 1024; // 15MB
+        let maxSize = 15 * 1024 * 1024;
         let mensajeErrorTipo = 'Solo se permiten formatos PDF, JPG y PNG.';
 
-        // Configuración especial para Multimedia
         if (tipo === 'multimedia') {
-            tiposPermitidos = ['image/jpeg', 'image/png', 'video/mp4', 'audio/mpeg', 'audio/mp3'];
-            maxSize = 50 * 1024 * 1024; // 50MB para videos
-            mensajeErrorTipo = 'Para multimedia solo se permiten JPG, PNG, MP4 o MP3.';
+            tiposPermitidos = ['image/jpeg', 'image/png', 'video/mp4'];
+            maxSize = 50 * 1024 * 1024;
+            mensajeErrorTipo = 'Para multimedia solo se permiten JPG, PNG o MP4.';
         }
         
-        if (!tiposPermitidos.includes(file.type) && !file.name.endsWith('.mp3')) { // fallback manual para mp3
+        if (!tiposPermitidos.includes(file.type)) {
             this.errorArchivo = mensajeErrorTipo;
             return;
         }
@@ -195,25 +193,28 @@ export class RegistroTerreno implements OnDestroy {
 
                 this.actualizarCoordenadas(centro[0], centro[1]);
 
-                this.marker.on('dragend', () => {
-                    const position = this.marker.getLatLng();
-                    this.zone.run(() => {
-                        this.actualizarCoordenadas(position.lat, position.lng);
-                    });
-                });
-
-                this.map.on('click', (e: any) => {
-                    this.marker.setLatLng(e.latlng);
-                    this.zone.run(() => {
-                        this.actualizarCoordenadas(e.latlng.lat, e.latlng.lng);
-                    });
-                });
+                this.marker.on('dragend', this.manejarArrastreMarcador.bind(this));
+                this.map.on('click', this.manejarClicMapa.bind(this));
 
                 setTimeout(() => {
                     this.map.invalidateSize();
                 }, 300);
             });
         }).catch(err => console.error(err));
+    }
+
+    private manejarArrastreMarcador(): void {
+        const position = this.marker.getLatLng();
+        this.zone.run(() => {
+            this.actualizarCoordenadas(position.lat, position.lng);
+        });
+    }
+
+    private manejarClicMapa(e: any): void {
+        this.marker.setLatLng(e.latlng);
+        this.zone.run(() => {
+            this.actualizarCoordenadas(e.latlng.lat, e.latlng.lng);
+        });
     }
 
     private actualizarCoordenadas(lat: number, lng: number): void {
@@ -223,7 +224,7 @@ export class RegistroTerreno implements OnDestroy {
         const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
         this.http.get<any>(url).subscribe({
             next: (data) => {
-                if (data && data.address) {
+                if (data?.address) {
                     let direccionFinal = '';
                     const calle = data.address.road || data.address.pedestrian || '';
                     const numero = data.address.house_number || '';
