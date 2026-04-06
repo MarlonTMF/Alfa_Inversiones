@@ -1,6 +1,8 @@
+import { Injectable } from '@nestjs/common';
 import { PropertyMultimedia } from '../entities/property-multimedia.entity.js';
 import { PropertyMultimediaRepository } from '../repositories/property-multimedia.repository.js';
 
+@Injectable()
 export class GetPropertyMultimediaUseCase {
     constructor(
         private readonly multimediaRepository: PropertyMultimediaRepository

@@ -1,19 +1,27 @@
-import { Controller, Post, Param, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Get, Delete, Patch, Param, UseInterceptors, UploadedFile, BadRequestException, HttpCode, HttpStatus } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageKitService } from '../../../common/services/imagekit.service.js';
 import { CloudinaryService } from '../../../common/services/cloudinary.service.js';
-import { PropertyRepository } from '../../domain/interfaces/property.repository.js';
+import { AddPropertyMultimediaUseCase } from '../../domain/use-cases/add-property-multimedia.use-case.js';
+import { GetPropertyMultimediaUseCase } from '../../domain/use-cases/get-property-multimedia.use-case.js';
+import { DeletePropertyMultimediaUseCase } from '../../domain/use-cases/delete-property-multimedia.use-case.js';
+import { SetMainMultimediaUseCase } from '../../domain/use-cases/set-main-multimedia.use-case.js';
 
 @Controller('propiedades/:id/multimedia')
 export class MultimediaControlador {
     constructor(
         private readonly imageKitService: ImageKitService,
         private readonly cloudinaryService: CloudinaryService,
-        private readonly propertyRepo: PropertyRepository,
+        private readonly addMultimediaUseCase: AddPropertyMultimediaUseCase,
+        private readonly getMultimediaUseCase: GetPropertyMultimediaUseCase,
+        private readonly deleteMultimediaUseCase: DeletePropertyMultimediaUseCase,
+        private readonly setMainUseCase: SetMainMultimediaUseCase,
     ) {}
 
     @Post('upload')
-    @UseInterceptors(FileInterceptor('file'))
+    @UseInterceptors(FileInterceptor('file', {
+        limits: { fileSize: 100 * 1024 * 1024 } // Límite de 100MB
+    }))
     async uploadFile(
         @Param('id') propertyId: string,
         @UploadedFile() file: Express.Multer.File
@@ -24,12 +32,12 @@ export class MultimediaControlador {
 
         let result;
         let provider: 'imagekit' | 'cloudinary';
-        let type: 'photo' | 'video';
+        let type: 'photo' | 'video' | 'document';
 
         // Lógica de decisión según el tipo de archivo
         if (file.mimetype.startsWith('image/')) {
             // Usar ImageKit para imágenes
-            const upload = await this.imageKitService.uploadImage(file, `${propertyId}-${Date.now()}`);
+            const upload = await this.imageKitService.uploadFile(file, `${propertyId}-${Date.now()}`);
             result = {
                 url: upload.url,
                 public_id: upload.fileId,
@@ -45,23 +53,51 @@ export class MultimediaControlador {
             };
             provider = 'cloudinary';
             type = 'video';
+        } else if (file.mimetype === 'application/pdf') {
+            // Usar ImageKit para PDFs
+            const upload = await this.imageKitService.uploadFile(file, `${propertyId}-doc-${Date.now()}`);
+            result = {
+                url: upload.url,
+                public_id: upload.fileId,
+            };
+            provider = 'imagekit';
+            type = 'document';
         } else {
-            throw new BadRequestException('Formato de archivo no soportado. Use imágenes o videos.');
+            throw new BadRequestException('Formato de archivo no soportado. Use imágenes, videos o PDF.');
         }
 
-        // Guardar en la base de datos usando el repositorio
-        await this.propertyRepo.addMultimedia(propertyId, {
+        // 3. Delegar el guardado al Caso de Uso (Arquitectura Limpia)
+        const saved = await this.addMultimediaUseCase.execute({
+            propertyId,
             type,
             provider,
             url: result.url,
-            public_id: result.public_id,
-            is_main: false,
+            publicId: result.public_id,
+            isMain: false,
             label: file.originalname
         });
 
         return {
             mensaje: `Archivo subido con éxito a ${provider}`,
-            data: result
+            data: saved
         };
+    }
+
+    @Get()
+    async getMultimedia(@Param('id') propertyId: string) {
+        return await this.getMultimediaUseCase.execute(propertyId);
+    }
+
+    @Delete(':file_id')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    async deleteMultimedia(@Param('file_id') fileId: string) {
+        await this.deleteMultimediaUseCase.execute(fileId);
+    }
+
+    @Patch(':file_id/main')
+    @HttpCode(HttpStatus.OK)
+    async setMain(@Param('file_id') fileId: string) {
+        await this.setMainUseCase.execute(fileId);
+        return { mensaje: 'Imagen principal actualizada correctamente' };
     }
 }

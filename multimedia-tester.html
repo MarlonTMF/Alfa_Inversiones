@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimedia Tester 🎨 - 365 Inmobiliaria</title>
+    <style>
+        :root {
+            --primary: #10b981;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --accent: #3b82f6;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .config-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 1rem;
+        }
+
+        input, button {
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #334155;
+            color: white;
+            font-size: 1rem;
+        }
+
+        button {
+            cursor: pointer;
+            background: var(--primary);
+            font-weight: 600;
+            transition: transform 0.2s, opacity 0.2s;
+            border: none;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        button.delete {
+            background: var(--danger);
+        }
+
+        button.main {
+            background: var(--accent);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .media-card {
+            background: #334155;
+            border-radius: 1rem;
+            overflow: hidden;
+            position: relative;
+            transition: box-shadow 0.3s;
+        }
+
+        .media-card:hover {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .media-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .media-card video {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .pdf-icon {
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #475569;
+            font-size: 3rem;
+        }
+
+        .card-actions {
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
+
+        .loader {
+            text-align: center;
+            margin: 1rem 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Multimedia Tester ✨</h1>
+
+        <div class="config-box">
+            <div style="flex: 1">
+                <label style="display: block; font-size: 0.8rem; margin-bottom: 0.5rem;">Property ID</label>
+                <input type="text" id="propertyId" placeholder="e47e11e8-3a5f-4d5c-9c9a-7a8b9c0d1e2f" style="width: 100%">
+            </div>
+            <button onclick="loadMultimedia()" style="align-self: flex-end">Actualizar Lista</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem; background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: 1rem;">
+            <h3>Cargar Nuevo Archivo</h3>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <input type="file" id="fileInput">
+                <button onclick="uploadFile()">¡Subir ahora! 🚀</button>
+            </div>
+        </div>
+
+        <div id="loader" class="loader">
+            <div style="background: rgba(255,255,255,0.1); border-radius: 1rem; overflow: hidden; height: 1.5rem; margin-bottom: 0.5rem;">
+                <div id="progressBar" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.1s;"></div>
+            </div>
+            <div id="progressText" style="font-size: 0.9rem; color: #94a3b8;">Subiendo: 0MB / 0MB (0%)</div>
+        </div>
+
+        <div id="gallery" class="gallery">
+            <!-- Los archivos aparecerán aquí -->
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:3000/api/v1';
+
+        async function loadMultimedia() {
+            const propertyId = document.getElementById('propertyId').value;
+            if (!propertyId) return; // Silent if no ID
+
+            const resp = await fetch(`${BASE_URL}/propiedades/${propertyId}/multimedia`);
+            const data = await resp.json();
+            
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = '';
+
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                
+                let preview = '';
+                if (item.type === 'photo') {
+                    preview = `<img src="${item.url}" alt="Preview">`;
+                } else if (item.type === 'video') {
+                    preview = `<video src="${item.url}" controls></video>`;
+                } else {
+                    preview = `<div class="pdf-icon">📄<span style="font-size: 0.8rem">PDF</span></div>`;
+                }
+
+                card.innerHTML = `
+                    ${item.isMain ? '<div class="badge">PRINCIPAL ⭐</div>' : ''}
+                    ${preview}
+                    <div class="card-actions">
+                        <span class="label">${item.label || 'Sin etiqueta'}</span>
+                        <div style="display: flex; gap: 0.5rem">
+                            <button class="main" style="flex: 1; font-size: 0.7rem; padding: 0.4rem" onclick="setMain('${item.id}')">Elegir Portada</button>
+                            <button class="delete" style="font-size: 0.7rem; padding: 0.4rem" onclick="deleteMedia('${item.id}')">Eliminar</button>
+                        </div>
+                    </div>
+                `;
+                gallery.appendChild(card);
+            });
+        }
+
+        function uploadFile() {
+            const propertyId = document.getElementById('propertyId').value;
+            const fileInput = document.getElementById('fileInput');
+            if (!propertyId || !fileInput.files[0]) return alert('ID y Archivo son obligatorios');
+
+            const loader = document.getElementById('loader');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            loader.style.display = 'block';
+            progressBar.style.width = '0%';
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            const xhr = new XMLHttpRequest();
+            
+            // Seguimiento del progreso REAL
+            xhr.upload.onprogress = (event) => {
+                if (event.lengthComputable) {
+                    const percentComplete = (event.loaded / event.total) * 100;
+                    const loadedMB = (event.loaded / (1024 * 1024)).toFixed(2);
+                    const totalMB = (event.total / (1024 * 1024)).toFixed(2);
+                    
+                    progressBar.style.width = percentComplete + '%';
+                    progressText.innerText = `Subiendo: ${loadedMB}MB / ${totalMB}MB (${Math.round(percentComplete)}%)`;
+                }
+            };
+
+            xhr.onload = () => {
+                loader.style.display = 'none';
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    alert('¡Subido con éxito! 🎉');
+                    loadMultimedia();
+                } else {
+                    alert('Error en la subida: ' + xhr.responseText);
+                }
+                fileInput.value = '';
+            };
+
+            xhr.onerror = () => {
+                loader.style.display = 'none';
+                alert('Error de conexión. ¿Está el server corriendo?');
+            };
+
+            xhr.open('POST', `${BASE_URL}/propiedades/${propertyId}/multimedia/upload`);
+            xhr.send(formData);
+        }
+
+        async function setMain(id) {
+            const propertyId = document.getElementById('propertyId').value;
+            await fetch(`${BASE_URL}/propiedades/${propertyId}/multimedia/${id}/main`, { method: 'PATCH' });
+            loadMultimedia();
+        }
+
+        async function deleteMedia(id) {
+            if (!confirm('¿Seguro que quieres borrarlo?')) return;
+            const propertyId = document.getElementById('propertyId').value;
+            await fetch(`${BASE_URL}/propiedades/${propertyId}/multimedia/${id}`, { method: 'DELETE' });
+            loadMultimedia();
+        }
+    </script>
+</body>
+</html>

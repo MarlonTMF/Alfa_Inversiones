@@ -2,7 +2,7 @@ export class PropertyMultimedia {
     constructor(
         public readonly id: string,
         public readonly propertyId: string,
-        public readonly type: 'photo' | 'video',
+        public readonly type: 'photo' | 'video' | 'document',
         public readonly provider: 'imagekit' | 'cloudinary',
         public readonly url: string,
         public readonly publicId?: string,

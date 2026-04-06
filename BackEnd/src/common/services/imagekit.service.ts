@@ -11,7 +11,7 @@ export class ImageKitService {
         });
     }
 
-    async uploadImage(
+    async uploadFile(
         file: Express.Multer.File,
         fileName: string,
     ): Promise<{ url: string; fileId: string }> {
@@ -22,7 +22,7 @@ export class ImageKitService {
         const response = await this.client.files.upload({
             file: uploadable,
             fileName,
-            folder: '365_properties/photos',
+            folder: '365_properties/multimedia',
         });
 
         return {
@@ -31,7 +31,7 @@ export class ImageKitService {
         };
     }
 
-    async deleteImage(fileId: string): Promise<void> {
+    async deleteFile(fileId: string): Promise<void> {
         await this.client.files.delete(fileId);
     }
 }

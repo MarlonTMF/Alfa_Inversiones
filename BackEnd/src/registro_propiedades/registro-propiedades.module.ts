@@ -25,6 +25,7 @@ import { HybridFileStorageService } from './infrastructure/storage/hybrid-file-s
 import { AddPropertyMultimediaUseCase } from './domain/use-cases/add-property-multimedia.use-case.js';
 import { GetPropertyMultimediaUseCase } from './domain/use-cases/get-property-multimedia.use-case.js';
 import { DeletePropertyMultimediaUseCase } from './domain/use-cases/delete-property-multimedia.use-case.js';
+import { SetMainMultimediaUseCase } from './domain/use-cases/set-main-multimedia.use-case.js';
 
 // ... (tus imports están perfectos)
 
@@ -48,6 +49,7 @@ import { DeletePropertyMultimediaUseCase } from './domain/use-cases/delete-prope
         AddPropertyMultimediaUseCase,
         GetPropertyMultimediaUseCase,
         DeletePropertyMultimediaUseCase,
+        SetMainMultimediaUseCase,
         ImageKitService,
         CloudinaryService,
 
