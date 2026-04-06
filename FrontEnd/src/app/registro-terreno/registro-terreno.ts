@@ -1,6 +1,6 @@
 import { Component, PLATFORM_ID, Inject, NgZone, OnDestroy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 export class RegistroTerreno implements OnDestroy {
     pasoActual: number = 1;
     formularioPaso2: FormGroup;
+    formularioPaso3: FormGroup;
     coordenadasSeleccionadas: string = '';
     
     private map: any;
@@ -24,18 +25,20 @@ export class RegistroTerreno implements OnDestroy {
         folioReal: null,
         certificadoCatastral: null,
         cedula: null,
-        planos: null,
-        multimedia: null
+        multimedia: null,
+        adicional: null
     };
     errorArchivo: string | null = null;
 
     constructor(
-        private readonly fb: FormBuilder,
+        private fb: FormBuilder,
         @Inject(PLATFORM_ID) private readonly platformId: Object,
         private readonly zone: NgZone,
-        private readonly http: HttpClient
+        private readonly http: HttpClient,
+        private readonly router: Router
     ) {
         this.formularioPaso2 = this.fb.group({
+            categoria: ['', Validators.required],
             ciudad: ['Cochabamba'],
             distrito: [''],
             uv: [''],
@@ -48,10 +51,31 @@ export class RegistroTerreno implements OnDestroy {
             youtubeUrl: [''],
             precioBase: ['', Validators.required]
         });
+
+        this.formularioPaso3 = this.fb.group({
+            rol: ['propietario', Validators.required],
+            nombrePropietario: ['', Validators.required],
+            emailPropietario: ['', [Validators.required, Validators.email]],
+            telefonoPropietario: ['', Validators.required],
+            passwordGenerado: [{ value: this.generarPassword(), disabled: true }]
+        });
     }
 
     ngOnDestroy(): void {
         this.destruirMapa();
+    }
+
+    generarPassword(): string {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let pass = 'ALFA-';
+        for (let i = 0; i < 5; i++) {
+            pass += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return pass;
+    }
+
+    regenerarPassword(): void {
+        this.formularioPaso3.patchValue({ passwordGenerado: this.generarPassword() });
     }
 
     manejarArchivo(event: any, tipo: string): void {
@@ -82,6 +106,9 @@ export class RegistroTerreno implements OnDestroy {
             tiposPermitidos = ['image/jpeg', 'image/png', 'video/mp4'];
             maxSize = 50 * 1024 * 1024;
             mensajeErrorTipo = 'Para multimedia solo se permiten JPG, PNG o MP4.';
+        } else if (tipo === 'adicional') {
+            tiposPermitidos = ['application/pdf', 'application/zip', 'application/x-zip-compressed'];
+            mensajeErrorTipo = 'Para documentos adicionales se permiten PDF o ZIP.';
         }
         
         if (!tiposPermitidos.includes(file.type)) {
@@ -90,7 +117,7 @@ export class RegistroTerreno implements OnDestroy {
         }
         
         if (file.size > maxSize) {
-            this.errorArchivo = `El archivo supera el límite de ${maxSize / (1024 * 1024)}MB.`;
+            this.errorArchivo = `El archivo supera el límite permitido.`;
             return;
         }
         
@@ -132,11 +159,15 @@ export class RegistroTerreno implements OnDestroy {
     }
 
     formatearPrecio(event: any): void {
-        let valor = event.target.value.replaceAll(/\D/g, "");
+        let valor = event.target.value.replace(/\D/g, "");
         if (valor) {
             valor = Number.parseInt(valor, 10).toLocaleString('en-US'); 
             this.formularioPaso2.patchValue({ precioBase: valor });
         }
+    }
+
+    finalizarRegistro(): void {
+        this.router.navigate(['/mapa']);
     }
 
     private activarMapa(): void {
@@ -158,10 +189,10 @@ export class RegistroTerreno implements OnDestroy {
             let centro: [number, number] = [-17.3895, -66.1568];
             
             if (this.coordenadasSeleccionadas) {
-                const partes = this.coordenadasSeleccionadas.split(',');
-                if(partes.length === 2){
-                    centro = [Number.parseFloat(partes[0]), Number.parseFloat(partes[1])];
-                }
+                 const partes = this.coordenadasSeleccionadas.split(',');
+                 if(partes.length === 2){
+                     centro = [parseFloat(partes[0]), parseFloat(partes[1])];
+                 }
             }
 
             this.zone.runOutsideAngular(() => {
