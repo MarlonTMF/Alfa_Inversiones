@@ -6,8 +6,8 @@
             <p>Gestionamos todo el proceso legal y de desarrollo para convertir su propiedad en un activo de alta rentabilidad bajo el modelo de sociedad por permuta.</p>
             
             <div class="cta-buttons">
-                <button class="btn-primary">Conozca nuestro modelo</button>
-                <button class="btn-secondary">Visite nuestras oficinas</button>
+                <button type="button" class="btn-primary" (click)="mostrarLogin = true">Iniciar Sesión</button>
+                <a href="mailto:contacto@alfainvest.bo" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center;">Contactar Asesor</a>
             </div>
             
             <div class="stats-row">
@@ -43,3 +43,7 @@
         </div>
     </div>
 </div>
+
+@if (mostrarLogin) {
+    <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin($event)"></app-login>
+}

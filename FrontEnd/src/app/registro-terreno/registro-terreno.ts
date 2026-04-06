@@ -17,6 +17,8 @@ export class RegistroTerreno implements OnDestroy {
     formularioPaso3: FormGroup;
     coordenadasSeleccionadas: string = '';
     
+    categoriasDisponibles: string[] = ['Residencial', 'Comercial', 'Industrial', 'Uso Mixto', 'Agrícola'];
+
     private map: any;
     private L: any;
     private marker: any;
@@ -39,7 +41,8 @@ export class RegistroTerreno implements OnDestroy {
     ) {
         this.formularioPaso2 = this.fb.group({
             categoria: ['', Validators.required],
-            ciudad: ['Cochabamba'],
+            categoriaOtro: [''],
+            ciudad: ['', Validators.required],
             distrito: [''],
             uv: [''],
             zona: [''],
@@ -143,6 +146,7 @@ export class RegistroTerreno implements OnDestroy {
             this.pasoActual = 2;
             this.activarMapa();
         } else if (this.pasoActual === 2 && this.formularioPaso2.valid) {
+            this.consolidarCategoria();
             this.pasoActual = 3;
         }
     }
@@ -154,7 +158,24 @@ export class RegistroTerreno implements OnDestroy {
             this.pasoActual = 2;
             this.activarMapa();
         } else if (pasoDestino === 3 && this.esValidoPaso1() && this.formularioPaso2.valid) {
+            this.consolidarCategoria();
             this.pasoActual = 3;
+        }
+    }
+
+    consolidarCategoria(): void {
+        const categoriaActual = this.formularioPaso2.get('categoria')?.value;
+        const categoriaNueva = this.formularioPaso2.get('categoriaOtro')?.value;
+
+        if (categoriaActual === 'Otro' && categoriaNueva && categoriaNueva.trim() !== '') {
+            const nuevaNormalizada = categoriaNueva.trim();
+            if (!this.categoriasDisponibles.includes(nuevaNormalizada)) {
+                this.categoriasDisponibles.push(nuevaNormalizada);
+            }
+            this.formularioPaso2.patchValue({
+                categoria: nuevaNormalizada,
+                categoriaOtro: ''
+            });
         }
     }
 

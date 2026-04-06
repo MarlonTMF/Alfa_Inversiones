@@ -38,6 +38,14 @@ export class Navbar {
         });
     }
 
+    irAlInicio(): void {
+        if (this.authService.estaAutenticado()) {
+            this.router.navigate(['/mapa']);
+        } else {
+            this.router.navigate(['/']);
+        }
+    }
+
     toggleSidebar(): void {
         this.toggleSidebarEvent.emit();
     }

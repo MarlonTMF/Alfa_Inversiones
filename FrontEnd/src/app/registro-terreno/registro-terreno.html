@@ -155,24 +155,31 @@
                             <label for="categoria">CATEGORÍA</label>
                             <select id="categoria" formControlName="categoria">
                                 <option value="" disabled selected>Seleccione...</option>
-                                <option value="Residencial">Residencial</option>
-                                <option value="Comercial">Comercial</option>
-                                <option value="Industrial">Industrial</option>
-                                <option value="Mixto">Uso Mixto</option>
-                                <option value="Agricola">Agrícola</option>
+                                @for (cat of categoriasDisponibles; track cat) {
+                                    <option [value]="cat">{{ cat }}</option>
+                                }
+                                <option value="Otro">Otro (Especificar)</option>
                             </select>
                         </div>
+                        @if (formularioPaso2.get('categoria')?.value === 'Otro') {
+                            <div class="input-group fade-in">
+                                <label for="categoriaOtro">ESPECIFICAR CATEGORÍA</label>
+                                <input id="categoriaOtro" type="text" formControlName="categoriaOtro" (keydown.enter)="$event.preventDefault(); consolidarCategoria()" (blur)="consolidarCategoria()" placeholder="Ej. Turístico">
+                            </div>
+                        }
+                        
                         <div class="input-group">
-                            <label for="ciudad">CIUDAD</label>
-                            <select id="ciudad" formControlName="ciudad">
-                                <option value="Cochabamba">Cochabamba</option>
-                                <option value="Santa Cruz">Santa Cruz</option>
-                                <option value="La Paz">La Paz</option>
-                            </select>
+                            <label for="ciudad">CIUDAD / POBLACIÓN</label>
+                            <input id="ciudad" type="text" formControlName="ciudad" placeholder="Ej. Cochabamba, Quillacollo...">
                         </div>
+
                         <div class="input-group">
                             <label for="distrito">DISTRITO</label>
                             <input id="distrito" type="text" formControlName="distrito" placeholder="Ej. D-12">
+                        </div>
+                        <div class="input-group">
+                            <label for="uv">UV</label>
+                            <input id="uv" type="text" formControlName="uv" placeholder="Ej. 013">
                         </div>
                         <div class="input-group">
                             <label for="zona">ZONA / BARRIO</label>
@@ -299,6 +306,11 @@
                         </div>
                         <p class="input-hint">Esta contraseña se enviará por correo al usuario. Se le pedirá cambiarla en su primer inicio de sesión.</p>
                     </div>
+                </div>
+
+                <div class="info-banner-blue" style="background-color: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2); color: #cbd5e1;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <span>Al hacer clic en "Finalizar Registro", se guardará el terreno y se enviará un correo automático de bienvenida al usuario.</span>
                 </div>
 
                 <div class="footer-actions">

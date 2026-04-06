@@ -551,3 +551,17 @@
     font-family: inherit; /* Hereda la fuente de la app, no la del sistema */
     color: inherit;
 }
+.btn-login-outline {
+    background-color: transparent;
+    color: #3b82f6;
+    border: 1px solid #3b82f6;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-login-outline:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+}
