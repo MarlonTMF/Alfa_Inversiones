@@ -3,7 +3,8 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-
+import { PropertyService } from '../services/property.service';
+import { firstValueFrom } from 'rxjs';
 @Component({
     selector: 'app-registro-terreno',
     standalone: true,
@@ -17,6 +18,10 @@ export class RegistroTerreno implements OnDestroy {
     formularioPaso3: FormGroup;
     coordenadasSeleccionadas: string = '';
     
+    // Variables de estado para el guardado
+    estaCargando: boolean = false;
+    mensajeEstado: string = '';
+    
     categoriasDisponibles: string[] = ['Residencial', 'Comercial', 'Industrial', 'Uso Mixto', 'Agrícola'];
 
     private map: any;
@@ -27,9 +32,12 @@ export class RegistroTerreno implements OnDestroy {
         folioReal: null,
         certificadoCatastral: null,
         cedula: null,
-        multimedia: null,
         adicional: null
     };
+    
+    imagenes: File[] = [];
+    imagenPrincipalIndex: number = 0;
+    video: File | null = null;
     errorArchivo: string | null = null;
 
     constructor(
@@ -37,7 +45,8 @@ export class RegistroTerreno implements OnDestroy {
         @Inject(PLATFORM_ID) private readonly platformId: Object,
         private readonly zone: NgZone,
         private readonly http: HttpClient,
-        private readonly router: Router
+        private readonly router: Router,
+        private propertyService: PropertyService
     ) {
         this.formularioPaso2 = this.fb.group({
             categoria: ['', Validators.required],
@@ -86,6 +95,65 @@ export class RegistroTerreno implements OnDestroy {
         if (file) this.procesarArchivo(file, tipo);
     }
 
+    manejarImagenes(event: any): void {
+        const files = event.target.files;
+        this.errorArchivo = null;
+        if (files) {
+            for (let i = 0; i < files.length; i++) {
+                if (this.imagenes.length >= 10) {
+                    this.errorArchivo = 'Máximo 10 imágenes permitidas.';
+                    break;
+                }
+                const file = files[i];
+                if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                    this.errorArchivo = 'Solo se permiten imágenes JPG o PNG.';
+                    continue;
+                }
+                if (file.size > 15 * 1024 * 1024) {
+                    this.errorArchivo = 'Cada imagen debe pesar máximo 15MB.';
+                    continue;
+                }
+                this.imagenes.push(file);
+            }
+        }
+        // Limpiar el input para permitir volver a seleccionar el mismo archivo si fue eliminado
+        event.target.value = null;
+    }
+
+    manejarVideo(event: any): void {
+        const file = event.target.files[0];
+        this.errorArchivo = null;
+        if (file) {
+            if (file.type !== 'video/mp4') {
+                this.errorArchivo = 'Solo se permite video MP4.';
+                return;
+            }
+            if (file.size > 100 * 1024 * 1024) {
+                this.errorArchivo = 'El video supera el límite de 100MB.';
+                return;
+            }
+            this.video = file;
+        }
+        event.target.value = null;
+    }
+
+    establecerPortada(index: number): void {
+        this.imagenPrincipalIndex = index;
+    }
+
+    eliminarImagen(index: number): void {
+        this.imagenes.splice(index, 1);
+        if (this.imagenPrincipalIndex === index) {
+            this.imagenPrincipalIndex = 0;
+        } else if (this.imagenPrincipalIndex > index) {
+            this.imagenPrincipalIndex--;
+        }
+    }
+
+    eliminarVideo(): void {
+        this.video = null;
+    }
+
     onDragOver(event: DragEvent): void {
         event.preventDefault();
         event.stopPropagation();
@@ -105,11 +173,7 @@ export class RegistroTerreno implements OnDestroy {
         let maxSize = 15 * 1024 * 1024;
         let mensajeErrorTipo = 'Solo se permiten formatos PDF, JPG y PNG.';
 
-        if (tipo === 'multimedia') {
-            tiposPermitidos = ['image/jpeg', 'image/png', 'video/mp4'];
-            maxSize = 50 * 1024 * 1024;
-            mensajeErrorTipo = 'Para multimedia solo se permiten JPG, PNG o MP4.';
-        } else if (tipo === 'adicional') {
+        if (tipo === 'adicional') {
             tiposPermitidos = ['application/pdf', 'application/zip', 'application/x-zip-compressed'];
             mensajeErrorTipo = 'Para documentos adicionales se permiten PDF o ZIP.';
         }
@@ -187,8 +251,100 @@ export class RegistroTerreno implements OnDestroy {
         }
     }
 
-    finalizarRegistro(): void {
-        this.router.navigate(['/mapa']);
+    async finalizarRegistro(): Promise<void> {
+        if (!this.formularioPaso2.valid || !this.formularioPaso3.valid || !this.esValidoPaso1()) {
+            alert('Por favor, complete todos los pasos correctamente.');
+            return;
+        }
+
+        this.estaCargando = true;
+        this.mensajeEstado = 'Creando registro de la propiedad...';
+        
+        try {
+            // 1. Preparar DTO de creación de propiedad
+            // Generamos UUID para la propiedad o si el backend lo genera dejamos vacío:
+            // Según el use-case de creación, el endpoint de backend (/properties) puede requerirlo si no se manda, 
+            // pero el DTO `CreatePropertyDto` tiene `id` como obligatorio (@IsNotEmpty @IsUUID). 
+            // Generaremos un UUID v4 en el frontend.
+            const propertyId = crypto.randomUUID();
+
+            const coordSplit = this.coordenadasSeleccionadas.split(',');
+            const lat = parseFloat(coordSplit[0]);
+            const lng = parseFloat(coordSplit[1]);
+
+            // Obtener precio base y limpiar comas
+            let precioStr = this.formularioPaso2.get('precioBase')?.value || '';
+            const precioBase = Number.parseInt(precioStr.replace(/,/g, ''), 10) || 0;
+
+            const newPropertyDto = {
+                id: propertyId,
+                category: this.formularioPaso2.get('categoria')?.value,
+                city: this.formularioPaso2.get('ciudad')?.value,
+                district: this.formularioPaso2.get('distrito')?.value,
+                uv: this.formularioPaso2.get('uv')?.value,
+                zoneBarrio: this.formularioPaso2.get('zona')?.value,
+                exactAddress: this.formularioPaso2.get('direccion')?.value,
+                lat: lat,
+                lng: lng,
+                totalArea: Number.parseFloat(this.formularioPaso2.get('superficie')?.value) || 0,
+                frontM: Number.parseFloat(this.formularioPaso2.get('frente')?.value) || 0,
+                backM: Number.parseFloat(this.formularioPaso2.get('fondo')?.value) || 0,
+                basePriceNegotiation: precioBase,
+                // Puedes mandar los datos del formulario 3 (del propietario) si tu backend lo aceptase
+                // provisionalmente mandaremos lo básico requerido
+            };
+
+            // 2. Mandamos la propiedad al backend
+            await firstValueFrom(this.propertyService.createProperty(newPropertyDto));
+            
+            // 3. Subir los documentos legales uno a uno
+            const tipos = ['folioReal', 'certificadoCatastral', 'cedula', 'adicional'];
+            let nroArchivo = 1;
+            let totalArchivos = tipos.filter(t => this.documentos[t]).length + this.imagenes.length + (this.video ? 1 : 0);
+            
+            for (const tipo of tipos) {
+                const file = this.documentos[tipo];
+                if (file) {
+                    this.mensajeEstado = `Subiendo documento legal... (${tipo})`;
+                    await firstValueFrom(this.propertyService.uploadMultimedia(propertyId, file));
+                    nroArchivo++;
+                }
+            }
+
+            // 4. Subir Imágenes Múltiples y Asignar Portada
+            for (let i = 0; i < this.imagenes.length; i++) {
+                const imgFile = this.imagenes[i];
+                this.mensajeEstado = `Subiendo imagen ${i + 1} de ${this.imagenes.length}...`;
+                const uploadRes = await firstValueFrom(this.propertyService.uploadMultimedia(propertyId, imgFile));
+                
+                // Si esta imagen es la seleccionada como principal, marcamos en el backend
+                // uploadRes debe contener los datos devueltos por el servidor donde esté el fileId
+                // El backend devuelve { mensaje: "...", data: { id: "xxx", ... } } de acuerdo al controlador
+                if (i === this.imagenPrincipalIndex && uploadRes?.data?.id) {
+                    await firstValueFrom(this.propertyService.setMainMultimedia(propertyId, uploadRes.data.id));
+                }
+                nroArchivo++;
+            }
+
+            // 5. Subir Video (si existe)
+            if (this.video) {
+                this.mensajeEstado = `Subiendo video recorrido (puede tardar unos minutos)...`;
+                await firstValueFrom(this.propertyService.uploadMultimedia(propertyId, this.video));
+                nroArchivo++;
+            }
+
+            // 6. Todo listo
+            this.mensajeEstado = '¡Propiedad y archivos subidos con éxito!';
+            setTimeout(() => {
+                this.estaCargando = false;
+                this.router.navigate(['/mapa']);
+            }, 1500);
+
+        } catch (error) {
+            console.error('Error al subir propiedad:', error);
+            this.estaCargando = false;
+            alert('Se produjo un error al registrar la propiedad. Por favor intente de nuevo.');
+        }
     }
 
     private activarMapa(): void {
