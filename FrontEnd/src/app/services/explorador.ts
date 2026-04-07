@@ -49,8 +49,8 @@ export class ExploradorService {
         }
         if (busqueda) {
             filtrados = filtrados.filter(t => 
-                (t.ubicacion && t.ubicacion.toLowerCase().includes(busqueda)) ||
-                (t.departamento && t.departamento.toLowerCase().includes(busqueda))
+                (t.ubicacion?.toLowerCase().includes(busqueda)) ||
+                (t.departamento?.toLowerCase().includes(busqueda))
             );
         }
         const ordenados = [...filtrados].sort((a, b) => {

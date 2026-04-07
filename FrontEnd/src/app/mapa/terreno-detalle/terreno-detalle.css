@@ -258,7 +258,7 @@
 .btn-analisis {
     width: 100%;
     background-color: #3b82f6;
-    color: white;
+    color: rgb(255, 255, 255);
     border: none;
     padding: 12px;
     border-radius: 8px;
@@ -271,4 +271,29 @@
 
 .btn-analisis:hover {
     background-color: #2563eb;
+}
+.thumbnail-wrapper {
+    background: transparent;
+    padding: 0;
+    display: block;
+    position: relative;
+    width: 80px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.6;
+    transition: all 0.2s;
+}
+
+.thumbnail-wrapper:hover {
+    opacity: 1;
+}
+
+.thumbnail-wrapper.active-thumb {
+    opacity: 1;
+    border-color: #3b82f6;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
 }

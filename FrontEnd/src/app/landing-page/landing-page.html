@@ -1,0 +1,49 @@
+<div class="landing-wrapper">
+    <div class="hero-section">
+        <div class="hero-content">
+            <span class="badge">ALFA INVEST • INTELIGENCIA INMOBILIARIA</span>
+            <h1>Aumente el valor de su terreno con nuestra red de <span>inversionistas y constructoras</span></h1>
+            <p>Gestionamos todo el proceso legal y de desarrollo para convertir su propiedad en un activo de alta rentabilidad bajo el modelo de sociedad por permuta.</p>
+            
+            <div class="cta-buttons">
+                <button type="button" class="btn-primary" (click)="mostrarLogin = true">Iniciar Sesión</button>
+                <a href="mailto:contacto@alfainvest.bo" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center;">Contactar Asesor</a>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat">
+                    <h2>+150</h2>
+                    <span>Terrenos Avaluados</span>
+                </div>
+                <div class="divider"></div>
+                <div class="stat">
+                    <h2>$12M</h2>
+                    <span>Capital Gestionado</span>
+                </div>
+                <div class="divider"></div>
+                <div class="stat">
+                    <h2>45</h2>
+                    <span>Proyectos Activos</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="glass-card">
+                <div class="card-header">
+                    <div class="pulse-dot"></div>
+                    <span>Orquestador Inmobiliario Activo</span>
+                </div>
+                <h3>¿Quiere vender o desarrollar su propiedad?</h3>
+                <p>Nuestros asesores legales y financieros se encargarán de subir su propiedad al mapa interactivo privado y de conectarlo con las mejores constructoras del país.</p>
+                <div class="contact-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span>Av. América y Beijing, Edificio Alfa, Piso 4. Cochabamba, Bolivia.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (mostrarLogin) {
+    <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin($event)"></app-login>
+}

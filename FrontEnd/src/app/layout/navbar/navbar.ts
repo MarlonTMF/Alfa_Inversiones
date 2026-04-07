@@ -26,16 +26,24 @@ export class Navbar {
 
     public mostrarLogin: boolean = false;
     public mostrarMenuPerfil: boolean = false;
-    public esRutaMapa: boolean = true;
+    public esRutaMapa: boolean = false;
     public mostrarExplorador: boolean = false;
 
     constructor() {
-        this.esRutaMapa = this.router.url === '/' || this.router.url.includes('/mapa');
+        this.esRutaMapa = this.router.url.includes('/mapa');
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {
             this.esRutaMapa = event.urlAfterRedirects.includes('/mapa');
         });
+    }
+
+    irAlInicio(): void {
+        if (this.authService.estaAutenticado()) {
+            this.router.navigate(['/mapa']);
+        } else {
+            this.router.navigate(['/']);
+        }
     }
 
     toggleSidebar(): void {
@@ -45,11 +53,13 @@ export class Navbar {
     procesarLogin(usuario: any): void {
         this.authService.login(usuario);
         this.mostrarLogin = false;
+        this.router.navigate(['/mapa']);
     }
 
     cerrarSesion(): void {
         this.authService.logout();
         this.mostrarMenuPerfil = false;
+        this.router.navigate(['/']);
     }
 
     toggleMenuPerfil(): void {

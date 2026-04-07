@@ -1,6 +1,6 @@
 import { Component, PLATFORM_ID, Inject, NgZone, OnDestroy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
@@ -14,8 +14,11 @@ import { HttpClient } from '@angular/common/http';
 export class RegistroTerreno implements OnDestroy {
     pasoActual: number = 1;
     formularioPaso2: FormGroup;
+    formularioPaso3: FormGroup;
     coordenadasSeleccionadas: string = '';
     
+    categoriasDisponibles: string[] = ['Residencial', 'Comercial', 'Industrial', 'Uso Mixto', 'Agrícola'];
+
     private map: any;
     private L: any;
     private marker: any;
@@ -24,19 +27,22 @@ export class RegistroTerreno implements OnDestroy {
         folioReal: null,
         certificadoCatastral: null,
         cedula: null,
-        planos: null,
-        multimedia: null
+        multimedia: null,
+        adicional: null
     };
     errorArchivo: string | null = null;
 
     constructor(
-        private readonly fb: FormBuilder,
+        private fb: FormBuilder,
         @Inject(PLATFORM_ID) private readonly platformId: Object,
         private readonly zone: NgZone,
-        private readonly http: HttpClient
+        private readonly http: HttpClient,
+        private readonly router: Router
     ) {
         this.formularioPaso2 = this.fb.group({
-            ciudad: ['Cochabamba'],
+            categoria: ['', Validators.required],
+            categoriaOtro: [''],
+            ciudad: ['', Validators.required],
             distrito: [''],
             uv: [''],
             zona: [''],
@@ -45,13 +51,34 @@ export class RegistroTerreno implements OnDestroy {
             superficie: ['', Validators.required],
             frente: [''],
             fondo: [''],
-            youtubeUrl: [''], // <-- Nuevo campo para el link
+            youtubeUrl: [''],
             precioBase: ['', Validators.required]
+        });
+
+        this.formularioPaso3 = this.fb.group({
+            rol: ['propietario', Validators.required],
+            nombrePropietario: ['', Validators.required],
+            emailPropietario: ['', [Validators.required, Validators.email]],
+            telefonoPropietario: ['', Validators.required],
+            passwordGenerado: [{ value: this.generarPassword(), disabled: true }]
         });
     }
 
     ngOnDestroy(): void {
         this.destruirMapa();
+    }
+
+    generarPassword(): string {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let pass = 'ALFA-';
+        for (let i = 0; i < 5; i++) {
+            pass += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return pass;
+    }
+
+    regenerarPassword(): void {
+        this.formularioPaso3.patchValue({ passwordGenerado: this.generarPassword() });
     }
 
     manejarArchivo(event: any, tipo: string): void {
@@ -74,25 +101,26 @@ export class RegistroTerreno implements OnDestroy {
     private procesarArchivo(file: File, tipo: string): void {
         this.errorArchivo = null;
         
-        // Configuración por defecto (Documentos Legales)
         let tiposPermitidos = ['application/pdf', 'image/jpeg', 'image/png'];
-        let maxSize = 15 * 1024 * 1024; // 15MB
+        let maxSize = 15 * 1024 * 1024;
         let mensajeErrorTipo = 'Solo se permiten formatos PDF, JPG y PNG.';
 
-        // Configuración especial para Multimedia
         if (tipo === 'multimedia') {
-            tiposPermitidos = ['image/jpeg', 'image/png', 'video/mp4', 'audio/mpeg', 'audio/mp3'];
-            maxSize = 50 * 1024 * 1024; // 50MB para videos
-            mensajeErrorTipo = 'Para multimedia solo se permiten JPG, PNG, MP4 o MP3.';
+            tiposPermitidos = ['image/jpeg', 'image/png', 'video/mp4'];
+            maxSize = 50 * 1024 * 1024;
+            mensajeErrorTipo = 'Para multimedia solo se permiten JPG, PNG o MP4.';
+        } else if (tipo === 'adicional') {
+            tiposPermitidos = ['application/pdf', 'application/zip', 'application/x-zip-compressed'];
+            mensajeErrorTipo = 'Para documentos adicionales se permiten PDF o ZIP.';
         }
         
-        if (!tiposPermitidos.includes(file.type) && !file.name.endsWith('.mp3')) { // fallback manual para mp3
+        if (!tiposPermitidos.includes(file.type)) {
             this.errorArchivo = mensajeErrorTipo;
             return;
         }
         
         if (file.size > maxSize) {
-            this.errorArchivo = `El archivo supera el límite de ${maxSize / (1024 * 1024)}MB.`;
+            this.errorArchivo = `El archivo supera el límite permitido.`;
             return;
         }
         
@@ -118,6 +146,7 @@ export class RegistroTerreno implements OnDestroy {
             this.pasoActual = 2;
             this.activarMapa();
         } else if (this.pasoActual === 2 && this.formularioPaso2.valid) {
+            this.consolidarCategoria();
             this.pasoActual = 3;
         }
     }
@@ -129,16 +158,37 @@ export class RegistroTerreno implements OnDestroy {
             this.pasoActual = 2;
             this.activarMapa();
         } else if (pasoDestino === 3 && this.esValidoPaso1() && this.formularioPaso2.valid) {
+            this.consolidarCategoria();
             this.pasoActual = 3;
         }
     }
 
+    consolidarCategoria(): void {
+        const categoriaActual = this.formularioPaso2.get('categoria')?.value;
+        const categoriaNueva = this.formularioPaso2.get('categoriaOtro')?.value;
+
+        if (categoriaActual === 'Otro' && categoriaNueva && categoriaNueva.trim() !== '') {
+            const nuevaNormalizada = categoriaNueva.trim();
+            if (!this.categoriasDisponibles.includes(nuevaNormalizada)) {
+                this.categoriasDisponibles.push(nuevaNormalizada);
+            }
+            this.formularioPaso2.patchValue({
+                categoria: nuevaNormalizada,
+                categoriaOtro: ''
+            });
+        }
+    }
+
     formatearPrecio(event: any): void {
-        let valor = event.target.value.replaceAll(/\D/g, "");
+        let valor = event.target.value.replace(/\D/g, "");
         if (valor) {
             valor = Number.parseInt(valor, 10).toLocaleString('en-US'); 
             this.formularioPaso2.patchValue({ precioBase: valor });
         }
+    }
+
+    finalizarRegistro(): void {
+        this.router.navigate(['/mapa']);
     }
 
     private activarMapa(): void {
@@ -160,10 +210,10 @@ export class RegistroTerreno implements OnDestroy {
             let centro: [number, number] = [-17.3895, -66.1568];
             
             if (this.coordenadasSeleccionadas) {
-                const partes = this.coordenadasSeleccionadas.split(',');
-                if(partes.length === 2){
-                    centro = [Number.parseFloat(partes[0]), Number.parseFloat(partes[1])];
-                }
+                 const partes = this.coordenadasSeleccionadas.split(',');
+                 if(partes.length === 2){
+                     centro = [parseFloat(partes[0]), parseFloat(partes[1])];
+                 }
             }
 
             this.zone.runOutsideAngular(() => {
@@ -195,25 +245,28 @@ export class RegistroTerreno implements OnDestroy {
 
                 this.actualizarCoordenadas(centro[0], centro[1]);
 
-                this.marker.on('dragend', () => {
-                    const position = this.marker.getLatLng();
-                    this.zone.run(() => {
-                        this.actualizarCoordenadas(position.lat, position.lng);
-                    });
-                });
-
-                this.map.on('click', (e: any) => {
-                    this.marker.setLatLng(e.latlng);
-                    this.zone.run(() => {
-                        this.actualizarCoordenadas(e.latlng.lat, e.latlng.lng);
-                    });
-                });
+                this.marker.on('dragend', this.manejarArrastreMarcador.bind(this));
+                this.map.on('click', this.manejarClicMapa.bind(this));
 
                 setTimeout(() => {
                     this.map.invalidateSize();
                 }, 300);
             });
         }).catch(err => console.error(err));
+    }
+
+    private manejarArrastreMarcador(): void {
+        const position = this.marker.getLatLng();
+        this.zone.run(() => {
+            this.actualizarCoordenadas(position.lat, position.lng);
+        });
+    }
+
+    private manejarClicMapa(e: any): void {
+        this.marker.setLatLng(e.latlng);
+        this.zone.run(() => {
+            this.actualizarCoordenadas(e.latlng.lat, e.latlng.lng);
+        });
     }
 
     private actualizarCoordenadas(lat: number, lng: number): void {
@@ -223,7 +276,7 @@ export class RegistroTerreno implements OnDestroy {
         const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
         this.http.get<any>(url).subscribe({
             next: (data) => {
-                if (data && data.address) {
+                if (data?.address) {
                     let direccionFinal = '';
                     const calle = data.address.road || data.address.pedestrian || '';
                     const numero = data.address.house_number || '';
