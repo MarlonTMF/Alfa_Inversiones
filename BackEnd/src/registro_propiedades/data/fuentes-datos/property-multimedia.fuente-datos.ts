@@ -42,6 +42,9 @@ export class PropertyMultimediaFuenteDatos {
     @Column({ type: 'varchar', nullable: true })
     label?: string | null;
 
+    @Column({ name: 'thumbnail_url', type: 'text', nullable: true })
+    thumbnailUrl?: string | null;
+
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
 

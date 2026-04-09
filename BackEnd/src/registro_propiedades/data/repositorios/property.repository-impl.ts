@@ -118,4 +118,11 @@ export class PropertyRepositoryImpl extends PropertyRepository {
             ]
         );
     }
+
+    /**
+     * Actualiza campos parciales de una propiedad por ID.
+     */
+    async update(id: string, data: Partial<PropertyFuenteDatos>): Promise<void> {
+        await this.repository.update(id, data);
+    }
 }

@@ -14,8 +14,8 @@ export class AddPropertyMultimediaUseCase {
             const allMultimedia = await this.multimediaRepository.findByPropertyId(multimediaData.propertyId);
             const videoCount = allMultimedia.filter(m => m.type === 'video').length;
 
-            if (videoCount >= 4) {
-                throw new BadRequestException('Esta propiedad ya alcanzó el límite máximo de 4 videos.');
+            if (videoCount >= 3) {
+                throw new BadRequestException('Esta propiedad ya alcanzó el límite máximo de 3 videos.');
             }
         }
 
@@ -31,7 +31,9 @@ export class AddPropertyMultimediaUseCase {
             multimediaData.url,
             multimediaData.publicId,
             multimediaData.isMain,
-            multimediaData.label
+            multimediaData.label,
+            undefined,                    // createdAt — lo pone la DB
+            (multimediaData as any).thumbnailUrl ?? undefined,
         );
 
         // 3. Mandar al repositorio para que lo guarde

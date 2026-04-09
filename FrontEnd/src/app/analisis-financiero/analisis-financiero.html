@@ -5,6 +5,8 @@
             <p>Generando modelo financiero...</p>
         </div>
     } @else {
+
+        <!-- ══ HEADER ══════════════════════════════════════════════ -->
         <header class="dash-header">
             <div class="header-titles">
                 <span class="breadcrumb">ANÁLISIS / ALFA INVEST</span>
@@ -12,77 +14,138 @@
                 <p>Evaluación financiera para desarrollo residencial multifamiliar. Integración de datos de mercado en tiempo real.</p>
             </div>
             <div class="header-actions">
+                @if (esAdmin) {
+                    <button class="btn-edit-toggle" [class.active]="modoEdicion" (click)="toggleModoEdicion()"
+                        [title]="modoEdicion ? 'Salir del modo edición' : 'Activar modo edición'">
+                        @if (!modoEdicion) {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            Editar
+                        } @else {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Finalizar Edición
+                        }
+                    </button>
+                }
                 <button class="btn-export">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    Exportar Reporte
-                </button>
-                <button class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Exportar
                 </button>
             </div>
         </header>
 
+        <!-- ══ BANNER MODO EDICIÓN ═══════════════════════════════ -->
+        @if (modoEdicion) {
+            <div class="edit-banner">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Modo Edición Activo — los cambios se guardan campo por campo al presionar el botón guardar.
+            </div>
+        }
+
         <div class="dash-grid">
+            <!-- ══ COLUMNA IZQUIERDA ══════════════════════════════ -->
             <div class="grid-left">
+
+                <!-- KPIs -->
                 <div class="metrics-row">
                     <div class="card metric-card">
                         <div class="metric-header">
                             <h4>RETORNO ESTIMADO (ROI)</h4>
-                            <div class="icon-box blue"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg></div>
+                            <div class="icon-box blue"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
                         </div>
-                        <h2>{{ datosDashboard.roi }}%</h2>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-labels">
-                                <span>Meta de Rentabilidad</span>
-                                <span class="text-green">Alto Rendimiento</span>
+                        @if (modoEdicion) {
+                            <div class="editable-field">
+                                <input type="number" class="edit-input" [(ngModel)]="datosDashboard.roi" step="0.1" />
+                                <button class="btn-save-field" [disabled]="guardando['projectedRoi']" (click)="guardarCampo('projectedRoi', datosDashboard.roi)">
+                                    @if (guardando['projectedRoi']) { ... } @else { Guardar }
+                                </button>
                             </div>
-                            <div class="progress-track"><div class="progress-fill green" style="width: 85%;"></div></div>
+                        } @else {
+                            <h2>{{ datosDashboard.roi }}%</h2>
+                        }
+                        <div class="progress-bar-wrap">
+                            <div class="progress-labels"><span>Meta de Rentabilidad</span><span class="text-green">Alto Rendimiento</span></div>
+                            <div class="progress-track"><div class="progress-fill green" [style.width.%]="datosDashboard.roi > 0 ? 85 : 0"></div></div>
                         </div>
-                        <p class="metric-desc">Supera el promedio de la zona. Ciclo de ventas estimado de 14 meses.</p>
+                        <p class="metric-desc">Supera el promedio de la zona. Ciclo de ventas estimado de {{ datosDashboard.capacidadNiveles ? datosDashboard.capacidadNiveles + ' meses' : 'N/A' }}.</p>
                     </div>
 
                     <div class="card metric-card">
                         <div class="metric-header">
                             <h4>INCIDENCIA DEL TERRENO</h4>
-                            <div class="icon-box purple"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg></div>
+                            <div class="icon-box purple"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg></div>
                         </div>
-                        <h2>{{ datosDashboard.incidencia }}%</h2>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-labels">
-                                <span>Eficiencia de Costos</span>
-                                <span class="text-purple">Óptimo</span>
+                        @if (modoEdicion) {
+                            <div class="editable-field">
+                                <input type="number" class="edit-input" [(ngModel)]="datosDashboard.incidencia" step="0.1" />
+                                <button class="btn-save-field" [disabled]="guardando['landIncidence']" (click)="guardarCampo('landIncidence', datosDashboard.incidencia)">
+                                    @if (guardando['landIncidence']) { ... } @else { Guardar }
+                                </button>
                             </div>
+                        } @else {
+                            <h2>{{ datosDashboard.incidencia }}%</h2>
+                        }
+                        <div class="progress-bar-wrap">
+                            <div class="progress-labels"><span>Eficiencia de Costos</span><span class="text-purple">Óptimo</span></div>
                             <div class="progress-track"><div class="progress-fill purple" style="width: 70%;"></div></div>
                         </div>
-                        <p class="metric-desc">Altamente competitivo contra el promedio de Equipetrol (22%).</p>
+                        <p class="metric-desc">Altamente competitivo contra el promedio del distrito.</p>
                     </div>
                 </div>
 
+                <!-- PARÁMETROS FINANCIEROS -->
                 <div class="card parameters-card">
                     <div class="card-title-row">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                         <h3>Parámetros Financieros Clave</h3>
                     </div>
                     <div class="params-grid">
                         <div class="param-box">
                             <span class="param-label">CONSTRUCCIÓN</span>
-                            <div class="param-value">${{ datosDashboard.construccionM2 }}<span> / m²</span></div>
+                            @if (modoEdicion) {
+                                <div class="editable-field">
+                                    <input type="number" class="edit-input" [(ngModel)]="datosDashboard.construccionM2" />
+                                    <button class="btn-save-field" [disabled]="guardando['constructionCostSqm']" (click)="guardarCampo('constructionCostSqm', datosDashboard.construccionM2)">
+                                        @if (guardando['constructionCostSqm']) { ... } @else { ✓ }
+                                    </button>
+                                </div>
+                            } @else {
+                                <div class="param-value">${{ datosDashboard.construccionM2 }}<span> / m²</span></div>
+                            }
                             <div class="param-bar"></div>
-                            <span class="param-desc">Acabado de Lujo Estándar</span>
+                            <span class="param-desc">Acabado Estándar</span>
                         </div>
                         <div class="param-box">
                             <span class="param-label">CAPACIDAD</span>
-                            <div class="param-value">{{ datosDashboard.capacidadNiveles }}<span> Niveles</span></div>
+                            @if (modoEdicion) {
+                                <div class="editable-field">
+                                    <input type="number" class="edit-input" [(ngModel)]="datosDashboard.capacidadNiveles" />
+                                    <button class="btn-save-field" [disabled]="guardando['allowedFloors']" (click)="guardarCampo('allowedFloors', datosDashboard.capacidadNiveles)">
+                                        @if (guardando['allowedFloors']) { ... } @else { ✓ }
+                                    </button>
+                                </div>
+                            } @else {
+                                <div class="param-value">{{ datosDashboard.capacidadNiveles }}<span> Niveles</span></div>
+                            }
                             <div class="badge-outline green-outline">Altura Máxima Zonificación</div>
                         </div>
                         <div class="param-box">
                             <span class="param-label">ADQUISICIÓN</span>
-                            <div class="param-value">${{ datosDashboard.adquisicionTotal / 1000 }}k<span> Total</span></div>
+                            @if (modoEdicion) {
+                                <div class="editable-field">
+                                    <input type="number" class="edit-input" [(ngModel)]="datosDashboard.adquisicionTotal" />
+                                    <button class="btn-save-field" [disabled]="guardando['basePriceNegotiation']" (click)="guardarCampo('basePriceNegotiation', datosDashboard.adquisicionTotal)">
+                                        @if (guardando['basePriceNegotiation']) { ... } @else { ✓ }
+                                    </button>
+                                </div>
+                            } @else {
+                                <div class="param-value">${{ datosDashboard.adquisicionTotal / 1000 | number:'1.0-0' }}k<span> Total</span></div>
+                            }
                             <span class="param-desc"><strong>{{ datosDashboard.tamanoM2 }} m²</strong> tamaño del lote<br>(${{ datosDashboard.precioM2Terreno }} / m²)</span>
                         </div>
                     </div>
                 </div>
 
+                <!-- GRÁFICO PROYECCIÓN -->
                 <div class="card chart-card">
                     <div class="chart-header">
                         <h3>Crecimiento Proyectado</h3>
@@ -99,36 +162,217 @@
                             <path d="M0,150 L150,140 L300,135 L450,125 L600,115 L600,200 L0,200 Z" fill="url(#chartGradient)" />
                             <path d="M0,150 L150,140 L300,135 L450,125 L600,115" fill="none" stroke="#3b82f6" stroke-width="3" />
                         </svg>
-                        <div class="chart-labels-y">
-                            <span>$20k</span><span>$15k</span><span>$10k</span><span>$5k</span><span>$0k</span>
-                        </div>
-                        <div class="chart-labels-x">
-                            <span>Año 1</span><span>Año 2</span><span>Año 3</span><span>Año 4</span><span>Año 5</span>
-                        </div>
+                        <div class="chart-labels-y"><span>$20k</span><span>$15k</span><span>$10k</span><span>$5k</span><span>$0k</span></div>
+                        <div class="chart-labels-x"><span>Año 1</span><span>Año 2</span><span>Año 3</span><span>Año 4</span><span>Año 5</span></div>
                     </div>
                 </div>
             </div>
 
+            <!-- ══ COLUMNA DERECHA ════════════════════════════════ -->
             <div class="grid-right">
-                <div class="card image-card">
-                    <div class="image-header">
-                        <div class="header-tag"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg> Ubicación Terreno</div>
+
+                <!-- ══ UBICACIÓN DEL TERRENO ══════════════════════════ -->
+                <div class="card location-card">
+                    <div class="card-header-simple">
+                        <div class="header-tag">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                            Ubicación Terreno
+                        </div>
                         <div class="uv-tag">{{ datosDashboard.uv }}</div>
                     </div>
-                    <img [src]="datosDashboard.imagenTerreno" alt="Terreno">
-                    <div class="image-footer">
-                        <span>{{ datosDashboard.direccion }}</span>
+                    
+                    <div class="location-content">
+                        <div class="location-info">
+                            <p class="address-text">{{ datosDashboard.direccion }}</p>
+                            <p class="city-text">{{ datosDashboard.ciudad }} — {{ datosDashboard.distrito }}</p>
+                        </div>
+                        <div class="mini-map-container">
+                            <!-- Placeholder de Mapa Estático -->
+                            <div class="static-map-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                <span>Mapa de Zona Activo</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <!-- ══ GALERÍA MULTIMEDIA ══════════════════════════════ -->
+                <div class="card carousel-card" (mouseenter)="detenerAutoPlay()" (mouseleave)="iniciarAutoPlay()">
+                    <div class="carousel-header">
+                        <div class="header-tag multimedia">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            Galería Multimedia
+                        </div>
+                        <div class="carousel-top-right">
+                            @if (modoEdicion) {
+                                <button class="btn-gestionar" (click)="togglePanelMultimedia()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    Gestionar
+                                </button>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- SLIDE ACTIVO -->
+                    @if (multimedia.length > 0 && itemActual) {
+                        <div class="carousel-slide">
+                            @if (isVideo(itemActual)) {
+                                @if (itemActual.provider === 'youtube') {
+                                    <iframe
+                                        [src]="itemActual.url | noSanitize"
+                                        class="carousel-frame"
+                                        allow="autoplay; encrypted-media"
+                                        allowfullscreen>
+                                    </iframe>
+                                } @else {
+                                    <video [src]="itemActual.url" class="carousel-video" controls></video>
+                                }
+                                <div class="video-badge">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                    VIDEO
+                                </div>
+                            } @else {
+                                <img [src]="itemActual.url" [alt]="itemActual.label" class="carousel-img" />
+                            }
+
+                            @if (multimedia.length > 1) {
+                                <!-- Controles de Navegación -->
+                                <button class="carousel-btn prev" (click)="anterior()">&#8249;</button>
+                                <button class="carousel-btn next" (click)="siguiente()">&#8250;</button>
+
+                                <!-- Dots -->
+                                <div class="carousel-dots">
+                                    @for (item of multimedia; track item.id; let i = $index) {
+                                        <button class="dot-btn" [class.active]="i === indiceActual" (click)="irA(i)"></button>
+                                    }
+                                </div>
+                            }
+
+                            <!-- Contador -->
+                            <div class="slide-counter">{{ indiceActual + 1 }} / {{ multimedia.length }}</div>
+                        </div>
+                    } @else {
+                        <!-- Estado vacío -->
+                        <div class="carousel-empty">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            <p>Sin multimedia disponible.</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- ── PANEL DE GESTIÓN MULTIMEDIA ─────────────── -->
+                @if (modoEdicion && panelMultimediaVisible) {
+                    <div class="card multimedia-panel">
+                        <div class="panel-header-row">
+                            <h3 class="panel-title">Gestionar Multimedia</h3>
+                            <button class="btn-close-panel" (click)="togglePanelMultimedia()">✕</button>
+                        </div>
+
+                        <!-- SEGMENTO FOTOS -->
+                        <div class="panel-section">
+                            <div class="section-title-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                <label class="panel-label">IMÁGENES (FOTOS)</label>
+                            </div>
+                            
+                            <label class="upload-zone photo" [class.uploading]="subiendoArchivos">
+                                <input type="file" multiple accept="image/*" (change)="onArchivosSeleccionados($event)" hidden />
+                                @if (subiendoArchivos) {
+                                    <div class="upload-spinner"></div>
+                                    <span>Subiendo imágenes...</span>
+                                } @else {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    <span>Subir fotos</span>
+                                }
+                            </label>
+
+                            @if (imagenesFotos.length > 0) {
+                                <div class="thumbnails-list">
+                                    @for (item of imagenesFotos; track item.id) {
+                                        <div class="thumb-card" [class.is-main]="item.isMain">
+                                            <img [src]="item.url" [alt]="item.label" />
+                                            @if (item.isMain) { <div class="main-tag">Portada</div> }
+                                            <div class="thumb-overlay">
+                                                @if (!item.isMain) {
+                                                    <button class="action-btn star" (click)="marcarComoPortada(item)" title="Usar como portada">★</button>
+                                                }
+                                                <button class="action-btn delete" (click)="eliminarMultimedia(item)" title="Eliminar">✕</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                        <div class="panel-divider"></div>
+
+                        <!-- SEGMENTO VIDEOS -->
+                        <div class="panel-section">
+                            <div class="section-title-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                                <label class="panel-label">VIDEOS (LOCAL / YOUTUBE)</label>
+                            </div>
+
+                            <div class="video-options-tabs">
+                                <button class="tab-btn" [class.active]="tipoCargaVideo === 'local'" (click)="tipoCargaVideo = 'local'">Archivo Local</button>
+                                <button class="tab-btn" [class.active]="tipoCargaVideo === 'youtube'" (click)="tipoCargaVideo = 'youtube'">YouTube</button>
+                            </div>
+
+                            @if (tipoCargaVideo === 'local') {
+                                <label class="upload-zone video" [class.uploading]="subiendoArchivos">
+                                    <input type="file" accept="video/*" (change)="onArchivosSeleccionados($event)" hidden />
+                                    @if (subiendoArchivos) {
+                                        <div class="upload-spinner"></div>
+                                        <span>Subiendo video...</span>
+                                    } @else {
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                        <span>Subir archivo mp4/mov</span>
+                                    }
+                                </label>
+                            } @else {
+                                <div class="youtube-form">
+                                    <input type="text" class="edit-input" placeholder="https://youtube.com/watch?v=..." [(ngModel)]="youtubeUrl" />
+                                    <input type="text" class="edit-input" placeholder="Etiqueta (ej: Drone View)" [(ngModel)]="youtubeLabel" />
+                                    <button class="btn-add-yt" [disabled]="!youtubeUrl || agregandoYoutube" (click)="agregarYoutube()">
+                                        @if (agregandoYoutube) { Agregando... } @else { + Agregar Link }
+                                    </button>
+                                </div>
+                            }
+
+                            @if (videos.length > 0) {
+                                <div class="thumbnails-list">
+                                    @for (item of videos; track item.id) {
+                                        <div class="thumb-card is-video">
+                                            <img [src]="getItemPreviewUrl(item)" [alt]="item.label" />
+                                            <div class="video-play-icon">▶</div>
+                                            <div class="thumb-overlay">
+                                                <button class="action-btn delete" (click)="eliminarMultimedia(item)" title="Eliminar">✕</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- VISIÓN DEL ASESOR -->
                 <div class="card advisor-card">
                     <div class="advisor-header">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                         <h3>VISIÓN DEL ASESOR</h3>
                     </div>
-                    <p>"{{ datosDashboard.asesorVision }}"</p>
+                    @if (modoEdicion) {
+                        <textarea class="edit-textarea" [(ngModel)]="datosDashboard.asesorVision" rows="4"></textarea>
+                        <button class="btn-save-field mt-8" [disabled]="guardando['advisorVision']" (click)="guardarCampo('advisorVision', datosDashboard.asesorVision)">
+                            @if (guardando['advisorVision']) { Guardando... } @else { Guardar Visión }
+                        </button>
+                    } @else {
+                        <p>"{{ datosDashboard.asesorVision }}"</p>
+                    }
                 </div>
 
+                <!-- DUE DILIGENCE -->
                 <div class="card dd-card">
                     <div class="dd-header">
                         <h3>Due Diligence</h3>
@@ -136,18 +380,12 @@
                     </div>
                     <ul class="dd-list">
                         <li class="dd-item completed">
-                            <div class="dd-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                            <div class="dd-text">
-                                <strong>Registro de Propiedad (DDRR)</strong>
-                                <span>Verificado • hace 2 horas</span>
-                            </div>
+                            <div class="dd-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="dd-text"><strong>Registro de Propiedad (DDRR)</strong><span>Verificado • hace 2 horas</span></div>
                         </li>
                         <li class="dd-item completed">
-                            <div class="dd-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                            <div class="dd-text">
-                                <strong>Cumplimiento Fiscal</strong>
-                                <span>Estado Limpio • hace 5 horas</span>
-                            </div>
+                            <div class="dd-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <div class="dd-text"><strong>Cumplimiento Fiscal</strong><span>Estado Limpio • hace 5 horas</span></div>
                         </li>
                         <li class="dd-item in-progress">
                             <div class="dd-icon spinner-small"></div>
@@ -158,14 +396,12 @@
                             </div>
                         </li>
                         <li class="dd-item pending">
-                            <div class="dd-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
-                            <div class="dd-text">
-                                <strong>Permiso de Construcción</strong>
-                                <span>Pendiente • Revisión</span>
-                            </div>
+                            <div class="dd-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                            <div class="dd-text"><strong>Permiso de Construcción</strong><span>Pendiente • Revisión</span></div>
                         </li>
                     </ul>
                 </div>
+
             </div>
         </div>
     }

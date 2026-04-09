@@ -23,6 +23,7 @@ export class RegistroTerreno implements OnDestroy {
     mensajeEstado: string = '';
     
     categoriasDisponibles: string[] = ['Residencial', 'Comercial', 'Industrial', 'Uso Mixto', 'Agrícola'];
+    departamentosDisponibles: string[] = ['Santa Cruz', 'Cochabamba', 'La Paz', 'Tarija', 'Potosí', 'Oruro', 'Chuquisaca', 'Beni', 'Pando'];
 
     private map: any;
     private L: any;
@@ -51,6 +52,7 @@ export class RegistroTerreno implements OnDestroy {
         this.formularioPaso2 = this.fb.group({
             categoria: ['', Validators.required],
             categoriaOtro: [''],
+            departamento: ['', Validators.required],
             ciudad: ['', Validators.required],
             distrito: [''],
             uv: [''],
@@ -276,22 +278,36 @@ export class RegistroTerreno implements OnDestroy {
             let precioStr = this.formularioPaso2.get('precioBase')?.value || '';
             const precioBase = Number.parseInt(precioStr.replace(/,/g, ''), 10) || 0;
 
+            // Creador del pequeño polígono (cuadrado) alrededor del punto (dado que no se dibujan a mano aún)
+            const offset = 0.0003; // Aproximadamente 30 metros visuales
+            const generatedPolygon = [
+                [lat - offset, lng - offset],
+                [lat + offset, lng - offset],
+                [lat + offset, lng + offset],
+                [lat - offset, lng + offset],
+                [lat - offset, lng - offset] // Cerramos el polígono
+            ];
+
+            const deptoValue = this.formularioPaso2.get('departamento')?.value || 'Santa Cruz';
+            const direccionValue = this.formularioPaso2.get('direccion')?.value || 'Terreno sin dirección';
+
             const newPropertyDto = {
                 id: propertyId,
+                name: direccionValue,
                 category: this.formularioPaso2.get('categoria')?.value,
                 city: this.formularioPaso2.get('ciudad')?.value,
+                department: deptoValue,
                 district: this.formularioPaso2.get('distrito')?.value,
                 uv: this.formularioPaso2.get('uv')?.value,
                 zoneBarrio: this.formularioPaso2.get('zona')?.value,
                 exactAddress: this.formularioPaso2.get('direccion')?.value,
                 lat: lat,
                 lng: lng,
+                polygon: generatedPolygon,
                 totalArea: Number.parseFloat(this.formularioPaso2.get('superficie')?.value) || 0,
                 frontM: Number.parseFloat(this.formularioPaso2.get('frente')?.value) || 0,
                 backM: Number.parseFloat(this.formularioPaso2.get('fondo')?.value) || 0,
                 basePriceNegotiation: precioBase,
-                // Puedes mandar los datos del formulario 3 (del propietario) si tu backend lo aceptase
-                // provisionalmente mandaremos lo básico requerido
             };
 
             // 2. Mandamos la propiedad al backend
@@ -306,7 +322,7 @@ export class RegistroTerreno implements OnDestroy {
                 const file = this.documentos[tipo];
                 if (file) {
                     this.mensajeEstado = `Subiendo documento legal... (${tipo})`;
-                    await firstValueFrom(this.propertyService.uploadMultimedia(propertyId, file));
+                    await firstValueFrom(this.propertyService.uploadMultimedia(propertyId, [file]));
                     nroArchivo++;
                 }
             }
@@ -315,7 +331,7 @@ export class RegistroTerreno implements OnDestroy {
             for (let i = 0; i < this.imagenes.length; i++) {
                 const imgFile = this.imagenes[i];
                 this.mensajeEstado = `Subiendo imagen ${i + 1} de ${this.imagenes.length}...`;
-                const uploadRes = await firstValueFrom(this.propertyService.uploadMultimedia(propertyId, imgFile));
+                const uploadRes = await firstValueFrom(this.propertyService.uploadMultimedia(propertyId, [imgFile]));
                 
                 // Si esta imagen es la seleccionada como principal, marcamos en el backend
                 // uploadRes debe contener los datos devueltos por el servidor donde esté el fileId
@@ -329,7 +345,7 @@ export class RegistroTerreno implements OnDestroy {
             // 5. Subir Video (si existe)
             if (this.video) {
                 this.mensajeEstado = `Subiendo video recorrido (puede tardar unos minutos)...`;
-                await firstValueFrom(this.propertyService.uploadMultimedia(propertyId, this.video));
+                await firstValueFrom(this.propertyService.uploadMultimedia(propertyId, [this.video]));
                 nroArchivo++;
             }
 

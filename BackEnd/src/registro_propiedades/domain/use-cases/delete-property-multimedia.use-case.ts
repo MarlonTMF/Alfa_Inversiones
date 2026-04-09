@@ -15,7 +15,9 @@ export class DeletePropertyMultimediaUseCase {
 
         if (multimedia && multimedia.publicId) {
             // 2. Borrado físico del proveedor (ImageKit/Cloudinary)
-            await this.fileStorage.deleteFile(multimedia.publicId, multimedia.provider);
+            if (multimedia.provider !== 'youtube') {
+                await this.fileStorage.deleteFile(multimedia.publicId, multimedia.provider as any);
+            }
 
             // 3. Borrado lógico de la base de datos
             await this.multimediaRepository.delete(id);

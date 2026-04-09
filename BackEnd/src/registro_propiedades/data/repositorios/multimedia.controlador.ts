@@ -1,5 +1,5 @@
-import { Controller, Post, Get, Delete, Patch, Param, UseInterceptors, UploadedFile, BadRequestException, HttpCode, HttpStatus } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Controller, Post, Get, Delete, Patch, Param, UseInterceptors, UploadedFile, UploadedFiles, BadRequestException, HttpCode, HttpStatus, Body } from '@nestjs/common';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ImageKitService } from '../../../common/services/imagekit.service.js';
 import { CloudinaryService } from '../../../common/services/cloudinary.service.js';
 import { AddPropertyMultimediaUseCase } from '../../domain/use-cases/add-property-multimedia.use-case.js';
@@ -18,69 +18,100 @@ export class MultimediaControlador {
         private readonly setMainUseCase: SetMainMultimediaUseCase,
     ) {}
 
+    /**
+     * Sube múltiples imágenes o videos a la nube (hasta 20 archivos a la vez).
+     */
     @Post('upload')
-    @UseInterceptors(FileInterceptor('file', {
-        limits: { fileSize: 100 * 1024 * 1024 } // Límite de 100MB
+    @UseInterceptors(FilesInterceptor('files', 20, {
+        limits: { fileSize: 100 * 1024 * 1024 }
     }))
-    async uploadFile(
+    async uploadFiles(
         @Param('id') propertyId: string,
-        @UploadedFile() file: Express.Multer.File
+        @UploadedFiles() files: Express.Multer.File[]
     ) {
-        if (!file) {
+        if (!files || files.length === 0) {
             throw new BadRequestException('No se ha enviado ningún archivo');
         }
 
-        let result;
-        let provider: 'imagekit' | 'cloudinary';
-        let type: 'photo' | 'video' | 'document';
+        const results: any[] = [];
 
-        // Lógica de decisión según el tipo de archivo
-        if (file.mimetype.startsWith('image/')) {
-            // Usar ImageKit para imágenes
-            const upload = await this.imageKitService.uploadFile(file, `${propertyId}-${Date.now()}`);
-            result = {
-                url: upload.url,
-                public_id: upload.fileId,
-            };
-            provider = 'imagekit';
-            type = 'photo';
-        } else if (file.mimetype.startsWith('video/')) {
-            // Usar Cloudinary para videos
-            const upload = await this.cloudinaryService.uploadVideo(file);
-            result = {
-                url: (upload as any).secure_url,
-                public_id: upload.public_id,
-            };
-            provider = 'cloudinary';
-            type = 'video';
-        } else if (file.mimetype === 'application/pdf') {
-            // Usar ImageKit para PDFs
-            const upload = await this.imageKitService.uploadFile(file, `${propertyId}-doc-${Date.now()}`);
-            result = {
-                url: upload.url,
-                public_id: upload.fileId,
-            };
-            provider = 'imagekit';
-            type = 'document';
-        } else {
-            throw new BadRequestException('Formato de archivo no soportado. Use imágenes, videos o PDF.');
+        for (const file of files) {
+            let result;
+            let provider: 'imagekit' | 'cloudinary';
+            let type: 'photo' | 'video' | 'document';
+
+            if (file.mimetype.startsWith('image/')) {
+                const upload = await this.imageKitService.uploadFile(file, `${propertyId}-${Date.now()}`);
+                result = { url: upload.url, public_id: upload.fileId };
+                provider = 'imagekit';
+                type = 'photo';
+            } else if (file.mimetype.startsWith('video/')) {
+                const upload = await this.cloudinaryService.uploadVideo(file);
+                result = { url: (upload as any).secure_url, public_id: upload.public_id };
+                provider = 'cloudinary';
+                type = 'video';
+            } else if (file.mimetype === 'application/pdf') {
+                const upload = await this.imageKitService.uploadFile(file, `${propertyId}-doc-${Date.now()}`);
+                result = { url: upload.url, public_id: upload.fileId };
+                provider = 'imagekit';
+                type = 'document';
+            } else {
+                continue; // Saltamos archivos no soportados
+            }
+
+            const saved = await this.addMultimediaUseCase.execute({
+                propertyId,
+                type,
+                provider,
+                url: result.url,
+                publicId: result.public_id,
+                isMain: false,
+                label: file.originalname
+            });
+            results.push(saved);
         }
 
-        // 3. Delegar el guardado al Caso de Uso (Arquitectura Limpia)
+        return { mensaje: `${results.length} archivo(s) subido(s) con éxito`, data: results };
+    }
+
+    /**
+     * Guarda una URL externa de YouTube como multimedia de tipo video.
+     */
+    @Post('external')
+    @HttpCode(HttpStatus.CREATED)
+    async addExternalVideo(
+        @Param('id') propertyId: string,
+        @Body() body: { url: string; label?: string }
+    ) {
+        if (!body.url) {
+            throw new BadRequestException('Se requiere una URL');
+        }
+
+        // Extraer el VIDEO ID de la URL de YouTube para la miniatura automática
+        const youtubeMatch = body.url.match(
+            /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/
+        );
+
+        if (!youtubeMatch) {
+            throw new BadRequestException('La URL no es una URL de YouTube válida');
+        }
+
+        const videoId = youtubeMatch[1];
+        const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+        const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+
         const saved = await this.addMultimediaUseCase.execute({
             propertyId,
-            type,
-            provider,
-            url: result.url,
-            publicId: result.public_id,
+            type: 'video',
+            provider: 'youtube',
+            url: embedUrl,
+            publicId: videoId,
             isMain: false,
-            label: file.originalname
+            label: body.label || `Video YouTube ${videoId}`,
+            thumbnailUrl
         });
 
-        return {
-            mensaje: `Archivo subido con éxito a ${provider}`,
-            data: saved
-        };
+        return { mensaje: 'Video de YouTube agregado correctamente', data: saved };
     }
 
     @Get()
@@ -100,4 +131,4 @@ export class MultimediaControlador {
         await this.setMainUseCase.execute(fileId);
         return { mensaje: 'Imagen principal actualizada correctamente' };
     }
-}
+}

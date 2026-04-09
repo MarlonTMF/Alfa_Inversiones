@@ -201,6 +201,16 @@
                         }
                         
                         <div class="input-group">
+                            <label for="departamento">DEPARTAMENTO</label>
+                            <select id="departamento" formControlName="departamento">
+                                <option value="" disabled selected>Seleccione...</option>
+                                @for (dep of departamentosDisponibles; track dep) {
+                                    <option [value]="dep">{{ dep }}</option>
+                                }
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
                             <label for="ciudad">CIUDAD / POBLACIÓN</label>
                             <input id="ciudad" type="text" formControlName="ciudad" placeholder="Ej. Cochabamba, Quillacollo...">
                         </div>

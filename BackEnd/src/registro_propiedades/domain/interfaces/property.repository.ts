@@ -32,4 +32,9 @@ export abstract class PropertyRepository {
      * @param multimediaData Datos del recurso (url, type, public_id, etc).
      */
     abstract addMultimedia(propertyId: string, multimediaData: any): Promise<void>;
+
+    /**
+     * Actualiza campos parciales de una propiedad.
+     */
+    abstract update(id: string, data: Partial<PropertyFuenteDatos>): Promise<void>;
 }

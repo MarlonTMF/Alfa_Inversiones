@@ -7,6 +7,8 @@ import { PropertyRepositoryImpl } from './data/repositorios/property.repository-
 import { CreatePropertyUseCase } from './domain/use-cases/create-property.use-case.js';
 import { GetAllPropertiesUseCase } from './domain/use-cases/get-all-properties.use-case.js';
 import { GetPropertyByIdUseCase } from './domain/use-cases/get-property-by-id.use-case.js';
+import { GetPropertyAnalysisUseCase } from './domain/use-cases/get-property-analysis.use-case.js';
+import { UpdatePropertyUseCase } from './domain/use-cases/update-property.use-case.js';
 import { PropertyController } from './presentation/controllers/property.controller.js';
 import { MultimediaControlador } from './data/repositorios/multimedia.controlador.js';
 import { ImageKitService } from '../common/services/imagekit.service.js';
@@ -44,6 +46,8 @@ import { SetMainMultimediaUseCase } from './domain/use-cases/set-main-multimedia
         CreatePropertyUseCase,
         GetAllPropertiesUseCase,
         GetPropertyByIdUseCase,
+        GetPropertyAnalysisUseCase,
+        UpdatePropertyUseCase,
 
         // 2. Registro de tus NUEVOS Casos de Uso Multimedia
         AddPropertyMultimediaUseCase,

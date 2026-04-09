@@ -8,12 +8,13 @@ export class PropertyMultimediaMapper {
             fuente.id,
             fuente.propertyId,
             fuente.type as 'photo' | 'video',
-            fuente.provider as 'imagekit' | 'cloudinary',
+            fuente.provider as 'imagekit' | 'cloudinary' | 'youtube',
             fuente.url,
-            fuente.publicId ?? undefined, // <-- Corrección: si es null, pásalo a undefined
+            fuente.publicId ?? undefined,
             fuente.isMain,
-            fuente.label ?? undefined,    // <-- Corrección: si es null, pásalo a undefined
-            fuente.createdAt
+            fuente.label ?? undefined,
+            fuente.createdAt,
+            fuente.thumbnailUrl ?? undefined,
         );
     }
 
@@ -27,7 +28,8 @@ export class PropertyMultimediaMapper {
         fuente.url = entidad.url;
         fuente.publicId = entidad.publicId ?? undefined; // Aseguramos consistencia
         fuente.isMain = entidad.isMain;
-        fuente.label = entidad.label ?? undefined;       // Aseguramos consistencia
+        fuente.label = entidad.label ?? undefined;
+        fuente.thumbnailUrl = entidad.thumbnailUrl ?? undefined;
         return fuente;
     }
 }

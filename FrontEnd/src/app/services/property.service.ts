@@ -6,46 +6,61 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PropertyService {
-  // Configura aquí la URL a tu backend
   private apiUrl = 'http://localhost:3000/api/v1';
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Crea una nueva propiedad en la base de datos
-   * @param propertyData Datos de la propiedad
-   */
   createProperty(propertyData: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    return this.http.post(`${this.apiUrl}/properties`, propertyData, { headers });
+    return this.http.post(`${this.apiUrl}/properties`, propertyData);
   }
 
   /**
-   * Sube un archivo multimedia asignado a un ID de propiedad específico
-   * @param propertyId ID de la propiedad creada
-   * @param file Archivo a subir
+   * Actualiza campos parciales de una propiedad (Admin).
+   * @param id ID de la propiedad
+   * @param data Objeto con solo los campos a actualizar
    */
-  uploadMultimedia(propertyId: string, file: File): Observable<any> {
+  updateProperty(id: string, data: Partial<any>): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/properties/${id}`, data);
+  }
+
+  /**
+   * Sube múltiples archivos (imágenes o videos) a la nube.
+   * El backend espera un FormData con el campo 'files'.
+   */
+  uploadMultimedia(propertyId: string, files: File[]): Observable<any> {
     const formData = new FormData();
-    formData.append('file', file);
-    
-    // El backend espera la ruta de esta forma
-    // POST /propiedades/:id/multimedia/upload
+    files.forEach(file => formData.append('files', file));
     return this.http.post(`${this.apiUrl}/propiedades/${propertyId}/multimedia/upload`, formData);
   }
 
   /**
-   * Establece un archivo multimedia como principal (portada)
-   * @param propertyId ID de la propiedad
-   * @param fileId ID del archivo multimedia (devuelto al subirlo)
+   * Agrega un video de YouTube por URL (sin subir archivo).
+   */
+  addYouTubeVideo(propertyId: string, url: string, label?: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/propiedades/${propertyId}/multimedia/external`, { url, label });
+  }
+
+  /**
+   * Marca un archivo multimedia como imagen principal (portada).
    */
   setMainMultimedia(propertyId: string, fileId: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    // PATCH /propiedades/:id/multimedia/:file_id/main
-    return this.http.patch(`${this.apiUrl}/propiedades/${propertyId}/multimedia/${fileId}/main`, {}, { headers });
+    return this.http.patch(
+      `${this.apiUrl}/propiedades/${propertyId}/multimedia/${fileId}/main`,
+      {}
+    );
+  }
+
+  /**
+   * Elimina un archivo multimedia de la nube y la base de datos.
+   */
+  deleteMultimedia(propertyId: string, fileId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/propiedades/${propertyId}/multimedia/${fileId}`);
+  }
+
+  /**
+   * Obtiene todos los archivos multimedia de una propiedad.
+   */
+  getMultimedia(propertyId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/propiedades/${propertyId}/multimedia`);
   }
 }
