@@ -59,19 +59,34 @@
     color: #ffffff;
 }
 
-.panel-imagen-wrapper {
-    position: relative;
+.media-carousel {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    height: 220px;
     flex-shrink: 0;
+    background-color: #0b1120;
+    border-bottom: 1px solid #1e293b;
 }
 
-.panel-imagen {
+.main-media-display {
+    position: relative;
+    width: 100%;
+    height: 240px; /* Altura fija para evitar solapamiento */
+    overflow: hidden;
+}
+
+.media-main-img, 
+.media-main-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-bottom: 1px solid #1e293b;
+    display: block;
 }
+
+.media-main-video {
+    border: none;
+}
+
 
 .etiquetas-flotantes {
     position: absolute;

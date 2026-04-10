@@ -46,8 +46,30 @@ export class AnalisisFinanciero implements OnInit, OnDestroy {
   // ── CARRUSEL ──────────────────────────────────────────────────
   public multimedia: MultimediaItem[] = [];
   public indiceActual: number = 0;
+  public reproduciendoVideo: boolean = false;
   private autoPlayInterval: any = null;
   private readonly AUTOPLAY_DELAY = 5000; // 5 seg
+
+  // ── GETTERS MULTIMEDIA PREMIUM ────────────────────────────────
+  get portada(): MultimediaItem | null {
+    const main = this.multimedia.find(m => m.type === 'photo' && m.isMain);
+    if (main) return main;
+    return this.multimedia.find(m => m.type === 'photo') || null;
+  }
+
+  get primerVideo(): MultimediaItem | null {
+    return this.multimedia.find(m => m.type === 'video') || null;
+  }
+
+  get hayVideo(): boolean {
+    return !!this.primerVideo;
+  }
+
+  toggleReproduccionVideo(): void {
+    this.reproduciendoVideo = !this.reproduciendoVideo;
+    if (this.reproduciendoVideo) this.detenerAutoPlay();
+    else this.iniciarAutoPlay();
+  }
 
   // ── PANEL DE GESTIÓN MULTIMEDIA ───────────────────────────────
   public panelMultimediaVisible: boolean = false;

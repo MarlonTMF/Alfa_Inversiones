@@ -213,43 +213,56 @@
                         </div>
                     </div>
 
-                    <!-- SLIDE ACTIVO -->
-                    @if (multimedia.length > 0 && itemActual) {
-                        <div class="carousel-slide">
-                            @if (isVideo(itemActual)) {
-                                @if (itemActual.provider === 'youtube') {
-                                    <iframe
-                                        [src]="itemActual.url | noSanitize"
-                                        class="carousel-frame"
-                                        allow="autoplay; encrypted-media"
-                                        allowfullscreen>
-                                    </iframe>
-                                } @else {
-                                    <video [src]="itemActual.url" class="carousel-video" controls></video>
+                    <!-- CAROUSEL PREMIUM WITH COVER/PLAY LOGIC -->
+                    @if (multimedia.length > 0) {
+                        <div class="carousel-slide" [class.video-active]="reproduciendoVideo">
+                            
+                            @if (!reproduciendoVideo) {
+                                <!-- PORTADA (IMAGEN) -->
+                                <img [src]="portada ? portada.url : getFallbackImage()" class="carousel-img" />
+                                
+                                <div class="overlay-gradient"></div>
+
+                                @if (hayVideo) {
+                                    <button class="play-pulse-btn" (click)="toggleReproduccionVideo()" title="Ver video promocional">
+                                        <div class="play-icon-bg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                        </div>
+                                        <span class="play-text">REPRODUCIR VIDEO</span>
+                                    </button>
                                 }
-                                <div class="video-badge">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                                    VIDEO
-                                </div>
                             } @else {
-                                <img [src]="itemActual.url" [alt]="itemActual.label" class="carousel-img" />
-                            }
-
-                            @if (multimedia.length > 1) {
-                                <!-- Controles de Navegación -->
-                                <button class="carousel-btn prev" (click)="anterior()">&#8249;</button>
-                                <button class="carousel-btn next" (click)="siguiente()">&#8250;</button>
-
-                                <!-- Dots -->
-                                <div class="carousel-dots">
-                                    @for (item of multimedia; track item.id; let i = $index) {
-                                        <button class="dot-btn" [class.active]="i === indiceActual" (click)="irA(i)"></button>
+                                <!-- REPRODUCTOR (VIDEO) -->
+                                <div class="video-container fade-in">
+                                    @if (primerVideo?.provider === 'youtube') {
+                                        <iframe
+                                            [src]="primerVideo!.url | noSanitize"
+                                            class="carousel-frame"
+                                            allow="autoplay; encrypted-media"
+                                            allowfullscreen>
+                                        </iframe>
+                                    } @else {
+                                        <video [src]="primerVideo!.url" class="carousel-video" controls autoplay></video>
                                     }
+                                    <button class="btn-back-to-photo" (click)="toggleReproduccionVideo()">
+                                        ✕ Volver a la foto
+                                    </button>
                                 </div>
                             }
+                        </div>
 
-                            <!-- Contador -->
-                            <div class="slide-counter">{{ indiceActual + 1 }} / {{ multimedia.length }}</div>
+                        <!-- Footer Info / Action -->
+                        <div class="carousel-footer-special">
+                             @if (hayVideo && !reproduciendoVideo) {
+                                <button class="btn-promo-video" (click)="toggleReproduccionVideo()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                                    Ver video promocional
+                                </button>
+                             } @else if (reproduciendoVideo) {
+                                <span class="reproducing-label">REPRODUCIENDO VIDEO PROMOCIONAL</span>
+                             } @else {
+                                <span class="active-slide-label">{{ portada?.label || 'Vista Principal' }}</span>
+                             }
                         </div>
                     } @else {
                         <!-- Estado vacío -->
@@ -258,6 +271,7 @@
                             <p>Sin multimedia disponible.</p>
                         </div>
                     }
+
                 </div>
 
                 <!-- ── PANEL DE GESTIÓN MULTIMEDIA ─────────────── -->
