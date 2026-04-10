@@ -29,7 +29,9 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
         'property.status as estado',
         'property.land_use as uso_suelo',
         'ST_AsGeoJSON(property.polygon) as poligono_geojson',
+        `(SELECT url FROM property_multimedia WHERE property_id = property.id AND type = 'photo' ORDER BY is_main DESC, created_at ASC LIMIT 1) as portada`
       ]);
+
 
     // Búsqueda espacial eficiente por Bounding Box (Overlap &&)
     // También filtramos para que NO devuelva propiedades con polígono NULL
@@ -68,8 +70,10 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
         estado: raw.estado,
         uso_suelo: raw.uso_suelo || 'Uso Mixto',
         poligono: coordinates,
+        portada: raw.portada,
       };
     });
+
 
 
 

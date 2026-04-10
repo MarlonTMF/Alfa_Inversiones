@@ -7,4 +7,6 @@ export class TerrenoRespuestaDto {
   estado?: string;
   uso_suelo?: string;
   poligono: [number, number][];
+  portada?: string;
 }
+

@@ -35,6 +35,7 @@ export class TerrenoDetalle implements OnChanges {
     procesarMultimedia(): void {
         this.mediaItems = [];
 
+        // 1. Priorizar video de YouTube si existe (datos antiguos o específicos)
         if (this.terreno.youtubeUrl) {
             const videoId = this.extraerYouTubeId(this.terreno.youtubeUrl);
             if (videoId) {
@@ -46,9 +47,20 @@ export class TerrenoDetalle implements OnChanges {
             }
         }
 
+        // 2. Procesar imágenes reales desde el servidor (portada o lista)
         const imagenes = this.terreno.imagenes && this.terreno.imagenes.length > 0 
-            ? this.terreno.imagenes 
-            : ['https://images.unsplash.com/photo-1524813686514-a57563d77965?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'];
+            ? [...this.terreno.imagenes] 
+            : [];
+
+        // Si existe una portada calculada en el backend, la ponemos al frente si no está ya en la lista
+        if (this.terreno.portada && !imagenes.includes(this.terreno.portada)) {
+            imagenes.unshift(this.terreno.portada);
+        }
+
+        // Si después de todo no hay nada, usamos el fallback
+        if (imagenes.length === 0 && this.mediaItems.length === 0) {
+            imagenes.push('https://images.unsplash.com/photo-1524813686514-a57563d77965?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+        }
 
         imagenes.forEach((img: string) => {
             this.mediaItems.push({
@@ -60,6 +72,7 @@ export class TerrenoDetalle implements OnChanges {
 
         this.itemActivo = this.mediaItems.length > 0 ? this.mediaItems[0] : null;
     }
+
 
     seleccionarMedia(item: MediaItem): void {
         this.itemActivo = item;

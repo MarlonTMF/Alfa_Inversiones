@@ -33,15 +33,14 @@ export class MultimediaControlador {
             throw new BadRequestException('No se ha enviado ningún archivo');
         }
 
-        const results: any[] = [];
-
-        for (const file of files) {
+        // Mapeamos cada archivo a una promesa de subida y guardado para procesar en paralelo
+        const uploadPromises = files.map(async (file) => {
             let result;
             let provider: 'imagekit' | 'cloudinary';
             let type: 'photo' | 'video' | 'document';
 
             if (file.mimetype.startsWith('image/')) {
-                const upload = await this.imageKitService.uploadFile(file, `${propertyId}-${Date.now()}`);
+                const upload = await this.imageKitService.uploadFile(file, `${propertyId}-${Date.now()}-${Math.random().toString(36).substring(7)}`);
                 result = { url: upload.url, public_id: upload.fileId };
                 provider = 'imagekit';
                 type = 'photo';
@@ -56,10 +55,10 @@ export class MultimediaControlador {
                 provider = 'imagekit';
                 type = 'document';
             } else {
-                continue; // Saltamos archivos no soportados
+                return null; // Archivo no soportado
             }
 
-            const saved = await this.addMultimediaUseCase.execute({
+            return await this.addMultimediaUseCase.execute({
                 propertyId,
                 type,
                 provider,
@@ -68,11 +67,17 @@ export class MultimediaControlador {
                 isMain: false,
                 label: file.originalname
             });
-            results.push(saved);
-        }
+        });
 
-        return { mensaje: `${results.length} archivo(s) subido(s) con éxito`, data: results };
+        const allResults = await Promise.all(uploadPromises);
+        const successfulResults = allResults.filter(r => r !== null);
+
+        return { 
+            mensaje: `${successfulResults.length} archivo(s) procesado(s)`, 
+            data: successfulResults 
+        };
     }
+
 
     /**
      * Guarda una URL externa de YouTube como multimedia de tipo video.

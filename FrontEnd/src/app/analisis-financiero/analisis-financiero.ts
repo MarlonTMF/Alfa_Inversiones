@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -30,6 +30,8 @@ export class AnalisisFinanciero implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
   private readonly propertyService = inject(PropertyService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
 
   public propertyId: string = '';
   public datosDashboard: any = null;
@@ -73,11 +75,13 @@ export class AnalisisFinanciero implements OnInit, OnDestroy {
 
   // ── PANEL DE GESTIÓN MULTIMEDIA ───────────────────────────────
   public panelMultimediaVisible: boolean = false;
-  public subiendoArchivos: boolean = false;
+  public subiendoImagen: boolean = false;
+  public subiendoVideo: boolean = false;
   public youtubeUrl: string = '';
   public youtubeLabel: string = '';
   public agregandoYoutube: boolean = false;
   public tipoCargaVideo: 'local' | 'youtube' = 'local';
+
 
   // ── GETTERS CARRUSEL ──────────────────────────────────────────
   get itemActual(): MultimediaItem | null {
@@ -121,10 +125,12 @@ export class AnalisisFinanciero implements OnInit, OnDestroy {
         this.indiceActual = 0;
         this.iniciarAutoPlay();
         this.cargando = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error cargando datos financieros:', err);
         this.cargando = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -233,17 +239,22 @@ export class AnalisisFinanciero implements OnInit, OnDestroy {
     if (!input.files || input.files.length === 0) return;
 
     const files = Array.from(input.files);
-    this.subiendoArchivos = true;
+    const esVideo = files.some(f => f.type.startsWith('video/'));
+
+    if (esVideo) this.subiendoVideo = true;
+    else this.subiendoImagen = true;
 
     this.propertyService.uploadMultimedia(this.propertyId, files).subscribe({
       next: () => {
-        this.subiendoArchivos = false;
+        this.subiendoImagen = false;
+        this.subiendoVideo = false;
         this.refrescarMultimedia();
         input.value = '';
       },
       error: (err) => {
         console.error('Error subiendo archivos:', err);
-        this.subiendoArchivos = false;
+        this.subiendoImagen = false;
+        this.subiendoVideo = false;
       }
     });
   }

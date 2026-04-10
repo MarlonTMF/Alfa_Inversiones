@@ -289,9 +289,9 @@
                                 <label class="panel-label">IMÁGENES (FOTOS)</label>
                             </div>
                             
-                            <label class="upload-zone photo" [class.uploading]="subiendoArchivos">
+                            <label class="upload-zone photo" [class.uploading]="subiendoImagen">
                                 <input type="file" multiple accept="image/*" (change)="onArchivosSeleccionados($event)" hidden />
-                                @if (subiendoArchivos) {
+                                @if (subiendoImagen) {
                                     <div class="upload-spinner"></div>
                                     <span>Subiendo imágenes...</span>
                                 } @else {
@@ -299,6 +299,7 @@
                                     <span>Subir fotos</span>
                                 }
                             </label>
+
 
                             @if (imagenesFotos.length > 0) {
                                 <div class="thumbnails-list">
@@ -333,9 +334,9 @@
                             </div>
 
                             @if (tipoCargaVideo === 'local') {
-                                <label class="upload-zone video" [class.uploading]="subiendoArchivos">
+                                <label class="upload-zone video" [class.uploading]="subiendoVideo">
                                     <input type="file" accept="video/*" (change)="onArchivosSeleccionados($event)" hidden />
-                                    @if (subiendoArchivos) {
+                                    @if (subiendoVideo) {
                                         <div class="upload-spinner"></div>
                                         <span>Subiendo video...</span>
                                     } @else {
