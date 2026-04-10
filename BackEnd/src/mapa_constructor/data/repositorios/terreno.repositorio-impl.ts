@@ -32,8 +32,11 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
       ]);
 
     // Búsqueda espacial eficiente por Bounding Box (Overlap &&)
+    // También filtramos para que NO devuelva propiedades con polígono NULL
+    query.andWhere('property.polygon IS NOT NULL');
+
     if (bbox.minLng && bbox.minLat && bbox.maxLng && bbox.maxLat) {
-      query.where(
+      query.andWhere(
         `property.polygon && ST_MakeEnvelope(:minLng, :minLat, :maxLng, :maxLat, 4326)`,
         {
           minLng: Number(bbox.minLng),
@@ -48,9 +51,9 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
 
     return rawProperties.map((raw) => {
       let coordinates: [number, number][] = [];
+      
       if (raw.poligono_geojson) {
         const geojson = JSON.parse(raw.poligono_geojson);
-        // Leaflet espera [[lat, lng], [lat, lng]...]
         if (geojson.coordinates && geojson.coordinates[0]) {
           coordinates = geojson.coordinates[0].map(([lng, lat]: [number, number]) => [lat, lng]);
         }
@@ -59,14 +62,17 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
       return {
         id: raw.id,
         ubicacion: raw.ubicacion,
-        precio: parseFloat(raw.precio),
-        superficie: parseFloat(raw.superficie),
+        precio: Number(raw.precio),
+        superficie: Number(raw.superficie),
         departamento: raw.departamento,
         estado: raw.estado,
         uso_suelo: raw.uso_suelo || 'Uso Mixto',
         poligono: coordinates,
       };
     });
+
+
+
   }
 
   async crear(dto: CrearTerrenoDto): Promise<{ mensaje: string }> {

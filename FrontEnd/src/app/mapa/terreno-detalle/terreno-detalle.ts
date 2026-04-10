@@ -71,8 +71,12 @@ export class TerrenoDetalle implements OnChanges {
 
     verAnalisisCompleto(): void {
         const id = this.terreno.id || 'demo';
+        console.log('--- MAP DATA DEBUG ---');
+        console.log('Terreno seleccionado:', this.terreno);
+        console.log('ID para navegación:', id);
         this.router.navigate(['/analisis', id]);
     }
+
 
     private extraerYouTubeId(url: string): string | null {
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;

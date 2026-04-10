@@ -203,10 +203,14 @@ export class Mapa implements AfterViewInit, OnDestroy {
         const url = `http://localhost:3000/api/v1/terrenos`;
 
         this.http.get<any[]>(url).subscribe({
-            next: (terrenos) => this.procesarTerrenos(terrenos),
+            next: (terrenos) => {
+                console.log('--- BACKEND TERRENOS ---', terrenos);
+                this.procesarTerrenos(terrenos);
+            },
             error: (err) => console.error(err)
         });
     }
+
 
     private dibujarPoligono(terreno: any, L: any): void {
         const centro = this.getCentroPoligono(terreno.poligono);
