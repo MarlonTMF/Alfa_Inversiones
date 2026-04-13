@@ -1,0 +1,125 @@
+<form [formGroup]="formulario" class="step-form-container fade-in">
+    <div class="form-card">
+        <div class="card-header-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <h3>1. Ubicación y Categoría</h3>
+        </div>
+        
+        <div class="form-grid-4">
+            <div class="input-group">
+                <label for="categoria">CATEGORÍA</label>
+                <select id="categoria" formControlName="categoria">
+                    <option value="" disabled selected>Seleccione...</option>
+                    @for (cat of categoriasDisponibles; track cat) {
+                        <option [value]="cat">{{ cat }}</option>
+                    }
+                    <option value="Otro">Otro (Especificar)</option>
+                </select>
+            </div>
+            @if (formulario.get('categoria')?.value === 'Otro') {
+                <div class="input-group fade-in">
+                    <label for="categoriaOtro">ESPECIFICAR CATEGORÍA</label>
+                    <input id="categoriaOtro" type="text" formControlName="categoriaOtro" (keydown.enter)="$event.preventDefault(); consolidarCategoria()" (blur)="consolidarCategoria()" placeholder="Ej. Turístico">
+                </div>
+            }
+            
+            <div class="input-group">
+                <label for="ciudad">CIUDAD / POBLACIÓN</label>
+                <input id="ciudad" type="text" formControlName="ciudad" placeholder="Ej. Cochabamba">
+            </div>
+
+            <div class="input-group">
+                <label for="distrito">DISTRITO</label>
+                <input id="distrito" type="text" formControlName="distrito" placeholder="Ej. D-12">
+            </div>
+            <div class="input-group">
+                <label for="uv">UV</label>
+                <input id="uv" type="text" formControlName="uv" placeholder="Ej. 013">
+            </div>
+        </div>
+
+        <div class="form-grid-2" style="margin-top: 16px;">
+            <div class="input-group">
+                <label for="zona">ZONA / BARRIO</label>
+                <input id="zona" type="text" formControlName="zona" placeholder="Ej. Cala Cala">
+            </div>
+            <div class="input-group">
+                <label for="direccion">DIRECCIÓN EXACTA</label>
+                <input id="direccion" type="text" formControlName="direccion" placeholder="Ej. Av. Simón López">
+            </div>
+        </div>
+
+        <div class="map-drawing-container">
+            <div id="mapa-inline-container" (dblclick)="cerrarPoligono()"></div>
+            <div class="map-overlay-controls">
+                <div class="map-status-pill">{{ estadoMapaText }}</div>
+                
+                <button type="button" class="btn-map-undo" (click)="deshacerUltimoPunto()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
+                    Deshacer
+                </button>
+                
+                <button type="button" class="btn-map-action" (click)="limpiarTrazado()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                    Limpiar
+                </button>
+                
+                <button type="button" class="btn-map-undo" style="background-color: #10b981;" (click)="cerrarPoligono()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Cerrar Polígono
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-card">
+        <div class="card-header-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            <h3>2. Dimensiones del Terreno</h3>
+        </div>
+
+        <div class="form-grid-3">
+            <div class="input-group has-suffix">
+                <label for="superficie">SUPERFICIE TOTAL LEGAL (M²)</label>
+                <div class="input-wrapper">
+                    <input id="superficie" type="number" formControlName="superficie" class="auto-filled" placeholder="0.00">
+                    <span class="suffix">M²</span>
+                </div>
+            </div>
+            <div class="input-group has-suffix">
+                <label for="frente">FRENTE ESTIMADO (M)</label>
+                <div class="input-wrapper">
+                    <input id="frente" type="number" formControlName="frente" class="auto-filled" placeholder="0.00">
+                    <span class="suffix">M</span>
+                </div>
+            </div>
+            <div class="input-group has-suffix">
+                <label for="fondo">FONDO ESTIMADO (M)</label>
+                <div class="input-wrapper">
+                    <input id="fondo" type="number" formControlName="fondo" class="auto-filled" placeholder="0.00">
+                    <span class="suffix">M</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-card no-border">
+        <div class="card-header-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            <h3>3. Valorización Solicitada</h3>
+        </div>
+
+        <div class="input-group has-prefix highlight-input">
+            <label for="precioBase">PRECIO BASE DE NEGOCIACIÓN ($US)</label>
+            <div class="input-wrapper">
+                <span class="prefix">$US</span>
+                <input id="precioBase" type="text" formControlName="precioBase" (keyup)="formatearPrecio($event)" placeholder="0.00">
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-actions-stepper">
+        <button type="button" class="btn-outline-cancel" (click)="atras.emit()">← Atrás</button>
+        <button type="button" class="btn-solid-next" [disabled]="formulario.invalid || !formulario.get('coordenadas')?.value" (click)="siguiente.emit()">Siguiente: Credenciales ➔</button>
+    </div>
+</form>
