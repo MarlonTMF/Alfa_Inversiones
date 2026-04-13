@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TerrenoPopup } from './terreno-popup';
+import { LandingPage } from './landing-page';
 
-describe('TerrenoPopup', () => {
-  let component: TerrenoPopup;
-  let fixture: ComponentFixture<TerrenoPopup>;
+describe('LandingPage', () => {
+  let component: LandingPage;
+  let fixture: ComponentFixture<LandingPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TerrenoPopup],
+      imports: [LandingPage],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TerrenoPopup);
+    fixture = TestBed.createComponent(LandingPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

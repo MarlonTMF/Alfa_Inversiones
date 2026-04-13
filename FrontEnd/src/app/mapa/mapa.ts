@@ -1,22 +1,18 @@
-import { Component, AfterViewInit, OnDestroy, PLATFORM_ID, Inject, NgZone, effect, inject, ChangeDetectorRef, signal } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, PLATFORM_ID, Inject, NgZone, effect, inject, ChangeDetectorRef } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AmenidadesService } from '../services/amenidades';
+import { ExploradorService } from '../services/explorador';
+import { TerrenoDetalle } from './terreno-detalle/terreno-detalle';
 
 @Component({
     selector: 'app-mapa',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, TerrenoDetalle],
     templateUrl: './mapa.html',
     styleUrl: './mapa.css',
 })
 export class Mapa implements AfterViewInit, OnDestroy {
-    terrenoSeleccionado: any = null;
-    todosLosTerrenos = signal<any[]>([]); // Lista completa de activos
-    terrenosCercanos = signal<any[]>([]); // Lista filtrada/ordenada para la UI
-    terrenosVisiblesIds = signal<Set<string>>(new Set()); // IDs de terrenos visibles en el mapa
-    departamentoSeleccionado = signal<string>('Todos'); // Filtro de departamento
-
     private isAnimating: boolean = false;
     private map: any;
     private L: any;
@@ -25,9 +21,11 @@ export class Mapa implements AfterViewInit, OnDestroy {
     private capaTransporte: any;
     private capaColegios: any;
     private capaHospitales: any;
+    
     public readonly amenidadesService = inject(AmenidadesService);
-    private mapReady = signal(false);
-    private amenidadesCache = new Map<string, { elements: any[], centro: [number, number] }>();
+    public readonly exploradorService = inject(ExploradorService);
+    
+    private readonly amenidadesCache = new Map<string, { elements: any[], centro: [number, number] }>();
 
     constructor(
         @Inject(PLATFORM_ID) private readonly platformId: Object,
@@ -35,47 +33,24 @@ export class Mapa implements AfterViewInit, OnDestroy {
         private readonly zone: NgZone,
         private readonly cdr: ChangeDetectorRef
     ) {
-        // Efecto reactivo para filtros de amenidades
         effect(() => {
-            if (!this.mapReady()) return;
+            if (!this.map) return;
+            
+            this.amenidadesService.mostrarHospitales();
+            this.amenidadesService.mostrarColegios();
+            this.amenidadesService.mostrarMercados();
+            this.amenidadesService.mostrarTransporte();
 
-            // Leemos los signals para suscribir el efecto
-            const h = this.amenidadesService.mostrarHospitales();
-            const c = this.amenidadesService.mostrarColegios();
-            const m = this.amenidadesService.mostrarMercados();
-            const t = this.amenidadesService.mostrarTransporte();
-
-            console.log('Filtros cambiados, actualizando capas de amenidades...');
-
-            this.zone.run(() => {
+            this.zone.runOutsideAngular(() => {
                 this.actualizarCapasAmenidades();
             });
         });
 
-        // Efecto para actualizar la lista filtrada cuando cambian los terrenos, el filtro o la visibilidad
         effect(() => {
-            const todos = this.todosLosTerrenos();
-            const filtro = this.departamentoSeleccionado();
-            const visibles = this.terrenosVisiblesIds();
-
-            let filtrados = todos;
-            if (filtro !== 'Todos') {
-                filtrados = todos.filter(t => t.departamento === filtro);
+            const terreno = this.exploradorService.terrenoSeleccionado();
+            if (terreno && this.map && !this.isAnimating) {
+                this.iniciarVueloHaciaTerreno(terreno);
             }
-
-            // Ordenamos: primero los que están visibles en el mapa
-            const ordenados = [...filtrados].sort((a, b) => {
-                const aVisible = visibles.has(a.id);
-                const bVisible = visibles.has(b.id);
-                if (aVisible && !bVisible) return -1;
-                if (!aVisible && bVisible) return 1;
-                return 0;
-            });
-
-            this.zone.run(() => {
-                this.terrenosCercanos.set(ordenados);
-                this.cdr.detectChanges();
-            });
         });
     }
 
@@ -89,17 +64,41 @@ export class Mapa implements AfterViewInit, OnDestroy {
         }
     }
 
+    private iniciarVueloHaciaTerreno(terreno: any): void {
+        const centro = this.getCentroPoligono(terreno.poligono);
+        this.isAnimating = true;
+        
+        this.zone.runOutsideAngular(() => {
+            this.map.flyTo(centro, 17, { animate: true, duration: 1.5 });
+            this.map.once('moveend', this.finalizarVuelo.bind(this));
+        });
+    }
+
+    private finalizarVuelo(): void {
+        this.zone.run(() => {
+            this.isAnimating = false;
+            this.actualizarVisibilidadTerrenos();
+            this.cdr.detectChanges();
+        });
+    }
+
+    private manejarMovimientoMapa(): void {
+        this.zone.run(() => {
+            this.actualizarVisibilidadTerrenos();
+            if (!this.isAnimating) {
+                this.actualizarCapasAmenidades();
+            }
+        });
+    }
+
     private procesarTerrenos(terrenos: any[]): void {
         if (!this.map || !this.capaTerrenos) return;
         this.capaTerrenos.clearLayers();
 
-        // Actualizamos la lista completa
-        this.zone.run(() => {
-            this.todosLosTerrenos.set(terrenos);
-            this.actualizarVisibilidadTerrenos();
-        });
-
+        this.exploradorService.actualizarTerrenos(terrenos);
+        
         terrenos.forEach(terreno => this.dibujarPoligono(terreno, this.L));
+        this.actualizarVisibilidadTerrenos();
     }
 
     private actualizarVisibilidadTerrenos(): void {
@@ -107,32 +106,14 @@ export class Mapa implements AfterViewInit, OnDestroy {
         const bounds = this.map.getBounds();
         const visibles = new Set<string>();
 
-        this.todosLosTerrenos().forEach(t => {
+        this.exploradorService.todosLosTerrenos().forEach(t => {
             const centro = this.getCentroPoligono(t.poligono);
             if (bounds.contains(centro)) {
                 visibles.add(t.id);
             }
         });
 
-        this.terrenosVisiblesIds.set(visibles);
-    }
-
-    seleccionarTerrenoDesdeLista(terreno: any): void {
-        this.terrenoSeleccionado = terreno;
-        this.isAnimating = true;
-
-        const centro = this.getCentroPoligono(terreno.poligono);
-        this.map.flyTo(centro, 16, { animate: true, duration: 1.5 });
-
-        this.map.once('moveend', () => {
-            this.isAnimating = false;
-            this.actualizarVisibilidadTerrenos();
-        });
-    }
-
-    cambiarFiltroDepartamento(event: any): void {
-        const dpto = event.target.value;
-        this.departamentoSeleccionado.set(dpto);
+        this.exploradorService.actualizarVisibles(visibles);
     }
 
     private getCentroPoligono(coords: [number, number][]): [number, number] {
@@ -152,7 +133,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     private gestionarGeolocalizacion(L: any): void {
-        const coordenadasFallback: [number, number] = [-17.7612, -63.1921]; // Equipetrol
+        const coordenadasFallback: [number, number] = [-17.7612, -63.1921];
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (posicion) => {
@@ -172,9 +153,11 @@ export class Mapa implements AfterViewInit, OnDestroy {
             this.map.remove();
             this.map = null;
         }
-        const container = document.getElementById('map');
-        if (container && (container as any)._leaflet_id) {
-            (container as any)._leaflet_id = null;
+        if (isPlatformBrowser(this.platformId)) {
+            const container = document.getElementById('map');
+            if (container && (container as any)._leaflet_id) {
+                (container as any)._leaflet_id = null;
+            }
         }
     }
 
@@ -187,10 +170,9 @@ export class Mapa implements AfterViewInit, OnDestroy {
             zoom: 15
         });
 
-        // Usamos OpenStreetMap estándar para mayor detalle y color (como en la referencia)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
             maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }).addTo(this.map);
 
         L.control.zoom({ position: 'bottomright' }).addTo(this.map);
@@ -202,17 +184,8 @@ export class Mapa implements AfterViewInit, OnDestroy {
         }
 
         this.inicializarCapasAmenidades(L);
-        this.mapReady.set(true);
 
-        // Los eventos de Leaflet deben correr en NgZone para avisar a Angular
-        this.map.on('moveend', () => {
-            this.zone.run(() => {
-                this.actualizarVisibilidadTerrenos();
-                if (!this.isAnimating) {
-                    this.actualizarCapasAmenidades();
-                }
-            });
-        });
+        this.map.on('moveend', this.manejarMovimientoMapa.bind(this));
 
         this.obtenerTerrenosDelBackend();
     }
@@ -227,20 +200,17 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
     private obtenerTerrenosDelBackend(): void {
         if (!this.map) return;
-        // Petición global sin bounds para tener todos los activos inicialmente
         const url = `http://localhost:3000/api/v1/terrenos`;
 
         this.http.get<any[]>(url).subscribe({
             next: (terrenos) => this.procesarTerrenos(terrenos),
-            error: (err) => console.error('Error Backend Terrenos:', err)
+            error: (err) => console.error(err)
         });
     }
 
     private dibujarPoligono(terreno: any, L: any): void {
         const centro = this.getCentroPoligono(terreno.poligono);
 
-        // SOLO dibujo el marcador de precisión (Punto Azul con borde negro/sombra)
-        // Esto soluciona el problema de los "cuadrados grandes"
         const marcadorInversion = L.circleMarker(centro, {
             radius: 9,
             fillColor: '#2563eb',
@@ -251,8 +221,6 @@ export class Mapa implements AfterViewInit, OnDestroy {
             className: 'marcador-precision-premium'
         });
 
-        // El polígono se usa solo como una capa invisible para mejorar el área de interacción si fuera necesario,
-        // pero para cumplir con la estética del usuario, no le pondremos color.
         const areaInteractiva = L.polygon(terreno.poligono, {
             color: 'transparent',
             fillColor: 'transparent',
@@ -266,11 +234,8 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
         const manejarClick = () => {
             this.zone.run(() => {
-                this.terrenoSeleccionado = terreno;
+                this.exploradorService.seleccionarTerreno(terreno);
                 this.cdr.detectChanges();
-                this.isAnimating = true;
-                this.map.flyTo(centro, 17, { animate: true, duration: 1.5 });
-                this.map.once('moveend', () => { this.isAnimating = false; });
             });
         };
 
@@ -294,86 +259,29 @@ export class Mapa implements AfterViewInit, OnDestroy {
             if (f.activo) {
                 if (!this.map.hasLayer(f.capa)) {
                     this.map.addLayer(f.capa);
-                    console.log(`Capa ${f.tipo} activada.`);
                 }
 
-                // Lógica de Caché Inteligente:
                 const cache = this.amenidadesCache.get(f.tipo);
                 const distancia = cache ? this.calcularDistancia(centroActual, cache.centro) : Infinity;
 
-                // Solo consultamos si NO hay caché O si el usuario se ha movido más de 800 metros
                 if (!cache || distancia > 800) {
-                    console.log(`Buscando ${f.tipo} en red (Distancia desplazada: ${distancia.toFixed(0)}m)...`);
-                    this.cargarAmenidadesDesdeOSM(f.tipo, f.capa, centroActual);
+                    this.amenidadesService.obtenerAmenidades(f.tipo, centroActual[0], centroActual[1]).subscribe({
+                        next: (elementos) => {
+                            this.amenidadesCache.set(f.tipo, { elements: elementos, centro: centroActual });
+                            this.renderizarDesdeCache(f.tipo, f.capa, elementos);
+                            this.amenidadesService.finalizarCarga(true);
+                        },
+                        error: () => {
+                            f.capa.clearLayers();
+                            this.amenidadesService.finalizarCarga(false);
+                        }
+                    });
                 } else if (f.capa.getLayers().length === 0) {
-                    // Si hay caché pero la capa está vacía (por haberla desactivado antes), restauramos desde caché
-                    console.log(`Restaurando ${f.tipo} desde caché local.`);
                     this.renderizarDesdeCache(f.tipo, f.capa, cache.elements);
                 }
-            } else {
-                if (this.map.hasLayer(f.capa)) {
-                    this.map.removeLayer(f.capa);
-                    f.capa.clearLayers();
-                    console.log(`Capa ${f.tipo} oculta.`);
-                }
-            }
-        });
-    }
-
-    private cargarAmenidadesDesdeOSM(tipo: string, capa: any, centroActual: [number, number]): void {
-        const bounds = this.map.getBounds();
-        const sw = bounds.getSouthWest();
-        const ne = bounds.getNorthEast();
-
-        // Evitar peticiones si el zoom es muy bajo para no saturar Overpass
-        if (this.map.getZoom() < 13) {
-            console.warn(`Zoom demasiado bajo para ${tipo}.`);
-            return;
-        }
-
-        const categoryTags: any = {
-            salud: '["amenity"~"hospital|clinic|doctors|pharmacy"]',
-            educacion: '["amenity"~"school|college|university|kindergarten"]',
-            comercio: '["shop"~"supermarket|convenience|marketplace|mall|department_store"]',
-            transporte: '["highway"~"bus_stop"]["bus"="yes"]'
-        };
-
-        const tagQuery = categoryTags[tipo] || '["amenity"~"hospital|school"]';
-        const bbox = `${sw.lat},${sw.lng},${ne.lat},${ne.lng}`;
-        let query = `[out:json][timeout:25];(node${tagQuery}(${bbox});way${tagQuery}(${bbox}););out center;`;
-
-        if (tipo === 'transporte') {
-            query = `[out:json][timeout:25];(node["highway"="bus_stop"](${bbox});node["amenity"="bus_station"](${bbox});way["amenity"="bus_station"](${bbox}););out center;`;
-        }
-
-        const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-
-        this.amenidadesService.iniciarCarga(tipo);
-        this.http.get<any>(url).subscribe({
-            next: (data) => {
-                if (data && data.elements) {
-                    // Guardamos en caché
-                    this.amenidadesCache.set(tipo, { elements: data.elements, centro: centroActual });
-                    this.renderizarDesdeCache(tipo, capa, data.elements);
-
-                    // Aseguramos que el ciclo de pintado de Leaflet/Angular ocurra antes de quitar la barra
-                    requestAnimationFrame(() => {
-                        // Un pequeño timeout para que el ojo humano vea los iconos aparecer antes de que muera la barra
-                        setTimeout(() => {
-                            this.amenidadesService.finalizarCarga(true);
-                        }, 50);
-                    });
-                } else {
-                    console.log(`OSM: No se encontraron resultados para ${tipo} en esta zona.`);
-                    capa.clearLayers();
-                    this.amenidadesService.finalizarCarga(false);
-                }
-            },
-            error: (err) => {
-                console.error(`Error Overpass OSM ${tipo}:`, err);
-                // Si hay error, al menos limpiamos para que no se vea info vieja/falsa
-                capa.clearLayers();
-                this.amenidadesService.finalizarCarga(false);
+            } else if (this.map.hasLayer(f.capa)) {
+                this.map.removeLayer(f.capa);
+                f.capa.clearLayers();
             }
         });
     }
@@ -394,7 +302,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
     }
 
     private calcularDistancia(p1: [number, number], p2: [number, number]): number {
-        const R = 6371e3; // Radio de la Tierra en metros
+        const R = 6371e3;
         const φ1 = p1[0] * Math.PI / 180;
         const φ2 = p2[0] * Math.PI / 180;
         const Δφ = (p2[0] - p1[0]) * Math.PI / 180;
@@ -405,7 +313,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
             Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        return R * c; // Distancia en metros
+        return R * c;
     }
 
     private crearIconoPremium(tipo: string): any {
@@ -425,10 +333,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
         });
     }
 
-    private crearIconoColoreado(tipo: string): any {
-        // Mantenido por compatibilidad si se usa en otros lugares, pero crearIconoPremium es el nuevo estándar
-        return this.crearIconoPremium(tipo);
+    cerrarPanel(): void {
+        this.exploradorService.seleccionarTerreno(null);
     }
-
-    cerrarPanel(): void { this.terrenoSeleccionado = null; }
 }

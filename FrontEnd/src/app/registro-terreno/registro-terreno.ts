@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Component, PLATFORM_ID, Inject, NgZone, OnDestroy } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-registro-terreno',
@@ -10,31 +11,74 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
     templateUrl: './registro-terreno.html',
     styleUrl: './registro-terreno.css'
 })
-export class RegistroTerreno {
+export class RegistroTerreno implements OnDestroy {
     pasoActual: number = 1;
     formularioPaso2: FormGroup;
+    formularioPaso3: FormGroup;
+    coordenadasSeleccionadas: string = '';
     
+    categoriasDisponibles: string[] = ['Residencial', 'Comercial', 'Industrial', 'Uso Mixto', 'Agrícola'];
+
+    private map: any;
+    private L: any;
+    private marker: any;
+
     documentos: { [key: string]: File | null } = {
         folioReal: null,
         certificadoCatastral: null,
         cedula: null,
-        planos: null
+        multimedia: null,
+        adicional: null
     };
     errorArchivo: string | null = null;
 
-    constructor(private fb: FormBuilder) {
+    constructor(
+        private fb: FormBuilder,
+        @Inject(PLATFORM_ID) private readonly platformId: Object,
+        private readonly zone: NgZone,
+        private readonly http: HttpClient,
+        private readonly router: Router
+    ) {
         this.formularioPaso2 = this.fb.group({
-            ciudad: ['Cochabamba'],
+            categoria: ['', Validators.required],
+            categoriaOtro: [''],
+            ciudad: ['', Validators.required],
             distrito: [''],
             uv: [''],
             zona: [''],
             direccion: ['', Validators.required],
-            coordenadas: [''],
+            coordenadas: ['', Validators.required],
             superficie: ['', Validators.required],
             frente: [''],
             fondo: [''],
+            youtubeUrl: [''],
             precioBase: ['', Validators.required]
         });
+
+        this.formularioPaso3 = this.fb.group({
+            rol: ['propietario', Validators.required],
+            nombrePropietario: ['', Validators.required],
+            emailPropietario: ['', [Validators.required, Validators.email]],
+            telefonoPropietario: ['', Validators.required],
+            passwordGenerado: [{ value: this.generarPassword(), disabled: true }]
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.destruirMapa();
+    }
+
+    generarPassword(): string {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let pass = 'ALFA-';
+        for (let i = 0; i < 5; i++) {
+            pass += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return pass;
+    }
+
+    regenerarPassword(): void {
+        this.formularioPaso3.patchValue({ passwordGenerado: this.generarPassword() });
     }
 
     manejarArchivo(event: any, tipo: string): void {
@@ -56,15 +100,27 @@ export class RegistroTerreno {
 
     private procesarArchivo(file: File, tipo: string): void {
         this.errorArchivo = null;
-        const tiposPermitidos = ['application/pdf', 'image/jpeg', 'image/png'];
+        
+        let tiposPermitidos = ['application/pdf', 'image/jpeg', 'image/png'];
+        let maxSize = 15 * 1024 * 1024;
+        let mensajeErrorTipo = 'Solo se permiten formatos PDF, JPG y PNG.';
+
+        if (tipo === 'multimedia') {
+            tiposPermitidos = ['image/jpeg', 'image/png', 'video/mp4'];
+            maxSize = 50 * 1024 * 1024;
+            mensajeErrorTipo = 'Para multimedia solo se permiten JPG, PNG o MP4.';
+        } else if (tipo === 'adicional') {
+            tiposPermitidos = ['application/pdf', 'application/zip', 'application/x-zip-compressed'];
+            mensajeErrorTipo = 'Para documentos adicionales se permiten PDF o ZIP.';
+        }
         
         if (!tiposPermitidos.includes(file.type)) {
-            this.errorArchivo = 'Solo se permiten formatos PDF, JPG y PNG.';
+            this.errorArchivo = mensajeErrorTipo;
             return;
         }
         
-        if (file.size > 15 * 1024 * 1024) {
-            this.errorArchivo = 'El archivo supera el límite de 15MB.';
+        if (file.size > maxSize) {
+            this.errorArchivo = `El archivo supera el límite permitido.`;
             return;
         }
         
@@ -88,8 +144,38 @@ export class RegistroTerreno {
     siguientePaso(): void {
         if (this.pasoActual === 1 && this.esValidoPaso1()) {
             this.pasoActual = 2;
+            this.activarMapa();
         } else if (this.pasoActual === 2 && this.formularioPaso2.valid) {
+            this.consolidarCategoria();
             this.pasoActual = 3;
+        }
+    }
+
+    irAPaso(pasoDestino: number): void {
+        if (pasoDestino === 1) {
+            this.pasoActual = 1;
+        } else if (pasoDestino === 2 && this.esValidoPaso1()) {
+            this.pasoActual = 2;
+            this.activarMapa();
+        } else if (pasoDestino === 3 && this.esValidoPaso1() && this.formularioPaso2.valid) {
+            this.consolidarCategoria();
+            this.pasoActual = 3;
+        }
+    }
+
+    consolidarCategoria(): void {
+        const categoriaActual = this.formularioPaso2.get('categoria')?.value;
+        const categoriaNueva = this.formularioPaso2.get('categoriaOtro')?.value;
+
+        if (categoriaActual === 'Otro' && categoriaNueva && categoriaNueva.trim() !== '') {
+            const nuevaNormalizada = categoriaNueva.trim();
+            if (!this.categoriasDisponibles.includes(nuevaNormalizada)) {
+                this.categoriasDisponibles.push(nuevaNormalizada);
+            }
+            this.formularioPaso2.patchValue({
+                categoria: nuevaNormalizada,
+                categoriaOtro: ''
+            });
         }
     }
 
@@ -98,6 +184,145 @@ export class RegistroTerreno {
         if (valor) {
             valor = Number.parseInt(valor, 10).toLocaleString('en-US'); 
             this.formularioPaso2.patchValue({ precioBase: valor });
+        }
+    }
+
+    finalizarRegistro(): void {
+        this.router.navigate(['/mapa']);
+    }
+
+    private activarMapa(): void {
+        if (isPlatformBrowser(this.platformId)) {
+            setTimeout(() => {
+                this.iniciarLeafletInline();
+            }, 100);
+        }
+    }
+
+    private iniciarLeafletInline(): void {
+        if (this.map) {
+            this.map.invalidateSize();
+            return;
+        }
+
+        import('leaflet').then((L) => {
+            this.L = L;
+            let centro: [number, number] = [-17.3895, -66.1568];
+            
+            if (this.coordenadasSeleccionadas) {
+                 const partes = this.coordenadasSeleccionadas.split(',');
+                 if(partes.length === 2){
+                     centro = [parseFloat(partes[0]), parseFloat(partes[1])];
+                 }
+            }
+
+            this.zone.runOutsideAngular(() => {
+                this.map = L.map('mapa-inline-container', {
+                    zoomControl: false 
+                }).setView(centro, 15);
+
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; CARTO'
+                }).addTo(this.map);
+                
+                L.control.zoom({ position: 'bottomright' }).addTo(this.map);
+
+                const icon = L.divIcon({
+                    className: 'marcador-transparente',
+                    html: `
+                        <div style="background-color: #3b82f6; color: white; border-radius: 50%; width: 24px; height: 24px; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.5);"></div>
+                        <div style="width: 2px; height: 12px; background-color: #1e3a8a; margin: 0 auto;"></div>
+                    `,
+                    iconSize: [24, 36],
+                    iconAnchor: [12, 36]
+                });
+
+                this.marker = L.marker(centro, { 
+                    icon: icon,
+                    draggable: true 
+                }).addTo(this.map);
+
+                this.actualizarCoordenadas(centro[0], centro[1]);
+
+                this.marker.on('dragend', this.manejarArrastreMarcador.bind(this));
+                this.map.on('click', this.manejarClicMapa.bind(this));
+
+                setTimeout(() => {
+                    this.map.invalidateSize();
+                }, 300);
+            });
+        }).catch(err => console.error(err));
+    }
+
+    private manejarArrastreMarcador(): void {
+        const position = this.marker.getLatLng();
+        this.zone.run(() => {
+            this.actualizarCoordenadas(position.lat, position.lng);
+        });
+    }
+
+    private manejarClicMapa(e: any): void {
+        this.marker.setLatLng(e.latlng);
+        this.zone.run(() => {
+            this.actualizarCoordenadas(e.latlng.lat, e.latlng.lng);
+        });
+    }
+
+    private actualizarCoordenadas(lat: number, lng: number): void {
+        this.coordenadasSeleccionadas = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+        this.formularioPaso2.patchValue({ coordenadas: this.coordenadasSeleccionadas });
+
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+        this.http.get<any>(url).subscribe({
+            next: (data) => {
+                if (data?.address) {
+                    let direccionFinal = '';
+                    const calle = data.address.road || data.address.pedestrian || '';
+                    const numero = data.address.house_number || '';
+                    const barrio = data.address.neighbourhood || data.address.suburb || '';
+
+                    if (calle) {
+                        direccionFinal = `Calle ${calle}`;
+                        if (numero) direccionFinal += ` nro ${numero}`;
+                        if (barrio) direccionFinal += `, ${barrio}`;
+                    } else if (data.display_name) {
+                        const partes = data.display_name.split(',');
+                        direccionFinal = partes.slice(0, 2).join(',').trim();
+                    }
+
+                    if (direccionFinal) {
+                        this.formularioPaso2.patchValue({ direccion: direccionFinal });
+                    }
+                }
+            },
+            error: () => {}
+        });
+    }
+
+    obtenerUbicacionActual(): void {
+        if (navigator.geolocation && this.map && this.marker) {
+            navigator.geolocation.getCurrentPosition(
+                (posicion) => {
+                    const lat = posicion.coords.latitude;
+                    const lng = posicion.coords.longitude;
+                    this.zone.runOutsideAngular(() => {
+                        this.map.flyTo([lat, lng], 16, { animate: true });
+                        this.marker.setLatLng([lat, lng]);
+                    });
+                    this.actualizarCoordenadas(lat, lng);
+                },
+                () => {}
+            );
+        }
+    }
+
+    private destruirMapa(): void {
+        if (this.map) {
+            this.map.off();
+            this.map.remove();
+            this.map = null;
+            this.marker = null;
         }
     }
 }
