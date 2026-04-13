@@ -269,13 +269,16 @@ export class AnalisisFinanciero implements OnInit, OnDestroy {
         this.youtubeUrl = '';
         this.youtubeLabel = '';
         this.refrescarMultimedia();
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error agregando video YouTube:', err);
         this.agregandoYoutube = false;
+        this.cdr.detectChanges();
       }
     });
   }
+
 
   marcarComoPortada(item: MultimediaItem): void {
     this.propertyService.setMainMultimedia(this.propertyId, item.id).subscribe({

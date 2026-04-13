@@ -92,18 +92,19 @@ export class MultimediaControlador {
             throw new BadRequestException('Se requiere una URL');
         }
 
-        // Extraer el VIDEO ID de la URL de YouTube para la miniatura automática
+        // Soportar Shorts y otros formatos comunes de YouTube
         const youtubeMatch = body.url.match(
-            /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/
+            /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
         );
 
         if (!youtubeMatch) {
-            throw new BadRequestException('La URL no es una URL de YouTube válida');
+            throw new BadRequestException('La URL no es una URL de YouTube válida o formato no soportado');
         }
 
         const videoId = youtubeMatch[1];
         const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
         const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+
 
         const saved = await this.addMultimediaUseCase.execute({
             propertyId,
