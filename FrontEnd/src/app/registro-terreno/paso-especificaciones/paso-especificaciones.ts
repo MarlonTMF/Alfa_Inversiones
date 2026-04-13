@@ -161,6 +161,7 @@ export class PasoEspecificaciones implements OnInit, OnDestroy {
                     this.map.removeLayer(this.rubberband);
                 }
                 const startPoint = this.puntosPoligono[this.puntosPoligono.length - 1];
+                
                 this.rubberband = this.L.polyline([startPoint, e.latlng], { 
                     color: '#60a5fa', 
                     dashArray: '5, 5', 
@@ -191,7 +192,7 @@ export class PasoEspecificaciones implements OnInit, OnDestroy {
                 const distanciaFrente = this.puntosPoligono[0].distanceTo(this.puntosPoligono[1]);
                 this.formulario.patchValue({ frente: distanciaFrente.toFixed(2) });
             } else if (this.puntosPoligono.length >= 3) {
-                this.estadoMapaText = 'Haga doble clic o pulse "Cerrar" para terminar';
+                this.estadoMapaText = 'Haga doble clic o pulse "Cerrar Polígono" para terminar';
             }
         });
     }

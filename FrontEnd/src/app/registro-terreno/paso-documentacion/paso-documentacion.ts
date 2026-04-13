@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -7,12 +7,27 @@ import { CommonModule } from '@angular/common';
     imports: [CommonModule],
     templateUrl: './paso-documentacion.html'
 })
-export class PasoDocumentacion {
+export class PasoDocumentacion implements OnInit, OnDestroy {
     @Input() documentos!: { [key: string]: File[] };
     @Output() documentosChange = new EventEmitter<any>();
     @Output() siguiente = new EventEmitter<void>();
 
     errorArchivo: string | null = null;
+    fileUrls: Map<File, string> = new Map();
+
+    ngOnInit(): void {
+        for (const key in this.documentos) {
+            this.documentos[key] = this.documentos[key].filter(doc => doc instanceof File);
+            this.documentos[key].forEach(doc => {
+                if (!this.fileUrls.has(doc)) {
+                    this.fileUrls.set(doc, URL.createObjectURL(doc));
+                }
+            });
+        }
+        this.documentosChange.emit(this.documentos);
+    }
+
+    ngOnDestroy(): void {}
 
     manejarArchivos(event: any, tipo: string): void {
         const files = event.target.files;
@@ -21,6 +36,7 @@ export class PasoDocumentacion {
                 this.procesarArchivo(files[i], tipo);
             }
         }
+        event.target.value = '';
     }
 
     onDragOver(event: DragEvent): void {
@@ -52,14 +68,16 @@ export class PasoDocumentacion {
         }
         
         if (!tiposPermitidos.includes(file.type)) {
-            this.errorArchivo = 'Formato de archivo no válido para esta sección.';
+            this.errorArchivo = `Formato no válido. Archivo: ${file.name}`;
             return;
         }
         
         if (file.size > maxSize) {
-            this.errorArchivo = 'El archivo supera el límite de tamaño permitido.';
+            this.errorArchivo = `El archivo supera el límite permitido. Archivo: ${file.name}`;
             return;
         }
+
+        this.fileUrls.set(file, URL.createObjectURL(file));
 
         const nuevoArreglo = (tipo === 'folioReal' || tipo === 'certificadoCatastral')
             ? [file] 
@@ -74,6 +92,12 @@ export class PasoDocumentacion {
     }
 
     eliminarArchivo(tipo: string, index: number): void {
+        const fileToDelete = this.documentos[tipo][index];
+        if (fileToDelete && this.fileUrls.has(fileToDelete)) {
+            URL.revokeObjectURL(this.fileUrls.get(fileToDelete)!);
+            this.fileUrls.delete(fileToDelete);
+        }
+
         const nuevoArreglo = [...this.documentos[tipo]];
         nuevoArreglo.splice(index, 1);
         
@@ -85,7 +109,20 @@ export class PasoDocumentacion {
         this.documentosChange.emit(this.documentos);
     }
 
+    obtenerUrl(file: File): string {
+        return this.fileUrls.get(file) || '';
+    }
+
+    abrirArchivo(file: File): void {
+        const url = this.obtenerUrl(file);
+        if (url) {
+            window.open(url, '_blank');
+        }
+    }
+
     esValido(): boolean {
-        return (this.documentos['folioReal']?.length > 0) && (this.documentos['certificadoCatastral']?.length > 0);
+        const folioOk = this.documentos['folioReal']?.length > 0 && this.documentos['folioReal'][0] instanceof File;
+        const catastralOk = this.documentos['certificadoCatastral']?.length > 0 && this.documentos['certificadoCatastral'][0] instanceof File;
+        return folioOk && catastralOk;
     }
 }
