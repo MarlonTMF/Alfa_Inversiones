@@ -1,0 +1,9 @@
+/* Property Validation Styles */
+:host {
+  display: block;
+}
+
+.glass-effect {
+  background: rgba(45, 52, 73, 0.8);
+  backdrop-filter: blur(12px);
+}

@@ -31,12 +31,26 @@ export class Navbar {
 
     constructor() {
         this.esRutaMapa = this.router.url.includes('/mapa');
+        this.verificarRedireccionSuperAdmin();
+
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {
             this.esRutaMapa = event.urlAfterRedirects.includes('/mapa');
+            this.verificarRedireccionSuperAdmin();
         });
     }
+
+    private verificarRedireccionSuperAdmin(): void {
+        const usuario = this.authService.usuarioActual();
+        const rol = usuario?.rol?.toLowerCase();
+        const isMapUrl = this.router.url.includes('/mapa') || this.router.url === '/';
+
+        if (rol === 'super-admin' && isMapUrl) {
+            this.router.navigate(['/admin/dashboard']);
+        }
+    }
+
 
     irAlInicio(): void {
         if (this.authService.estaAutenticado()) {
@@ -53,8 +67,18 @@ export class Navbar {
     procesarLogin(usuario: any): void {
         this.authService.login(usuario);
         this.mostrarLogin = false;
-        this.router.navigate(['/mapa']);
+        
+        const rol = usuario.rol?.toLowerCase();
+        
+        if (rol === 'super-admin') {
+            this.router.navigate(['/admin/dashboard']);
+        } else if (rol === 'admin') {
+            this.router.navigate(['/mapa']);
+        } else {
+            this.router.navigate(['/mapa']);
+        }
     }
+
 
     cerrarSesion(): void {
         this.authService.logout();

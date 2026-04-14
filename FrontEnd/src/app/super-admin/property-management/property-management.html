@@ -1,0 +1,116 @@
+<div class="bg-surface text-on-surface min-h-screen pb-24 font-body">
+  <header class="w-full lg:pl-64 sticky top-0 z-50 bg-[#131b2e] shadow-none flex items-center justify-between px-6 py-4">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-[#adc6ff]">architecture</span>
+      <h1 class="text-[#3b82f6] text-xl font-bold tracking-tighter">The Financial Architect</h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <button class="text-[#c2c6d6] hover:bg-[#222a3d] transition-colors duration-200 p-2 rounded-full active:scale-95">
+        <span class="material-symbols-outlined">notifications</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="lg:pl-64 px-6 py-6 max-w-7xl mx-auto">
+    <div class="mb-8">
+      <h2 class="text-on-surface text-2xl font-semibold tracking-tight font-headline">Properties</h2>
+      <p class="text-on-surface-variant text-sm mt-1">Portfolio Asset Management</p>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+      <div class="relative">
+        <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+          <span class="material-symbols-outlined text-outline text-sm">search</span>
+        </div>
+        <input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-3.5 pl-11 pr-4 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-outline" placeholder="Search by name or ID..." type="text"/>
+      </div>
+
+      <div class="flex gap-2 overflow-x-auto no-scrollbar">
+        <button class="bg-primary text-on-primary px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 flex-shrink-0">
+          <span class="material-symbols-outlined text-[16px]">location_on</span>
+          Location
+        </button>
+        <button class="bg-surface-container-high text-on-surface-variant px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 border border-outline-variant/20 flex-shrink-0">
+          <span class="material-symbols-outlined text-[16px]">category</span>
+          Type
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div class="bg-surface-container-high rounded-2xl overflow-hidden shadow-2xl shadow-black/40 group active:scale-[0.98] transition-transform duration-200">
+        <div class="h-44 w-full relative">
+          <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL3sC_iGl0larotg50J4MZtPyzeOvZsu8T1x2B7PWMorX03JLUJX3aAdsNkppY5ye30kp25c_NiKwkJagUa90Ug7jrZWjEXjPTsikRHPL3qc-o6GNg2viKk537R3pP45j9KS3Al-FY8vhraV2R-j-9xXh_DHv_gHXwNfMIVM0Jr_gqueoQDi-X9a-T-hcGyQYddE615oZ3VyUtbqWKipYtjLLtIkmhk7wc6byo96QMqTTH0eOsGfiemrOlqtgUv3jBcIhisU3pkzpA" alt="Property"/>
+          <div class="absolute top-4 right-4">
+            <span class="bg-[#3b82f6]/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Disponible</span>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h3 class="text-lg font-bold text-on-surface font-headline leading-tight">Lote Sector Sur</h3>
+              <p class="text-xs text-on-surface-variant flex items-center gap-1 mt-1">
+                <span class="material-symbols-outlined text-[14px]">person</span>
+                Owner: Ricardo Aranda
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="text-primary font-bold text-lg">$1.2M</p>
+              <p class="text-[10px] text-outline uppercase tracking-tighter">Est. Value</p>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+            <div class="flex items-center gap-4">
+              <div class="flex flex-col">
+                <span class="text-[10px] text-outline uppercase font-bold">Area</span>
+                <span class="text-sm font-semibold">2,450 m²</span>
+              </div>
+            </div>
+            <button [routerLink]="['/admin/validation', 'LOTE-SUR-1']" class="bg-primary/10 text-primary p-2 rounded-xl">
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Sidebar Consistency -->
+  <aside class="hidden lg:flex flex-col h-full py-8 px-4 w-64 fixed left-0 top-0 bg-[#060e20] shadow-2xl shadow-black/50 z-[60]">
+    <div class="mb-10 flex items-center gap-3 px-4">
+      <span class="material-symbols-outlined text-[#3b82f6]">architecture</span>
+      <span class="text-[#3b82f6] font-bold">Architect</span>
+    </div>
+    <nav class="flex-1 space-y-2">
+      <a routerLink="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="label-sm uppercase tracking-widest">Dashboard</span>
+      </a>
+      <a routerLink="/admin/constructors" class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+        <span class="material-symbols-outlined">business_center</span>
+        <span class="label-sm uppercase tracking-widest">Constructors</span>
+      </a>
+      <a routerLink="/admin/properties" class="flex items-center gap-3 px-4 py-3 bg-[#131b2e] text-[#3b82f6] border-l-4 border-[#3b82f6] transition-all duration-300">
+        <span class="material-symbols-outlined">domain</span>
+        <span class="label-sm uppercase tracking-widest">Properties</span>
+      </a>
+    </nav>
+  </aside>
+
+  <nav class="fixed bottom-0 left-0 w-full bg-[#0b1326]/80 backdrop-blur-xl border-t border-[#222a3d] flex justify-around items-center px-4 py-3 md:hidden z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
+    <a routerLink="/admin/dashboard" class="flex flex-col items-center justify-center text-[#c2c6d6] p-2 hover:bg-[#222a3d]">
+      <span class="material-symbols-outlined">analytics</span>
+      <span class="label-sm font-bold uppercase text-[9px] mt-1">Stats</span>
+    </a>
+    <a routerLink="/admin/constructors" class="flex flex-col items-center justify-center text-[#c2c6d6] p-2 hover:bg-[#222a3d]">
+      <span class="material-symbols-outlined">engineering</span>
+      <span class="label-sm font-bold uppercase text-[9px] mt-1">Teams</span>
+    </a>
+    <a routerLink="/admin/properties" class="flex flex-col items-center justify-center text-[#3b82f6] p-2 bg-[#3b82f6]/10 rounded-xl scale-105 transition-transform">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+      <span class="label-sm font-bold uppercase text-[9px] mt-1">Land</span>
+    </a>
+  </nav>
+
+</div>

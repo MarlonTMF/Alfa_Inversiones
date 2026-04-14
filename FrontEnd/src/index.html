@@ -10,10 +10,97 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <!-- LEAFLET CSS PARA INTERACCIÓN (MANO, DRAG, ETC) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- SUPER ADMIN FONTS & ICONS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <!-- TAILWIND CDN & CONFIG -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed-dim": "#ffb786",
+            "inverse-on-surface": "#283044",
+            "primary-fixed-dim": "#adc6ff",
+            "surface-bright": "#31394d",
+            "inverse-primary": "#005ac2",
+            "outline-variant": "#424754",
+            "tertiary": "#ffb786",
+            "surface": "#0b1326",
+            "tertiary-fixed": "#ffdcc6",
+            "on-primary-fixed": "#001a42",
+            "on-tertiary-fixed": "#311400",
+            "on-secondary-fixed": "#111c2d",
+            "on-background": "#dae2fd",
+            "on-tertiary-fixed-variant": "#723600",
+            "on-primary-container": "#00285d",
+            "surface-variant": "#2d3449",
+            "inverse-surface": "#dae2fd",
+            "surface-container-highest": "#2d3449",
+            "surface-container": "#171f33",
+            "secondary-container": "#3e495d",
+            "on-surface": "#dae2fd",
+            "on-surface-variant": "#c2c6d6",
+            "on-error-container": "#ffdad6",
+            "on-secondary-fixed-variant": "#3c475a",
+            "outline": "#8c909f",
+            "surface-dim": "#0b1326",
+            "secondary": "#bcc7de",
+            "primary-container": "#4d8eff",
+            "surface-tint": "#adc6ff",
+            "on-secondary": "#263143",
+            "error-container": "#93000a",
+            "background": "#0b1326",
+            "on-tertiary": "#502400",
+            "on-primary-fixed-variant": "#004395",
+            "on-tertiary-container": "#461f00",
+            "on-error": "#690005",
+            "surface-container-low": "#131b2e",
+            "surface-container-high": "#222a3d",
+            "error": "#ffb4ab",
+            "surface-container-lowest": "#060e20",
+            "secondary-fixed-dim": "#bcc7de",
+            "secondary-fixed": "#d8e3fb",
+            "on-secondary-container": "#aeb9d0",
+            "on-primary": "#002e6a",
+            "primary": "#adc6ff",
+            "tertiary-container": "#df7412",
+            "primary-fixed": "#d8e2ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Inter"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          }
+        },
+      },
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .headline-md { font-size: 1.75rem; line-height: 2.25rem; font-weight: 600; }
+    .label-sm { font-size: 0.6875rem; line-height: 1rem; font-weight: 700; }
+    .glass-panel {
+      background: rgba(45, 52, 73, 0.8);
+      backdrop-filter: blur(12px);
+    }
+  </style>
 </head>
 
 <body>
-  <app-root></app-root>
+  <app-root class="dark font-body"></app-root>
 </body>
 
 </html>

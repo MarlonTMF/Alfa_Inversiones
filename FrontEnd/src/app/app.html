@@ -1,5 +1,8 @@
 <div class="app-layout">
-    <app-navbar (toggleSidebarEvent)="toggleSidebar()"></app-navbar>
+    @if (!esAdminRoute) {
+        <app-navbar (toggleSidebarEvent)="toggleSidebar()"></app-navbar>
+    }
+
 
     <div class="main-body">
         <aside class="mobile-drawer" [class.drawer-visible]="sidebarAbierto">

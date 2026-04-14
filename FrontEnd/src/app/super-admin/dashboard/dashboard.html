@@ -1,0 +1,165 @@
+<div class="bg-surface text-on-surface min-h-screen pb-20 md:pb-0 font-body">
+  <header class="w-full lg:pl-64 sticky top-0 z-50 bg-[#131b2e] shadow-[0_1px_2px_rgba(0,0,0,0.1)] flex items-center justify-between px-6 py-4">
+
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-[#adc6ff]">architecture</span>
+      <h1 class="headline-md tracking-tight text-[#adc6ff] text-lg">The Financial Architect</h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <button class="p-2 rounded-full hover:bg-[#222a3d] transition-colors duration-200 active:scale-95 text-[#c2c6d6]">
+        <span class="material-symbols-outlined">notifications</span>
+      </button>
+      <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs">
+        SA
+      </div>
+    </div>
+  </header>
+
+  <main class="lg:pl-64 max-w-7xl mx-auto px-6 py-8">
+
+    <div class="mb-10">
+      <p class="font-label label-sm uppercase tracking-widest text-primary mb-1">Orchestration Hub</p>
+      <h2 class="font-headline headline-md text-on-surface">Admin Console</h2>
+    </div>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <div class="bg-surface-container-high p-6 rounded-xl shadow-none">
+        <p class="font-label label-sm uppercase tracking-widest text-on-surface-variant mb-4">Total Companies</p>
+        <div class="flex items-end justify-between">
+          <span class="text-4xl font-bold tracking-tight text-primary">124</span>
+          <div class="text-xs text-primary bg-primary/10 px-2 py-1 rounded">+12%</div>
+        </div>
+      </div>
+      <div class="bg-surface-container-high p-6 rounded-xl shadow-none">
+        <p class="font-label label-sm uppercase tracking-widest text-on-surface-variant mb-4">Total Properties</p>
+        <div class="flex items-end justify-between">
+          <span class="text-4xl font-bold tracking-tight text-primary">2,842</span>
+          <div class="text-xs text-primary bg-primary/10 px-2 py-1 rounded">+5.4%</div>
+        </div>
+      </div>
+      <div class="bg-surface-container-high p-6 rounded-xl shadow-none">
+        <p class="font-label label-sm uppercase tracking-widest text-on-surface-variant mb-4">Active Projects</p>
+        <div class="flex items-end justify-between">
+          <span class="text-4xl font-bold tracking-tight text-primary">48</span>
+          <div class="text-xs text-primary bg-primary/10 px-2 py-1 rounded">Stable</div>
+        </div>
+      </div>
+      <div class="bg-surface-container-high p-6 rounded-xl shadow-none">
+        <p class="font-label label-sm uppercase tracking-widest text-on-surface-variant mb-4">Platform Health</p>
+        <div class="flex items-end justify-between">
+          <span class="text-4xl font-bold tracking-tight text-primary">99.9%</span>
+          <span class="material-symbols-outlined text-primary">check_circle</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2 space-y-6">
+        <div class="group relative overflow-hidden bg-surface-container-high rounded-xl p-8 transition-all hover:bg-surface-bright">
+          <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+            <span class="material-symbols-outlined text-9xl">business_center</span>
+          </div>
+          <div class="relative z-10">
+            <h3 class="text-2xl font-bold mb-2">Gestión de Constructoras</h3>
+            <p class="text-on-surface-variant mb-6 max-w-md">Oversee construction enterprise accounts, manage credentials, and audit operational capacity across the portfolio.</p>
+            <button routerLink="/admin/constructors" class="bg-[#3b82f6] text-white px-6 py-2.5 rounded-lg font-bold flex items-center gap-2 hover:bg-primary-container transition-colors active:scale-95 duration-100">
+              Launch Module
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="group relative overflow-hidden bg-surface-container-high rounded-xl p-8 transition-all hover:bg-surface-bright">
+          <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+            <span class="material-symbols-outlined text-9xl">domain</span>
+          </div>
+          <div class="relative z-10">
+            <h3 class="text-2xl font-bold mb-2">Gestión de Terrenos</h3>
+            <p class="text-on-surface-variant mb-6 max-w-md">Comprehensive land asset management. Verify titles, geographical data, and regulatory compliance statuses.</p>
+            <button routerLink="/admin/properties" class="bg-[#3b82f6] text-white px-6 py-2.5 rounded-lg font-bold flex items-center gap-2 hover:bg-primary-container transition-colors active:scale-95 duration-100">
+              Explore Land Bank
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div class="bg-surface-container-low rounded-xl p-6 border border-[#222a3d]/50">
+          <div class="flex items-center justify-between mb-6">
+            <h4 class="font-bold tracking-tight">Recent Activity</h4>
+            <span class="font-label label-sm text-primary">Live Updates</span>
+          </div>
+          <div class="space-y-6">
+            <div class="flex gap-4">
+              <div class="mt-1 w-2 h-2 rounded-full bg-primary shrink-0"></div>
+              <div>
+                <p class="text-sm font-semibold text-on-surface">Nuevo Terreno Registrado</p>
+                <p class="text-xs text-on-surface-variant">Lote 45B - Silicon Valley North</p>
+                <p class="text-[10px] text-outline mt-1 uppercase font-bold">2 mins ago</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="mt-1 w-2 h-2 rounded-full bg-primary/40 shrink-0"></div>
+              <div>
+                <p class="text-sm font-semibold text-on-surface">Constructor Approved</p>
+                <p class="text-xs text-on-surface-variant">Apex Institutional Builders Ltd.</p>
+                <p class="text-[10px] text-outline mt-1 uppercase font-bold">45 mins ago</p>
+              </div>
+            </div>
+          </div>
+          <button class="w-full mt-8 py-3 text-[#c2c6d6] font-label label-sm uppercase border border-[#222a3d] rounded hover:bg-[#222a3d] transition-colors">
+            View All Logs
+          </button>
+        </div>
+
+        <div class="relative rounded-xl overflow-hidden aspect-video group">
+          <img class="w-full h-full object-cover" alt="Architectural map" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV31yChODUvSCpk8dSxn8VB5q2uc7yenuVPSjZnf6rq-NCsZB6Ks6fMRn10fLSKTq8uCWFPPHoq6TREiRGVbCGVdXEVgLTSlCJFkdTVv6LDqPa6M7D01pRDhfGxCrYdq-YYOEpXA9kZF04JIVh8zkso3IZ5AQ6zgTwckdFwAEh_tXTea1FNkuLDs252QTlK8Oms-F81gpUOYp6jUaqLh95e_ZYspgzod3G9MAdea0KQ3irssRxcQ6e19KLPVUimZ5Jib75l_oA8Nim"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent flex items-end p-6">
+            <div>
+              <p class="font-label label-sm text-primary mb-1">Global Coverage</p>
+              <p class="text-sm font-bold">14 New Regions Mapped</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Navigation -->
+  <aside class="hidden lg:flex flex-col h-full py-8 px-4 w-64 fixed left-0 top-0 bg-[#060e20] shadow-2xl shadow-black/50 z-[60]">
+    <div class="mb-10 flex items-center gap-3 px-4">
+      <span class="material-symbols-outlined text-[#3b82f6]">architecture</span>
+      <span class="text-[#3b82f6] font-bold">Architect</span>
+    </div>
+    <nav class="flex-1 space-y-2">
+      <a routerLink="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 bg-[#131b2e] text-[#3b82f6] border-l-4 border-[#3b82f6] transition-all duration-300">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="label-sm uppercase tracking-widest">Dashboard</span>
+      </a>
+      <a routerLink="/admin/constructors" class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+        <span class="material-symbols-outlined">business_center</span>
+        <span class="label-sm uppercase tracking-widest">Constructors</span>
+      </a>
+      <a routerLink="/admin/properties" class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+        <span class="material-symbols-outlined">domain</span>
+        <span class="label-sm uppercase tracking-widest">Properties</span>
+      </a>
+    </nav>
+  </aside>
+
+  <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 md:hidden bg-[#0b1326]/80 backdrop-blur-xl border-t border-[#222a3d] z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
+    <a routerLink="/admin/dashboard" class="flex flex-col items-center justify-center text-[#3b82f6] p-2 bg-[#3b82f6]/10 rounded-xl scale-105 transition-transform">
+      <span class="material-symbols-outlined">analytics</span>
+      <span class="label-sm font-bold uppercase mt-1">Stats</span>
+    </a>
+    <a routerLink="/admin/constructors" class="flex flex-col items-center justify-center text-[#c2c6d6] p-2 hover:bg-[#222a3d]">
+      <span class="material-symbols-outlined">engineering</span>
+      <span class="label-sm font-bold uppercase mt-1">Teams</span>
+    </a>
+    <a routerLink="/admin/properties" class="flex flex-col items-center justify-center text-[#c2c6d6] p-2 hover:bg-[#222a3d]">
+      <span class="material-symbols-outlined">map</span>
+      <span class="label-sm font-bold uppercase mt-1">Land</span>
+    </a>
+  </nav>
+</div>

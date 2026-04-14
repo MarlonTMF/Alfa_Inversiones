@@ -1,0 +1,121 @@
+<div class="bg-surface text-on-surface font-body min-h-screen pb-24">
+  <header class="w-full lg:pl-64 sticky top-0 z-50 bg-[#131b2e] shadow-[0_1px_2px_rgba(0,0,0,0.1)] flex items-center justify-between px-6 py-4">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-[#adc6ff]">architecture</span>
+      <h1 class="headline-md tracking-tight text-[#adc6ff] text-lg">The Financial Architect</h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="material-symbols-outlined text-[#c2c6d6]">notifications</span>
+    </div>
+  </header>
+
+  <main class="lg:pl-64 px-6 pt-8 max-w-7xl mx-auto">
+    <div class="mb-8">
+      <p class="label-sm text-[#3b82f6] tracking-widest uppercase mb-1">Infrastructure Management</p>
+      <h2 class="text-3xl font-bold tracking-tight text-on-surface">Constructors</h2>
+    </div>
+
+    <!-- ... (rest of search and filters) -->
+    <div class="space-y-4 mb-10 max-w-md">
+       <div class="relative group">
+        <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[#c2c6d6] group-focus-within:text-[#3b82f6] transition-colors">
+          <span class="material-symbols-outlined text-xl">search</span>
+        </div>
+        <input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-[#3b82f6]/40 focus:border-[#3b82f6] transition-all outline-none text-on-surface-variant" placeholder="Search by name or ID..." type="text"/>
+      </div>
+
+      <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        <button class="bg-[#3b82f6] text-on-primary label-sm px-5 py-2.5 rounded-full transition-all active:scale-95 whitespace-nowrap">ALL</button>
+        <button class="bg-surface-container-high border border-outline-variant/20 text-[#c2c6d6] label-sm px-5 py-2.5 rounded-full hover:bg-surface-container-highest transition-all active:scale-95 whitespace-nowrap">VALIDATED</button>
+        <button class="bg-surface-container-high border border-outline-variant/20 text-[#c2c6d6] label-sm px-5 py-2.5 rounded-full hover:bg-surface-container-highest transition-all active:scale-95 whitespace-nowrap">PENDING</button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div class="bg-surface-container-high rounded-xl p-5 shadow-2xl shadow-black/20 group relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-3">
+          <span class="bg-[#3b82f6]/10 text-[#3b82f6] label-sm px-3 py-1 rounded-lg">VALIDATED</span>
+        </div>
+        <div class="flex items-start gap-4 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-[#adc6ff]">
+            <span class="material-symbols-outlined text-3xl">corporate_fare</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg text-white leading-tight">Apex Urban Dynamics</h3>
+            <p class="text-[#c2c6d6] text-xs font-mono mt-1">ID: #CNST-4429</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-between border-t border-outline-variant/10 pt-4">
+          <div class="flex -space-x-2">
+            <img class="w-8 h-8 rounded-full border-2 border-surface-container-high" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATJvd6XAv_m-7htZElAlK8o01RXdp3VbDQTwJ_C14Ygmbw63V7r9eyb3VhDKTwt8CeRFifA1cmdJ52M0S0PIqi4ObIZOrNqWuXGiMcZ4GcBNJLit3OtSqwBj51yq1F2H4V20inpjptvHrCH2JwDecZSvA5zpjHB-zlFIUmT5AfQHp2MRG587nYpuKfS7jEtLQiCSIA_2RgbZqR170WB3Bt5r2NUJMGk2NVKd2ufxWZiVaiJQAlAAgcuGKyvQfNfl2GNt2vrh8zS-Ep" alt="Engineer"/>
+          </div>
+          <button class="flex items-center gap-2 text-[#3b82f6] label-sm hover:underline font-bold transition-all">
+            EDITAR <span class="material-symbols-outlined text-sm">edit</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-surface-container-high rounded-xl p-5 shadow-2xl shadow-black/20 group relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-3">
+          <span class="bg-tertiary-container/20 text-tertiary-fixed-dim label-sm px-3 py-1 rounded-lg">PENDING</span>
+        </div>
+        <div class="flex items-start gap-4 mb-6">
+          <div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-[#adc6ff]">
+            <span class="material-symbols-outlined text-3xl">foundation</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-lg text-white leading-tight">Skyline Foundations Ltd</h3>
+            <p class="text-[#c2c6d6] text-xs font-mono mt-1">ID: #CNST-8812</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-between border-t border-outline-variant/10 pt-4">
+          <div class="flex items-center gap-2 text-on-surface-variant text-xs">
+            <span class="material-symbols-outlined text-sm">schedule</span>
+            Wait: 2 days
+          </div>
+          <button class="flex items-center gap-2 text-[#3b82f6] label-sm hover:underline font-bold transition-all">
+            EDITAR <span class="material-symbols-outlined text-sm">edit</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Sidebar Consistency -->
+  <aside class="hidden lg:flex flex-col h-full py-8 px-4 w-64 fixed left-0 top-0 bg-[#060e20] shadow-2xl shadow-black/50 z-[60]">
+    <div class="mb-10 flex items-center gap-3 px-4">
+      <span class="material-symbols-outlined text-[#3b82f6]">architecture</span>
+      <span class="text-[#3b82f6] font-bold">Architect</span>
+    </div>
+    <nav class="flex-1 space-y-2">
+      <a routerLink="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="label-sm uppercase tracking-widest">Dashboard</span>
+      </a>
+      <a routerLink="/admin/constructors" class="flex items-center gap-3 px-4 py-3 bg-[#131b2e] text-[#3b82f6] border-l-4 border-[#3b82f6] transition-all duration-300">
+        <span class="material-symbols-outlined">business_center</span>
+        <span class="label-sm uppercase tracking-widest">Constructors</span>
+      </a>
+      <a routerLink="/admin/properties" class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+        <span class="material-symbols-outlined">domain</span>
+        <span class="label-sm uppercase tracking-widest">Properties</span>
+      </a>
+    </nav>
+  </aside>
+
+  <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 md:hidden bg-[#0b1326]/80 backdrop-blur-xl border-t border-[#222a3d] z-50">
+    <a routerLink="/admin/dashboard" class="flex flex-col items-center justify-center text-[#c2c6d6] p-2">
+      <span class="material-symbols-outlined">analytics</span>
+      <span class="label-sm font-bold uppercase mt-1">Stats</span>
+    </a>
+    <a routerLink="/admin/constructors" class="flex flex-col items-center justify-center text-[#3b82f6] p-2 bg-[#3b82f6]/10 rounded-xl scale-105 transition-transform">
+      <span class="material-symbols-outlined">engineering</span>
+      <span class="label-sm font-bold uppercase mt-1">Teams</span>
+    </a>
+    <a routerLink="/admin/properties" class="flex flex-col items-center justify-center text-[#c2c6d6] p-2">
+      <span class="material-symbols-outlined">map</span>
+      <span class="label-sm font-bold uppercase mt-1">Land</span>
+    </a>
+  </nav>
+
+</div>

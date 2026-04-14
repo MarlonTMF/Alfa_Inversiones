@@ -70,28 +70,45 @@ export class Login implements OnInit {
         this.mostrarContrasena = !this.mostrarContrasena;
     }
 
+    private readonly apiUrl = 'http://localhost:3000/api/v1/auth';
+
     iniciarSesion(): void {
         if (!this.credenciales.email || !this.credenciales.password) {
-            this.errorLogin = 'Ingresa tu correo completo y contrasena.';
+            this.errorLogin = 'Ingresa tu correo completo y contraseña.';
             return;
         }
 
-        if (this.isBrowser) {
-            const dbString = localStorage.getItem('usuariosDB');
-            const usuariosDB = dbString ? JSON.parse(dbString) : [];
-
-            const usuarioValido = usuariosDB.find(
-                (u: any) => u.email === this.credenciales.email && u.password === this.credenciales.password
-            );
-
-            if (usuarioValido) {
+        // Primero intentamos con el Backend Real
+        this.http.post<any>(`${this.apiUrl}/login`, {
+            email: this.credenciales.email,
+            password: this.credenciales.password
+        }).subscribe({
+            next: (res) => {
                 this.errorLogin = null;
-                this.loginExitoso.emit(usuarioValido);
+                this.loginExitoso.emit(res.usuario);
                 this.cerrarModal.emit();
-            } else {
-                this.errorLogin = 'Credenciales incorrectas.';
+            },
+            error: (err) => {
+                console.error('API Login Error:', err);
+                
+                // Fallback a Base de Datos Simulada (para desarrollo/offline)
+                if (this.isBrowser) {
+                    const dbString = localStorage.getItem('usuariosDB');
+                    const usuariosDB = dbString ? JSON.parse(dbString) : [];
+                    const usuarioValido = usuariosDB.find(
+                        (u: any) => u.email === this.credenciales.email && u.password === this.credenciales.password
+                    );
+
+                    if (usuarioValido) {
+                        this.errorLogin = null;
+                        this.loginExitoso.emit(usuarioValido);
+                        this.cerrarModal.emit();
+                        return;
+                    }
+                }
+                this.errorLogin = 'Credenciales incorrectas o servidor no disponible.';
             }
-        }
+        });
     }
 
     registrarse(): void {
@@ -100,33 +117,36 @@ export class Login implements OnInit {
             return;
         }
 
-        if (this.isBrowser) {
-            const dbString = localStorage.getItem('usuariosDB');
-            const usuariosDB = dbString ? JSON.parse(dbString) : [];
-
-            const existeCorreo = usuariosDB.some((u: any) => u.email === this.credenciales.email);
-
-            if (existeCorreo) {
-                this.errorLogin = 'Este correo electronico ya esta registrado.';
-                return;
+        // Registro en el Backend Real
+        this.http.post<any>(`${this.apiUrl}/register`, {
+            nombre: this.credenciales.nombre,
+            rol: this.credenciales.rol,
+            email: this.credenciales.email,
+            password: this.credenciales.password
+        }).subscribe({
+            next: () => {
+                this.errorLogin = null;
+                this.mensajeExito = 'Registro exitoso en servidor. Ya puedes iniciar sesión.';
+                setTimeout(() => this.cambiarVista(), 2000);
+            },
+            error: (err) => {
+                console.error('API Register Error:', err);
+                
+                // Fallback a Base de Datos Simulada
+                if (this.isBrowser) {
+                    const dbString = localStorage.getItem('usuariosDB');
+                    const usuariosDB = dbString ? JSON.parse(dbString) : [];
+                    if (usuariosDB.some((u: any) => u.email === this.credenciales.email)) {
+                        this.errorLogin = 'Este correo ya existe en la base local.';
+                        return;
+                    }
+                    usuariosDB.push({...this.credenciales});
+                    localStorage.setItem('usuariosDB', JSON.stringify(usuariosDB));
+                    this.mensajeExito = 'Registro local exitoso (Servidor no disponible).';
+                    setTimeout(() => this.cambiarVista(), 2000);
+                }
             }
-
-            const nuevoUsuario = {
-                nombre: this.credenciales.nombre,
-                rol: this.credenciales.rol,
-                email: this.credenciales.email,
-                password: this.credenciales.password
-            };
-
-            usuariosDB.push(nuevoUsuario);
-            localStorage.setItem('usuariosDB', JSON.stringify(usuariosDB));
-
-            this.errorLogin = null;
-            this.mensajeExito = 'Registro exitoso. Ya puedes iniciar sesion.';
-            
-            setTimeout(() => {
-                this.cambiarVista();
-            }, 2000);
-        }
+        });
     }
+
 }
