@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { PropertyRepository } from '../interfaces/property.repository.js';
 import type { UsuarioRepositorio } from '../../../autenticacion/domain/interfaces/usuario.repositorio.js';
@@ -28,18 +28,20 @@ export class RegisterFullPropertyUseCase {
       const resultado = await this.dataSource.transaction(async (manager) => {
         let usuario = await this.usuarioRepository.buscarPorEmail(dto.emailPropietario);
 
-        if (!usuario) {
-          const hashedPass = await bcrypt.hash(dto.passwordGenerado, 10);
-          usuario = await manager.getRepository(UsuarioFuenteDatos).save(
-            manager.getRepository(UsuarioFuenteDatos).create({
-              id: uuidv4(),
-              nombre: dto.nombrePropietario,
-              email: dto.emailPropietario,
-              password: hashedPass,
-              rol: 'propietario-terreno'
-            })
-          );
+        if (usuario) {
+          throw new ConflictException('Ya existe un usuario registrado con ese correo electrónico');
         }
+
+        const hashedPass = await bcrypt.hash(dto.passwordGenerado, 10);
+        usuario = await manager.getRepository(UsuarioFuenteDatos).save(
+          manager.getRepository(UsuarioFuenteDatos).create({
+            id: uuidv4(),
+            nombre: dto.nombrePropietario,
+            email: dto.emailPropietario,
+            password: hashedPass,
+            rol: 'propietario-terreno'
+          })
+        );
 
         const property = await this.propertyRepository.create({
           id: uuidv4(),
@@ -73,7 +75,7 @@ export class RegisterFullPropertyUseCase {
         propiedadId: resultado.property.id
       };
     } catch (error) {
-      if (error instanceof BadRequestException) {
+      if (error instanceof BadRequestException || error instanceof ConflictException) {
         throw error;
       }
 

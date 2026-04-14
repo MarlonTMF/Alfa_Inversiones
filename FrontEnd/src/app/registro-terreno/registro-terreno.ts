@@ -162,9 +162,7 @@ export class RegistroTerreno implements OnInit {
             error: (err) => {
                 this.ngZone.run(() => {
                     console.error('Error al registrar terreno:', err);
-                    this.errorRegistro = err?.name === 'TimeoutError'
-                        ? 'El servidor tardó demasiado en responder. Intenta nuevamente.'
-                        : 'Hubo un error al guardar los datos en el servidor. Revisa tu conexión.';
+                    this.errorRegistro = this.obtenerMensajeErrorRegistro(err);
                     this.cdr.detectChanges();
                 });
             }
@@ -242,5 +240,21 @@ export class RegistroTerreno implements OnInit {
         } catch {
             return false;
         }
+    }
+
+    private obtenerMensajeErrorRegistro(err: any): string {
+        if (err?.name === 'TimeoutError') {
+            return 'El servidor tardó demasiado en responder. Intenta nuevamente.';
+        }
+
+        if (err?.status === 409) {
+            return err?.error?.message || 'El correo del propietario ya está registrado. Usa otro correo para crear el terreno.';
+        }
+
+        if (err?.status === 400) {
+            return err?.error?.message || 'Los datos enviados no son válidos. Revisa el formulario.';
+        }
+
+        return 'Hubo un error al guardar los datos en el servidor. Revisa tu conexión.';
     }
 }
