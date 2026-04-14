@@ -31,5 +31,6 @@ import { AutenticacionControlador } from './presentation/controladores/autentica
     RegistrarUsuarioCasoUso,
     IniciarSesionCasoUso,
   ],
+  exports: [USUARIO_REPOSITORIO],
 })
 export class AutenticacionModule {}

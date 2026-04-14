@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, PLATFORM_ID, Inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, PLATFORM_ID, Inject, NgZone, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -29,7 +29,8 @@ export class PasoEspecificaciones implements OnInit, OnDestroy {
     constructor(
         @Inject(PLATFORM_ID) private readonly platformId: Object,
         private readonly zone: NgZone,
-        private readonly http: HttpClient
+        private readonly http: HttpClient,
+        private readonly cdr: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
@@ -77,6 +78,7 @@ export class PasoEspecificaciones implements OnInit, OnDestroy {
         
         this.formulario.patchValue({ coordenadas: '', superficie: '', frente: '', fondo: '' });
         this.estadoMapaText = 'Haga clic para trazar el 1° punto del terreno';
+        this.cdr.detectChanges();
     }
 
     deshacerUltimoPunto(): void {
@@ -194,6 +196,7 @@ export class PasoEspecificaciones implements OnInit, OnDestroy {
             } else if (this.puntosPoligono.length >= 3) {
                 this.estadoMapaText = 'Haga doble clic o pulse "Cerrar Polígono" para terminar';
             }
+            this.cdr.detectChanges();
         });
     }
 
@@ -220,6 +223,7 @@ export class PasoEspecificaciones implements OnInit, OnDestroy {
         });
         
         this.estadoMapaText = `Área calculada: ${area.toFixed(2)} m².`;
+        this.cdr.detectChanges();
     }
 
     private calcularArea(latlngs: any[]): number {

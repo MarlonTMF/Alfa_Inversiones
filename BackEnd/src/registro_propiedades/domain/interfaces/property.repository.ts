@@ -1,4 +1,5 @@
 import { PropertyFuenteDatos } from '../../data/fuentes-datos/property.fuente-datos.js';
+import { EntityManager } from 'typeorm';
 
 /**
  * Clase abstracta para el repositorio de propiedades.
@@ -11,7 +12,7 @@ export abstract class PropertyRepository {
      * @param property Los datos de la propiedad a crear.
      * @returns Una promesa que se resuelve con la propiedad creada.
      */
-    abstract create(property: Partial<PropertyFuenteDatos>): Promise<PropertyFuenteDatos>;
+    abstract create(property: Partial<PropertyFuenteDatos>, manager?: EntityManager): Promise<PropertyFuenteDatos>;
 
     /**
      * Busca una propiedad por su ID.

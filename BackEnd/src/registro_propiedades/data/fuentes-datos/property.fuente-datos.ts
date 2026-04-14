@@ -3,10 +3,13 @@ import {
     PrimaryColumn,
     Column,
     OneToMany,
+    ManyToOne,
+    JoinColumn,
 } from 'typeorm';
 import { LegalDocFuenteDatos } from './legal-doc.fuente-datos.js';
 import { LegalTrackingStepFuenteDatos } from './legal-tracking-step.fuente-datos.js';
 import { PropertyMultimediaFuenteDatos } from './property-multimedia.fuente-datos.js';
+import { UsuarioFuenteDatos } from '../../../autenticacion/data/fuentes-datos/usuario.fuente-datos.js';
 
 
 @Entity('properties')
@@ -102,8 +105,12 @@ export class PropertyFuenteDatos {
     @Column({ name: 'updated_at', type: 'timestamp with time zone', nullable: true })
     updatedAt: Date;
 
-    // @Column({ name: 'creator_id', type: 'uuid', nullable: true })
-    // creatorId: string;
+    @Column({ name: 'creator_id', type: 'uuid', nullable: true })
+    creatorId: string;
+
+    @ManyToOne(() => UsuarioFuenteDatos, { nullable: true })
+    @JoinColumn({ name: 'creator_id' })
+    creator: any;
 
     // CAMPOS ESPACIALES (Para el Mapa)
     @Column({

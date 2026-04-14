@@ -14,6 +14,8 @@ import { MultimediaControlador } from './data/repositorios/multimedia.controlado
 import { ImageKitService } from '../common/services/imagekit.service.js';
 import { CloudinaryService } from '../common/services/cloudinary.service.js';
 import { PropertyRepository } from './domain/interfaces/property.repository.js';
+import { RegisterFullPropertyUseCase } from './domain/use-cases/register-full-property.use-case.js';
+import { AutenticacionModule } from '../autenticacion/autenticacion.module.js';
 
 // Entidades de Datos
 import { PropertyMultimediaFuenteDatos } from './data/fuentes-datos/property-multimedia.fuente-datos.js';
@@ -33,6 +35,7 @@ import { SetMainMultimediaUseCase } from './domain/use-cases/set-main-multimedia
 
 @Module({
     imports: [
+        AutenticacionModule,
         TypeOrmModule.forFeature([
             PropertyFuenteDatos,
             PropertyMultimediaFuenteDatos, // <-- Añadido correctamente
@@ -78,6 +81,7 @@ import { SetMainMultimediaUseCase } from './domain/use-cases/set-main-multimedia
             provide: FileStorageService,
             useClass: HybridFileStorageService,
         },
+        RegisterFullPropertyUseCase,
     ],
 })
 export class RegistroPropiedadesModule { }

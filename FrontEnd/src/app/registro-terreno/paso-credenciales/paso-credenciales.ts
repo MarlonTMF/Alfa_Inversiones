@@ -10,8 +10,17 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class PasoCredenciales {
     @Input() formulario!: FormGroup;
-    @Output() finalizar = new EventEmitter<void>();
+    @Input() cargando: boolean = false;
+    @Output() siguiente = new EventEmitter<void>();
     @Output() atras = new EventEmitter<void>();
+
+    onSiguiente(): void {
+        this.siguiente.emit();
+    }
+
+    onAtras(): void {
+        this.atras.emit();
+    }
 
     regenerarPassword(): void {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';

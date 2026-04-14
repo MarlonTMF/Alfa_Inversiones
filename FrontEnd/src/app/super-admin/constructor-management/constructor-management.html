@@ -4,9 +4,35 @@
       <span class="material-symbols-outlined text-[#adc6ff]">architecture</span>
       <h1 class="headline-md tracking-tight text-[#adc6ff] text-lg">The Financial Architect</h1>
     </div>
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-4 relative">
       <span class="material-symbols-outlined text-[#c2c6d6]">notifications</span>
+      
+      <div (click)="toggleMenuPerfil()" class="cursor-pointer flex items-center gap-2 group ml-2">
+        <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs ring-2 ring-transparent group-hover:ring-[#3b82f6] transition-all">
+          SA
+        </div>
+        <span class="material-symbols-outlined text-[#c2c6d6] text-sm transition-transform duration-200" [class.rotate-180]="mostrarMenuPerfil">expand_more</span>
+      </div>
+
+      <!-- Profile Dropdown Menu -->
+      <div *ngIf="mostrarMenuPerfil" class="absolute top-12 right-0 w-64 bg-[#131b2e] border border-[#222a3d] rounded-2xl shadow-2xl p-4 z-[70] animate-in fade-in slide-in-from-top-2 duration-200">
+        <div class="flex items-center gap-3 pb-4 border-b border-[#222a3d] mb-4">
+          <div class="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-white font-bold">
+            {{authService.usuarioActual()?.nombre?.substring(0,1)}}
+          </div>
+          <div class="overflow-hidden">
+            <p class="text-white font-bold text-sm truncate">{{authService.usuarioActual()?.nombre}}</p>
+            <p class="text-[#3b82f6] text-[10px] font-bold uppercase tracking-widest">{{authService.usuarioActual()?.rol}}</p>
+          </div>
+        </div>
+
+        <button (click)="cerrarSesion()" class="w-full flex items-center gap-3 p-3 rounded-xl text-red-400 hover:bg-red-400/10 transition-colors group">
+          <span class="material-symbols-outlined text-xl">logout</span>
+          <span class="font-bold text-sm">Cerrar Sesión</span>
+        </button>
+      </div>
     </div>
+
   </header>
 
   <main class="lg:pl-64 px-6 pt-8 max-w-7xl mx-auto">

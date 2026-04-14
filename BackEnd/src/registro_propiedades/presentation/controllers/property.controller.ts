@@ -4,7 +4,9 @@ import { GetAllPropertiesUseCase } from '../../domain/use-cases/get-all-properti
 import { GetPropertyByIdUseCase } from '../../domain/use-cases/get-property-by-id.use-case.js';
 import { GetPropertyAnalysisUseCase } from '../../domain/use-cases/get-property-analysis.use-case.js';
 import { UpdatePropertyUseCase } from '../../domain/use-cases/update-property.use-case.js';
+import { RegisterFullPropertyUseCase } from '../../domain/use-cases/register-full-property.use-case.js';
 import { CreatePropertyDto } from '../dto/create-property.dto.js';
+import { RegisterFullPropertyDto } from '../dto/register-full-property.dto.js';
 import { PropertyFuenteDatos } from '../../data/fuentes-datos/property.fuente-datos.js';
 
 /**
@@ -19,7 +21,16 @@ export class PropertyController {
         private readonly getPropertyByIdUseCase: GetPropertyByIdUseCase,
         private readonly getPropertyAnalysisUseCase: GetPropertyAnalysisUseCase,
         private readonly updatePropertyUseCase: UpdatePropertyUseCase,
+        private readonly registerFullPropertyUseCase: RegisterFullPropertyUseCase,
     ) { }
+
+    /**
+     * Endpoint para el registro completo (Terreno + Propietario).
+     */
+    @Post('register-full')
+    async registerFull(@Body() dto: RegisterFullPropertyDto): Promise<any> {
+        return await this.registerFullPropertyUseCase.execute(dto);
+    }
 
     /**
      * Endpoint para registrar una nueva propiedad.

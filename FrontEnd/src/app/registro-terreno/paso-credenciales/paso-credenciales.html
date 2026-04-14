@@ -48,9 +48,12 @@
     </div>
 
     <div class="footer-actions-stepper">
-        <button type="button" class="btn-outline-cancel" (click)="atras.emit()">← Atrás</button>
-        <button type="button" class="btn-solid-next" style="background-color: #10b981;" [disabled]="formulario.invalid" (click)="finalizar.emit()">
-            Finalizar Registro y Crear Usuario
+        <button type="button" class="btn-outline-cancel" (click)="onAtras()">← Atrás</button>
+        <button type="button" class="btn-solid-next" style="background-color: #10b981;" [disabled]="formulario.invalid || cargando" (click)="onSiguiente()">
+            <span *ngIf="!cargando">Finalizar Registro y Crear Usuario</span>
+            <span *ngIf="cargando" class="flex items-center">
+                <i class="bi bi-arrow-repeat animate-spin me-2"></i> Guardando Terreno...
+            </span>
         </button>
     </div>
 </form>

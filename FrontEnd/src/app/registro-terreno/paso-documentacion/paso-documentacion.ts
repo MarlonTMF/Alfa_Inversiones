@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PasoDocumentacion implements OnInit, OnDestroy {
     @Input() documentos!: { [key: string]: File[] };
-    @Output() documentosChange = new EventEmitter<any>();
+    @Output() documentosCambiados = new EventEmitter<any>();
     @Output() siguiente = new EventEmitter<void>();
 
     errorArchivo: string | null = null;
@@ -24,7 +24,7 @@ export class PasoDocumentacion implements OnInit, OnDestroy {
                 }
             });
         }
-        this.documentosChange.emit(this.documentos);
+        this.documentosCambiados.emit(this.documentos);
     }
 
     ngOnDestroy(): void {}
@@ -88,7 +88,7 @@ export class PasoDocumentacion implements OnInit, OnDestroy {
             [tipo]: nuevoArreglo
         };
         
-        this.documentosChange.emit(this.documentos);
+        this.documentosCambiados.emit(this.documentos);
     }
 
     eliminarArchivo(tipo: string, index: number): void {
@@ -106,7 +106,7 @@ export class PasoDocumentacion implements OnInit, OnDestroy {
             [tipo]: nuevoArreglo
         };
         
-        this.documentosChange.emit(this.documentos);
+        this.documentosCambiados.emit(this.documentos);
     }
 
     obtenerUrl(file: File): string {
