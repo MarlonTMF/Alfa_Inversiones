@@ -132,6 +132,35 @@
                                 <p class="dropdown-email">{{ authService.usuarioActual().email }}</p>
                             </div>
                             <div class="dropdown-divider"></div>
+                            <button type="button" class="dropdown-item">Mi Perfil</button>
+                            <button type="button" class="dropdown-item">Configuración</button>
+                            
+                            <div class="dropdown-divider"></div>
+                            
+                            @switch (authService.usuarioActual().rol) {
+                                @case ('admin') {
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/admin" (click)="mostrarMenuPerfil = false">
+                                        Panel Orquestador
+                                    </button>
+                                }
+                                @case ('constructor') {
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/constructor/panel" (click)="mostrarMenuPerfil = false">
+                                        Panel Constructora
+                                    </button>
+                                }
+                                @case ('inversionista') {
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/inversionista/panel" (click)="mostrarMenuPerfil = false">
+                                        Panel Inversionista
+                                    </button>
+                                }
+                                @case ('propietario') {
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/propietario/mis-terrenos" (click)="mostrarMenuPerfil = false">
+                                        Mis Terrenos
+                                    </button>
+                                }
+                            }
+                            
+                            <div class="dropdown-divider"></div>
                             <button type="button" class="dropdown-item logout-item" (click)="cerrarSesion()">Cerrar Sesión</button>
                         </div>
                     }
