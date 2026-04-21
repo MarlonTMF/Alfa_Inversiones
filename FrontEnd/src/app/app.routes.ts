@@ -23,6 +23,10 @@ export const routes: Routes = [
                 loadComponent: () => import('./admin/gestion-empresas/gestion-empresas').then(m => m.GestionEmpresas) 
             },
             { 
+                path: 'terrenos', 
+                loadComponent: () => import('./admin/gestion-terrenos/gestion-terrenos').then(m => m.GestionTerrenos) 
+            },
+            { 
                 path: 'registrar-socio', 
                 loadComponent: () => import('./admin/registro-socio/registro-socio').then(m => m.RegistroSocio) 
             }, 
