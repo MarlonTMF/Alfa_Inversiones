@@ -1,0 +1,9 @@
+.step-labels span {
+    opacity: 0.75;
+}
+
+.step-labels span.active {
+    opacity: 1;
+    color: #60a5fa;
+}
+

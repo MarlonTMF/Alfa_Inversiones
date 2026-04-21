@@ -1,0 +1,72 @@
+<form [formGroup]="formulario" class="grid grid-cols-1 md:grid-cols-12 gap-6">
+    <section class="md:col-span-8 bg-surface-container-low p-8 rounded-xl shadow-none">
+        <div class="flex items-center gap-3 mb-8">
+            <span class="material-symbols-outlined text-primary">business_center</span>
+            <h3 class="text-lg font-semibold">Datos Básicos de la Empresa</h3>
+        </div>
+
+        <div class="space-y-6">
+            <div class="group">
+                <label class="block text-[0.6875rem] font-bold uppercase tracking-wider text-on-surface-variant mb-2 group-focus-within:text-primary transition-colors">Nombre de la Empresa / Razón Social</label>
+                <input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary/100 focus:ring-4 focus:ring-primary/10 transition-all"
+                       formControlName="nombreEmpresa" placeholder="Ej. Constructora Alfa S.A." type="text"/>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="group">
+                    <label class="block text-[0.6875rem] font-bold uppercase tracking-wider text-on-surface-variant mb-2 group-focus-within:text-primary transition-colors">NIT</label>
+                    <input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary/100 focus:ring-4 focus:ring-primary/10 transition-all"
+                           formControlName="nit" placeholder="000000000" type="text"/>
+                </div>
+
+                <div class="group">
+                    <label class="block text-[0.6875rem] font-bold uppercase tracking-wider text-on-surface-variant mb-2 group-focus-within:text-primary transition-colors">Representante Legal</label>
+                    <input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary/100 focus:ring-4 focus:ring-primary/10 transition-all"
+                           formControlName="representanteLegal" placeholder="Nombre Completo" type="text"/>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="md:col-span-4 space-y-6">
+        <div class="bg-surface-container-high p-6 rounded-xl border border-transparent hover:border-primary/20 transition-all group cursor-pointer">
+            <div class="flex items-start justify-between mb-4">
+                <div class="bg-primary/10 p-3 rounded-lg text-primary">
+                    <span class="material-symbols-outlined">description</span>
+                </div>
+                <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">upload_file</span>
+            </div>
+            <h4 class="text-sm font-semibold mb-1">Testimonio de Constitución</h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Documento legal que acredita la formación de la sociedad.</p>
+            <div class="mt-4 pt-4 border-t border-outline-variant/10 flex items-center justify-between">
+                <span class="text-[0.6875rem] font-bold uppercase text-on-surface-variant">Pendiente</span>
+                <div class="w-2 h-2 rounded-full bg-error"></div>
+            </div>
+        </div>
+
+        <div class="bg-surface-container-high p-6 rounded-xl border border-transparent hover:border-primary/20 transition-all group cursor-pointer">
+            <div class="flex items-start justify-between mb-4">
+                <div class="bg-primary/10 p-3 rounded-lg text-primary">
+                    <span class="material-symbols-outlined">location_city</span>
+                </div>
+                <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">upload_file</span>
+            </div>
+            <h4 class="text-sm font-semibold mb-1">Padrón Municipal</h4>
+            <p class="text-xs text-on-surface-variant leading-relaxed">Licencia de funcionamiento vigente otorgada por la alcaldía.</p>
+            <div class="mt-4 pt-4 border-t border-outline-variant/10 flex items-center justify-between">
+                <span class="text-[0.6875rem] font-bold uppercase text-on-surface-variant">Pendiente</span>
+                <div class="w-2 h-2 rounded-full bg-error"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="md:col-span-12 relative h-48 rounded-2xl overflow-hidden mt-6">
+        <div class="absolute inset-0 bg-[#3b82f6]/20"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest to-transparent flex items-center px-12">
+            <div class="max-w-md">
+                <h4 class="text-xl font-bold mb-2">Seguridad Legal</h4>
+                <p class="text-sm text-on-surface-variant">La documentación es procesada bajo estándares de alta encriptación.</p>
+            </div>
+        </div>
+    </section>
+</form>
