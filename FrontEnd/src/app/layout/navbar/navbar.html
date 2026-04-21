@@ -106,18 +106,15 @@
 
     <div class="navbar-right">
         @if (authService.usuarioActual() && authService.usuarioActual().rol === 'admin') {
-            <button type="button" class="btn-primary desktop-only" routerLink="/registro-terreno" style="margin-right: 0.5rem;">
+            <button type="button" class="btn-primary desktop-only" routerLink="/admin/registrar-terreno" style="margin-right: 0.5rem;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 Registrar Propiedad
             </button>
-            <button type="button" class="btn-primary desktop-only" routerLink="/registro-constructor">
+            <button type="button" class="btn-primary desktop-only" routerLink="/admin/registrar-constructor">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
                 Registrar Constructor
             </button>
-
-
         }
-
         <div class="user-profile desktop-only">
             @if (authService.usuarioActual()) {
                 <div class="logged-in-container">
@@ -137,6 +134,35 @@
                             <div class="dropdown-header">
                                 <p class="dropdown-email">{{ authService.usuarioActual().email }}</p>
                             </div>
+                            <div class="dropdown-divider"></div>
+                            <button type="button" class="dropdown-item">Mi Perfil</button>
+                            <button type="button" class="dropdown-item">Configuración</button>
+                            
+                            <div class="dropdown-divider"></div>
+                            
+                            @switch (authService.usuarioActual().rol) {
+                                @case ('admin') {
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/admin" (click)="mostrarMenuPerfil = false">
+                                        Panel Orquestador
+                                    </button>
+                                }
+                                @case ('constructor') {
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/constructor/panel" (click)="mostrarMenuPerfil = false">
+                                        Panel Constructora
+                                    </button>
+                                }
+                                @case ('inversionista') {
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/inversionista/panel" (click)="mostrarMenuPerfil = false">
+                                        Panel Inversionista
+                                    </button>
+                                }
+                                @case ('propietario') {
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/propietario/mis-terrenos" (click)="mostrarMenuPerfil = false">
+                                        Mis Terrenos
+                                    </button>
+                                }
+                            }
+                            
                             <div class="dropdown-divider"></div>
                             <button type="button" class="dropdown-item logout-item" (click)="cerrarSesion()">Cerrar Sesión</button>
                         </div>

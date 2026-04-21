@@ -1,25 +1,49 @@
 import { Routes } from '@angular/router';
 import { Mapa } from './mapa/mapa';
-import { RegistroTerreno } from './registro-terreno/registro-terreno';
 import { AnalisisFinanciero } from './analisis-financiero/analisis-financiero';
 import { LandingPage } from './landing-page/landing-page';
 import { authGuard, adminGuard, adminOnlyGuard, superAdminGuard } from './guards/auth-guard';
-import { SuperAdminDashboard } from './super-admin/dashboard/dashboard';
-import { ConstructorManagement } from './super-admin/constructor-management/constructor-management';
-import { PropertyManagement } from './super-admin/property-management/property-management';
-import { PropertyValidation } from './super-admin/property-validation/property-validation';
-import { RegistroConstructor } from './registro-constructor/registro-constructor';
 
 export const routes: Routes = [
     { path: '', component: LandingPage },
     { path: 'mapa', component: Mapa, canActivate: [authGuard] },
-    { path: 'registro-terreno', component: RegistroTerreno, canActivate: [authGuard, adminGuard] },
-    { path: 'registro-constructor', component: RegistroConstructor, canActivate: [authGuard, adminOnlyGuard] },
     { path: 'analisis/:id', component: AnalisisFinanciero, canActivate: [authGuard] },
-    { path: 'admin/dashboard', component: SuperAdminDashboard, canActivate: [authGuard, superAdminGuard] },
-    { path: 'admin/constructors', component: ConstructorManagement, canActivate: [authGuard, superAdminGuard] },
-    { path: 'admin/properties', component: PropertyManagement, canActivate: [authGuard, superAdminGuard] },
-    { path: 'admin/validation/:id', component: PropertyValidation, canActivate: [authGuard, superAdminGuard] },
+    {
+        path: 'admin',
+        loadComponent: () => import('./admin/admin-layout/admin-layout').then(m => m.AdminLayout),
+        canActivate: [authGuard, adminGuard],
+        children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { 
+                path: 'dashboard', 
+                loadComponent: () => import('./admin/admin-dashboard/admin-dashboard').then(m => m.AdminDashboard) 
+            },
+            { 
+                path: 'empresas', 
+                loadComponent: () => import('./admin/gestion-empresas/gestion-empresas').then(m => m.GestionEmpresas) 
+            },
+            { 
+                path: 'terrenos', 
+                loadComponent: () => import('./admin/gestion-terrenos/gestion-terrenos').then(m => m.GestionTerrenos) 
+            },
+            { 
+                path: 'registrar-socio', 
+                loadComponent: () => import('./admin/registro-socio/registro-socio').then(m => m.RegistroSocio) 
+            }, 
+            { 
+                path: 'registrar-terreno', 
+                loadComponent: () => import('./registro-terreno/registro-terreno').then(m => m.RegistroTerreno) 
+            },
+            { 
+                path: 'registrar-constructor', 
+                loadComponent: () => import('./registro-constructor/registro-constructor').then(m => m.RegistroConstructor) 
+            },
+            { 
+                path: 'validar-terreno/:id', 
+                loadComponent: () => import('./super-admin/property-validation/property-validation').then(m => m.PropertyValidation) 
+            }
+        ]
+    },
     { path: '**', redirectTo: '' }
 ];
 

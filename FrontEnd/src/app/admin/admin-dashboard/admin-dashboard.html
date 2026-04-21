@@ -1,0 +1,151 @@
+<div class="page-container fade-in">
+    <header class="page-header">
+        <p class="subtitle">ORCHESTRATION HUB</p>
+        <h1>Admin Console</h1>
+    </header>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">TOTAL COMPANIES</span>
+            <div class="stat-value-row">
+                <span class="stat-value">{{ totalSocios }}</span>
+                <span class="stat-badge">+12%</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">TOTAL PROPERTIES</span>
+            <div class="stat-value-row">
+                <span class="stat-value">2,842</span>
+                <span class="stat-badge">+5.4%</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">ACTIVE PROJECTS</span>
+            <div class="stat-value-row">
+                <span class="stat-value">48</span>
+                <span class="stat-badge bg-slate text-slate">Stable</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">PLATFORM HEALTH</span>
+            <div class="stat-value-row">
+                <span class="stat-value text-blue">99.9%</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4d8eff" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content-grid">
+        <div class="modules-column">
+            <div class="module-card">
+                <div class="module-content">
+                    <h3>Gestión de Constructoras</h3>
+                    <p>Oversee construction enterprise accounts, manage credentials, and audit operational capacity across the portfolio.</p>
+                    <button class="btn-primary" routerLink="/admin/empresas">Launch Module →</button>
+                </div>
+                <div class="module-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                </div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-content">
+                    <h3>Gestión de Terrenos</h3>
+                    <p>Comprehensive land asset management. Verify titles, geographical data, and regulatory compliance statuses.</p>
+                    <button class="btn-primary" routerLink="/admin/terrenos">Explore Land Bank →</button>
+                </div>
+                <div class="module-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-column">
+            <div class="activity-card">
+                <div class="activity-header">
+                    <h3>Recent Activity</h3>
+                    <span class="live-badge">Live Updates</span>
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-dot dot-blue"></div>
+                        <div class="activity-details">
+                            <h4>Nuevo Terreno Registrado</h4>
+                            <p>Lote 45B - Silicon Valley North</p>
+                            <span class="time">2 MINS AGO</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot dot-slate"></div>
+                        <div class="activity-details">
+                            <h4>Constructor Approved</h4>
+                            <p>Apex Institutional Builders Ltd.</p>
+                            <span class="time">45 MINS AGO</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-outline-full">VIEW ALL LOGS</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="audit-section">
+        <div class="audit-header">
+            <div>
+                <h2>Audit Log</h2>
+                <p>Real-time institutional activity monitor</p>
+            </div>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>TIMESTAMP</th>
+                        <th>ADMINISTRATOR</th>
+                        <th>ACTION TYPE</th>
+                        <th>TARGET ENTITY</th>
+                        <th class="text-right">STATUS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-cell">Oct 24, 14:22:10</td>
+                        <td>
+                            <div class="admin-cell">
+                                <div class="avatar-sm">SJ</div>
+                                <span>Sarah Jenkins</span>
+                            </div>
+                        </td>
+                        <td class="action-cell">Registry Created</td>
+                        <td class="target-cell">North Valleys P4-12</td>
+                        <td class="status-cell"><span class="badge-completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td class="time-cell">Oct 24, 12:45:02</td>
+                        <td>
+                            <div class="admin-cell">
+                                <div class="avatar-sm bg-gray">MW</div>
+                                <span>Marcus Wright</span>
+                            </div>
+                        </td>
+                        <td class="action-cell">Access Permission Change</td>
+                        <td class="target-cell">Global Assets Ltd.</td>
+                        <td class="status-cell"><span class="badge-completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td class="time-cell">Oct 24, 09:12:44</td>
+                        <td>
+                            <div class="admin-cell">
+                                <div class="avatar-sm">SJ</div>
+                                <span>Sarah Jenkins</span>
+                            </div>
+                        </td>
+                        <td class="action-cell">Batch Update</td>
+                        <td class="target-cell">Central District Grid</td>
+                        <td class="status-cell"><span class="badge-processing">Processing</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

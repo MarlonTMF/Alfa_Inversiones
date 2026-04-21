@@ -1,0 +1,83 @@
+<div class="page-container fade-in">
+    <header class="page-header">
+        <div class="header-content">
+            <div>
+                <p class="subtitle">PORTFOLIO ASSET MANAGEMENT</p>
+                <h1>Propiedades</h1>
+            </div>
+        </div>
+    </header>
+
+    <section class="toolbar-section">
+        <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" placeholder="Search by name or ID..." [(ngModel)]="textoBusqueda">
+        </div>
+
+        <div class="filter-group">
+            <select class="filter-select" [(ngModel)]="filtroUbicacion">
+                @for (u of ubicaciones; track u) {
+                    <option [value]="u">{{ u === 'Todos' ? 'UBICACIÓN (TODAS)' : u }}</option>
+                }
+            </select>
+            
+            <select class="filter-select" [(ngModel)]="filtroTipo">
+                @for (t of tipos; track t) {
+                    <option [value]="t">{{ t === 'Todos' ? 'TIPO (TODOS)' : t }}</option>
+                }
+            </select>
+            
+            <select class="filter-select" [(ngModel)]="filtroEstado">
+                @for (e of estados; track e) {
+                    <option [value]="e">{{ e === 'Todos' ? 'ESTADO LEGAL (TODOS)' : e }}</option>
+                }
+            </select>
+        </div>
+    </section>
+
+    <div class="properties-grid">
+        @for (terreno of terrenosFiltrados; track terreno.id) {
+            <div class="property-card" [routerLink]="['/analisis', terreno.id]">
+                <div class="property-image-container">
+                    <img [src]="terreno.img" [alt]="terreno.nombre" class="property-image">
+                    <span class="status-badge-absolute" [ngClass]="terreno.estadoClase">{{ terreno.estado }}</span>
+                </div>
+                <div class="property-details">
+                    <div class="property-header">
+                        <div>
+                            <h3 class="property-title">{{ terreno.nombre }}</h3>
+                            <p class="property-owner">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                Owner: {{ terreno.propietario }}
+                            </p>
+                        </div>
+                        <div class="property-value">
+                            <span class="value-amount">${{ terreno.valor }}</span>
+                            <span class="value-label">EST. VALUE</span>
+                        </div>
+                    </div>
+                    
+                    <div class="property-footer">
+                        <div class="specs-container">
+                            <div class="spec-item">
+                                <span class="spec-label">AREA</span>
+                                <span class="spec-value">{{ terreno.area }} m²</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">TYPE</span>
+                                <span class="spec-value">{{ terreno.tipo }}</span>
+                            </div>
+                        </div>
+                        <button class="btn-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        } @empty {
+            <div class="empty-state">
+                <p style="color: #94a3b8; font-size: 14px; text-align: center; padding: 40px 0;">No se encontraron propiedades que coincidan con los filtros seleccionados.</p>
+            </div>
+        }
+    </div>
+</div>

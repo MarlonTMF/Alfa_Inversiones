@@ -1,0 +1,83 @@
+<div class="page-container fade-in">
+    <header class="page-header">
+        <div class="header-content">
+            <div>
+                <p class="subtitle">PORTFOLIO MANAGEMENT</p>
+                <h1>Gestión de Socios Estratégicos</h1>
+            </div>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <span class="stat-label">CONSTRUCTORAS</span>
+                    <span class="stat-value text-primary">8</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">INVERSIONISTAS</span>
+                    <span class="stat-value text-tertiary">14</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="toolbar-section">
+        <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" placeholder="Buscar por nombre o correo...">
+        </div>
+
+        <div class="filter-group">
+            <button class="filter-btn active">Todos</button>
+            <button class="filter-btn">Constructoras</button>
+            <button class="filter-btn">Inversionistas</button>
+        </div>
+
+        <button class="btn-add">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Nueva Empresa
+        </button>
+    </section>
+
+    <div class="bento-grid">
+        <div class="company-card add-new">
+            <div class="icon-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </div>
+            <h3>Agregar Entidad</h3>
+            <p>Registra una nueva constructora o inversionista en la plataforma.</p>
+        </div>
+
+        @for (empresa of empresas; track empresa.id) {
+            <div class="company-card">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span class="company-id">ID: {{ empresa.id }}</span>
+                        <h3>{{ empresa.nombre }}</h3>
+                    </div>
+                    <div class="status-badgeValidated">VALIDADO</div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="info-row">
+                        @if (empresa.rol === 'constructor') {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d8eff" stroke-width="2"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
+                        } @else {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#df7412" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        }
+                        <span>Tipo de Socio: <strong>{{ empresa.rol | uppercase }}</strong></span>
+                    </div>
+                    <div class="info-row">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
+                        <span>Contacto: <strong>{{ empresa.email }}</strong></span>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <span class="text-xs text-slate-500 font-bold uppercase">{{ empresa.especialidad }}</span>
+                    <button class="btn-edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        EDITAR PERFIL
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
