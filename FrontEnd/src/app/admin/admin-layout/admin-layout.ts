@@ -12,9 +12,23 @@ import { AuthService } from '../../auth/services/auth';
 })
 export class AdminLayout {
     public authService = inject(AuthService);
-    private readonly router = inject(Router);
+    private router = inject(Router);
+
+    public mostrarNotificaciones: boolean = false;
+    public tieneNuevasNotificaciones: boolean = true;
 
     salirAlMapa(): void {
         this.router.navigate(['/mapa']);
+    }
+
+    toggleNotificaciones(): void {
+        this.mostrarNotificaciones = !this.mostrarNotificaciones;
+        if (this.mostrarNotificaciones) {
+            this.tieneNuevasNotificaciones = false;
+        }
+    }
+
+    cerrarNotificaciones(): void {
+        this.mostrarNotificaciones = false;
     }
 }

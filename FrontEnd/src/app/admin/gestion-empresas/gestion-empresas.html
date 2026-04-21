@@ -8,11 +8,11 @@
             <div class="stats-container">
                 <div class="stat-box">
                     <span class="stat-label">CONSTRUCTORAS</span>
-                    <span class="stat-value text-primary">{{ totalConstructores }}</span>
+                    <span class="stat-value text-primary">8</span>
                 </div>
                 <div class="stat-box">
                     <span class="stat-label">INVERSIONISTAS</span>
-                    <span class="stat-value text-tertiary">{{ totalInversionistas }}</span>
+                    <span class="stat-value text-tertiary">14</span>
                 </div>
             </div>
         </div>
@@ -37,6 +37,14 @@
     </section>
 
     <div class="bento-grid">
+        <div class="company-card add-new">
+            <div class="icon-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </div>
+            <h3>Agregar Entidad</h3>
+            <p>Registra una nueva constructora o inversionista en la plataforma.</p>
+        </div>
+
         @for (empresa of empresas; track empresa.id) {
             <div class="company-card">
                 <div class="card-header">
@@ -44,7 +52,7 @@
                         <span class="company-id">ID: {{ empresa.id }}</span>
                         <h3>{{ empresa.nombre }}</h3>
                     </div>
-                    <div class="status-badge validated">{{ empresa.estado }}</div>
+                    <div class="status-badgeValidated">VALIDADO</div>
                 </div>
                 
                 <div class="card-body">
@@ -71,13 +79,5 @@
                 </div>
             </div>
         }
-
-        <div class="company-card add-new">
-            <div class="icon-circle">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            </div>
-            <h3>Agregar Entidad</h3>
-            <p>Registra una nueva constructora o inversionista en la plataforma.</p>
-        </div>
     </div>
 </div>
