@@ -2,10 +2,13 @@ import { ChangeDetectorRef, Component, inject, NgZone, OnInit, PLATFORM_ID, View
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize, timeout } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { PasoLegalConstructor } from './paso-legal/paso-legal';
 import { PasoEspecialidadesConstructor } from './paso-especialidades/paso-especialidades';
 import { PasoCredencialesConstructor } from './paso-credenciales/paso-credenciales';
 import { ConstructorService } from '../core/services/constructor.service';
+import { SocioService } from '../core/services/socio.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-registro-constructor',
@@ -13,6 +16,7 @@ import { ConstructorService } from '../core/services/constructor.service';
     imports: [
         CommonModule,
         ReactiveFormsModule,
+        RouterLink,
         PasoLegalConstructor,
         PasoEspecialidadesConstructor,
         PasoCredencialesConstructor
@@ -27,16 +31,19 @@ export class RegistroConstructor implements OnInit {
     private readonly constructorService = inject(ConstructorService);
     private readonly ngZone = inject(NgZone);
     private readonly cdr = inject(ChangeDetectorRef);
+    private readonly socioService = inject(SocioService);
 
     pasoActual: number = 1;
     registroExitoso: boolean = false;
     cargando: boolean = false;
     errorRegistro: string | null = null;
+    archivosLegales: { testimonio?: File, padron?: File } = {};
+    datosRegistroFinal: any = null;
 
     formularioGeneral: FormGroup = this.fb.group({
         legal: this.fb.group({
             nombreEmpresa: ['', Validators.required],
-            nit: [''],
+            nit: ['', Validators.required],
             representanteLegal: ['', Validators.required]
         }),
         especialidades: this.fb.group({
@@ -51,6 +58,8 @@ export class RegistroConstructor implements OnInit {
     });
 
     ngOnInit(): void {
+        this.regenerarPassword();
+        this.escucharNombreEmpresa();
         this.formularioGeneral.get('credenciales')?.get('passwordGenerado')?.setValue(this.generarPassword());
 
         if (isPlatformBrowser(this.platformId)) {
@@ -70,10 +79,23 @@ export class RegistroConstructor implements OnInit {
         }
     }
 
+    private escucharNombreEmpresa(): void {
+        this.formularioGeneral.get('legal')?.get('nombreEmpresa')?.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged()
+        ).subscribe(nombre => {
+            const emailControl = this.formularioGeneral.get('credenciales')?.get('email');
+            if (nombre && emailControl && !emailControl.dirty) {
+                const base = nombre.toLowerCase().trim().replace(/\s+/g, '.').replace(/[^a-z0-9.]/g, '');
+                emailControl.patchValue(`${base}.constructora@365soft.com`, { emitEvent: false });
+            }
+        });
+    }
+
     generarPassword(): string {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let pass = '';
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 12; i++) {
             pass += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return pass;
@@ -81,6 +103,10 @@ export class RegistroConstructor implements OnInit {
 
     regenerarPassword(): void {
         this.formularioGeneral.get('credenciales')?.get('passwordGenerado')?.setValue(this.generarPassword());
+    }
+
+    onArchivosCambiados(archivos: any): void {
+        this.archivosLegales = archivos;
     }
 
     irAPaso(paso: number): void {
@@ -111,41 +137,43 @@ export class RegistroConstructor implements OnInit {
     }
 
     finalizarRegistro(): void {
-        if (this.cargando) {
-            return;
-        }
-
-        if (this.formularioGeneral.invalid) {
-            this.errorRegistro = 'Por favor, completa todos los campos obligatorios.';
-            this.cdr.detectChanges();
-            return;
-        }
-
-        const legal = this.formLegal.getRawValue();
-        const cred = this.formCredenciales.getRawValue();
-
-        const payload = {
-            nombre: legal.nombreEmpresa,
-            email: cred.email,
-            password: cred.passwordGenerado
-        };
+        if (this.formularioGeneral.invalid || this.cargando) return;
 
         this.cargando = true;
         this.errorRegistro = null;
         this.cdr.detectChanges();
 
-        this.constructorService.registrarConstructor(payload).pipe(
-            timeout(15000),
-            finalize(() => {
+        const dataLegal = this.formLegal.getRawValue();
+        const dataEsp = this.formEspecialidades.getRawValue();
+        const dataCred = this.formCredenciales.getRawValue();
+
+        const formData = new FormData();
+        
+        formData.append('nombreEmpresa', dataLegal.nombreEmpresa);
+        formData.append('nit', dataLegal.nit);
+        formData.append('representanteLegal', dataLegal.representanteLegal);
+        
+        formData.append('especialidades', JSON.stringify(dataEsp.especialidadesPrincipales));
+        formData.append('maquinaria', JSON.stringify(dataEsp.maquinaria));
+        
+        formData.append('email', dataCred.email);
+        formData.append('telefono', dataCred.telefono);
+        formData.append('passwordGenerado', dataCred.passwordGenerado);
+        formData.append('rol', 'constructor');
+
+        if (this.archivosLegales.testimonio) {
+            formData.append('testimonio', this.archivosLegales.testimonio);
+        }
+        if (this.archivosLegales.padron) {
+            formData.append('padron', this.archivosLegales.padron);
+        }
+
+        this.socioService.registrarSocio(formData).subscribe({
+            next: (res) => {
                 this.ngZone.run(() => {
                     this.cargando = false;
-                    this.cdr.detectChanges();
-                });
-            })
-        ).subscribe({
-            next: () => {
-                this.ngZone.run(() => {
                     this.registroExitoso = true;
+                    this.datosRegistroFinal = res.data;
                     if (isPlatformBrowser(this.platformId)) {
                         sessionStorage.removeItem('constructorForm');
                     }
@@ -154,7 +182,8 @@ export class RegistroConstructor implements OnInit {
             },
             error: (err) => {
                 this.ngZone.run(() => {
-                    this.errorRegistro = this.obtenerMensajeErrorRegistro(err);
+                    this.cargando = false;
+                    this.errorRegistro = err.error?.message || 'Error al intentar registrar la constructora.';
                     this.cdr.detectChanges();
                 });
             }

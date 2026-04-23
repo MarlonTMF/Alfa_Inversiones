@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TerrenoService } from '../../core/services/terreno.service';
 
 @Component({
     selector: 'app-gestion-terrenos',
@@ -10,50 +11,56 @@ import { FormsModule } from '@angular/forms';
     templateUrl: './gestion-terrenos.html',
     styleUrl: './gestion-terrenos.css'
 })
-export class GestionTerrenos {
+export class GestionTerrenos implements OnInit {
+    private readonly terrenoService = inject(TerrenoService);
+    private readonly cdr = inject(ChangeDetectorRef);
+
     public textoBusqueda: string = '';
     public filtroUbicacion: string = 'Todos';
     public filtroTipo: string = 'Todos';
     public filtroEstado: string = 'Todos';
 
-    terrenos = [
-        { 
-            id: 'MX-8829', 
-            nombre: 'Lote Sector Sur', 
-            propietario: 'Ricardo Aranda', 
-            valor: '1.2M', 
-            area: '2,450', 
-            tipo: 'Residencial', 
-            estado: 'DISPONIBLE', 
-            estadoClase: 'estado-disponible',
-            ubicacion: 'Sur',
-            img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' 
-        },
-        { 
-            id: 'MX-8830', 
-            nombre: 'Edificio Corporativo A1', 
-            propietario: 'Grupo Inmobiliario Altus', 
-            valor: '8.5M', 
-            area: '12,000', 
-            tipo: 'Comercial', 
-            estado: 'EN TRÁMITE', 
-            estadoClase: 'estado-tramite',
-            ubicacion: 'Centro',
-            img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' 
-        },
-        { 
-            id: 'MX-8831', 
-            nombre: 'Villa Los Olivos', 
-            propietario: 'Sofia Villalobos', 
-            valor: '2.7M', 
-            area: '850', 
-            tipo: 'Residencial', 
-            estado: 'ESCRITURADO', 
-            estadoClase: 'estado-escriturado',
-            ubicacion: 'Norte',
-            img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' 
-        }
-    ];
+    public terrenos: any[] = [];
+
+    ngOnInit(): void {
+        this.cargarTerrenos();
+    }
+
+    private cargarTerrenos(): void {
+        this.terrenoService.obtenerPropiedades().subscribe({
+            next: (data) => {
+                this.terrenos = data.map(t => {
+                    const category = (t.category && t.category !== 'null') ? t.category : 'Terreno';
+                    const city = (t.city && t.city !== 'null') ? t.city : 'Desconocido';
+                    const address = (t.exactAddress && t.exactAddress !== 'null') ? t.exactAddress : null;
+
+                    return {
+                        ...t,
+                        idDisplay: t.id.split('-')[0].toUpperCase(),
+                        nombre: address || (category + ' en ' + city),
+                        propietario: t.nombrePropietario || (t.creator?.nombre || 'Sin Propietario'),
+                        valor: this.formatearPrecio(t.basePriceNegotiation),
+                        area: t.totalArea || 0,
+                        tipo: category,
+                        estado: t.status || 'DISPONIBLE',
+                        estadoClase: (t.status || 'DISPONIBLE').toLowerCase() === 'disponible' ? 'estado-disponible' : 'estado-tramite',
+                        ubicacion: city,
+                        img: t.multimedia?.find((m: any) => m.isMain)?.url || t.multimedia?.[0]?.url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                    };
+                });
+                this.cdr.detectChanges();
+            },
+            error: (err) => console.error('Error al cargar terrenos:', err)
+        });
+    }
+
+    private formatearPrecio(precio: any): string {
+        if (!precio) return '0';
+        const num = parseFloat(precio);
+        if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+        if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+        return num.toString();
+    }
 
     get ubicaciones() {
         return ['Todos', ...new Set(this.terrenos.map(t => t.ubicacion))];

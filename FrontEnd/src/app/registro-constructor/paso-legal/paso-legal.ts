@@ -10,7 +10,17 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class PasoLegalConstructor {
     @Input() formulario!: FormGroup;
+    @Input() archivos: { testimonio?: File, padron?: File } = {};
+    @Output() archivosCambiados = new EventEmitter<{ testimonio?: File, padron?: File }>();
     @Output() siguiente = new EventEmitter<void>();
+
+    onFileSelected(event: any, tipo: 'testimonio' | 'padron'): void {
+        const file = event.target.files[0];
+        if (file) {
+            this.archivos[tipo] = file;
+            this.archivosCambiados.emit(this.archivos);
+        }
+    }
 
     onSiguiente(): void {
         this.siguiente.emit();

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, NgZone, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { finalize, timeout } from 'rxjs/operators';
 import { PasoDocumentacion } from './paso-documentacion/paso-documentacion';
 import { PasoEspecificaciones } from './paso-especificaciones/paso-especificaciones';
@@ -11,7 +11,7 @@ import { TerrenoService } from '../core/services/terreno.service';
 @Component({
     selector: 'app-registro-terreno',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, PasoDocumentacion, PasoEspecificaciones, PasoCredenciales],
+    imports: [CommonModule, ReactiveFormsModule, RouterLink, PasoDocumentacion, PasoEspecificaciones, PasoCredenciales],
     templateUrl: './registro-terreno.html',
     styleUrl: './registro-terreno.css',
     encapsulation: ViewEncapsulation.None
@@ -128,18 +128,44 @@ export class RegistroTerreno implements OnInit {
             return;
         }
 
-        const payload = this.construirPayloadRegistro();
-        if (!payload) {
+        const dataBase = this.construirPayloadRegistro();
+        if (!dataBase) {
             this.cdr.detectChanges();
             return;
         }
 
-        console.log('Enviando registro de terreno:', payload);
+        const formData = new FormData();
+        // Agregamos campos básicos
+        Object.keys(dataBase).forEach(key => {
+            if (dataBase[key] !== null && dataBase[key] !== undefined) {
+                formData.append(key, dataBase[key]);
+            }
+        });
+
+        // Agregamos archivos
+        if (this.documentos['folioReal']?.[0]) {
+            formData.append('folioReal', this.documentos['folioReal'][0]);
+        }
+        if (this.documentos['certificadoCatastral']?.[0]) {
+            formData.append('catastro', this.documentos['certificadoCatastral'][0]);
+        }
+        if (this.documentos['multimedia']?.length > 0) {
+            this.documentos['multimedia'].forEach(file => {
+                formData.append('multimedia', file);
+            });
+        }
+        if (this.documentos['adicional']?.length > 0) {
+            this.documentos['adicional'].forEach(file => {
+                formData.append('adicional', file);
+            });
+        }
+
+        console.log('Enviando registro de terreno con archivos...');
         this.cargando = true;
         this.errorRegistro = null;
         this.cdr.detectChanges();
 
-        this.terrenoService.registrarTerrenoCompleto(payload).pipe(
+        this.terrenoService.registrarTerrenoCompleto(formData).pipe(
             timeout(15000),
             finalize(() => {
                 this.ngZone.run(() => {
@@ -170,7 +196,7 @@ export class RegistroTerreno implements OnInit {
     }
 
     irAlMapa(): void {
-        this.router.navigate(['/']);
+        this.router.navigate(['/admin/mapa']);
     }
 
     get formEspecificaciones(): FormGroup {

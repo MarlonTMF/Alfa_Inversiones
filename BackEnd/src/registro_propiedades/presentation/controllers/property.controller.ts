@@ -1,4 +1,5 @@
-import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Patch, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { CreatePropertyUseCase } from '../../domain/use-cases/create-property.use-case.js';
 import { GetAllPropertiesUseCase } from '../../domain/use-cases/get-all-properties.use-case.js';
 import { GetPropertyByIdUseCase } from '../../domain/use-cases/get-property-by-id.use-case.js';
@@ -28,8 +29,22 @@ export class PropertyController {
      * Endpoint para el registro completo (Terreno + Propietario).
      */
     @Post('register-full')
-    async registerFull(@Body() dto: RegisterFullPropertyDto): Promise<any> {
-        return await this.registerFullPropertyUseCase.execute(dto);
+    @UseInterceptors(FileFieldsInterceptor([
+        { name: 'folioReal', maxCount: 1 },
+        { name: 'catastro', maxCount: 1 },
+        { name: 'multimedia', maxCount: 50 },
+        { name: 'adicional', maxCount: 10 },
+    ]))
+    async registerFull(
+        @Body() dto: RegisterFullPropertyDto,
+        @UploadedFiles() files: { 
+            folioReal?: Express.Multer.File[], 
+            catastro?: Express.Multer.File[], 
+            multimedia?: Express.Multer.File[],
+            adicional?: Express.Multer.File[] 
+        }
+    ): Promise<any> {
+        return await this.registerFullPropertyUseCase.execute(dto, files);
     }
 
     /**

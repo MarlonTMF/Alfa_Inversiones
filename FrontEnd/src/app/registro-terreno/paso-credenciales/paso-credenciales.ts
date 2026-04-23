@@ -23,7 +23,7 @@ export class PasoCredenciales {
     }
 
     regenerarPassword(): void {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let pass = '';
         for (let i = 0; i < 12; i++) {
             pass += chars.charAt(Math.floor(Math.random() * chars.length));

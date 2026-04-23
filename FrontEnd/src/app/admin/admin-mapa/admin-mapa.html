@@ -1,0 +1,42 @@
+<div class="admin-map-container">
+    <div id="admin-map" class="leaflet-map"></div>
+
+    <!-- Overlay de Detalle -->
+    @if (terrenoSeleccionado) {
+        <div class="property-detail-overlay fade-in">
+            <div class="detail-header">
+                <h3>Detalles de Propiedad</h3>
+                <button class="btn-close" (click)="cerrarDetalle()">✕</button>
+            </div>
+            
+            <div class="detail-body">
+                <div class="info-row">
+                    <span class="label">Nombre:</span>
+                    <span class="value">{{ terrenoSeleccionado.name }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Ubicación:</span>
+                    <span class="value">{{ terrenoSeleccionado.city }}, {{ terrenoSeleccionado.district }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Superficie:</span>
+                    <span class="value">{{ terrenoSeleccionado.totalArea | number }} m²</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Precio:</span>
+                    <span class="value text-success">${{ terrenoSeleccionado.basePriceNegotiation | number }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Estado:</span>
+                    <span class="badge" [class.badge-available]="terrenoSeleccionado.status === 'DISPONIBLE'">
+                        {{ terrenoSeleccionado.status }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="detail-footer">
+                <button class="btn-primary-sm" [routerLink]="['/admin/terrenos']">Ver en Listado</button>
+            </div>
+        </div>
+    }
+</div>

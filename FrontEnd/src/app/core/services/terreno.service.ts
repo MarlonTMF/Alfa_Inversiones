@@ -17,6 +17,7 @@ export class TerrenoService {
    * @param datos Combinación de datos técnicos y credenciales.
    */
   registrarTerrenoCompleto(datos: any): Observable<any> {
+    // Si datos es FormData, HttpClient manejará el multipart
     return this.http.post(`${this.apiUrl}/register-full`, datos);
   }
 

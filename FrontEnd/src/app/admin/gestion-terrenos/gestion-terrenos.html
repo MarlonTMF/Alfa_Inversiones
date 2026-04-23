@@ -3,15 +3,19 @@
         <div class="header-content">
             <div>
                 <p class="subtitle">PORTFOLIO ASSET MANAGEMENT</p>
-                <h1>Propiedades</h1>
+                <h1>Gestión de Propiedades</h1>
             </div>
+            <button class="btn-add" routerLink="/admin/registro-terreno">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Registrar Propiedad
+            </button>
         </div>
     </header>
 
     <section class="toolbar-section">
         <div class="search-box">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" placeholder="Search by name or ID..." [(ngModel)]="textoBusqueda">
+            <input type="text" placeholder="Buscar por nombre, ID o propietario..." [(ngModel)]="textoBusqueda">
         </div>
 
         <div class="filter-group">
@@ -48,23 +52,23 @@
                             <h3 class="property-title">{{ terreno.nombre }}</h3>
                             <p class="property-owner">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                Owner: {{ terreno.propietario }}
+                                Propietario: {{ terreno.propietario }}
                             </p>
                         </div>
                         <div class="property-value">
                             <span class="value-amount">${{ terreno.valor }}</span>
-                            <span class="value-label">EST. VALUE</span>
+                            <span class="value-label">VALOR EST.</span>
                         </div>
                     </div>
                     
                     <div class="property-footer">
                         <div class="specs-container">
                             <div class="spec-item">
-                                <span class="spec-label">AREA</span>
+                                <span class="spec-label">SUPERFICIE</span>
                                 <span class="spec-value">{{ terreno.area }} m²</span>
                             </div>
                             <div class="spec-item">
-                                <span class="spec-label">TYPE</span>
+                                <span class="spec-label">CATEGORÍA</span>
                                 <span class="spec-value">{{ terreno.tipo }}</span>
                             </div>
                         </div>

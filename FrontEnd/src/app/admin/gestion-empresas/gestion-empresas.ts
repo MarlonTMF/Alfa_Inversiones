@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { EmpresasService, Empresa } from '../../services/empresas';
+import { SocioService } from '../../core/services/socio.service';
 
 @Component({
     selector: 'app-gestion-empresas',
@@ -13,11 +13,11 @@ import { EmpresasService, Empresa } from '../../services/empresas';
     styleUrl: './gestion-empresas.css'
 })
 export class GestionEmpresas implements OnInit, OnDestroy {
-    private readonly empresasService = inject(EmpresasService);
+    private readonly socioService = inject(SocioService);
     private readonly cdr = inject(ChangeDetectorRef);
     private sub!: Subscription;
-    
-    public empresas: Empresa[] = [];
+
+    public empresas: any[] = [];
     public totalConstructores: number = 0;
     public totalInversionistas: number = 0;
 
@@ -25,16 +25,37 @@ export class GestionEmpresas implements OnInit, OnDestroy {
     public filtroActivo: string = 'Todos';
 
     ngOnInit(): void {
-        this.empresasService.cargarEmpresasIniciales().subscribe({
-            error: (err: any) => console.error('Error al cargar empresas del mock:', err)
-        });
+        this.cargarSocios();
+    }
 
-        this.sub = this.empresasService.empresas$.subscribe((data: Empresa[]) => {
-            this.empresas = data;
-            this.totalConstructores = this.empresas.filter((e: Empresa) => e.rol === 'constructor').length;
-            this.totalInversionistas = this.empresas.filter((e: Empresa) => e.rol === 'inversionista').length;
-            this.cdr.detectChanges();
+    private cargarSocios(): void {
+        this.socioService.obtenerSocios().subscribe({
+            next: (data) => {
+                this.empresas = data.map(item => ({
+                    ...item,
+                    nombre: item.nombre_empresa || item.usuario?.nombre,
+                    email: item.usuario?.email,
+                    rol: item.usuario?.rol,
+                    fecha: item.fecha_creacion,
+                    especialidadesParsed: this.parseJson(item.especialidades),
+                    maquinariaParsed: this.parseJson(item.maquinaria)
+                }));
+                this.totalConstructores = this.empresas.filter(e => e.rol === 'constructor').length;
+                this.totalInversionistas = this.empresas.filter(e => e.rol === 'inversionista').length;
+                this.cdr.detectChanges();
+            },
+            error: (err) => console.error('Error al cargar socios:', err)
         });
+    }
+
+    private parseJson(val: any): string[] {
+        if (!val) return [];
+        if (Array.isArray(val)) return val;
+        try {
+            return JSON.parse(val);
+        } catch {
+            return [];
+        }
     }
 
     ngOnDestroy(): void {
@@ -47,10 +68,10 @@ export class GestionEmpresas implements OnInit, OnDestroy {
         this.filtroActivo = filtro;
     }
 
-    get empresasFiltradas(): Empresa[] {
-        return this.empresas.filter((empresa: Empresa) => {
-            const cumpleBusqueda = empresa.nombre.toLowerCase().includes(this.textoBusqueda.toLowerCase()) || 
-                                    empresa.email.toLowerCase().includes(this.textoBusqueda.toLowerCase());
+    get empresasFiltradas(): any[] {
+        return this.empresas.filter((empresa: any) => {
+            const cumpleBusqueda = empresa.nombre.toLowerCase().includes(this.textoBusqueda.toLowerCase()) ||
+                empresa.email.toLowerCase().includes(this.textoBusqueda.toLowerCase());
             let cumpleFiltro = true;
             if (this.filtroActivo === 'Constructoras') {
                 cumpleFiltro = empresa.rol === 'constructor';

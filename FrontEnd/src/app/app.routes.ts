@@ -31,7 +31,7 @@ export const routes: Routes = [
                 loadComponent: () => import('./admin/registro-socio/registro-socio').then(m => m.RegistroSocio) 
             }, 
             { 
-                path: 'registrar-terreno', 
+                path: 'registro-terreno', 
                 loadComponent: () => import('./registro-terreno/registro-terreno').then(m => m.RegistroTerreno) 
             },
             { 
@@ -41,9 +41,14 @@ export const routes: Routes = [
             { 
                 path: 'validar-terreno/:id', 
                 loadComponent: () => import('./super-admin/property-validation/property-validation').then(m => m.PropertyValidation) 
+            },
+            {
+                path: 'mapa',
+                loadComponent: () => import('./admin/admin-mapa/admin-mapa').then(m => m.AdminMapa)
             }
         ]
     },
+    { path: 'super-admin', redirectTo: 'admin', pathMatch: 'full' },
     { path: '**', redirectTo: '' }
 ];
 

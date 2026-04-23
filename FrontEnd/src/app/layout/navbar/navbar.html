@@ -106,7 +106,7 @@
 
     <div class="navbar-right">
         @if (authService.usuarioActual() && authService.usuarioActual().rol === 'admin') {
-            <button type="button" class="btn-primary desktop-only" routerLink="/admin/registrar-terreno" style="margin-right: 0.5rem;">
+            <button type="button" class="btn-primary desktop-only" routerLink="/admin/registro-terreno" style="margin-right: 0.5rem;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 Registrar Propiedad
             </button>
@@ -142,6 +142,11 @@
                             
                             @switch (authService.usuarioActual().rol) {
                                 @case ('admin') {
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/admin" (click)="mostrarMenuPerfil = false">
+                                        Panel Orquestador
+                                    </button>
+                                }
+                                @case ('super-admin') {
                                     <button type="button" class="dropdown-item text-primary" routerLink="/admin" (click)="mostrarMenuPerfil = false">
                                         Panel Orquestador
                                     </button>
