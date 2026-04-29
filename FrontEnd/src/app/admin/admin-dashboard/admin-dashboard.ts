@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,6 +12,7 @@ import { EmpresasService } from '../../services/empresas';
 })
 export class AdminDashboard implements OnInit, OnDestroy {
     private empresasService = inject(EmpresasService);
+    private cdr = inject(ChangeDetectorRef);
     private sub!: Subscription;
     
     public totalSocios: number = 0;
@@ -20,6 +21,7 @@ export class AdminDashboard implements OnInit, OnDestroy {
         this.empresasService.cargarEmpresasIniciales().subscribe();
         this.sub = this.empresasService.empresas$.subscribe(data => {
             this.totalSocios = data.length;
+            this.cdr.detectChanges();
         });
     }
 

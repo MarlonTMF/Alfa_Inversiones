@@ -1,41 +1,74 @@
 <div class="page-container fade-in">
   <header class="page-header">
     <p class="subtitle">PROJECTS</p>
-    <h1>Proyectos</h1>
-    <p class="hint">
-      Este módulo consume <code>/api/v1/proyectos</code> (requiere header <code>x-admin-id</code>).
-    </p>
+    <h1>Gestión de Proyectos</h1>
+    <p class="hint">Supervisa y gestiona el ciclo de vida de tus activos inmobiliarios.</p>
   </header>
 
-  <div class="toolbar">
-    <a class="btn-primary" routerLink="/admin/registro-proyecto">Crear proyecto</a>
-    <button class="btn-outline" type="button" (click)="cargar()">Refrescar</button>
+  <div class="toolbar" style="margin-bottom: 32px;">
+    <a class="btn-primary" routerLink="/admin/registro-proyecto" style="padding: 12px 24px;">
+      <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle; margin-right: 8px;">add</span>
+      Crear nuevo proyecto
+    </a>
+    <button class="btn-outline" type="button" (click)="cargar()">
+      <span class="material-symbols-outlined" style="font-size: 20px; vertical-align: middle;">refresh</span>
+    </button>
   </div>
 
-  <div class="state-card" *ngIf="cargando">Cargando proyectos…</div>
+  <!-- Filtros Horizontales -->
+  <div class="filters-container">
+    <button class="filter-btn" [class.active]="filtroActual === 'Todos'" (click)="setFiltro('Todos')">Todos</button>
+    <button class="filter-btn" [class.active]="filtroActual === 'Recaudación'" (click)="setFiltro('Recaudación')">Recaudación</button>
+    <button class="filter-btn" [class.active]="filtroActual === 'Construcción'" (click)="setFiltro('Construcción')">Construcción</button>
+    <button class="filter-btn" [class.active]="filtroActual === 'Finalizados'" (click)="setFiltro('Finalizados')">Finalizados</button>
+  </div>
+
+  <div class="state-card" *ngIf="cargando">Cargando portafolio…</div>
   <div class="state-card error" *ngIf="error">{{ error }}</div>
 
-  <div class="table-container" *ngIf="!cargando && !error">
-    <table>
-      <thead>
-        <tr>
-          <th>NOMBRE</th>
-          <th>ESTADO</th>
-          <th>TIPO</th>
-          <th class="text-right">CREADO</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let p of proyectos" class="row-link" [routerLink]="['/admin/proyectos', p.id]">
-          <td class="name-cell">{{ p.nombre }}</td>
-          <td>{{ p.estado || '-' }}</td>
-          <td>{{ p.tipoProyecto || '-' }}</td>
-          <td class="text-right">{{ p.createdAt ? (p.createdAt | date: 'short') : '-' }}</td>
-        </tr>
-        <tr *ngIf="proyectos.length === 0">
-          <td colspan="4" class="empty">Aún no hay proyectos registrados.</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Grid de Proyectos -->
+  <div class="projects-grid" *ngIf="!cargando && !error">
+    <div *ngFor="let p of proyectosFiltrados" class="project-card" [routerLink]="['/admin/proyectos', p.id]">
+      <div class="card-image-wrapper">
+        <img [src]="getImagen(p)" [alt]="p.nombre">
+        <div class="card-badge" [ngClass]="getBadgeClass(p)">
+          {{ getEstadoLabel(p) }}
+        </div>
+      </div>
+      
+      <div class="card-content">
+        <div class="card-header">
+          <div>
+            <h2 class="project-title">{{ p.nombre }}</h2>
+            <div class="project-loc">
+              <span class="material-symbols-outlined" style="font-size: 14px;">location_on</span>
+              <span>{{ p.property?.ubicacion || 'Ubicación pendiente' }}</span>
+            </div>
+          </div>
+          <div class="roi-indicator" *ngIf="p.roi">
+            <span class="roi-label">ROI Est.</span>
+            <span class="roi-value">{{ p.roi }}%</span>
+          </div>
+        </div>
+
+        <div class="progress-section">
+          <div class="progress-meta">
+            <span class="progress-label">{{ getLabelProgreso(p) }}</span>
+            <span class="progress-value">{{ getProgreso(p) }}%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" 
+                 [style.width.%]="getProgreso(p)"
+                 [ngClass]="p.estado === 'planificacion' ? 'fill-recaudacion' : 'fill-construccion'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="state-card" *ngIf="proyectosFiltrados.length === 0" style="grid-column: 1 / -1;">
+      No se encontraron proyectos en esta categoría.
+    </div>
   </div>
 </div>

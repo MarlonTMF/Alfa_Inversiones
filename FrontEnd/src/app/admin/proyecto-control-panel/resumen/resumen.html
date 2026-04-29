@@ -1,0 +1,173 @@
+<section class="p-8 space-y-8 flex-1 animate-in fade-in duration-500">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <div class="space-y-2">
+            <div class="flex items-center gap-3">
+                <span class="bg-[#3b82f6]/10 text-[#3b82f6] px-3 py-1 rounded text-[10px] font-black tracking-widest uppercase">{{ proyecto?.estado === 'planificacion' ? 'EN RECAUDACIÓN' : 'EN CONSTRUCCIÓN' }}</span>
+                <span class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest flex items-center gap-1">
+                    <span class="material-symbols-outlined text-xs">location_on</span> {{ proyecto?.property?.ubicacion || 'Ubicación pendiente' }}
+                </span>
+            </div>
+            <h2 class="text-5xl md:text-6xl font-black text-white tracking-tighter">{{ proyecto?.nombre || 'Residencial Sky Tower' }}</h2>
+        </div>
+        <div class="flex gap-4">
+            <button [routerLink]="['/admin/proyectos', proyecto?.id, 'editar']" class="px-6 py-3 border border-outline-variant/30 text-on-surface-variant text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-[#222a3d] transition-all">Editar Proyecto</button>
+            <button class="px-6 py-3 bg-[#3b82f6] text-white text-xs font-bold uppercase tracking-widest rounded-lg shadow-lg shadow-blue-900/40 active:scale-[0.98] transition-transform">Publicar Reporte</button>
+        </div>
+    </div>
+
+    <!-- KPI Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Capital Recaudado -->
+        <div class="bg-surface-container-high p-8 rounded-xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-[#3b82f6]/5 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
+            <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-6">Capital Recaudado</p>
+            <div class="flex items-baseline gap-2 mb-2">
+                <h3 class="text-4xl font-black text-white">$14.24M</h3>
+                <span class="text-on-surface-variant text-sm font-medium">/ $20.00M</span>
+            </div>
+            <div class="w-full bg-surface-container-lowest h-2 rounded-full mt-4 mb-2">
+                <div class="bg-[#3b82f6] h-full rounded-full w-[71.2%] shadow-[0_0_12px_rgba(59,130,246,0.5)]"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-[#3b82f6] text-xs font-black tracking-widest">71.2% COMPLETE</span>
+                <span class="material-symbols-outlined text-[#3b82f6] text-lg">trending_up</span>
+            </div>
+        </div>
+
+        <!-- ROI Proyectado -->
+        <div class="bg-surface-container-high p-8 rounded-xl relative overflow-hidden group">
+            <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-6">ROI Proyectado</p>
+            <div class="flex items-center gap-4">
+                <h3 class="text-5xl font-black text-white">{{ proyecto?.roi || '18.5' }}<span class="text-2xl text-[#3b82f6]">%</span></h3>
+                <div class="bg-surface-container-highest px-3 py-1 rounded text-[10px] font-bold text-on-surface-variant">ANUALIZED</div>
+            </div>
+            <p class="mt-4 text-xs text-on-surface-variant leading-relaxed font-medium">Basado en el análisis del Q3 2024 y el momentum actual del mercado en segmentos residenciales urbanos de alta densidad.</p>
+        </div>
+
+        <!-- Active Inversores -->
+        <div class="bg-surface-container-high p-8 rounded-xl border-l-4 border-[#3b82f6]">
+            <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-6">Investor Network</p>
+            <div class="flex -space-x-3 mb-4">
+                <img class="w-10 h-10 rounded-full border-4 border-surface-container-high object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJj_AtTbvnE0KzSWtc8koOdge1ZdGwq3dcUKf0L5emczFVTET0TYkrc8Bc3iCSX_Jm8sM_5jYTXuWuu1TI8V7OghvFrLC4y1z2lSzwNUdSo9M_gx3ffpTF-ItVuwEnplENRFjr0IkCBwOYGdTwl1T3wmX-CRDa00oNVNv_tW8g1-qy3XGRyfJV0FcpTsRrZ9DoFNN_Z9L9LNA05GplWz6q7lMBZFkX0RIOMh0Mg2QwINtsb3Hk-kySzq0J9rJHThuGHsniHWJUify-"/>
+                <img class="w-10 h-10 rounded-full border-4 border-surface-container-high object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlGjOD6TYnq0NTu1iEgbCc_np78CKN_C9bGfPVxWUW0G_TIp_srpQr2CD0hKEd20aFb0qQ-jj8KGvlv9cW6NNOiyBMO0WPAmMBra-Ku0xAA-GDugrHGiYY_EjxRHndCqbdga872p1o-ZO0Ozo4zVUd7dtjSSxn1BOoAkpd7Wd3mwZfTL5MXh3Z-btlmvzPIkCW76bDAWZXmZN-i3xQDDhsuWkMoY5wZlW7ufP6GLLttvu5pqP5IJ7YEb8b3Kt6-7heSBIOMW2AH3uY"/>
+                <img class="w-10 h-10 rounded-full border-4 border-surface-container-high object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkuPskM28i9Tu3KeL4c8cx6Qxo2Mi_piD2HqDHhptt9a77Kj2MhQ9lnW3oAJcJd36XP5ymGg3KHjSYfAFwTQERd5B3HWYInBaOUXt15UmpiswVswLcGe7hMJhCZw8nY-YI_eN9c6xD3XI0JK4khKvNTD2mQGB22rNC9BR03_IedSDfgbdQGksI--sbfIjh4C1hVDogVCkK4e7HZfcnU4p9D_kMbg6kuwdF0ZJF_pCFPO58bTCYOS1vDS2DliizsA5MG72r0eUZr8o4"/>
+                <div class="w-10 h-10 rounded-full border-4 border-surface-container-high bg-[#131b2e] flex items-center justify-center text-[10px] font-bold text-[#3b82f6]">+142</div>
+            </div>
+            <p class="text-xs font-bold text-white uppercase tracking-widest">Premium Entity LP Group</p>
+            <p class="text-[10px] text-on-surface-variant mt-1">Sosteniendo el 42% de la participación Serie A</p>
+        </div>
+    </div>
+
+    <!-- Main Layout Grid: Visuals + Critical Tasks -->
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <!-- Project Visuals (Bento Style) -->
+        <div class="xl:col-span-2 space-y-6">
+            <div class="relative h-[480px] rounded-2xl overflow-hidden group">
+                <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnqurB9N_MHT6eO2uYFuiiYHyemDZligjg-yrj7MKP_FYOsT5XpbB2rcTv9dHgqmCDv8-HkQkE3s4-wwaQulUUb3U-f68OEuk20LG-4UgM44dutv-C0Rc9twadY3p9N4Gx4UBni3G2zAnFsPUgqfuBT4TbjUTYwXJEwb5AbPOq1_aIl8EKHRg0p42p7r9ZtIB-ZCNCnVYhc-DtA0MpYn_OkH2cRC1wpWZn7ZJRCVe4ro7CdpaoVS_Uj7QhzhTGl0wzeW5hKK_nHryQ"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] via-transparent to-transparent"></div>
+                <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+                    <div class="space-y-1">
+                        <div class="bg-[#3b82f6] text-white px-3 py-1 text-[10px] font-black tracking-widest uppercase w-fit mb-2">LIVE FEED</div>
+                        <h4 class="text-2xl font-bold text-white tracking-tight">Estado de Obra: Fase de Cimentación</h4>
+                        <p class="text-on-surface-variant text-sm">Actualizado hace 2 horas por el Arquitecto de Obra</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md px-6 py-4 rounded-xl border border-white/5 text-center">
+                        <span class="text-3xl font-black text-[#3b82f6]">12%</span>
+                        <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest">Global Progress</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-6">
+                <div (click)="setSeccion('bitacora')" class="bg-surface-container-high p-6 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-surface-bright transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6]">
+                        <span class="material-symbols-outlined">architecture</span>
+                    </div>
+                    <div>
+                        <h5 class="text-sm font-bold text-white uppercase tracking-wider">Planos y Renders</h5>
+                        <p class="text-[10px] text-on-surface-variant uppercase font-bold">14 Renderizados Finales</p>
+                    </div>
+                </div>
+                <div (click)="setSeccion('legal')" class="bg-surface-container-high p-6 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-surface-bright transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6]">
+                        <span class="material-symbols-outlined">description</span>
+                    </div>
+                    <div>
+                        <h5 class="text-sm font-bold text-white uppercase tracking-wider">Bóveda Legal</h5>
+                        <p class="text-[10px] text-on-surface-variant uppercase font-bold">32 Documentos Verificados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Critical Tasks -->
+        <div class="bg-surface-container-low p-8 rounded-2xl border-t border-white/5">
+            <div class="flex items-center justify-between mb-8">
+                <h4 class="text-sm font-black text-white uppercase tracking-[0.2em]">Tareas Críticas</h4>
+                <span class="text-[10px] bg-red-900/30 text-red-400 px-2 py-0.5 rounded font-bold">3 URGENTES</span>
+            </div>
+            <div class="space-y-4">
+                <!-- Task Item -->
+                <div class="bg-surface-container-high p-5 rounded-xl border-l-2 border-red-500 group hover:bg-surface-bright transition-all">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-[10px] font-black text-red-400 uppercase tracking-widest">URGENT ACTION</span>
+                        <span class="text-[10px] font-bold text-on-surface-variant">DUE 2D</span>
+                    </div>
+                    <h5 class="text-white text-sm font-bold mb-3 tracking-tight">Validar permisos de uso de suelo</h5>
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm text-on-surface-variant">person</span>
+                        <span class="text-[10px] font-bold text-on-surface-variant uppercase">Dpt. Legal</span>
+                    </div>
+                </div>
+                <!-- Task Item -->
+                <div class="bg-surface-container-high p-5 rounded-xl border-l-2 border-blue-500 group hover:bg-surface-bright transition-all">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-[10px] font-black text-[#3b82f6] uppercase tracking-widest">MILESTONE</span>
+                        <span class="text-[10px] font-bold text-on-surface-variant">DUE 1W</span>
+                    </div>
+                    <h5 class="text-white text-sm font-bold mb-3 tracking-tight">Firma de contrato Ancla Q2</h5>
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm text-on-surface-variant">verified</span>
+                        <span class="text-[10px] font-bold text-on-surface-variant uppercase">Directorate</span>
+                    </div>
+                </div>
+                <!-- Task Item -->
+                <div class="bg-surface-container-high p-5 rounded-xl border-l-2 border-on-surface-variant/30 group hover:bg-surface-bright transition-all">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">PENDING FUNDING</span>
+                        <span class="text-[10px] font-bold text-on-surface-variant">DUE 2W</span>
+                    </div>
+                    <h5 class="text-white text-sm font-bold mb-3 tracking-tight">Liberación de fondo de garantía</h5>
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm text-on-surface-variant">account_balance_wallet</span>
+                        <span class="text-[10px] font-bold text-on-surface-variant uppercase">Treasury</span>
+                    </div>
+                </div>
+                <button class="w-full py-4 mt-4 border border-outline-variant/20 text-on-surface-variant text-[10px] font-black uppercase tracking-widest rounded-xl hover:text-white hover:bg-[#222a3d] transition-all">
+                    Ver Todas las Tareas
+                </button>
+            </div>
+            <!-- Side Progress Footer -->
+            <div class="mt-10 p-6 bg-[#060e20] rounded-xl">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="p-2 bg-orange-900/20 rounded-lg">
+                        <span class="material-symbols-outlined text-orange-400">history</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black text-white uppercase tracking-widest">Timeline Health</p>
+                        <p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">En tiempo - 98% Eficiencia</p>
+                    </div>
+                </div>
+                <div class="flex gap-1">
+                    <div class="h-1 flex-1 bg-[#3b82f6] rounded-full"></div>
+                    <div class="h-1 flex-1 bg-[#3b82f6] rounded-full"></div>
+                    <div class="h-1 flex-1 bg-[#3b82f6] rounded-full"></div>
+                    <div class="h-1 flex-1 bg-[#3b82f6] rounded-full"></div>
+                    <div class="h-1 flex-1 bg-[#3b82f6] rounded-full"></div>
+                    <div class="h-1 flex-1 bg-surface-container-highest rounded-full"></div>
+                    <div class="h-1 flex-1 bg-surface-container-highest rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

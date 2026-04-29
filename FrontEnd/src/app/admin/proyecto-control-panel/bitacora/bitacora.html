@@ -1,0 +1,107 @@
+<div class="p-8 space-y-8 max-w-7xl mx-auto w-full animate-in fade-in duration-500">
+    <!-- Project Header Summary -->
+    <section class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+            <span class="text-[#3b82f6] text-[11px] font-bold uppercase tracking-[0.2em] mb-2 block">Estado Actual del Proyecto</span>
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-white">{{ proyecto?.nombre || 'Skyline Heights Residences' }}</h2>
+            <div class="flex items-center gap-4 mt-4 text-on-surface-variant text-sm">
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">location_on</span> {{ proyecto?.property?.ubicacion || 'Ubicación pendiente' }}</span>
+                <span class="h-4 w-[1px] bg-white/10"></span>
+                <span class="flex items-center gap-1 text-[#adc6ff]"><span class="material-symbols-outlined text-xs">trending_up</span> 68% Completado</span>
+            </div>
+        </div>
+        <button class="bg-[#3b82f6] hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-sm tracking-wide shadow-xl shadow-blue-500/10 active:scale-[0.98] transition-all flex items-center gap-3">
+            <span class="material-symbols-outlined">post_add</span>
+            NUEVA ENTRADA
+        </button>
+    </section>
+
+    <!-- Progress Insight Bento -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-surface-container-high p-6 rounded-xl shadow-lg shadow-black/20 flex flex-col justify-between">
+            <p class="text-[10px] font-bold text-[#c2c6d6] uppercase tracking-widest">Hitos Totales</p>
+            <p class="text-4xl font-bold mt-2 text-white">24</p>
+            <div class="h-1 w-full bg-surface-container-highest mt-4 rounded-full overflow-hidden">
+                <div class="h-full bg-[#3b82f6] w-3/4"></div>
+            </div>
+        </div>
+        <div class="bg-surface-container-high p-6 rounded-xl shadow-lg shadow-black/20 flex flex-col justify-between">
+            <p class="text-[10px] font-bold text-[#c2c6d6] uppercase tracking-widest">Días desde Inicio</p>
+            <p class="text-4xl font-bold mt-2 text-white">142</p>
+            <p class="text-[11px] text-[#3b82f6] mt-4 font-semibold">+12% vs Proyección</p>
+        </div>
+        <div class="bg-surface-container-high p-6 rounded-xl shadow-lg shadow-black/20 flex flex-col justify-between">
+            <p class="text-[10px] font-bold text-[#c2c6d6] uppercase tracking-widest">Ejecución Presupuestaria</p>
+            <p class="text-4xl font-bold mt-2 text-white">54.2<span class="text-xl text-[#3b82f6] ml-1">M</span></p>
+            <p class="text-[11px] text-on-surface-variant mt-4">Autorizado: 80.0M</p>
+        </div>
+        <div class="bg-surface-container-high p-6 rounded-xl shadow-lg shadow-black/20 flex flex-col justify-between">
+            <p class="text-[10px] font-bold text-[#c2c6d6] uppercase tracking-widest">Personal Activo</p>
+            <p class="text-4xl font-bold mt-2 text-white">86</p>
+            <div class="flex -space-x-2 mt-4">
+                <div class="h-6 w-6 rounded-full bg-blue-500 ring-2 ring-surface-container-high"></div>
+                <div class="h-6 w-6 rounded-full bg-emerald-500 ring-2 ring-surface-container-high"></div>
+                <div class="h-6 w-6 rounded-full bg-orange-500 ring-2 ring-surface-container-high"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bitácora Timeline Section -->
+    <div class="relative mt-12 pb-12">
+        <!-- Vertical Line -->
+        <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#3b82f6] via-[#131b2e] to-[#0b1326] -translate-x-1/2 hidden md:block"></div>
+        
+        <div class="space-y-16">
+            <!-- Timeline Entry 1 -->
+            <div class="relative flex flex-col md:flex-row items-start md:items-center gap-8 group">
+                <div class="md:w-1/2 text-left md:text-right pr-0 md:pr-12">
+                    <span class="text-[#3b82f6] text-[12px] font-black uppercase tracking-[0.3em]">OCT 24, 2023</span>
+                    <h3 class="text-2xl font-bold text-white mt-2 group-hover:text-[#adc6ff] transition-colors">Cimientos Completados</h3>
+                    <p class="text-on-surface-variant text-sm mt-3 leading-relaxed max-w-lg ml-auto">
+                        Finalización exitosa de la fase de cimentación profunda. Se vertieron 1,200 metros cúbicos de concreto reforzado cumpliendo con los estándares de resistencia estructural Grado 60. Inspección técnica aprobada sin observaciones.
+                    </p>
+                </div>
+                <div class="absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-[#3b82f6] -translate-x-1/2 shadow-[0_0_15px_rgba(59,130,246,0.6)] z-10 hidden md:block border-4 border-[#0b1326]"></div>
+                <div class="md:w-1/2 pl-0 md:pl-12 w-full">
+                    <div class="grid grid-cols-2 gap-3 aspect-video">
+                        <div class="col-span-1 rounded-xl overflow-hidden bg-surface-container-low shadow-2xl group-hover:-translate-y-1 transition-transform">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDl6SBLqPFHeyU1ehX2icyOadGvlXIElZKaiQ9IH2Fbsi7mxu0rQbAwvKQHerE5BiacFOea6pWOPjLNwW0KfYAnIHxNaSM59F9_b-jaB5fg2QAUWMbshCY-n7oN43jRFXX_l8BQ3RqZrG_zwrwdy-HKKK9R_bZdyHQKJ4fr4s9KOHZNYdDqPtteTJhLYXxqM3pkid8HQ1eWtlFrAI_mZgCSgZvZyKlxV1NJpv0G2BH-a8a6TnDl0Hk8rF5_fGDWSm5FodNCPUZ217P"/>
+                        </div>
+                        <div class="col-span-1 grid grid-rows-2 gap-3">
+                            <div class="rounded-xl overflow-hidden bg-surface-container-low shadow-2xl group-hover:translate-x-1 transition-transform">
+                                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoKHairQrQ_IgvkGC5MiKWT6JPRF0LOQu4pYgRqneiMy6NOA334n0kvs_TnCBZ545eYD8-1lyl1VSMI4Z0w648OP4dCJPGhS-RYSuv-ZmuatowcbRM5-0qWY3xLM7d8VegXhyVodEP3lrQHVNXVZAuTjaO1iY-cJ53ZeV9w8aKv8NKGoNU0G9FjzL-iJqMK7NdMvTFrQwqqiJhZcP1lKgstJrOUkPWR7Hlz5w_obQucuV_ylrsENGU-d8nBu7PhilnLkRXmMzaN9qB"/>
+                            </div>
+                            <div class="rounded-xl overflow-hidden bg-surface-container-low shadow-2xl group-hover:translate-x-1 group-hover:translate-y-1 transition-transform relative">
+                                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4dRiN8gSjbDpy1rk4zv6XKUIIeC2gg0MeLOuu4eAF8TmIg0upjCqXusB0PXNd120oUKTkQtn4mcc7q5bM7zcDZiuQSwebKA3Zm4hEYE_nT8WhzS_tCDRhhTJCLAlBIn53ZgYMIWf4KQjpmlPeyEIMwW3g3qK0nyarAE3tGxwKJr0Fq444od6t_1FedAEngsp2pz4H1T6M9ltYVYjuoOGgdop2mk1C2ES2l6GT008owry0R8aoNBoIs9amFowFbnXHpn-lkyKw9X6_"/>
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer">
+                                    <span class="text-white font-bold text-sm">+2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Entry 2 -->
+            <div class="relative flex flex-col md:flex-row-reverse items-start md:items-center gap-8 group">
+                <div class="md:w-1/2 text-left pl-0 md:pl-12">
+                    <span class="text-[#3b82f6] text-[12px] font-black uppercase tracking-[0.3em]">NOV 12, 2023</span>
+                    <h3 class="text-2xl font-bold text-white mt-2 group-hover:text-[#adc6ff] transition-colors">Estructura Nivel 1-5</h3>
+                    <p class="text-on-surface-variant text-sm mt-3 leading-relaxed max-w-lg">
+                        El montaje de la estructura metálica ha alcanzado el quinto nivel. Se ha iniciado el proceso de soldadura ultrasónica y la colocación de cubiertas de acero. El ritmo de obra se mantiene un 5% por delante del cronograma original.
+                    </p>
+                </div>
+                <div class="absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-[#3b82f6] -translate-x-1/2 shadow-[0_0_15px_rgba(59,130,246,0.4)] z-10 hidden md:block border-4 border-[#0b1326]"></div>
+                <div class="md:w-1/2 pr-0 md:pr-12 w-full">
+                    <div class="rounded-2xl overflow-hidden h-64 bg-surface-container-low shadow-2xl group-hover:-translate-y-1 transition-transform relative">
+                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKQddPBUIt1cd_OKX__EhO3s2_yQCNOzUGgOlgxwHA2PEzg1Dhcy9i0naemp27SpQF1EYA7QH-EpD_rJ79Cn8_aS_HCa5YQe_PLa_B_IQlV4F5y-2V6XUbYtzDhVSb6odNH8AFnmypRm-dB6ipAFxhmQotPZhwubhlKMGU4gLooJg6dun7lDPgficylAd-UzO8ON_OFWLsBugSnfIUOzHCcsu4uZXn_8rki5S2zRTdlj3qT9QUtY4rPbGRr4z-a7fEnD1ss-6wssbP"/>
+                        <div class="absolute bottom-4 left-4 flex gap-2">
+                            <span class="bg-[#131b2e]/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-primary uppercase tracking-tighter">Structural Steel</span>
+                            <span class="bg-[#131b2e]/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-primary uppercase tracking-tighter">Day Update</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

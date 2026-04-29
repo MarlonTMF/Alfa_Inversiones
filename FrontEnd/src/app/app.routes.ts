@@ -37,6 +37,13 @@ export const routes: Routes = [
       {
         path: 'proyectos/:id',
         loadComponent: () =>
+          import('./admin/proyecto-control-panel/proyecto-control-panel').then(
+            (m) => m.ProyectoControlPanel
+          ),
+      },
+      {
+        path: 'proyectos/:id/editar',
+        loadComponent: () =>
           import('./admin/proyecto-detalle/proyecto-detalle').then((m) => m.ProyectoDetalle),
       },
       {
