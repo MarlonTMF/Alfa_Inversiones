@@ -9,10 +9,7 @@ import { ImageKitService } from '../common/services/imagekit.service.js';
 import { CloudinaryService } from '../common/services/cloudinary.service.js';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([SocioFuenteDatos]),
-    AutenticacionModule,
-  ],
+  imports: [TypeOrmModule.forFeature([SocioFuenteDatos]), AutenticacionModule],
   controllers: [SociosController],
   providers: [
     RegistrarSocioUseCase,

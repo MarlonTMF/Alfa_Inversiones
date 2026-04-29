@@ -7,16 +7,16 @@ import { PropertyFuenteDatos } from '../../data/fuentes-datos/property.fuente-da
  */
 @Injectable()
 export class GetAllPropertiesUseCase {
-    constructor(
-        @Inject('PropertyRepository')
-        private readonly propertyRepository: PropertyRepository,
-    ) { }
+  constructor(
+    @Inject('PropertyRepository')
+    private readonly propertyRepository: PropertyRepository,
+  ) {}
 
-    /**
-     * Ejecuta la consulta para obtener todas las propiedades.
-     * @returns Un arreglo de propiedades registradas.
-     */
-    async execute(): Promise<PropertyFuenteDatos[]> {
-        return await this.propertyRepository.findAll();
-    }
+  /**
+   * Ejecuta la consulta para obtener todas las propiedades.
+   * @returns Un arreglo de propiedades registradas.
+   */
+  async execute(): Promise<PropertyFuenteDatos[]> {
+    return await this.propertyRepository.findAll();
+  }
 }

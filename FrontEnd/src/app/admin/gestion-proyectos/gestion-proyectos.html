@@ -1,0 +1,41 @@
+<div class="page-container fade-in">
+  <header class="page-header">
+    <p class="subtitle">PROJECTS</p>
+    <h1>Proyectos</h1>
+    <p class="hint">
+      Este módulo consume <code>/api/v1/proyectos</code> (requiere header <code>x-admin-id</code>).
+    </p>
+  </header>
+
+  <div class="toolbar">
+    <a class="btn-primary" routerLink="/admin/registro-proyecto">Crear proyecto</a>
+    <button class="btn-outline" type="button" (click)="cargar()">Refrescar</button>
+  </div>
+
+  <div class="state-card" *ngIf="cargando">Cargando proyectos…</div>
+  <div class="state-card error" *ngIf="error">{{ error }}</div>
+
+  <div class="table-container" *ngIf="!cargando && !error">
+    <table>
+      <thead>
+        <tr>
+          <th>NOMBRE</th>
+          <th>ESTADO</th>
+          <th>TIPO</th>
+          <th class="text-right">CREADO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of proyectos" class="row-link" [routerLink]="['/admin/proyectos', p.id]">
+          <td class="name-cell">{{ p.nombre }}</td>
+          <td>{{ p.estado || '-' }}</td>
+          <td>{{ p.tipoProyecto || '-' }}</td>
+          <td class="text-right">{{ p.createdAt ? (p.createdAt | date: 'short') : '-' }}</td>
+        </tr>
+        <tr *ngIf="proyectos.length === 0">
+          <td colspan="4" class="empty">Aún no hay proyectos registrados.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="page-container fade-in">
+  <header class="page-header">
+    <p class="subtitle">PROJECTS</p>
+    <h1>Registrar Proyecto</h1>
+    <p class="hint">Crea un proyecto b&aacute;sico para que aparezca en el listado.</p>
+  </header>
+
+  <div class="card">
+    <div class="grid">
+      <label class="field">
+        <span>Nombre *</span>
+        <input
+          [(ngModel)]="form.nombre"
+          name="nombre"
+          type="text"
+          placeholder="Ej: Torre Central"
+        />
+      </label>
+
+      <label class="field">
+        <span>Código</span>
+        <input [(ngModel)]="form.codigo" name="codigo" type="text" placeholder="Ej: PROY-001" />
+      </label>
+
+      <label class="field full">
+        <span>Descripción</span>
+        <textarea
+          [(ngModel)]="form.descripcion"
+          name="descripcion"
+          rows="3"
+          placeholder="Descripción breve…"
+        ></textarea>
+      </label>
+
+      <label class="field">
+        <span>Estado</span>
+        <select [(ngModel)]="form.estado" name="estado">
+          <option value="planificacion">Planificación</option>
+          <option value="en_construccion">En construcción</option>
+          <option value="en_venta">En venta</option>
+          <option value="completado">Completado</option>
+          <option value="suspendido">Suspendido</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Tipo</span>
+        <select [(ngModel)]="form.tipoProyecto" name="tipoProyecto">
+          <option value="residencial">Residencial</option>
+          <option value="comercial">Comercial</option>
+          <option value="mixto">Mixto</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="alert error" *ngIf="error">{{ error }}</div>
+    <div class="alert ok" *ngIf="exito">{{ exito }}</div>
+
+    <div class="actions">
+      <a class="btn-outline" routerLink="/admin/proyectos">Volver</a>
+      <button class="btn-primary" type="button" (click)="crear()" [disabled]="cargando">
+        {{ cargando ? 'Creando…' : 'Crear proyecto' }}
+      </button>
+    </div>
+  </div>
+</div>

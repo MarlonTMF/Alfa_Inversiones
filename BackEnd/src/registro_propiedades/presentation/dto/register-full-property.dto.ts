@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, IsNumber, IsOptional, IsEmail } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsEmail,
+} from 'class-validator';
 
 /**
  * DTO para el registro completo de una propiedad junto con su propietario.

@@ -5,10 +5,6 @@ import { CalcularPermutaCasoUso } from './domain/casos-uso/calcular-permuta.caso
 
 @Module({
   controllers: [CalculosControlador],
-  providers: [
-    CalcularViabilidadCasoUso,
-    CalcularPermutaCasoUso
-  ],
+  providers: [CalcularViabilidadCasoUso, CalcularPermutaCasoUso],
 })
-export class CalculosModule { }
-
+export class CalculosModule {}

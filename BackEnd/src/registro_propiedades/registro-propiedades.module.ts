@@ -34,54 +34,54 @@ import { SetMainMultimediaUseCase } from './domain/use-cases/set-main-multimedia
 // ... (tus imports están perfectos)
 
 @Module({
-    imports: [
-        AutenticacionModule,
-        TypeOrmModule.forFeature([
-            PropertyFuenteDatos,
-            PropertyMultimediaFuenteDatos, // <-- Añadido correctamente
-            LegalDocFuenteDatos,
-            LegalTrackingStepFuenteDatos,
-        ]),
-    ],
-    controllers: [PropertyController, MultimediaControlador], // Registro del nuevo controlador
-    providers: [
-        // 1. Registro de los Casos de Uso Originales
-        CreatePropertyUseCase,
-        GetAllPropertiesUseCase,
-        GetPropertyByIdUseCase,
-        GetPropertyAnalysisUseCase,
-        UpdatePropertyUseCase,
+  imports: [
+    AutenticacionModule,
+    TypeOrmModule.forFeature([
+      PropertyFuenteDatos,
+      PropertyMultimediaFuenteDatos, // <-- Añadido correctamente
+      LegalDocFuenteDatos,
+      LegalTrackingStepFuenteDatos,
+    ]),
+  ],
+  controllers: [PropertyController, MultimediaControlador], // Registro del nuevo controlador
+  providers: [
+    // 1. Registro de los Casos de Uso Originales
+    CreatePropertyUseCase,
+    GetAllPropertiesUseCase,
+    GetPropertyByIdUseCase,
+    GetPropertyAnalysisUseCase,
+    UpdatePropertyUseCase,
 
-        // 2. Registro de tus NUEVOS Casos de Uso Multimedia
-        AddPropertyMultimediaUseCase,
-        GetPropertyMultimediaUseCase,
-        DeletePropertyMultimediaUseCase,
-        SetMainMultimediaUseCase,
-        ImageKitService,
-        CloudinaryService,
+    // 2. Registro de tus NUEVOS Casos de Uso Multimedia
+    AddPropertyMultimediaUseCase,
+    GetPropertyMultimediaUseCase,
+    DeletePropertyMultimediaUseCase,
+    SetMainMultimediaUseCase,
+    ImageKitService,
+    CloudinaryService,
 
-        // 3. Registro del Repositorio de Terrenos (Estilo actual)
-        {
-            provide: 'PropertyRepository', // Mantenemos el string para los Casos de Uso viejos
-            useClass: PropertyRepositoryImpl,
-        },
-        {
-            provide: PropertyRepository,   // Añadimos la clase para el nuevo controlador
-            useExisting: 'PropertyRepository', // Hacemos un alias para que sea la misma instancia
-        },
+    // 3. Registro del Repositorio de Terrenos (Estilo actual)
+    {
+      provide: 'PropertyRepository', // Mantenemos el string para los Casos de Uso viejos
+      useClass: PropertyRepositoryImpl,
+    },
+    {
+      provide: PropertyRepository, // Añadimos la clase para el nuevo controlador
+      useExisting: 'PropertyRepository', // Hacemos un alias para que sea la misma instancia
+    },
 
-        // 4. Registro de tu NUEVO Repositorio Multimedia (Estilo Clean Architecture)
-        {
-            provide: PropertyMultimediaRepository,
-            useClass: PropertyMultimediaRepositoryImpl,
-        },
+    // 4. Registro de tu NUEVO Repositorio Multimedia (Estilo Clean Architecture)
+    {
+      provide: PropertyMultimediaRepository,
+      useClass: PropertyMultimediaRepositoryImpl,
+    },
 
-        // 5. Registro de tu NUEVO Servicio de Almacenamiento
-        {
-            provide: FileStorageService,
-            useClass: HybridFileStorageService,
-        },
-        RegisterFullPropertyUseCase,
-    ],
+    // 5. Registro de tu NUEVO Servicio de Almacenamiento
+    {
+      provide: FileStorageService,
+      useClass: HybridFileStorageService,
+    },
+    RegisterFullPropertyUseCase,
+  ],
 })
-export class RegistroPropiedadesModule { }
+export class RegistroPropiedadesModule {}

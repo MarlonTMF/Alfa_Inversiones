@@ -2,34 +2,36 @@ import { PropertyMultimedia } from '../../domain/entities/property-multimedia.en
 import { PropertyMultimediaFuenteDatos } from '../fuentes-datos/property-multimedia.fuente-datos.js';
 
 export class PropertyMultimediaMapper {
-    // 1. From Persistence (DB) to Domain (Logic)
-    static toDomain(fuente: PropertyMultimediaFuenteDatos): PropertyMultimedia {
-        return new PropertyMultimedia(
-            fuente.id,
-            fuente.propertyId,
-            fuente.type as 'photo' | 'video',
-            fuente.provider as 'imagekit' | 'cloudinary' | 'youtube',
-            fuente.url,
-            fuente.publicId ?? undefined,
-            fuente.isMain,
-            fuente.label ?? undefined,
-            fuente.createdAt,
-            fuente.thumbnailUrl ?? undefined,
-        );
-    }
+  // 1. From Persistence (DB) to Domain (Logic)
+  static toDomain(fuente: PropertyMultimediaFuenteDatos): PropertyMultimedia {
+    return new PropertyMultimedia(
+      fuente.id,
+      fuente.propertyId,
+      fuente.type as 'photo' | 'video',
+      fuente.provider as 'imagekit' | 'cloudinary' | 'youtube',
+      fuente.url,
+      fuente.publicId ?? undefined,
+      fuente.isMain,
+      fuente.label ?? undefined,
+      fuente.createdAt,
+      fuente.thumbnailUrl ?? undefined,
+    );
+  }
 
-    // 2. From Domain (Logic) to Persistence (DB)
-    static toPersistence(entidad: PropertyMultimedia): PropertyMultimediaFuenteDatos {
-        const fuente = new PropertyMultimediaFuenteDatos();
-        fuente.id = entidad.id;
-        fuente.propertyId = entidad.propertyId;
-        fuente.type = entidad.type;
-        fuente.provider = entidad.provider;
-        fuente.url = entidad.url;
-        fuente.publicId = entidad.publicId ?? undefined; // Aseguramos consistencia
-        fuente.isMain = entidad.isMain;
-        fuente.label = entidad.label ?? undefined;
-        fuente.thumbnailUrl = entidad.thumbnailUrl ?? undefined;
-        return fuente;
-    }
+  // 2. From Domain (Logic) to Persistence (DB)
+  static toPersistence(
+    entidad: PropertyMultimedia,
+  ): PropertyMultimediaFuenteDatos {
+    const fuente = new PropertyMultimediaFuenteDatos();
+    fuente.id = entidad.id;
+    fuente.propertyId = entidad.propertyId;
+    fuente.type = entidad.type;
+    fuente.provider = entidad.provider;
+    fuente.url = entidad.url;
+    fuente.publicId = entidad.publicId ?? undefined; // Aseguramos consistencia
+    fuente.isMain = entidad.isMain;
+    fuente.label = entidad.label ?? undefined;
+    fuente.thumbnailUrl = entidad.thumbnailUrl ?? undefined;
+    return fuente;
+  }
 }

@@ -8,8 +8,8 @@ import { CalculoPermutaDto } from '../dto/calculo-permuta.dto.js';
 export class CalculosControlador {
   constructor(
     private readonly calcularViabilidadCasoUso: CalcularViabilidadCasoUso,
-    private readonly calcularPermutaCasoUso: CalcularPermutaCasoUso
-  ) { }
+    private readonly calcularPermutaCasoUso: CalcularPermutaCasoUso,
+  ) {}
 
   @Post('viabilidad')
   @HttpCode(HttpStatus.OK)

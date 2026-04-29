@@ -1,4 +1,8 @@
-import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { RegistrarSocioDto } from '../../presentation/dto/registrar-socio.dto.js';
 import { UsuarioFuenteDatos } from '../../../autenticacion/data/fuentes-datos/usuario.fuente-datos.js';
@@ -20,7 +24,10 @@ export class RegistrarSocioUseCase {
 
   async ejecutar(
     dto: RegistrarSocioDto,
-    files?: { testimonio?: Express.Multer.File[], padron?: Express.Multer.File[] }
+    files?: {
+      testimonio?: Express.Multer.File[];
+      padron?: Express.Multer.File[];
+    },
   ): Promise<any> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -34,7 +41,7 @@ export class RegistrarSocioUseCase {
       if (files?.testimonio?.[0]) {
         const res = await this.imageKitService.uploadFile(
           files.testimonio[0],
-          `testimonio-${dto.nit}-${Date.now()}`
+          `testimonio-${dto.nit}-${Date.now()}`,
         );
         urlTestimonio = res.url;
       }
@@ -42,7 +49,7 @@ export class RegistrarSocioUseCase {
       if (files?.padron?.[0]) {
         const res = await this.imageKitService.uploadFile(
           files.padron[0],
-          `padron-${dto.nit}-${Date.now()}`
+          `padron-${dto.nit}-${Date.now()}`,
         );
         urlPadron = res.url;
       }
@@ -68,7 +75,10 @@ export class RegistrarSocioUseCase {
         password: hashedPass,
         rol: dto.rol || 'constructor',
       });
-      const usuarioGuardado = await queryRunner.manager.save(UsuarioFuenteDatos, usuario);
+      const usuarioGuardado = await queryRunner.manager.save(
+        UsuarioFuenteDatos,
+        usuario,
+      );
 
       // 4. Crear Socio con todos los campos
       const socioData: Partial<SocioFuenteDatos> = {
@@ -90,18 +100,21 @@ export class RegistrarSocioUseCase {
 
       return {
         success: true,
-        mensaje: 'Constructor registrado exitosamente con toda su documentación',
+        mensaje:
+          'Constructor registrado exitosamente con toda su documentación',
         data: {
           email: emailFinal,
           password: dto.passwordGenerado,
           empresa: dto.nombreEmpresa,
-          urls: { testimonio: urlTestimonio, padron: urlPadron }
-        }
+          urls: { testimonio: urlTestimonio, padron: urlPadron },
+        },
       };
     } catch (err) {
       await queryRunner.rollbackTransaction();
       console.error('Error en RegistrarSocioUseCase:', err);
-      throw new InternalServerErrorException('Error al registrar el socio: ' + err.message);
+      throw new InternalServerErrorException(
+        'Error al registrar el socio: ' + err.message,
+      );
     } finally {
       await queryRunner.release();
     }

@@ -8,18 +8,18 @@ import { PropertyFuenteDatos } from '../../data/fuentes-datos/property.fuente-da
  */
 @Injectable()
 export class UpdatePropertyUseCase {
-    constructor(
-        @Inject('PropertyRepository')
-        private readonly propertyRepository: PropertyRepository,
-    ) { }
+  constructor(
+    @Inject('PropertyRepository')
+    private readonly propertyRepository: PropertyRepository,
+  ) {}
 
-    async execute(id: string, data: Partial<PropertyFuenteDatos>): Promise<void> {
-        const property = await this.propertyRepository.findById(id);
+  async execute(id: string, data: Partial<PropertyFuenteDatos>): Promise<void> {
+    const property = await this.propertyRepository.findById(id);
 
-        if (!property) {
-            throw new NotFoundException(`Propiedad con ID ${id} no encontrada`);
-        }
-
-        await this.propertyRepository.update(id, data);
+    if (!property) {
+      throw new NotFoundException(`Propiedad con ID ${id} no encontrada`);
     }
+
+    await this.propertyRepository.update(id, data);
+  }
 }

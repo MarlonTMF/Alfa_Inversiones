@@ -12,8 +12,8 @@ export class GetSociosUseCase {
     return await repository.find({
       relations: ['usuario'],
       order: {
-        fecha_creacion: 'DESC'
-      }
+        fecha_creacion: 'DESC',
+      },
     });
   }
 }

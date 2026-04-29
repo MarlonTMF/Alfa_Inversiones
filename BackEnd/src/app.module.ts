@@ -8,6 +8,7 @@ import { CalculosModule } from './calculos/calculos.module.js';
 import { TrazabilidadModule } from './trazabilidad/trazabilidad.module';
 import { OrquestacionModule } from './orquestacion/orquestacion.module';
 import { SociosModule } from './socios/socios.module';
+import { ProyectosModule } from './proyectos/proyectos.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { SociosModule } from './socios/socios.module';
     TrazabilidadModule,
     OrquestacionModule,
     SociosModule,
+    ProyectosModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

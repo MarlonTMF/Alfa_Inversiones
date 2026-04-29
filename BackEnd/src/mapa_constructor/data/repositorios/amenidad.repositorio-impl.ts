@@ -11,13 +11,14 @@ export class AmenidadRepositorioImpl implements AmenidadRepositorio {
   constructor(
     @InjectRepository(AmenidadFuenteDatos)
     private readonly amenidadRepo: Repository<AmenidadFuenteDatos>,
-  ) { }
+  ) {}
 
   async buscarPorRadio(
     consulta: ConsultaAmenidadesDto,
   ): Promise<AmenidadRespuestaDto[]> {
     // Usamos ST_DWithin con ::geography para calcular el radio en metros precisos.
-    const rawAmenidades = await this.amenidadRepo.createQueryBuilder('amenidad')
+    const rawAmenidades = await this.amenidadRepo
+      .createQueryBuilder('amenidad')
       .select([
         'amenidad.id AS id',
         'amenidad.nombre AS nombre',
@@ -27,7 +28,7 @@ export class AmenidadRepositorioImpl implements AmenidadRepositorio {
       .where('amenidad.tipo = :tipo', { tipo: consulta.tipo })
       .andWhere(
         'ST_DWithin(amenidad.coordenadas::geography, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography, :radio)',
-        { lng: consulta.lng, lat: consulta.lat, radio: consulta.radio }
+        { lng: consulta.lng, lat: consulta.lat, radio: consulta.radio },
       )
       .getRawMany();
 

@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Get, Param, Query, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Query,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { TrazabilidadCasoUso } from '../../domain/casos-uso/trazabilidad.caso-uso.js';
 import { RegistrarInteresDto } from '../dto/registrar-interes.dto.js';
 
@@ -15,9 +24,12 @@ export class TrazabilidadControlador {
   @Get('split/:terreno_id')
   async calcularSplit(
     @Param('terreno_id') terrenoId: string,
-    @Query('ventas_proyectadas') ventasProyectadas: number
+    @Query('ventas_proyectadas') ventasProyectadas: number,
   ) {
-    return this.trazabilidadCasoUso.calcularSplit(terrenoId, Number(ventasProyectadas));
+    return this.trazabilidadCasoUso.calcularSplit(
+      terrenoId,
+      Number(ventasProyectadas),
+    );
   }
 
   @Get('legal/:property_id')

@@ -9,4 +9,3 @@ export class TerrenoRespuestaDto {
   poligono: [number, number][];
   portada?: string;
 }
-

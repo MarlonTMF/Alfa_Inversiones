@@ -31,6 +31,7 @@ export class IniciarSesionCasoUso {
     return {
       token,
       usuario: {
+        id: usuario.id,
         nombre: usuario.nombre,
         rol: usuario.rol,
         email: usuario.email,

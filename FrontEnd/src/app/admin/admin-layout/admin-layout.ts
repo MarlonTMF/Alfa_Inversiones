@@ -4,31 +4,51 @@ import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/rou
 import { AuthService } from '../../auth/services/auth';
 
 @Component({
-    selector: 'app-admin-layout',
-    standalone: true,
-    imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
-    templateUrl: './admin-layout.html',
-    styleUrl: './admin-layout.css'
+  selector: 'app-admin-layout',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  templateUrl: './admin-layout.html',
+  styleUrl: './admin-layout.css',
 })
 export class AdminLayout {
-    public authService = inject(AuthService);
-    private router = inject(Router);
+  public authService = inject(AuthService);
+  private router = inject(Router);
 
-    public mostrarNotificaciones: boolean = false;
-    public tieneNuevasNotificaciones: boolean = true;
+  public mostrarNotificaciones: boolean = false;
+  public tieneNuevasNotificaciones: boolean = true;
+  public mostrarMenuCuenta: boolean = false;
 
-    salirAlMapa(): void {
-        this.router.navigate(['/mapa']);
+  salirAlMapa(): void {
+    this.router.navigate(['/mapa']);
+  }
+
+  toggleMenuCuenta(): void {
+    this.mostrarMenuCuenta = !this.mostrarMenuCuenta;
+  }
+
+  cerrarMenuCuenta(): void {
+    this.mostrarMenuCuenta = false;
+  }
+
+  cerrarSesion(): void {
+    this.authService.logout();
+    this.cerrarMenuCuenta();
+    this.router.navigate(['/']);
+  }
+
+  toggleNotificaciones(): void {
+    this.mostrarNotificaciones = !this.mostrarNotificaciones;
+    if (this.mostrarNotificaciones) {
+      this.tieneNuevasNotificaciones = false;
     }
+  }
 
-    toggleNotificaciones(): void {
-        this.mostrarNotificaciones = !this.mostrarNotificaciones;
-        if (this.mostrarNotificaciones) {
-            this.tieneNuevasNotificaciones = false;
-        }
-    }
+  cerrarNotificaciones(): void {
+    this.mostrarNotificaciones = false;
+  }
 
-    cerrarNotificaciones(): void {
-        this.mostrarNotificaciones = false;
-    }
+  cerrarOverlays(): void {
+    this.cerrarNotificaciones();
+    this.cerrarMenuCuenta();
+  }
 }

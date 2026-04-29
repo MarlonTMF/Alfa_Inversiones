@@ -9,4 +9,4 @@ import { ModificarEstadoProyectoCasoUso } from './domain/casos-uso/modificar-est
   controllers: [OrquestacionControlador],
   providers: [GestionarMercadoCasoUso, ModificarEstadoProyectoCasoUso],
 })
-export class OrquestacionModule { }
+export class OrquestacionModule {}

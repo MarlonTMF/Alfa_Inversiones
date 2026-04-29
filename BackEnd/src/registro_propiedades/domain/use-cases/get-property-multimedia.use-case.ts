@@ -4,12 +4,12 @@ import { PropertyMultimediaRepository } from '../repositories/property-multimedi
 
 @Injectable()
 export class GetPropertyMultimediaUseCase {
-    constructor(
-        private readonly multimediaRepository: PropertyMultimediaRepository
-    ) { }
+  constructor(
+    private readonly multimediaRepository: PropertyMultimediaRepository,
+  ) {}
 
-    async execute(propertyId: string): Promise<PropertyMultimedia[]> {
-        // Simplemente le pide al repositorio que busque todas las fotos/videos de ese terreno
-        return await this.multimediaRepository.findByPropertyId(propertyId);
-    }
+  async execute(propertyId: string): Promise<PropertyMultimedia[]> {
+    // Simplemente le pide al repositorio que busque todas las fotos/videos de ese terreno
+    return await this.multimediaRepository.findByPropertyId(propertyId);
+  }
 }

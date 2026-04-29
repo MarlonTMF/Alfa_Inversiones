@@ -7,35 +7,44 @@ import { EntityManager } from 'typeorm';
  * pueda usarlo como token de inyección y evitar errores de metadatos de TypeScript.
  */
 export abstract class PropertyRepository {
-    /**
-     * Crea una nueva propiedad en la base de datos.
-     * @param property Los datos de la propiedad a crear.
-     * @returns Una promesa que se resuelve con la propiedad creada.
-     */
-    abstract create(property: Partial<PropertyFuenteDatos>, manager?: EntityManager): Promise<PropertyFuenteDatos>;
+  /**
+   * Crea una nueva propiedad en la base de datos.
+   * @param property Los datos de la propiedad a crear.
+   * @returns Una promesa que se resuelve con la propiedad creada.
+   */
+  abstract create(
+    property: Partial<PropertyFuenteDatos>,
+    manager?: EntityManager,
+  ): Promise<PropertyFuenteDatos>;
 
-    /**
-     * Busca una propiedad por su ID.
-     * @param id El identificador único de la propiedad.
-     * @returns Una promesa que se resuelve con la propiedad encontrada o null.
-     */
-    abstract findById(id: string): Promise<PropertyFuenteDatos | null>;
+  /**
+   * Busca una propiedad por su ID.
+   * @param id El identificador único de la propiedad.
+   * @returns Una promesa que se resuelve con la propiedad encontrada o null.
+   */
+  abstract findById(id: string): Promise<PropertyFuenteDatos | null>;
 
-    /**
-     * Obtiene todas las propiedades registradas.
-     * @returns Una promesa que se resuelve con un arreglo de propiedades.
-     */
-    abstract findAll(): Promise<PropertyFuenteDatos[]>;
+  /**
+   * Obtiene todas las propiedades registradas.
+   * @returns Una promesa que se resuelve con un arreglo de propiedades.
+   */
+  abstract findAll(): Promise<PropertyFuenteDatos[]>;
 
-    /**
-     * Registra un nuevo recurso multimedia vinculado a una propiedad.
-     * @param propertyId ID de la propiedad.
-     * @param multimediaData Datos del recurso (url, type, public_id, etc).
-     */
-    abstract addMultimedia(propertyId: string, multimediaData: any): Promise<void>;
+  /**
+   * Registra un nuevo recurso multimedia vinculado a una propiedad.
+   * @param propertyId ID de la propiedad.
+   * @param multimediaData Datos del recurso (url, type, public_id, etc).
+   */
+  abstract addMultimedia(
+    propertyId: string,
+    multimediaData: any,
+  ): Promise<void>;
 
-    /**
-     * Actualiza campos parciales de una propiedad.
-     */
-    abstract update(id: string, data: Partial<PropertyFuenteDatos>): Promise<void>;
+  /**
+   * Actualiza campos parciales de una propiedad.
+   */
+  abstract update(
+    id: string,
+    data: Partial<PropertyFuenteDatos>,
+  ): Promise<void>;
 }

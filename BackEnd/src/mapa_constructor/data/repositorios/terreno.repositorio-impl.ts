@@ -12,7 +12,7 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
   constructor(
     @InjectRepository(PropertyFuenteDatos)
     private readonly propertyRepo: Repository<PropertyFuenteDatos>,
-  ) { }
+  ) {}
 
   async buscarPorBoundingBox(
     bbox: BoundingBoxDto,
@@ -29,9 +29,8 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
         'property.status as estado',
         'property.land_use as uso_suelo',
         'ST_AsGeoJSON(property.polygon) as poligono_geojson',
-        `(SELECT url FROM property_multimedia WHERE property_id = property.id AND type = 'photo' ORDER BY is_main DESC, created_at ASC LIMIT 1) as portada`
+        `(SELECT url FROM property_multimedia WHERE property_id = property.id AND type = 'photo' ORDER BY is_main DESC, created_at ASC LIMIT 1) as portada`,
       ]);
-
 
     // Búsqueda espacial eficiente por Bounding Box (Overlap &&)
     // También filtramos para que NO devuelva propiedades con polígono NULL
@@ -53,11 +52,13 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
 
     return rawProperties.map((raw) => {
       let coordinates: [number, number][] = [];
-      
+
       if (raw.poligono_geojson) {
         const geojson = JSON.parse(raw.poligono_geojson);
         if (geojson.coordinates && geojson.coordinates[0]) {
-          coordinates = geojson.coordinates[0].map(([lng, lat]: [number, number]) => [lat, lng]);
+          coordinates = geojson.coordinates[0].map(
+            ([lng, lat]: [number, number]) => [lat, lng],
+          );
         }
       }
 
@@ -73,10 +74,6 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
         portada: raw.portada,
       };
     });
-
-
-
-
   }
 
   async crear(dto: CrearTerrenoDto): Promise<{ mensaje: string }> {
@@ -90,14 +87,13 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
     }
 
     // Convertir polígono Leaflet [[lat, lng]] a WKT POLYGON((lng lat, ...))
-    const puntosWKT = dto.poligono
-      .map((p) => `${p[1]} ${p[0]}`)
-      .join(', ');
+    const puntosWKT = dto.poligono.map((p) => `${p[1]} ${p[0]}`).join(', ');
 
     // Asegurar que el polígono esté cerrado para WKT
     const primerPunto = `${dto.poligono[0][1]} ${dto.poligono[0][0]}`;
     const ultimoPunto = `${dto.poligono[dto.poligono.length - 1][1]} ${dto.poligono[dto.poligono.length - 1][0]}`;
-    const wktData = primerPunto === ultimoPunto ? puntosWKT : `${puntosWKT}, ${primerPunto}`;
+    const wktData =
+      primerPunto === ultimoPunto ? puntosWKT : `${puntosWKT}, ${primerPunto}`;
 
     const wkt = `POLYGON((${wktData}))`;
 
@@ -113,10 +109,12 @@ export class TerrenoRepositorioImpl implements TerrenoRepositorio {
         wkt,
         dto.departamento,
         'disponible',
-        dto.uso_suelo || 'Uso Mixto'
+        dto.uso_suelo || 'Uso Mixto',
       ],
     );
 
-    return { mensaje: `Propiedad ${dto.id} registrada exitosamente en la tabla unificada` };
+    return {
+      mensaje: `Propiedad ${dto.id} registrada exitosamente en la tabla unificada`,
+    };
   }
 }
