@@ -6,6 +6,12 @@
         "nombre": "Super Orquestador"
     },
     {
+        "rol": "inversor",
+        "email": "alex@architect.com",
+        "password": "alex123",
+        "nombre": "Alex Vance"
+    },
+    {
         "rol": "inversionista",
         "email": "inv@empresa.com",
         "password": "123",

@@ -1,1 +1,28 @@
-/* Estilos específicos de sección */
+.glass-panel {
+    background: rgba(45, 52, 73, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.table-header-gradient {
+    background: linear-gradient(to right, #060e20, #0b1326);
+}
+
+.animate-in {
+    animation-fill-mode: forwards;
+}
+
+@keyframes slideInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in-from-bottom-4 {
+    animation: slideInFromBottom 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}

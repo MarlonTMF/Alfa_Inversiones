@@ -1,0 +1,138 @@
+<div class="min-h-screen bg-surface p-8 animate-in fade-in duration-700">
+    <!-- Header -->
+    <header class="flex items-center gap-6 mb-12">
+        <button [routerLink]="['/admin/dashboard']" class="p-3 hover:bg-white/5 rounded-full text-[#3b82f6] transition-all">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <div>
+            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-[#3b82f6] mb-1 block">Institutional Registry</span>
+            <h1 class="text-3xl font-black text-white tracking-tight">Registrar Inversión</h1>
+        </div>
+    </header>
+
+    <!-- Step Progress -->
+    <div class="max-w-4xl mx-auto mb-12" *ngIf="pasoActual < 3">
+        <div class="flex justify-between items-end mb-4">
+            <p class="text-[10px] font-black uppercase tracking-widest text-[#3b82f6]">Paso {{ pasoActual }} de 02</p>
+            <p class="text-slate-400 text-sm font-medium">{{ pasoActual === 1 ? 'Configurar Términos' : 'Cargar Comprobante' }}</p>
+        </div>
+        <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden flex gap-1">
+            <div [class]="'h-full bg-[#3b82f6] transition-all duration-500 ' + (pasoActual >= 1 ? 'w-1/2' : 'w-0')"></div>
+            <div [class]="'h-full bg-[#3b82f6] transition-all duration-500 ' + (pasoActual >= 2 ? 'w-1/2' : 'w-0')"></div>
+        </div>
+    </div>
+
+    <!-- PASO 1: Formulario -->
+    <div *ngIf="pasoActual === 1" class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 animate-in slide-in-from-bottom-10 duration-700">
+        <!-- Contexto Izquierdo -->
+        <div class="lg:col-span-4 space-y-6">
+            <div class="bg-surface-container-high rounded-3xl p-6 border border-white/5 relative overflow-hidden group">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#3b82f6]/5 blur-3xl rounded-full"></div>
+                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Perfil del Inversor</p>
+                <div class="flex items-center gap-4 mb-6">
+                    <img [src]="inversorSeleccionado?.imagen" class="w-14 h-14 rounded-2xl object-cover border border-white/10">
+                    <div>
+                        <h3 class="text-white font-bold">{{ inversorSeleccionado?.nombre }}</h3>
+                        <p class="text-[10px] text-slate-500 uppercase font-bold">{{ inversorSeleccionado?.empresa }}</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center text-[10px] font-black">
+                        <span class="text-slate-500 uppercase">Risk Tier</span>
+                        <span class="text-[#3b82f6] bg-[#3b82f6]/10 px-2 py-0.5 rounded">CLASS A</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-high rounded-3xl p-6 border border-white/5">
+                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Activo Destino</p>
+                <div class="flex items-center gap-4">
+                    <img [src]="proyectoSeleccionado?.imagen" class="w-12 h-12 rounded-xl object-cover">
+                    <div>
+                        <h4 class="text-white font-bold text-sm">{{ proyectoSeleccionado?.nombre }}</h4>
+                        <p class="text-[10px] text-slate-500 uppercase font-black tracking-tighter">{{ proyectoSeleccionado?.categoria }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario Derecho -->
+        <div class="lg:col-span-8 bg-surface-container-high rounded-3xl p-8 border border-white/5">
+            <h2 class="text-xl font-black text-white mb-8">Detalles de la Inversión</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Contribución de Capital ($ USD)</label>
+                    <div class="relative group">
+                        <span class="absolute left-5 top-1/2 -translate-y-1/2 text-[#3b82f6] font-black text-xl">$</span>
+                        <input [(ngModel)]="form.monto" class="w-full bg-[#060e20] border border-white/5 rounded-2xl py-5 pl-12 pr-6 text-2xl font-black text-white focus:border-[#3b82f6] outline-none transition-all" placeholder="0.00" type="number">
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Fecha de Pago</label>
+                    <input [(ngModel)]="form.fecha" class="w-full bg-[#060e20] border border-white/5 rounded-2xl py-5 px-6 text-white focus:border-[#3b82f6] outline-none transition-all" type="date">
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-4">
+                <button class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:bg-white/5 rounded-xl transition-all">Guardar Borrador</button>
+                <button (click)="nextStep()" class="bg-[#3b82f6] text-white px-10 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#3b82f6]/20 flex items-center gap-2">
+                    Continuar
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 2: Carga de Comprobante -->
+    <div *ngIf="pasoActual === 2" class="max-w-4xl mx-auto animate-in slide-in-from-right-10 duration-700">
+        <div class="bg-surface-container-high rounded-3xl p-10 border border-white/5 shadow-2xl">
+            <div class="text-center mb-10">
+                <div class="w-20 h-20 bg-[#3b82f6]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="material-symbols-outlined text-4xl text-[#3b82f6]">receipt_long</span>
+                </div>
+                <h2 class="text-3xl font-black text-white mb-2">Confirmar Transacción</h2>
+                <p class="text-slate-500 font-medium">Sube el comprobante bancario para formalizar la inversión.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-8 mb-10">
+                <div class="bg-[#060e20] p-6 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-black text-[#3b82f6] uppercase tracking-widest mb-1">Monto Total</p>
+                    <p class="text-3xl font-black text-white">${{ form.monto | number }} <span class="text-xs text-slate-500">USD</span></p>
+                </div>
+                <div class="bg-[#060e20] p-6 rounded-2xl border border-white/5">
+                    <p class="text-[10px] font-black text-[#3b82f6] uppercase tracking-widest mb-1">Activo</p>
+                    <p class="text-lg font-bold text-white">{{ proyectoSeleccionado?.nombre }}</p>
+                </div>
+            </div>
+
+            <div class="border-2 border-dashed border-white/10 rounded-3xl p-12 text-center hover:border-[#3b82f6]/50 transition-all cursor-pointer group relative overflow-hidden mb-10">
+                <input type="file" (change)="onFileSelected($event)" class="absolute inset-0 opacity-0 cursor-pointer">
+                <span class="material-symbols-outlined text-5xl text-[#3b82f6] mb-4">cloud_upload</span>
+                <p class="text-white font-bold">{{ form.archivo ? form.archivo.name : 'Arrastra el comprobante o haz clic para buscar' }}</p>
+                <p class="text-[10px] text-slate-500 uppercase font-black mt-2">PDF, JPG o PNG (Max 10MB)</p>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button (click)="prevStep()" class="text-[10px] font-black uppercase text-slate-500 hover:text-white transition-colors">Volver a términos</button>
+                <button (click)="finalizarRegistro()" class="bg-[#3b82f6] text-white px-12 py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-2xl shadow-[#3b82f6]/30">
+                    Confirmar Pago
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 3: Éxito -->
+    <div *ngIf="pasoActual === 3" class="max-w-xl mx-auto text-center py-20 animate-in zoom-in duration-700">
+        <div class="w-32 h-32 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-10 relative">
+            <div class="absolute inset-0 bg-emerald-500/20 rounded-full animate-ping"></div>
+            <span class="material-symbols-outlined text-6xl text-emerald-500 relative z-10">verified</span>
+        </div>
+        <h2 class="text-5xl font-black text-white mb-4">¡Pago Registrado!</h2>
+        <p class="text-slate-400 text-lg mb-12">La inversión de <span class="text-white font-bold">${{ form.monto | number }} USD</span> ha sido procesada exitosamente en el activo <span class="text-white font-bold">{{ proyectoSeleccionado?.nombre }}</span>.</p>
+        
+        <div class="grid grid-cols-2 gap-4">
+            <button class="bg-white/5 text-white px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">Ver Comprobante</button>
+            <button [routerLink]="['/admin/dashboard']" class="bg-[#3b82f6] text-white px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:brightness-110 transition-all">Ir al Dashboard</button>
+        </div>
+    </div>
+</div>

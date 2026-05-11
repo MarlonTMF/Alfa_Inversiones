@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#461f00",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "primary-container": "#4d8eff",
+                    "inverse-on-surface": "#283044",
+                    "on-tertiary-fixed": "#311400",
+                    "on-surface": "#dae2fd",
+                    "primary-fixed-dim": "#adc6ff",
+                    "surface-container-lowest": "#060e20",
+                    "secondary": "#bcc7de",
+                    "inverse-surface": "#dae2fd",
+                    "error-container": "#93000a",
+                    "error": "#ffb4ab",
+                    "tertiary-container": "#df7412",
+                    "surface-container-highest": "#2d3449",
+                    "surface-container-high": "#222a3d",
+                    "secondary-container": "#3e495d",
+                    "inverse-primary": "#005ac2",
+                    "surface-bright": "#31394d",
+                    "on-error-container": "#ffdad6",
+                    "on-error": "#690005",
+                    "surface-variant": "#2d3449",
+                    "on-primary": "#002e6a",
+                    "outline-variant": "#424754",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "on-secondary-fixed": "#111c2d",
+                    "surface-tint": "#adc6ff",
+                    "on-background": "#dae2fd",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "surface": "#0b1326",
+                    "tertiary-fixed": "#ffdcc6",
+                    "outline": "#8c909f",
+                    "surface-container": "#171f33",
+                    "primary": "#adc6ff",
+                    "on-secondary": "#263143",
+                    "on-secondary-container": "#aeb9d0",
+                    "on-tertiary": "#502400",
+                    "on-primary-fixed": "#001a42",
+                    "secondary-fixed": "#d8e3fb",
+                    "surface-dim": "#0b1326",
+                    "background": "#0b1326",
+                    "tertiary": "#ffb786",
+                    "on-primary-fixed-variant": "#004395",
+                    "on-primary-container": "#00285d",
+                    "surface-container-low": "#131b2e",
+                    "primary-fixed": "#d8e2ff",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "on-surface-variant": "#c2c6d6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "display": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(45, 52, 73, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Header: Back-to-Main Exception -->
+<header class="flex items-center bg-surface p-4 border-b border-outline-variant/20 justify-between shrink-0">
+<div class="flex items-center gap-4">
+<button class="text-on-surface flex size-10 items-center justify-center rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h2 class="text-on-surface text-lg font-bold leading-tight tracking-[-0.015em]">Revisión de KYC v2.4</h2>
+<p class="text-on-surface-variant text-xs font-medium uppercase tracking-wider">ID de Trámite: #88291-XA</p>
+</div>
+</div>
+<button class="flex size-10 items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</header>
+<!-- Document Viewer (Upper Section) -->
+<main class="flex-1 overflow-y-auto bg-surface-container-lowest relative">
+<div class="p-4 flex flex-col gap-6 max-w-2xl mx-auto">
+<!-- PDF Viewer Placeholder -->
+<div class="relative flex flex-col items-center justify-center bg-surface-container-high aspect-[3/4] rounded-lg shadow-2xl overflow-hidden group">
+<img class="absolute inset-0 w-full h-full object-cover opacity-60" data-alt="A high-resolution, detailed photograph of a professional financial document on a dark desk under cool studio lighting. The document features complex charts and legal text, presented with a clean editorial aesthetic in a dark mode environment. The mood is serious, professional, and sophisticated, emphasizing security and precision in asset management." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqBraFdEytX_d94wXrLGIC37iDrF3mrPZuSrnwrJ6bP99BARVNCjL21G8n4fGiXciBHWLzer00JJVaCJqmmx8HmyBZ_XjNmDTHvSstuzzcL8FULC2I6HnSpj--sEt6A_xLpxihnyTpUbZe0_zxmQ1CDXVGFc-r4QI7hE2asoKQiyB1I5WbOyIa-DwhxWJ61x3rA5llb9TTMCcipYnhPbLNQGKTFIOr4ctFH79oqg_N80rhEOZ0AGH2jo9BAP3flj3K8_YNElI9Z7Bp"/>
+<div class="relative z-10 flex flex-col items-center gap-4">
+<div class="p-4 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
+<span class="material-symbols-outlined text-primary" style="font-size: 48px;">description</span>
+</div>
+<p class="text-on-surface font-semibold">ESTADO_CUENTA_Q3_2023.PDF</p>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-bold text-sm">
+<span class="material-symbols-outlined text-sm">zoom_in</span>
+                            Pantalla Completa
+                        </button>
+</div>
+<!-- Watermark -->
+<div class="absolute top-4 right-4 bg-error-container/40 px-3 py-1 rounded border border-error/20 backdrop-blur-sm">
+<span class="text-error text-[10px] font-bold uppercase tracking-widest">Confidencial</span>
+</div>
+</div>
+<!-- Audit Log Section (Integrated into scroll) -->
+<section class="bg-surface-container-low rounded-xl p-5 mb-32">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-on-surface text-base font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed-dim">history</span>
+                            Historial de Auditoría
+                        </h3>
+<span class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest bg-surface-container-high px-2 py-1 rounded">Inmutable</span>
+</div>
+<div class="space-y-6 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-outline-variant/30">
+<!-- Log Entry 1 -->
+<div class="relative pl-8">
+<div class="absolute left-0 top-1.5 size-[24px] bg-surface rounded-full border-2 border-primary flex items-center justify-center">
+<div class="size-2 bg-primary rounded-full"></div>
+</div>
+<div class="flex justify-between items-start">
+<p class="text-on-surface text-sm font-semibold">Documento Subido</p>
+<time class="text-on-surface-variant text-[10px] font-medium">12 Oct, 09:45</time>
+</div>
+<p class="text-on-surface-variant text-xs mt-1">Usuario: Cliente_4402 (Web Portal)</p>
+</div>
+<!-- Log Entry 2 -->
+<div class="relative pl-8">
+<div class="absolute left-0 top-1.5 size-[24px] bg-surface rounded-full border-2 border-outline-variant flex items-center justify-center">
+<div class="size-2 bg-outline-variant rounded-full"></div>
+</div>
+<div class="flex justify-between items-start">
+<p class="text-on-surface text-sm font-semibold">Validación Automática OCR</p>
+<time class="text-on-surface-variant text-[10px] font-medium">12 Oct, 09:46</time>
+</div>
+<p class="text-on-surface-variant text-xs mt-1">Resultado: Legibilidad 98% - Pendiente firma humana.</p>
+</div>
+<!-- Log Entry 3 -->
+<div class="relative pl-8">
+<div class="absolute left-0 top-1.5 size-[24px] bg-surface rounded-full border-2 border-tertiary flex items-center justify-center">
+<div class="size-2 bg-tertiary rounded-full"></div>
+</div>
+<div class="flex justify-between items-start">
+<p class="text-on-surface text-sm font-semibold">Asignado a Auditoría</p>
+<time class="text-on-surface-variant text-[10px] font-medium">12 Oct, 10:15</time>
+</div>
+<p class="text-on-surface-variant text-xs mt-1">Responsable: Alejandro Vargas (Senior Analyst)</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Action Panel (Bottom Sticky Section) -->
+<footer class="glass-panel border-t border-outline-variant/30 p-4 pb-8 shrink-0">
+<div class="max-w-md mx-auto space-y-4">
+<div class="flex flex-col gap-3">
+<label class="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider ml-1">Decisión del Auditor</label>
+<div class="flex gap-2">
+<button class="flex-1 flex flex-col items-center justify-center gap-1 py-3 rounded-lg bg-surface-container-high border border-outline-variant/20 hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-primary">verified</span>
+<span class="text-[11px] font-bold">APROBAR</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center gap-1 py-3 rounded-lg bg-surface-container-high border border-outline-variant/20 hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-tertiary">edit_note</span>
+<span class="text-[11px] font-bold">SUBSANAR</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center gap-1 py-3 rounded-lg bg-error-container/20 border border-error/20 hover:bg-error-container/30 transition-colors">
+<span class="material-symbols-outlined text-error">cancel</span>
+<span class="text-[11px] font-bold">RECHAZAR</span>
+</button>
+</div>
+</div>
+<div class="relative">
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg p-3 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:ring-1 focus:ring-primary focus:outline-none min-h-[80px]" placeholder="Agregar comentarios de validación..."></textarea>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary rounded-lg font-bold tracking-wide shadow-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">send</span>
+                    CONFIRMAR AUDITORÍA
+                </button>
+</div>
+</footer>
+</div>
+</body></html>

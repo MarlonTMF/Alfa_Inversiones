@@ -1,0 +1,225 @@
+<div class="fixed inset-0 z-[100] flex flex-col bg-surface overflow-y-auto custom-scrollbar animate-in fade-in duration-500">
+  
+  <!-- Header (Shared for steps 1-3) -->
+  <header *ngIf="pasoActual < 4" class="bg-[#0b1326] shadow-2xl shadow-black/40 flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-[#3b82f6] text-2xl">admin_panel_settings</span>
+      <h1 class="font-['Inter'] font-semibold tracking-tight text-xl text-[#dae2fd]">Registrar Nuevo Inversor</h1>
+    </div>
+    <div class="hidden md:flex items-center space-x-8">
+      <div class="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full border border-primary/20">
+        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+        <span class="text-xs font-bold tracking-widest text-primary uppercase">Paso {{ pasoActual }} de 3</span>
+      </div>
+      <button (click)="cerrar.emit()" class="text-on-surface-variant hover:text-white transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Progress Bar (Shared for steps 1-3) -->
+  <div *ngIf="pasoActual < 4" class="sticky top-[72px] z-50 px-8 py-2 bg-surface">
+     <div class="flex gap-2 h-1.5 w-full max-w-4xl mx-auto">
+        <div class="flex-1 rounded-full transition-all duration-500" [class.bg-primary]="pasoActual >= 1" [class.bg-white/5]="pasoActual < 1"></div>
+        <div class="flex-1 rounded-full transition-all duration-500" [class.bg-primary]="pasoActual >= 2" [class.bg-white/5]="pasoActual < 2"></div>
+        <div class="flex-1 rounded-full transition-all duration-500" [class.bg-primary]="pasoActual >= 3" [class.bg-white/5]="pasoActual < 3"></div>
+     </div>
+  </div>
+
+  <main class="flex-grow flex flex-col items-center justify-center pt-8 pb-32 px-4 md:px-8">
+    
+    <!-- PASO 1: DATOS PERSONALES -->
+    <div *ngIf="pasoActual === 1" class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in slide-in-from-right duration-500">
+      <div class="lg:col-span-5 space-y-8 pt-6">
+        <div class="space-y-4">
+          <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Gestión de Clientes</span>
+          <h2 class="text-4xl md:text-5xl font-bold leading-tight tracking-tight text-on-surface">Alta de <span class="text-primary-container">Activos</span> Estratégicos.</h2>
+          <p class="text-on-surface-variant text-lg leading-relaxed max-w-sm">Proceso administrativo para la incorporación de nuevos perfiles de inversión.</p>
+        </div>
+        <div class="p-5 bg-surface-container-low border border-outline-variant/30 rounded-xl space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary">info</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-on-surface">Instrucciones de Registro</span>
+          </div>
+          <p class="text-sm text-on-surface-variant leading-relaxed">Verifique los documentos de identidad físicos antes de proceder. Todos los campos son obligatorios (KYC).</p>
+        </div>
+      </div>
+      <div class="lg:col-span-7">
+        <div class="bg-surface-container-high rounded-3xl p-10 shadow-2xl relative overflow-hidden border border-white/5">
+          <div class="mb-8 flex items-center gap-3 border-b border-white/5 pb-6">
+            <span class="material-symbols-outlined text-[#3b82f6] text-3xl">person_add</span>
+            <h3 class="text-xl font-black tracking-tight text-white uppercase tracking-widest">Datos del Cliente</h3>
+          </div>
+          <div class="space-y-6">
+            <div class="space-y-2">
+              <label class="text-[10px] font-black uppercase tracking-[0.1em] text-slate-500">Nombre Completo</label>
+              <input [(ngModel)]="form.nombre" class="w-full bg-[#060e20] border border-white/5 rounded-2xl p-5 text-white focus:border-[#3b82f6] outline-none transition-all font-bold" placeholder="Según documento de identidad" type="text"/>
+            </div>
+            <div class="grid grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <label class="text-[10px] font-black uppercase tracking-[0.1em] text-slate-500">Teléfono</label>
+                <input [(ngModel)]="form.telefono" class="w-full bg-[#060e20] border border-white/5 rounded-2xl p-5 text-white focus:border-[#3b82f6] outline-none transition-all font-bold" placeholder="+34 600..." type="tel"/>
+              </div>
+              <div class="space-y-2">
+                <label class="text-[10px] font-black uppercase tracking-[0.1em] text-slate-500">País de Residencia</label>
+                <select [(ngModel)]="form.pais" class="w-full bg-[#060e20] border border-white/5 rounded-2xl p-5 text-white focus:border-[#3b82f6] outline-none transition-all font-bold appearance-none">
+                  <option value="">Seleccione país</option>
+                  <option value="ES">España</option>
+                  <option value="MX">México</option>
+                  <option value="BO">Bolivia</option>
+                </select>
+              </div>
+            </div>
+            <button (click)="nextStep()" [disabled]="!form.nombre" class="w-full bg-[#3b82f6] text-white font-black py-5 rounded-2xl shadow-xl shadow-[#3b82f6]/20 active:scale-95 transition-all mt-6 uppercase tracking-[0.2em] text-xs">Siguiente Paso</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 2: DOCUMENTACIÓN KYC -->
+    <div *ngIf="pasoActual === 2" class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in slide-in-from-right duration-500">
+      <div class="lg:col-span-4 space-y-6">
+        <div class="bg-surface-container-low p-8 rounded-3xl border border-white/5">
+          <h3 class="text-xs font-black uppercase tracking-[0.2em] text-[#3b82f6] mb-6">Protocolo KYC</h3>
+          <ul class="space-y-6">
+            <li class="flex gap-4 items-start">
+              <span class="material-symbols-outlined text-[#3b82f6]">verified_user</span>
+              <p class="text-sm text-on-surface-variant font-medium leading-relaxed">Verificar coincidencia de nombre.</p>
+            </li>
+            <li class="flex gap-4 items-start">
+              <span class="material-symbols-outlined text-[#3b82f6]">visibility</span>
+              <p class="text-sm text-on-surface-variant font-medium leading-relaxed">Asegurar nitidez absoluta en los bordes.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="lg:col-span-8 space-y-8">
+        <section class="bg-surface-container-high p-10 rounded-3xl border border-white/5">
+          <div class="flex items-center gap-4 mb-10">
+            <span class="material-symbols-outlined bg-[#3b82f6]/10 text-[#3b82f6] p-3 rounded-2xl">badge</span>
+            <h3 class="text-xl font-black tracking-tight text-white uppercase tracking-widest">Carga de Documentación</h3>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="relative flex flex-col items-center justify-center p-12 border-2 border-dashed border-white/5 rounded-3xl bg-[#060e20] hover:border-[#3b82f6]/50 transition-all cursor-pointer group">
+              <span class="material-symbols-outlined text-4xl text-slate-700 group-hover:text-[#3b82f6] mb-4">upload_file</span>
+              <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Anverso ID</span>
+            </div>
+            <div class="relative flex flex-col items-center justify-center p-12 border-2 border-dashed border-white/5 rounded-3xl bg-[#060e20] hover:border-[#3b82f6]/50 transition-all cursor-pointer group">
+              <span class="material-symbols-outlined text-4xl text-slate-700 group-hover:text-[#3b82f6] mb-4">upload_file</span>
+              <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Reverso ID</span>
+            </div>
+          </div>
+          <div class="flex justify-between mt-12">
+            <button (click)="prevStep()" class="px-8 py-4 text-xs font-black uppercase tracking-widest text-slate-500 hover:text-white">Atrás</button>
+            <button (click)="nextStep()" class="bg-[#3b82f6] text-white px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-[#3b82f6]/20 active:scale-95 transition-all">Finalizar Carga</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- PASO 3: PERFILADO -->
+    <div *ngIf="pasoActual === 3" class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in slide-in-from-right duration-500">
+      <div class="lg:col-span-7 space-y-8">
+        <section class="bg-surface-container-high p-10 rounded-3xl border border-white/5">
+          <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#3b82f6] mb-8 block">Configuración de Perfil</label>
+          
+          <div class="space-y-10">
+            <div>
+              <label class="text-[10px] font-black uppercase tracking-[0.1em] text-slate-500 mb-4 block">Capital Confirmado</label>
+              <div class="relative">
+                <span class="absolute left-6 top-1/2 -translate-y-1/2 text-[#3b82f6] font-black text-2xl">$</span>
+                <input [(ngModel)]="form.capital" class="w-full bg-[#060e20] border border-white/5 rounded-2xl py-6 pl-12 pr-6 text-2xl font-black text-white focus:border-[#3b82f6] outline-none transition-all" type="number"/>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-black uppercase tracking-[0.1em] text-slate-500 mb-6 block">Intereses Estratégicos</label>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button *ngFor="let op of interesesOpciones" 
+                        (click)="toggleInteres(op.id)"
+                        [class.border-[#3b82f6]]="isInteresSelected(op.id)"
+                        [class.bg-[#3b82f6]/10]="isInteresSelected(op.id)"
+                        class="bg-[#060e20] p-6 rounded-2xl text-left border-2 border-white/5 transition-all group">
+                  <span class="material-symbols-outlined mb-3 block text-3xl" [class.text-[#3b82f6]]="isInteresSelected(op.id)">{{ op.icono }}</span>
+                  <span class="block font-black text-white text-xs uppercase tracking-tighter">{{ op.nombre }}</span>
+                  <span class="text-[8px] text-slate-500 font-bold uppercase tracking-widest mt-1">{{ op.subtitulo }}</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-[10px] font-black uppercase tracking-[0.1em] text-slate-500 mb-4 block">Frecuencia de Inyección</label>
+              <div class="flex flex-wrap gap-2">
+                <button *ngFor="let f of ['Mensual', 'Trimestral', 'Semestral', 'Anual']"
+                        (click)="seleccionarFrecuencia(f)"
+                        [class.bg-[#3b82f6]]="form.frecuencia === f"
+                        [class.text-white]="form.frecuencia === f"
+                        [class.bg-[#060e20]]="form.frecuencia !== f"
+                        class="px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
+                  {{ f }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between mt-12 border-t border-white/5 pt-10">
+            <button (click)="prevStep()" class="px-8 py-4 text-xs font-black uppercase tracking-widest text-slate-500 hover:text-white">Atrás</button>
+            <button (click)="nextStep()" class="bg-[#3b82f6] text-white px-12 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-[#3b82f6]/20 active:scale-95 transition-all">Guardar Perfil de Cliente</button>
+          </div>
+        </section>
+      </div>
+      <div class="lg:col-span-5 space-y-6">
+        <div class="bg-surface-container-low p-8 rounded-3xl border border-white/5">
+          <h3 class="text-lg font-black text-white mb-2">Resumen de Consulta</h3>
+          <p class="text-xs text-on-surface-variant mb-8">Perfilado administrativo para generación de portafolio.</p>
+          <div class="space-y-4">
+             <div class="flex items-center gap-3 text-xs text-slate-300 font-medium">
+               <span class="material-symbols-outlined text-[#3b82f6]">check_circle</span>
+               Datos Personales Verificados
+             </div>
+             <div class="flex items-center gap-3 text-xs text-slate-300 font-medium">
+               <span class="material-symbols-outlined text-[#3b82f6]">check_circle</span>
+               Documentación KYC Cargada
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÉXITO FINAL -->
+    <div *ngIf="pasoActual === 4" class="max-w-xl w-full animate-in zoom-in-95 duration-500 text-center">
+      <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-[#3b82f6]/20 mb-10 ring-1 ring-[#3b82f6]/30">
+        <span class="material-symbols-outlined text-[#3b82f6] text-5xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+      </div>
+      <p class="text-[#3b82f6] text-[10px] font-black uppercase tracking-[0.3em] mb-4">Registro Completado</p>
+      <h1 class="text-white text-5xl font-black tracking-tight mb-6 leading-none">Activo Creado</h1>
+      <p class="text-on-surface-variant text-lg max-w-sm mx-auto leading-relaxed mb-12">El nuevo inversionista <strong>{{ form.nombre }}</strong> ha sido dado de alta correctamente.</p>
+      
+      <div class="bg-surface-container-high rounded-3xl p-10 shadow-2xl text-left border border-white/5 mb-10">
+        <h2 class="text-white text-xl font-black mb-8 flex items-center gap-3">
+          <span class="material-symbols-outlined text-[#3b82f6]">key</span>
+          Credenciales
+        </h2>
+        <div class="space-y-6">
+           <div class="space-y-2">
+             <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Email de Acceso</label>
+             <div class="bg-[#060e20] p-4 rounded-xl flex justify-between items-center border border-white/5">
+                <span class="text-white font-bold text-sm">{{ form.email }}</span>
+                <button (click)="copyToClipboard(form.email)" class="text-[#3b82f6] text-[10px] font-black uppercase tracking-widest hover:bg-[#3b82f6]/10 px-3 py-1.5 rounded-lg transition-all">Copiar</button>
+             </div>
+           </div>
+           <div class="space-y-2">
+             <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Contraseña Temporal</label>
+             <div class="bg-[#060e20] p-4 rounded-xl flex justify-between items-center border border-white/5">
+                <span class="text-white font-mono font-black tracking-widest">XC-9421-PRT-Q</span>
+                <button (click)="copyToClipboard('XC-9421-PRT-Q')" class="text-[#3b82f6] text-[10px] font-black uppercase tracking-widest hover:bg-[#3b82f6]/10 px-3 py-1.5 rounded-lg transition-all">Copiar</button>
+             </div>
+           </div>
+        </div>
+      </div>
+
+      <button (click)="cerrar.emit()" class="bg-[#3b82f6] text-white py-5 px-10 rounded-2xl font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-[#3b82f6]/20 active:scale-95 transition-all w-full">Finalizar y Volver</button>
+    </div>
+
+  </main>
+</div>

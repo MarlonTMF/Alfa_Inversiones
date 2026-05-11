@@ -31,23 +31,29 @@ export class Navbar {
 
     constructor() {
         this.esRutaMapa = this.router.url.includes('/mapa');
-        this.verificarRedireccionSuperAdmin();
+        this.verificarRedireccionPorRol();
 
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {
             this.esRutaMapa = event.urlAfterRedirects.includes('/mapa');
-            this.verificarRedireccionSuperAdmin();
+            this.verificarRedireccionPorRol();
         });
     }
 
-    private verificarRedireccionSuperAdmin(): void {
+    private verificarRedireccionPorRol(): void {
         const usuario = this.authService.usuarioActual();
         const rol = usuario?.rol?.toLowerCase();
         const isMapUrl = this.router.url.includes('/mapa') || this.router.url === '/';
 
-        if (rol === 'super-admin' && isMapUrl) {
-            this.router.navigate(['/admin/dashboard']);
+        if (isMapUrl) {
+            if (rol === 'super-admin') {
+                this.router.navigate(['/admin/dashboard']);
+            } else if (rol === 'constructor') {
+                this.router.navigate(['/constructor']);
+            } else if (rol === 'inversor') {
+                this.router.navigate(['/mapa']);
+            }
         }
     }
 
@@ -72,7 +78,9 @@ export class Navbar {
         
         if (rol === 'super-admin') {
             this.router.navigate(['/admin/dashboard']);
-        } else if (rol === 'admin') {
+        } else if (rol === 'constructor') {
+            this.router.navigate(['/constructor']);
+        } else if (rol === 'inversor') {
             this.router.navigate(['/mapa']);
         } else {
             this.router.navigate(['/mapa']);

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nuevo Proyecto Inmobiliario - Multimedia y Documentos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#060e20",
+                    "on-error": "#690005",
+                    "primary-fixed": "#d8e2ff",
+                    "on-primary": "#002e6a",
+                    "on-primary-container": "#00285d",
+                    "on-tertiary-fixed": "#311400",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "inverse-surface": "#dae2fd",
+                    "on-error-container": "#ffdad6",
+                    "secondary": "#bcc7de",
+                    "surface-tint": "#adc6ff",
+                    "surface-container-highest": "#2d3449",
+                    "on-tertiary": "#502400",
+                    "tertiary-container": "#df7412",
+                    "on-surface-variant": "#c2c6d6",
+                    "inverse-on-surface": "#283044",
+                    "secondary-container": "#3e495d",
+                    "primary": "#adc6ff",
+                    "surface-container-low": "#131b2e",
+                    "surface-variant": "#2d3449",
+                    "surface-bright": "#31394d",
+                    "surface-dim": "#0b1326",
+                    "inverse-primary": "#005ac2",
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "error": "#ffb4ab",
+                    "tertiary": "#ffb786",
+                    "surface-container": "#171f33",
+                    "on-background": "#dae2fd",
+                    "surface": "#0b1326",
+                    "primary-container": "#4d8eff",
+                    "tertiary-fixed": "#ffdcc6",
+                    "on-primary-fixed-variant": "#004395",
+                    "on-secondary-container": "#aeb9d0",
+                    "background": "#0b1326",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "on-tertiary-container": "#461f00",
+                    "outline": "#8c909f",
+                    "surface-container-high": "#222a3d",
+                    "outline-variant": "#424754",
+                    "on-secondary-fixed": "#111c2d",
+                    "on-surface": "#dae2fd",
+                    "on-primary-fixed": "#001a42",
+                    "primary-fixed-dim": "#adc6ff",
+                    "secondary-fixed": "#d8e3fb",
+                    "on-secondary": "#263143"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "display": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col overflow-x-hidden">
+<!-- TopAppBar Shell -->
+<header class="bg-[#0b1326]/80 backdrop-blur-xl flex items-center justify-between px-6 py-4 w-full sticky top-0 z-50 shadow-2xl shadow-black/20">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 duration-200 hover:bg-[#222a3d] transition-colors p-2 rounded-lg">
+<span class="material-symbols-outlined text-blue-500">arrow_back</span>
+</button>
+<h1 class="font-['Inter'] headline-md font-semibold text-[#c2c6d6] leading-none">Nuevo Proyecto Inmobiliario</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tight text-blue-400">FINTECH ARCHITECT</span>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-primary-container overflow-hidden">
+<img alt="User Profile" data-alt="professional portrait of a project manager in a dark suit with a focused expression and cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0lP3cDyNHc_CbsqJRnMg-RAIPp9DXUJukxdC97SeB6EuHHI9BhGJw_HnVDuMM0Ngm945ExAqFOeqlnMCcIlJXufAQcWbIvASk9vqhkxp6D4Fvg6JSHErEPb5RfJMHtwGN3RfiSDMtlwwkT63Lurrn8JQbIknhGahHIsdMUx8maUk_hXx45_gMtwE0Cyhucy1oc_4KhhlsTWbFJitcd2SnkmT78WQ5KraL4CXTtBfS3XfpYZsNTKeKu_RfiowNfliPnrQigLNiuZjo"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1">
+<!-- NavigationDrawer Shell (Hidden on focus-heavy screen as per mandate, but mapped for structure) -->
+<aside class="hidden lg:flex flex-col bg-[#060e20] h-[calc(100vh-72px)] w-64 fixed left-0 top-[72px] z-40 shadow-[10px_0_30px_rgba(0,0,0,0.3)]">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary">domain</span>
+</div>
+<div>
+<p class="font-bold text-on-surface leading-tight">Arq. Innovación</p>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Gestor Senior</p>
+</div>
+</div>
+<nav class="mt-4 flex-1">
+<div class="px-4 py-3 flex items-center gap-4 text-[#c2c6d6] opacity-70 hover:bg-[#131b2e] hover:text-white transition-all cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-['Inter'] label-sm uppercase tracking-wider">Dashboard</span>
+</div>
+<div class="px-4 py-3 flex items-center gap-4 bg-gradient-to-r from-blue-600/20 to-transparent text-blue-400 border-l-4 border-blue-500 transition-all cursor-pointer">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-['Inter'] label-sm uppercase tracking-wider">Proyectos</span>
+</div>
+<div class="px-4 py-3 flex items-center gap-4 text-[#c2c6d6] opacity-70 hover:bg-[#131b2e] hover:text-white transition-all cursor-pointer">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-['Inter'] label-sm uppercase tracking-wider">Finanzas</span>
+</div>
+<div class="px-4 py-3 flex items-center gap-4 text-[#c2c6d6] opacity-70 hover:bg-[#131b2e] hover:text-white transition-all cursor-pointer">
+<span class="material-symbols-outlined">folder_shared</span>
+<span class="font-['Inter'] label-sm uppercase tracking-wider">Archivos</span>
+</div>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 p-6 md:p-12 lg:p-16 max-w-7xl mx-auto w-full">
+<!-- Stepper Component -->
+<div class="mb-12">
+<div class="flex justify-between items-end mb-4">
+<div>
+<span class="text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-primary">Fase de Configuración</span>
+<h2 class="text-3xl font-bold text-on-surface mt-1">Multimedia y Documentación</h2>
+</div>
+<span class="text-on-surface-variant font-bold text-sm tracking-tighter">PASO <span class="text-primary text-xl">03</span> / 03</span>
+</div>
+<div class="flex gap-2 h-1.5 w-full">
+<div class="flex-1 bg-primary rounded-full"></div>
+<div class="flex-1 bg-primary rounded-full"></div>
+<div class="flex-1 bg-primary rounded-full shadow-[0_0_15px_rgba(173,198,255,0.4)]"></div>
+</div>
+</div>
+<!-- Bento Layout Content -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Section: Multimedia (Dropzones) -->
+<section class="lg:col-span-7 space-y-6">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">gallery_thumbnail</span>
+<h3 class="text-lg font-semibold text-on-surface">Multimedia del Proyecto</h3>
+</div>
+<!-- Main Dropzone: Render & Facades -->
+<div class="group relative bg-surface-container-low rounded-xl aspect-video flex flex-col items-center justify-center transition-all hover:bg-surface-container-high border-2 border-dashed border-outline-variant/30 hover:border-primary/50 cursor-pointer overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-20 transition-opacity group-hover:opacity-40">
+<img alt="Architecture" data-alt="cinematic wide shot of a modern glass and steel skyscraper reaching into a deep blue evening sky, moody atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAfVcMfXXXyB3oCqTl1DINF3Mq4z2gbpgwTVw7dOBmXyGc5-7A1Fnh9NJA2WrL9_FJ7paTiezm5wuK-BWatfq9F8zW-UmztCqerhoaFkFGecxzWSM89oVVULYXlE_GU3tNeGbuKrVwEWta7YeuQjCN5RgfWBde3mpRcUqChfk7Z2endlSRycmsVeFJBrbfa_Gh2HbOUMob2vs_cFwvkawXpz8b7MTJ90bPqQOKwRcDCMZbHwse3LurbeKdY326-eUXEx_uif5Hvvoi"/>
+</div>
+<div class="relative z-10 flex flex-col items-center p-8 text-center">
+<div class="w-16 h-16 rounded-full bg-primary-container/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">cloud_upload</span>
+</div>
+<p class="text-on-surface font-semibold text-lg">Subir Renders y Fachadas</p>
+<p class="text-on-surface-variant text-sm mt-2 max-w-xs">Arrastra tus archivos aquí o haz clic para explorar. Formatos sugeridos: JPG, PNG, WEBP (Máx 25MB).</p>
+</div>
+</div>
+<!-- Secondary Multimedia Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-high p-5 rounded-xl flex flex-col items-center justify-center border border-outline-variant/10 hover:bg-surface-bright transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant mb-2">architecture</span>
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Cargar Planos</span>
+</div>
+<div class="bg-surface-container-high p-5 rounded-xl flex flex-col items-center justify-center border border-outline-variant/10 hover:bg-surface-bright transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant mb-2">3d_rotation</span>
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Modelos 3D</span>
+</div>
+</div>
+<!-- Video Link Input -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-4">
+<label class="block text-[0.6875rem] font-bold uppercase tracking-widest text-on-surface-variant">Link de Video Recorrido</label>
+<div class="flex gap-3">
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant/20 rounded-lg flex items-center px-4 focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">link</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface w-full py-3 text-sm placeholder:text-outline/40" placeholder="https://youtube.com/watch?v=..." type="text"/>
+</div>
+<button class="bg-surface-container-highest px-6 rounded-lg text-sm font-bold text-on-surface hover:bg-surface-bright transition-all">Validar</button>
+</div>
+<p class="text-[10px] text-on-surface-variant italic">Se aceptan enlaces de YouTube, Vimeo y recorridos virtuales Matterport.</p>
+</div>
+</section>
+<!-- Section: Documentos Legales -->
+<section class="lg:col-span-5 space-y-6">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">description</span>
+<h3 class="text-lg font-semibold text-on-surface">Documentos Legales</h3>
+</div>
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<!-- Doc Item -->
+<div class="p-4 flex items-center justify-between hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">verified_user</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-on-surface leading-none">Folio Real</p>
+<p class="text-[10px] text-on-surface-variant mt-1">Obligatorio • PDF/JPG</p>
+</div>
+</div>
+<button class="text-[10px] font-bold uppercase tracking-tighter bg-primary/10 text-primary px-3 py-1.5 rounded-full hover:bg-primary hover:text-on-primary transition-all">Subir</button>
+</div>
+<!-- Doc Item -->
+<div class="p-4 flex items-center justify-between hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">map</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-on-surface leading-none">Certificado Catastral</p>
+<p class="text-[10px] text-on-surface-variant mt-1">Obligatorio • PDF</p>
+</div>
+</div>
+<button class="text-[10px] font-bold uppercase tracking-tighter bg-primary/10 text-primary px-3 py-1.5 rounded-full hover:bg-primary hover:text-on-primary transition-all">Subir</button>
+</div>
+<!-- Doc Item -->
+<div class="p-4 flex items-center justify-between hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">engineering</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-on-surface leading-none">Licencia de Construcción</p>
+<p class="text-[10px] text-on-surface-variant mt-1">Pendiente • PDF</p>
+</div>
+</div>
+<button class="text-[10px] font-bold uppercase tracking-tighter bg-primary/10 text-primary px-3 py-1.5 rounded-full hover:bg-primary hover:text-on-primary transition-all">Subir</button>
+</div>
+<!-- Doc Item -->
+<div class="p-4 flex items-center justify-between hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">assignment_ind</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-on-surface leading-none">NIT / Documento Identidad</p>
+<p class="text-[10px] text-on-surface-variant mt-1">Representante Legal</p>
+</div>
+</div>
+<button class="text-[10px] font-bold uppercase tracking-tighter bg-primary/10 text-primary px-3 py-1.5 rounded-full hover:bg-primary hover:text-on-primary transition-all">Subir</button>
+</div>
+</div>
+<!-- Summary / Confirmation -->
+<div class="bg-surface-container-highest/30 backdrop-blur-sm p-6 rounded-xl border border-primary/20 space-y-4">
+<div class="flex items-start gap-3">
+<input class="mt-1 w-4 h-4 rounded border-outline-variant bg-surface-container-lowest text-primary focus:ring-primary focus:ring-offset-surface" id="terms" type="checkbox"/>
+<label class="text-xs text-on-surface-variant leading-relaxed cursor-pointer" for="terms">
+                                Confirmo que toda la información multimedia y legal proporcionada es verídica y cuento con los derechos de autor o representación legal necesarios para su publicación.
+                            </label>
+</div>
+<div class="h-px bg-outline-variant/20"></div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-on-surface-variant">Archivos cargados:</span>
+<span class="font-bold text-primary">0 / 6 requeridos</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Action Buttons Footer -->
+<div class="mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<button class="order-2 md:order-1 flex items-center gap-2 px-8 py-3 rounded-lg font-bold text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+                    Paso Anterior
+                </button>
+<div class="order-1 md:order-2 flex flex-col md:flex-row gap-4 w-full md:w-auto">
+<button class="px-10 py-4 rounded-lg bg-surface-container-high border border-outline-variant/30 font-bold text-on-surface hover:bg-surface-bright transition-all active:scale-95">
+                        Guardar Borrador
+                    </button>
+<button class="px-12 py-4 rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 font-extrabold text-white shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all active:scale-95">
+                        Finalizar y Crear Proyecto
+                    </button>
+</div>
+</div>
+</main>
+</div>
+<!-- Bottom Nav Shell (Mobile Only) -->
+<footer class="md:hidden fixed bottom-0 left-0 right-0 bg-[#0b1326]/90 backdrop-blur-lg flex justify-around items-center py-4 z-50 border-t border-outline-variant/10">
+<div class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Dashboard</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-blue-400">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">domain</span>
+<span class="text-[10px] font-bold">Proyectos</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[10px] font-bold">Finanzas</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px] font-bold">Perfil</span>
+</div>
+</footer>
+</body></html>

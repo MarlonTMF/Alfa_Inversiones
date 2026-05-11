@@ -1,0 +1,33 @@
+/* Dashboard Inversor Styles */
+
+.animate-in {
+    animation-fill-mode: forwards;
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-1rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in-from-top-4 {
+    animation: slideInFromTop 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.7s ease-out;
+}
+
+.delay-300 {
+    animation-delay: 300ms;
+}

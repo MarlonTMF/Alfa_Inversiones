@@ -1,0 +1,77 @@
+<div class="space-y-8 animate-in fade-in duration-700">
+  <!-- Alertas Críticas -->
+  <div *ngIf="alertas.length > 0" class="space-y-3">
+    <div *ngFor="let alerta of alertas" 
+         [class]="'flex items-center gap-4 p-4 rounded-2xl border ' + 
+         (alerta.tipo === 'critica' ? 'bg-rose-500/10 border-rose-500/20 text-rose-500' : 'bg-[#3b82f6]/10 border-[#3b82f6]/20 text-[#3b82f6]')">
+      <span class="material-symbols-outlined">{{ alerta.tipo === 'critica' ? 'warning' : 'info' }}</span>
+      <p class="text-xs font-black uppercase tracking-widest">{{ alerta.mensaje }}</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Lista de Permisos y Licencias -->
+    <div class="lg:col-span-8 space-y-6">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-xl font-black text-white tracking-tight">Expediente de Obra</h3>
+        <button class="bg-[#3b82f6] text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:brightness-110 transition-all">
+          <span class="material-symbols-outlined text-sm">add</span>
+          Subir Documento
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4">
+        <div *ngFor="let permiso of permisos" class="bg-surface-container-high rounded-3xl p-6 border border-white/5 hover:border-[#3b82f6]/30 transition-all group">
+          <div class="flex items-center gap-6">
+            <div class="w-14 h-14 rounded-2xl bg-[#060e20] flex items-center justify-center text-[#3b82f6] border border-white/5">
+              <span class="material-symbols-outlined text-3xl">{{ permiso.icono }}</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-1">
+                <h4 class="font-bold text-white text-lg">{{ permiso.nombre }}</h4>
+                <span [class]="'px-2 py-0.5 rounded text-[9px] font-black uppercase ' + (permiso.estado === 'Aprobado' ? 'bg-emerald-500/20 text-emerald-500' : 'bg-amber-500/20 text-amber-500')">
+                  {{ permiso.estado }}
+                </span>
+              </div>
+              <div class="flex items-center gap-4 mt-3">
+                <div class="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                  <div class="h-full bg-[#3b82f6]" [style.width]="permiso.progreso + '%'"></div>
+                </div>
+                <span class="text-[10px] font-black text-slate-500">Vence: {{ permiso.vencimiento }}</span>
+              </div>
+            </div>
+            <button [routerLink]="['/admin/legal/verificar']" class="p-3 hover:bg-white/5 rounded-2xl text-slate-400 hover:text-[#3b82f6] transition-all">
+              <span class="material-symbols-outlined">visibility</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contratos de Inversión -->
+    <div class="lg:col-span-4 space-y-6">
+      <h3 class="text-xl font-black text-white tracking-tight">Vínculo Legal Inversores</h3>
+      <div class="bg-surface-container-low rounded-3xl p-6 border border-white/5 space-y-4">
+        <div *ngFor="let contrato of contratos" class="p-4 bg-[#060e20] rounded-2xl border border-white/5 hover:border-[#3b82f6]/20 transition-all">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <p class="text-sm font-bold text-white">{{ contrato.inversor }}</p>
+              <p class="text-[10px] font-black text-[#3b82f6] uppercase">{{ contrato.monto }} USD</p>
+            </div>
+            <span [class]="'px-2 py-0.5 rounded text-[8px] font-black uppercase ' + (contrato.estado === 'Firmado' ? 'bg-emerald-500/20 text-emerald-500' : 'bg-amber-500/20 text-amber-500')">
+              {{ contrato.estado }}
+            </span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-[9px] text-slate-500 font-bold uppercase">{{ contrato.fecha }}</span>
+            <button class="text-[9px] font-black uppercase text-[#3b82f6] hover:underline">Ver Contrato</button>
+          </div>
+        </div>
+        
+        <button class="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-slate-500 text-[10px] font-black uppercase tracking-widest hover:border-[#3b82f6]/30 hover:text-[#3b82f6] transition-all">
+          Generar Nuevo Contrato
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

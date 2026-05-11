@@ -1,0 +1,93 @@
+<section class="p-8 space-y-8 animate-in fade-in duration-500">
+  <!-- Header Section -->
+  <div class="flex flex-col gap-2">
+    <h1 class="text-4xl font-bold tracking-tight text-white">Project Planning</h1>
+    <p class="text-on-surface-variant text-sm max-w-2xl opacity-70 font-medium">Architect the institutional timeline for {{ proyecto?.nombre || 'Skyline Heights' }}. Define critical paths, milestones, and capital call dependencies.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Timeline Builder (Left Column) -->
+    <div class="lg:col-span-8 space-y-6">
+      <div class="bg-surface-container-low p-8 rounded-3xl border border-white/5 shadow-2xl space-y-8">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold text-primary tracking-tight uppercase tracking-[0.1em]">Milestones Builder</h2>
+          <div class="flex gap-2">
+            <span class="bg-primary/10 text-primary px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest">{{ hitos.length }} TOTAL STEPS</span>
+          </div>
+        </div>
+
+        <!-- Add Milestone Form -->
+        <div class="bg-[#060e20]/50 p-6 rounded-2xl border border-white/5 grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+          <div class="md:col-span-5 space-y-2">
+            <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Nombre del Hito</label>
+            <input [(ngModel)]="nuevoHito.nombre" placeholder="Ej: Excavación Finalizada" class="w-full bg-[#0b1326] border border-outline-variant/20 rounded-xl px-4 py-3 text-xs text-white font-medium focus:border-primary outline-none transition-all"/>
+          </div>
+          <div class="md:col-span-4 space-y-2">
+            <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Fecha Estimada</label>
+            <input [(ngModel)]="nuevoHito.fecha" type="date" class="w-full bg-[#0b1326] border border-outline-variant/20 rounded-xl px-4 py-3 text-xs text-white font-medium focus:border-primary outline-none transition-all"/>
+          </div>
+          <div class="md:col-span-3">
+             <button (click)="agregarHito()" class="w-full bg-primary text-on-primary font-black px-4 py-3 rounded-xl hover:scale-[1.02] active:scale-95 transition-all text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20">
+               + Añadir Hito
+             </button>
+          </div>
+        </div>
+
+        <!-- Milestones List -->
+        <div class="space-y-4">
+          <div *ngFor="let hito of hitos; let i = index" class="flex items-center gap-6 group bg-[#060e20]/30 p-5 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 group-hover:bg-primary group-hover:text-on-primary transition-all">
+              <span class="text-xs font-black">{{ i + 1 }}</span>
+            </div>
+            <div class="flex-1">
+              <h4 class="text-sm font-bold text-white uppercase tracking-tight">{{ hito.nombre }}</h4>
+              <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">{{ hito.fecha | date:'dd MMM, yyyy' }}</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="flex flex-col items-end">
+                <span class="text-[8px] font-black uppercase tracking-widest" [ngClass]="hito.estado === 'completado' ? 'text-green-400' : 'text-slate-500'">{{ hito.estado }}</span>
+                <span *ngIf="hito.critico" class="text-[7px] bg-red-900/30 text-red-400 px-2 py-0.5 rounded font-black mt-1 uppercase tracking-tighter">RUTA CRÍTICA</span>
+              </div>
+              <button (click)="eliminarHito(i)" class="text-slate-500 hover:text-red-500 transition-all p-2 hover:bg-red-500/10 rounded-lg">
+                <span class="material-symbols-outlined text-base">delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel (Institutional Rules) -->
+    <div class="lg:col-span-4 space-y-6">
+      <div class="bg-gradient-to-br from-primary/10 to-transparent p-8 rounded-3xl border border-white/5 shadow-2xl space-y-8">
+        <h3 class="text-xs font-black text-white flex items-center gap-3 uppercase tracking-[0.3em]">
+          <span class="material-symbols-outlined text-primary text-sm">account_tree</span>
+          Capital Call Logic
+        </h3>
+        
+        <div class="space-y-4">
+          <div class="p-4 bg-[#060e20] rounded-xl border border-white/5">
+            <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Próximo Hito Crítico</p>
+            <p class="text-xs font-bold text-white uppercase tracking-tight">Cimentación y Estructura</p>
+            <div class="mt-4 flex justify-between items-center text-[10px]">
+              <span class="text-primary font-black uppercase tracking-widest">Trigger Capital</span>
+              <span class="text-white font-bold">$ 2.4M</span>
+            </div>
+          </div>
+
+          <div class="p-6 bg-primary text-on-primary rounded-2xl shadow-xl shadow-primary/20">
+             <p class="text-[10px] font-black uppercase tracking-widest mb-2 opacity-80">Timeline Health</p>
+             <p class="text-xl font-black">94% EST.</p>
+             <div class="w-full bg-on-primary/20 h-1.5 rounded-full mt-4">
+                <div class="bg-white h-full rounded-full w-[94%]"></div>
+             </div>
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-white/5">
+          <p class="text-[8px] text-slate-500 font-bold uppercase leading-relaxed">Nota: Los hitos críticos bloquean la liberación de fondos de la fiducia hasta su validación por auditoría técnica.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

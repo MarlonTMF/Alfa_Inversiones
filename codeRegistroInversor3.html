@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#d8e2ff",
+                    "primary-container": "#4d8eff",
+                    "outline-variant": "#424754",
+                    "on-tertiary-container": "#461f00",
+                    "tertiary-container": "#df7412",
+                    "on-secondary-fixed": "#111c2d",
+                    "tertiary-fixed": "#ffdcc6",
+                    "surface-container-highest": "#2d3449",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "surface-variant": "#2d3449",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "surface-container-lowest": "#060e20",
+                    "outline": "#8c909f",
+                    "on-primary-fixed": "#001a42",
+                    "surface-container-low": "#131b2e",
+                    "on-surface-variant": "#c2c6d6",
+                    "surface-container-high": "#222a3d",
+                    "error": "#ffb4ab",
+                    "on-primary-fixed-variant": "#004395",
+                    "inverse-primary": "#005ac2",
+                    "on-error-container": "#ffdad6",
+                    "on-surface": "#dae2fd",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "primary": "#adc6ff",
+                    "secondary-container": "#3e495d",
+                    "on-tertiary": "#502400",
+                    "inverse-on-surface": "#283044",
+                    "surface-dim": "#0b1326",
+                    "on-secondary-container": "#aeb9d0",
+                    "background": "#0b1326",
+                    "surface": "#0b1326",
+                    "on-secondary": "#263143",
+                    "secondary": "#bcc7de",
+                    "surface-container": "#171f33",
+                    "on-error": "#690005",
+                    "inverse-surface": "#dae2fd",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "on-primary-container": "#00285d",
+                    "tertiary": "#ffb786",
+                    "surface-tint": "#adc6ff",
+                    "surface-bright": "#31394d",
+                    "secondary-fixed": "#d8e3fb",
+                    "on-tertiary-fixed": "#311400",
+                    "on-background": "#dae2fd",
+                    "on-primary": "#002e6a",
+                    "error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "display": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar Section -->
+<header class="bg-[#0b1326] shadow-2xl shadow-black/40 docked full-width top-0 z-50">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#3b82f6]" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+<h1 class="font-['Inter'] font-semibold tracking-tight text-xl text-on-surface">Panel de Administración</h1>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-[#c2c6d6] hover:bg-[#222a3d] transition-colors px-3 py-1 rounded-lg text-sm font-medium" href="#">Clientes</a>
+<a class="text-[#3b82f6] font-bold px-3 py-1 rounded-lg text-sm" href="#">Perfilado</a>
+<a class="text-[#c2c6d6] hover:bg-[#222a3d] transition-colors px-3 py-1 rounded-lg text-sm font-medium" href="#">Configuración</a>
+</nav>
+</div>
+<div class="text-xl font-bold tracking-tighter text-[#adc6ff]">INV-ARCHITECT</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center justify-start pt-12 pb-32 px-4 md:px-8 max-w-5xl mx-auto w-full">
+<!-- Step Indicator -->
+<div class="w-full mb-12">
+<div class="flex justify-between items-end mb-4">
+<div>
+<span class="font-['Inter'] font-bold text-[10px] uppercase tracking-[0.05em] text-primary">Módulo de Asesoría</span>
+<h2 class="text-3xl font-bold text-on-surface tracking-tight mt-1">Configuración de Perfil de Inversión</h2>
+</div>
+<div class="hidden md:block text-on-surface-variant text-sm font-medium">Asignación de preferencias del cliente</div>
+</div>
+<div class="grid grid-cols-1 gap-2 h-1.5">
+<div class="bg-[#3b82f6] rounded-full shadow-[0_0_12px_rgba(59,130,246,0.5)]"></div>
+</div>
+</div>
+<!-- Form Canvas -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
+<!-- Main Content Area -->
+<div class="lg:col-span-7 space-y-8">
+<!-- Field: Selección de Cliente -->
+<section class="bg-surface-container-low rounded-xl p-6 border border-outline-variant/10">
+<label class="font-['Inter'] font-bold text-[10px] uppercase tracking-[0.05em] text-on-surface-variant mb-4 block">Cliente a Perfilar</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg py-4 px-4 text-on-surface focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all appearance-none">
+<option>Juan Pérez (ID: 8823)</option>
+<option>María García (ID: 9142)</option>
+<option>Roberto Sánchez (ID: 7751)</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</section>
+<!-- Field: Capital Disponible -->
+<section class="bg-surface-container-low rounded-xl p-6 transition-all hover:bg-surface-container-high group">
+<label class="font-['Inter'] font-bold text-[10px] uppercase tracking-[0.05em] text-on-surface-variant mb-4 block">Capital Confirmado de Inversión</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-bold text-lg">$</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg py-4 pl-10 pr-4 text-xl font-semibold text-on-surface focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-on-surface-variant/30" placeholder="0.00" type="text" value="250,000.00"/>
+</div>
+<p class="mt-3 text-xs text-on-surface-variant leading-relaxed">Monto líquido verificado durante la consulta inicial.</p>
+</section>
+<!-- Field: Tipos de Activos (Multiselección Cards) -->
+<section class="space-y-4">
+<label class="font-['Inter'] font-bold text-[10px] uppercase tracking-[0.05em] text-on-surface-variant block px-1">Intereses del Cliente</label>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<button class="bg-surface-container-high p-5 rounded-xl text-left border-2 border-primary group relative transition-all shadow-xl">
+<span class="material-symbols-outlined text-primary mb-3 block text-3xl" style="font-variation-settings: 'FILL' 1;">home_work</span>
+<span class="block font-semibold text-on-surface">Residencial</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-wider">Casas &amp; Deptos</span>
+<div class="absolute top-3 right-3 h-5 w-5 bg-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-xs font-bold">check</span>
+</div>
+</button>
+<button class="bg-surface-container-low p-5 rounded-xl text-left border-2 border-transparent hover:border-outline-variant transition-all">
+<span class="material-symbols-outlined text-on-surface-variant mb-3 block text-3xl">corporate_fare</span>
+<span class="block font-semibold text-on-surface">Comercial</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-wider">Oficinas &amp; Locales</span>
+</button>
+<button class="bg-surface-container-high p-5 rounded-xl text-left border-2 border-primary group relative transition-all shadow-xl">
+<span class="material-symbols-outlined text-primary mb-3 block text-3xl" style="font-variation-settings: 'FILL' 1;">landscape</span>
+<span class="block font-semibold text-on-surface">Lotes</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-wider">Terrenos &amp; Urbanos</span>
+<div class="absolute top-3 right-3 h-5 w-5 bg-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-xs font-bold">check</span>
+</div>
+</button>
+</div>
+</section>
+<!-- Field: Frecuencia -->
+<section class="bg-surface-container-low rounded-xl p-6">
+<label class="font-['Inter'] font-bold text-[10px] uppercase tracking-[0.05em] text-on-surface-variant mb-4 block">Frecuencia de Inyección de Capital</label>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+<button class="py-2.5 px-4 rounded-lg bg-surface-container-highest text-sm font-medium text-on-surface hover:bg-primary/20 transition-colors">Mensual</button>
+<button class="py-2.5 px-4 rounded-lg bg-primary text-on-primary text-sm font-bold shadow-lg shadow-primary/20">Trimestral</button>
+<button class="py-2.5 px-4 rounded-lg bg-surface-container-highest text-sm font-medium text-on-surface hover:bg-primary/20 transition-colors">Semestral</button>
+<button class="py-2.5 px-4 rounded-lg bg-surface-container-highest text-sm font-medium text-on-surface hover:bg-primary/20 transition-colors">Anual</button>
+</div>
+</section>
+</div>
+<!-- Side Context/Summary Area -->
+<div class="lg:col-span-5 space-y-6">
+<div class="bg-surface-container-high rounded-2xl overflow-hidden shadow-2xl">
+<div class="h-48 relative">
+<img alt="Finanzas" class="w-full h-full object-cover grayscale opacity-40 mix-blend-luminosity" data-alt="A high-end, conceptual photography shot of a sleek, dark office interior at twilight. The scene shows multiple large-format glass monitors displaying glowing blue data visualizations and complex financial charts. Soft architectural lighting creates deep shadows and highlights clean, minimalist lines of the modern furniture. The atmosphere is professional, sophisticated, and technological, utilizing a color palette of obsidian black and electric blue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv263OaW_BQOASd1FAa5Fn2PK_YuSjWJjCzuX8GBMitVX2OC08AvNhUf5D64kV12a6-YNocNHAK-AB5b-AxWVflopd0YHuk9YjN0w39nE9rc_g-O0TzfkRgycKWiTChywSqK1AvsVQ_UGIRcWz4ekgXWv4PZEeRk3JgzttoYVf-q42AEUpCLf6y_SSdnZNSdI9GOmFQFc05wSUUamtg8gouGT6Y36CIJoqWfSo8HxBUMc-8ikpVfz29IXqEdTUj780q_hijVAYoHOr"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-high to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<h3 class="text-xl font-bold text-on-surface">Resumen de Consulta</h3>
+<p class="text-sm text-on-surface-variant">Perfilado administrativo para generación de portafolio.</p>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<div class="flex items-center gap-4 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">contact_page</span>
+<span>Documentación del cliente verificada</span>
+</div>
+<div class="flex items-center gap-4 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">security</span>
+<span>Registro firmado bajo normativa local</span>
+</div>
+<div class="pt-4 border-t border-outline-variant/10">
+<p class="text-[10px] uppercase font-bold text-primary tracking-widest mb-1">Notas del Admin</p>
+<textarea class="w-full bg-surface-container-low border border-outline-variant/20 rounded-lg p-3 text-xs text-on-surface-variant focus:outline-none focus:border-primary" placeholder="Anotaciones adicionales del asesor..." rows="3"></textarea>
+</div>
+</div>
+</div>
+<!-- Visual Accent: Bento Mini -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<span class="text-2xl font-bold text-primary tracking-tighter">Bajo</span>
+<span class="text-[9px] uppercase tracking-wider text-on-surface-variant mt-1">Perfil de Riesgo</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-1">update</span>
+<span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Última Revisión: Hoy</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-dim/80 backdrop-blur-xl border-t border-outline-variant/10 z-40">
+<div class="max-w-5xl mx-auto w-full px-6 py-5 flex justify-between items-center">
+<button class="flex items-center gap-2 px-6 py-3 rounded-lg text-on-surface-variant font-bold hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined">cancel</span>
+                    Cancelar
+                </button>
+<button class="bg-[#3b82f6] text-on-primary px-8 py-3 rounded-lg font-bold text-lg shadow-xl shadow-[#3b82f6]/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3">
+                    Guardar Perfil de Cliente
+                    <span class="material-symbols-outlined">save</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Mobile Navigation Shell (BottomNavBar) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#0b1326]/90 backdrop-blur-md shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-50 rounded-t-2xl">
+<div class="flex flex-col items-center justify-center text-[#c2c6d6] opacity-50 hover:text-[#adc6ff] transition-opacity">
+<span class="material-symbols-outlined">group</span>
+<span class="font-['Inter'] font-bold text-[10px] uppercase tracking-[0.05em]">Clientes</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[#3b82f6]/10 text-[#3b82f6] rounded-xl px-3 py-1.5">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">manage_accounts</span>
+<span class="font-['Inter'] font-bold text-[10px] uppercase tracking-[0.05em]">Perfilado</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#c2c6d6] opacity-50 hover:text-[#adc6ff] transition-opacity">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-['Inter'] font-bold text-[10px] uppercase tracking-[0.05em]">Reportes</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#c2c6d6] opacity-50 hover:text-[#adc6ff] transition-opacity">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Inter'] font-bold text-[10px] uppercase tracking-[0.05em]">Admin</span>
+</div>
+</nav>
+</body></html>

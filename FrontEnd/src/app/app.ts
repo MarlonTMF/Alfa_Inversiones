@@ -19,7 +19,10 @@ export class App {
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {
-            this.esAdminRoute = event.urlAfterRedirects.includes('/admin');
+            const url = event.urlAfterRedirects;
+            this.esAdminRoute = url.includes('/admin') || 
+                                url.includes('/constructor') || 
+                                url.includes('/inversor');
         });
     }
 

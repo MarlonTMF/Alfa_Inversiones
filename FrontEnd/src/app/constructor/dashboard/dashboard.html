@@ -1,0 +1,308 @@
+<div class="bg-[#0b1326] text-[#dae2fd] min-h-screen flex overflow-hidden font-sans selection:bg-[#3b82f6]/30">
+  
+  <!-- Sidebar Navigation -->
+  <aside class="hidden md:flex flex-col h-full w-72 fixed left-0 top-0 bg-[#060e20] z-50 py-8 px-6 border-r border-white/5 shadow-2xl bg-gradient-to-b from-[#060e20] to-[#0b1326]">
+    <div class="mb-12 px-2 flex items-center gap-4">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3b82f6] to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20">
+        <span class="material-symbols-outlined text-white text-2xl font-black">architecture</span>
+      </div>
+      <div>
+        <div class="text-white font-black uppercase tracking-tighter text-lg leading-none">APEX</div>
+        <div class="text-[9px] uppercase tracking-[0.2em] font-black text-[#3b82f6]">Institutional</div>
+      </div>
+    </div>
+    
+    <nav class="flex-1 space-y-2">
+      <a [routerLink]="['/constructor']" class="flex items-center gap-4 px-4 py-3.5 text-[#3b82f6] font-black border-l-4 border-[#3b82f6] bg-[#3b82f6]/10 rounded-r-xl transition-all duration-300">
+        <span class="material-symbols-outlined text-[22px]">dashboard</span>
+        <span class="text-[11px] uppercase tracking-widest">Home Dashboard</span>
+      </a>
+      <a [routerLink]="['/constructor/proyectos']" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+        <span class="material-symbols-outlined text-[22px] group-hover:scale-110 transition-transform">construction</span>
+        <span class="text-[11px] font-black uppercase tracking-widest">Gestionar Proyectos</span>
+      </a>
+      <a [routerLink]="['/mapa']" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+        <span class="material-symbols-outlined text-[22px] group-hover:rotate-12 transition-transform">explore</span>
+        <span class="text-[11px] font-black uppercase tracking-widest">Explorar Mapa</span>
+      </a>
+      
+      <div class="pt-8 pb-4 px-4">
+        <span class="text-[9px] font-black uppercase tracking-[0.3em] text-white/20">Analytics</span>
+      </div>
+      
+      <a href="#" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+        <span class="material-symbols-outlined text-[22px]">bar_chart</span>
+        <span class="text-[11px] font-black uppercase tracking-widest">Métricas de Tierra</span>
+      </a>
+      <a [routerLink]="['/constructor/legal']" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+        <span class="material-symbols-outlined text-[22px]">lock</span>
+        <span class="text-[11px] font-black uppercase tracking-widest">Bóveda Legal</span>
+      </a>
+    </nav>
+
+    <!-- User Profile Section -->
+    <div class="mt-auto px-2 pb-4 space-y-4">
+      <div class="relative">
+        <button (click)="toggleMenuCuenta()" class="w-full flex items-center gap-3 p-4 bg-[#131b2e] rounded-2xl border border-white/5 hover:border-[#3b82f6]/50 transition-all group">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#3b82f6] to-blue-700 flex items-center justify-center border border-white/10 shadow-lg group-hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-white text-xl">person</span>
+          </div>
+          <div class="text-left overflow-hidden">
+            <p class="text-[11px] font-black text-white leading-none truncate">{{ authService.usuarioActual()?.nombre || 'Constructor Admin' }}</p>
+            <p class="text-[9px] text-[#3b82f6] font-black uppercase tracking-widest mt-1">Gestor de Activos</p>
+          </div>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div *ngIf="mostrarMenuCuenta" class="absolute bottom-full left-0 right-0 mb-4 bg-[#131b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in">
+          <div class="p-4 bg-[#0b1326] border-b border-white/5">
+            <p class="text-[10px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">Cuenta Activa</p>
+            <p class="text-xs font-black text-white mt-1">{{ authService.usuarioActual()?.email || 'admin@constructor.com' }}</p>
+          </div>
+          <div class="p-2">
+            <button (click)="cerrarSesion()" class="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 rounded-xl transition-all">
+              <span class="material-symbols-outlined text-lg">logout</span>
+              <span class="text-[10px] font-black uppercase tracking-widest">Cerrar Sesión</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-br from-[#131b2e] to-[#0b1326] p-5 rounded-2xl border border-white/5 shadow-xl">
+        <p class="text-[10px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-60 mb-3">Soporte Técnico</p>
+        <button class="w-full py-3 bg-[#31394d] text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-[#3b82f6] transition-colors">
+          Contactar Analista
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 md:ml-72 flex flex-col h-screen overflow-hidden">
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-[#0b1326]/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-10 py-6 h-24">
+      <div class="flex items-center gap-4">
+        <div class="h-8 w-1 bg-[#3b82f6] rounded-full"></div>
+        <h1 class="text-lg font-black tracking-widest text-[#3b82f6] uppercase">Constructor Portal</h1>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="hidden lg:flex items-center gap-6 text-[10px] font-black uppercase tracking-widest text-[#c2c6d6]">
+          <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span> Conectado</span>
+          <span class="opacity-40">Latencia: 24ms</span>
+        </div>
+        <div class="h-10 w-px bg-white/5 mx-2"></div>
+        <div class="flex items-center gap-4">
+          <div class="text-right hidden sm:block">
+            <p class="text-sm font-black text-white leading-none">Marcus Thorne</p>
+            <p class="text-[9px] text-[#3b82f6] font-black uppercase tracking-widest mt-1">Lead Architect</p>
+          </div>
+          <div class="h-12 w-12 rounded-xl overflow-hidden border-2 border-[#3b82f6]/30 shadow-xl shadow-blue-500/10">
+            <img alt="Profile photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujvCjiwOuy8RYYAzZkGxAhH6DlLD9cXQ8g6x8_aPHcn4bGsbNB6-Zkm2lzTbqfu5RYGUEdqU5He6OUnyEkioXlv1HJvZGL82dnI90RqvQz1B_JYZsM6M5lgnt3TQGjaZNWpf9mEjEH1UAYKFPU16FJ-wN8DXP_dD2XvXWphpdKDsdj-U2nLzxIkBWghGbx2QIDA8W2aaSVoKDEBCd3NvPa11k4ht7Vb_PpcvE9-3n4WHkknrHxOqeOoqeWH1lmTuviDDGrqG9iEA"/>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Scrollable Content -->
+    <div class="flex-1 overflow-y-auto no-scrollbar p-10 space-y-12">
+      
+      <!-- Hero Section -->
+      <section class="relative h-[400px] rounded-[3rem] overflow-hidden shadow-2xl group border border-white/5">
+        <img alt="Constructor Hub Hero" class="absolute inset-0 w-full h-full object-cover brightness-[0.3] transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida/ADBb0ujAoHwpKG-YjOt5Un9ooFoeTMupUOg672VgZjDKD62okkHq8DHXGivNExBvJUk_hlLE1lFNfBlsBmDnwgxhncPeRSUg1U_-Ksu6x7nhKcXL4zLKQ3g00ttb4CAx26yWbn945pFnCkza2BbIgiQqsJMaxv_vStEQ5098YI2QFuqv6zPVRem4KRTPr_D25ZZjBwXhKLaVW9KMNE7DOc8O1kMv_FV0eqtyT9Hy1cb38QzH0_mMzedjXcUMHA7IQh_3sn4I9fdRVnDI6CI"/>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#0b1326] via-[#0b1326]/60 to-transparent flex flex-col justify-end p-12 space-y-6">
+          <div class="inline-flex items-center gap-3 bg-[#3b82f6]/20 text-[#3b82f6] px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase border border-[#3b82f6]/30">
+            <span class="w-2 h-2 rounded-full bg-[#3b82f6] animate-pulse"></span>
+            Portal Status: Operational
+          </div>
+          <div>
+            <h2 class="text-6xl font-black tracking-tighter text-white">Constructor Hub</h2>
+            <p class="text-xl text-[#c2c6d6] max-w-xl mt-4 leading-relaxed">Bienvenido de nuevo, <span class="text-[#3b82f6] font-black">Marcus</span>. Tus métricas de desarrollo global están sincronizadas.</p>
+          </div>
+          <div class="flex flex-wrap gap-6 pt-6">
+            <button class="bg-[#3b82f6] text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-600 active:scale-95 transition-all shadow-2xl shadow-blue-900/40">Enviar Propuesta Técnica</button>
+            <button class="bg-white/5 backdrop-blur-xl text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest border border-white/10 hover:bg-white/10 transition-all">Análisis de Pipeline</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- KPI Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div class="bg-[#131b2e] p-8 rounded-3xl flex flex-col justify-between shadow-2xl border border-white/5 hover:bg-[#1e293b] transition-all group">
+            <span class="text-[#c2c6d6] font-black text-[10px] tracking-widest uppercase opacity-60">Alianzas Activas</span>
+            <div class="mt-6 flex items-end gap-3">
+              <span class="text-6xl font-black text-[#3b82f6] tracking-tighter">4</span>
+              <span class="material-symbols-outlined text-[#3b82f6] mb-2 font-black">trending_up</span>
+            </div>
+            <p class="text-[11px] text-[#c2c6d6] mt-4 font-bold opacity-40 uppercase tracking-widest">Socio Institucional</p>
+          </div>
+          <div class="bg-[#131b2e] p-8 rounded-3xl flex flex-col justify-between shadow-2xl border border-white/5 hover:bg-[#1e293b] transition-all">
+            <span class="text-[#c2c6d6] font-black text-[10px] tracking-widest uppercase opacity-60">Propuestas Pendientes</span>
+            <div class="mt-6 flex items-end gap-3">
+              <span class="text-6xl font-black text-white tracking-tighter">2</span>
+              <span class="material-symbols-outlined text-[#ffb786] mb-2 font-black">schedule</span>
+            </div>
+            <p class="text-[11px] text-[#ffb786] mt-4 font-bold uppercase tracking-widest">Requiere Acción</p>
+          </div>
+          <div class="bg-[#131b2e] p-8 rounded-3xl flex flex-col justify-between shadow-2xl border border-white/5 hover:bg-[#1e293b] transition-all">
+            <span class="text-[#c2c6d6] font-black text-[10px] tracking-widest uppercase opacity-60">Terrenos Disponibles</span>
+            <div class="mt-6 flex items-end gap-3">
+              <span class="text-6xl font-black text-[#adc6ff] tracking-tighter">142</span>
+              <span class="material-symbols-outlined text-[#adc6ff] mb-2 font-black">map</span>
+            </div>
+            <p class="text-[11px] text-[#c2c6d6] mt-4 font-bold opacity-40 uppercase tracking-widest">Para Adquisición</p>
+          </div>
+        </div>
+
+        <!-- Critical Actions -->
+        <div class="lg:col-span-4 bg-[#3b82f6]/5 rounded-[2rem] p-8 border border-[#3b82f6]/20 flex flex-col justify-between shadow-2xl">
+          <h3 class="text-xs font-black text-[#3b82f6] tracking-[0.2em] uppercase mb-8">Acciones Críticas</h3>
+          <div class="space-y-4">
+            <a [routerLink]="['/mapa']" class="flex items-center justify-between p-5 bg-[#0b1326] hover:bg-[#131b2e] rounded-2xl transition-all group border border-white/5">
+              <div class="flex items-center gap-4">
+                <span class="material-symbols-outlined text-[#3b82f6] font-black">explore</span>
+                <span class="text-sm font-black uppercase tracking-widest">Descubrir Tierras</span>
+              </div>
+              <span class="material-symbols-outlined text-[#3b82f6] opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0">arrow_forward</span>
+            </a>
+            <a class="flex items-center justify-between p-5 bg-[#0b1326] hover:bg-[#131b2e] rounded-2xl transition-all group border border-white/5" href="#">
+              <div class="flex items-center gap-4">
+                <span class="material-symbols-outlined text-[#3b82f6] font-black">gavel</span>
+                <span class="text-sm font-black uppercase tracking-widest">Bóveda Legal</span>
+              </div>
+              <span class="material-symbols-outlined text-[#3b82f6] opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0">arrow_forward</span>
+            </a>
+            <a class="flex items-center justify-between p-5 bg-[#0b1326] hover:bg-[#131b2e] rounded-2xl transition-all group border border-white/5" href="#">
+              <div class="flex items-center gap-4">
+                <span class="material-symbols-outlined text-[#3b82f6] font-black">inventory_2</span>
+                <span class="text-sm font-black uppercase tracking-widest">Archivo de Proyectos</span>
+              </div>
+              <span class="material-symbols-outlined text-[#3b82f6] opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Premium Opportunities -->
+      <section class="space-y-10">
+        <div class="flex items-center justify-between">
+          <div class="space-y-2">
+            <h2 class="text-4xl font-black tracking-tighter text-white">Oportunidades Premium</h2>
+            <p class="text-[#c2c6d6] font-medium text-lg">Terrenos estratégicos seleccionados con el mayor potencial de retorno.</p>
+          </div>
+          <button [routerLink]="['/mapa']" class="text-[#3b82f6] text-xs font-black uppercase tracking-[0.2em] hover:underline">Ver Mapa Completo</button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div *ngFor="let opt of oportunidades" class="bg-[#131b2e] rounded-[2rem] overflow-hidden hover:translate-y-[-8px] transition-all duration-500 shadow-2xl border border-white/5 group">
+            <div class="h-64 relative overflow-hidden">
+              <img [src]="opt.imagen" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+              <div class="absolute top-6 left-6 bg-[#0b1326]/80 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black text-[#3b82f6] uppercase tracking-widest border border-[#3b82f6]/30">
+                {{ opt.tag }}
+              </div>
+            </div>
+            <div class="p-8 space-y-6">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h4 class="text-2xl font-black text-white tracking-tight">{{ opt.nombre }}</h4>
+                  <p class="text-xs text-[#c2c6d6] font-bold uppercase tracking-widest opacity-60">{{ opt.ubicacion }}</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-lg font-black text-[#3b82f6] tracking-tighter">{{ opt.yield }} Est. Yield</p>
+                  <p class="text-[9px] text-[#c2c6d6] font-black uppercase tracking-widest opacity-40">Margen de Ganancia</p>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5">
+                <div>
+                  <span class="text-[9px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">Zonificación</span>
+                  <p class="text-sm font-black text-white">{{ opt.zoning }}</p>
+                </div>
+                <div>
+                  <span class="text-[9px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">Área Total</span>
+                  <p class="text-sm font-black text-white">{{ opt.area }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pipeline -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-10">
+        <div class="lg:col-span-8 space-y-10">
+          <div class="flex items-center justify-between border-b border-white/5 pb-6">
+            <h2 class="text-3xl font-black tracking-tighter text-white">Pipeline de Construcción</h2>
+            <span class="text-[10px] font-black text-[#c2c6d6] tracking-[0.2em] uppercase opacity-40">3 PROYECTOS EN EJECUCIÓN</span>
+          </div>
+          <div class="space-y-6">
+            <div *ngFor="let p of proyectos" [routerLink]="['/constructor/proyecto-detalle']" class="bg-[#131b2e] rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 group hover:bg-[#1e293b] transition-all border border-white/5 shadow-2xl cursor-pointer">
+              <div class="w-full md:w-40 h-28 rounded-2xl overflow-hidden flex-shrink-0 shadow-xl">
+                <img [src]="p.imagen" class="w-full h-full object-cover" />
+              </div>
+              <div class="flex-grow space-y-4 w-full">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h4 class="font-black text-2xl text-white tracking-tight">{{ p.nombre }}</h4>
+                    <p class="text-[11px] font-black text-[#3b82f6] uppercase tracking-[0.2em] mt-1">{{ p.fase }}</p>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-4xl font-black text-white tracking-tighter">{{ p.completado }}%</span>
+                    <p class="text-[9px] text-[#c2c6d6] font-black uppercase tracking-widest opacity-40">AVANCE</p>
+                  </div>
+                </div>
+                <div class="w-full h-2.5 bg-[#0b1326] rounded-full overflow-hidden border border-white/5">
+                  <div class="h-full bg-[#3b82f6] shadow-[0_0_15px_rgba(59,130,246,0.6)] transition-all duration-1000" [style.width.%]="p.completado"></div>
+                </div>
+              </div>
+              <span class="material-symbols-outlined text-[#3b82f6] opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0 font-black">chevron_right</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="lg:col-span-4 space-y-10">
+          <h2 class="text-3xl font-black tracking-tighter text-white border-b border-white/5 pb-6">Actividad Reciente</h2>
+          <div class="bg-[#131b2e] rounded-[2.5rem] p-10 space-y-10 shadow-2xl border border-white/5">
+            <div class="flex gap-6">
+              <div class="w-14 h-14 rounded-2xl bg-[#3b82f6]/10 flex items-center justify-center flex-shrink-0 border border-[#3b82f6]/20">
+                <span class="material-symbols-outlined text-[#3b82f6] font-black">description</span>
+              </div>
+              <div>
+                <p class="text-base font-black text-white leading-tight">Reporte Q3 de Integridad Estructural</p>
+                <p class="text-[10px] text-[#c2c6d6] uppercase tracking-widest mt-2 font-bold opacity-40">Lumina Tower • Hace 2h</p>
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <div class="w-14 h-14 rounded-2xl bg-[#adc6ff]/10 flex items-center justify-center flex-shrink-0 border border-[#adc6ff]/20">
+                <span class="material-symbols-outlined text-[#adc6ff] font-black">verified_user</span>
+              </div>
+              <div>
+                <p class="text-base font-black text-white leading-tight">Aprobación de Zonificación Confirmada</p>
+                <p class="text-[10px] text-[#c2c6d6] uppercase tracking-widest mt-2 font-bold opacity-40">Plot Alpha-9 • Hace 6h</p>
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <div class="w-14 h-14 rounded-2xl bg-[#ffb786]/10 flex items-center justify-center flex-shrink-0 border border-[#ffb786]/20">
+                <span class="material-symbols-outlined text-[#ffb786] font-black">warning</span>
+              </div>
+              <div>
+                <p class="text-base font-black text-white leading-tight">Alerta: Retraso en Cadena de Suministro</p>
+                <p class="text-[10px] text-[#ffb786] uppercase tracking-widest mt-2 font-black">Zenith Plaza • Hace 1d</p>
+              </div>
+            </div>
+            <button class="w-full py-5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-[#1e293b] transition-all text-white">Ver Todo el Historial</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Floating FAB -->
+  <button class="fixed bottom-12 right-12 w-20 h-20 rounded-3xl bg-[#3b82f6] shadow-2xl shadow-blue-500/40 flex items-center justify-center text-white active:scale-90 transition-all duration-300 z-50 group border-4 border-white/10">
+    <span class="material-symbols-outlined text-4xl font-black">add</span>
+    <span class="absolute right-full mr-6 bg-[#0b1326] text-white px-5 py-3 rounded-2xl text-[10px] font-black tracking-widest uppercase whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-all shadow-2xl border border-white/5 translate-x-4 group-hover:translate-x-0">
+      Enviar Nueva Propuesta
+    </span>
+  </button>
+</div>

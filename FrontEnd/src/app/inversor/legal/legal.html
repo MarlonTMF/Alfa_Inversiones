@@ -1,0 +1,232 @@
+<div class="bg-[#0b1326] text-[#dae2fd] min-h-screen flex overflow-hidden font-sans">
+  
+  <!-- Sidebar Navigation -->
+  <aside class="hidden md:flex flex-col h-full w-64 fixed left-0 top-0 bg-[#060e20] z-40 py-8 px-4 border-r border-white/5 shadow-2xl">
+    <div class="mb-10 px-4">
+      <span class="text-[#3b82f6] font-black text-xl tracking-tighter uppercase">Apex Console</span>
+      <div class="mt-8 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-[#2d3449] flex items-center justify-center overflow-hidden border border-white/10">
+          <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uiolIUqEaFbeUbm48ZcbJ-RswiCXnpzh9VlJPPgLxXPvKa_W9SqIeHukLtJTddyJ9mUGFi1u8SA1AtGcjMkm-sD-Ue7pyX1-iv3XfeFfadJV8GApch5zI13TrwFGkhu8Fgs72YQj7h5fddRf5dV8kIXxxJHyN6AmqEjbghO0yXCafK14mtMnmRuEDHHsylsW2g5eY2JgvPZETiIYdJlgyvtZJNXC3vAc74gSqit3zrigWFSnqYMYbKaSQLtqM0HyXr89ESc84DV3p4"/>
+        </div>
+        <div>
+          <p class="text-sm font-bold text-white">Alex Vance</p>
+          <p class="text-[10px] uppercase tracking-widest text-[#c2c6d6] opacity-60">Inversor Pro</p>
+        </div>
+      </div>
+    </div>
+    <nav class="flex-1 space-y-1">
+      <a [routerLink]="['/inversor']" class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+        <span class="material-symbols-outlined text-[20px]">dashboard</span>
+        <span class="label-sm uppercase tracking-widest text-[11px] font-black">Inicio</span>
+      </a>
+      <a [routerLink]="['/inversor/portafolio']" class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+        <span class="material-symbols-outlined text-[20px]">business_center</span>
+        <span class="label-sm uppercase tracking-widest text-[11px] font-black">Portafolio</span>
+      </a>
+      <a [routerLink]="['/inversor/avances']" class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+        <span class="material-symbols-outlined text-[20px]">engineering</span>
+        <span class="label-sm uppercase tracking-widest text-[11px] font-black">Avances de Obra</span>
+      </a>
+      <a [routerLink]="['/inversor/legal']" class="flex items-center gap-4 px-4 py-3 bg-[#131b2e] text-[#3b82f6] border-l-4 border-[#3b82f6] transition-all duration-300">
+        <span class="material-symbols-outlined text-[20px]">lock</span>
+        <span class="label-sm uppercase tracking-widest text-[11px] font-black">Bóveda Legal</span>
+      </a>
+      <a [routerLink]="['/mapa']" class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+        <span class="material-symbols-outlined text-[20px]">domain</span>
+        <span class="label-sm uppercase tracking-widest text-[11px] font-black">Mercado</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Viewport -->
+  <main class="flex-1 md:ml-64 flex flex-col h-screen overflow-y-auto overflow-x-hidden">
+    <!-- Top Bar -->
+    <header class="sticky top-0 h-16 bg-[#131b2e]/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-8 z-40">
+      <div class="flex items-center gap-8">
+        <span class="text-lg font-black tracking-tighter text-[#adc6ff] uppercase">Equities Core Platform</span>
+        <div class="h-4 w-px bg-white/10 mx-2"></div>
+        <div class="flex items-center gap-6">
+          <div class="flex flex-col">
+            <span class="text-[10px] text-[#c2c6d6] font-black tracking-widest uppercase">Última Auditoría</span>
+            <span class="text-xs text-white font-bold">Oct 24, 2023</span>
+          </div>
+          <div class="flex flex-col border-l border-white/10 pl-6">
+            <span class="text-[10px] text-[#c2c6d6] font-black tracking-widest uppercase">Encriptación</span>
+            <span class="text-xs text-[#3b82f6] font-black flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">security</span> AES-256 GCM
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="p-10 max-w-[1600px] mx-auto space-y-12 animate-in fade-in duration-700">
+      
+      <!-- Page Header -->
+      <section class="flex items-end justify-between">
+        <div class="space-y-2">
+          <h2 class="text-5xl font-black tracking-tighter text-white">Bóveda Legal</h2>
+          <p class="text-lg text-[#3b82f6] font-black tracking-wide">Repositorio de Activos Digitales Asegurado Criptográficamente</p>
+        </div>
+        <div class="bg-[#131b2e] px-6 py-4 rounded-2xl border border-white/5 shadow-2xl">
+          <div class="text-[10px] uppercase font-black tracking-[0.2em] text-[#c2c6d6] mb-1 opacity-60">Estado de Bóveda</div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#3b82f6] animate-pulse"></span>
+            <span class="text-sm font-black text-[#3b82f6]">ACTIVA & SINCRONIZADA</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Summary Bento Grid -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Environmental Permits -->
+        <div class="group relative overflow-hidden bg-[#222a3d] p-8 rounded-3xl shadow-xl hover:bg-[#31394d] transition-all duration-500 border border-white/5">
+          <div class="relative z-10">
+            <div class="flex justify-between items-start mb-10">
+              <span class="material-symbols-outlined text-4xl text-[#3b82f6]" style="font-variation-settings: 'FILL' 1;">eco</span>
+              <span class="bg-[#3b82f6]/10 text-[#3b82f6] text-[10px] px-3 py-1 rounded-full font-black uppercase tracking-widest">Auditado</span>
+            </div>
+            <div class="text-[10px] uppercase font-black tracking-[0.2em] text-[#c2c6d6] mb-2 opacity-60">Permisos Ambientales</div>
+            <div class="text-4xl font-black text-white mb-6 tracking-tighter">12 <span class="text-xl font-bold text-[#c2c6d6]">Ítems</span></div>
+            <div class="w-full bg-[#0b1326] h-1.5 rounded-full overflow-hidden">
+              <div class="bg-[#3b82f6] h-full w-[85%] shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+            </div>
+            <div class="mt-2 text-right text-[10px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">85% Cobertura de Verificación</div>
+          </div>
+        </div>
+
+        <!-- Land Titles -->
+        <div class="group relative overflow-hidden bg-[#222a3d] p-8 rounded-3xl shadow-xl hover:bg-[#31394d] transition-all duration-500 border border-white/5">
+          <div class="relative z-10">
+            <div class="flex justify-between items-start mb-10">
+              <span class="material-symbols-outlined text-4xl text-[#ffb786]" style="font-variation-settings: 'FILL' 1;">map</span>
+              <span class="bg-[#ffb786]/10 text-[#ffb786] text-[10px] px-3 py-1 rounded-full font-black uppercase tracking-widest">Auditado</span>
+            </div>
+            <div class="text-[10px] uppercase font-black tracking-[0.2em] text-[#c2c6d6] mb-2 opacity-60">Títulos de Propiedad</div>
+            <div class="text-4xl font-black text-white mb-6 tracking-tighter">8 <span class="text-xl font-bold text-[#c2c6d6]">Ítems</span></div>
+            <div class="w-full bg-[#0b1326] h-1.5 rounded-full overflow-hidden">
+              <div class="bg-[#ffb786] h-full w-[100%] shadow-[0_0_10px_rgba(255,183,134,0.5)]"></div>
+            </div>
+            <div class="mt-2 text-right text-[10px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">100% Saneamiento Legal</div>
+          </div>
+        </div>
+
+        <!-- Construction Licenses -->
+        <div class="group relative overflow-hidden bg-[#222a3d] p-8 rounded-3xl shadow-xl hover:bg-[#31394d] transition-all duration-500 border border-white/5">
+          <div class="relative z-10">
+            <div class="flex justify-between items-start mb-10">
+              <span class="material-symbols-outlined text-4xl text-[#adc6ff]" style="font-variation-settings: 'FILL' 1;">architecture</span>
+              <span class="bg-[#adc6ff]/10 text-[#adc6ff] text-[10px] px-3 py-1 rounded-full font-black uppercase tracking-widest">Auditado</span>
+            </div>
+            <div class="text-[10px] uppercase font-black tracking-[0.2em] text-[#c2c6d6] mb-2 opacity-60">Licencias de Obra</div>
+            <div class="text-4xl font-black text-white mb-6 tracking-tighter">24 <span class="text-xl font-bold text-[#c2c6d6]">Ítems</span></div>
+            <div class="w-full bg-[#0b1326] h-1.5 rounded-full overflow-hidden">
+              <div class="bg-[#adc6ff] h-full w-[62%] shadow-[0_0_10px_rgba(173,198,255,0.5)]"></div>
+            </div>
+            <div class="mt-2 text-right text-[10px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">62% Estado Activo</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Document List Section -->
+      <section class="bg-[#131b2e] rounded-3xl overflow-hidden shadow-2xl border border-white/5">
+        <div class="px-10 py-8 border-b border-white/5 flex justify-between items-center">
+          <div>
+            <h3 class="text-xl font-black text-white uppercase tracking-wider">Libro de Documentos Verificados</h3>
+            <p class="text-[10px] text-[#c2c6d6] mt-1 font-black tracking-[0.1em] opacity-40">REGISTRO DE TRANSACCIONES INMUTABLE EN TIEMPO REAL</p>
+          </div>
+          <div class="flex gap-4">
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#c2c6d6] text-lg">search</span>
+              <input class="bg-[#0b1326] border border-white/10 rounded-xl pl-12 pr-6 py-3 text-sm focus:border-[#3b82f6] outline-none w-72 transition-all font-medium" placeholder="Buscar por hash, nombre..." type="text"/>
+            </div>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="text-[10px] uppercase tracking-[0.2em] font-black text-[#c2c6d6] bg-[#0b1326]/50">
+                <th class="px-10 py-6">Nombre del Documento</th>
+                <th class="px-6 py-6">Auditor Verificado</th>
+                <th class="px-6 py-6">Timestamp Hash</th>
+                <th class="px-6 py-6">Blockchain ID</th>
+                <th class="px-10 py-6 text-right">Acción</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr *ngFor="let doc of documentos" class="group hover:bg-white/5 transition-colors">
+                <td class="px-10 py-8">
+                  <div class="flex items-center gap-4">
+                    <div [class]="'w-12 h-12 rounded-xl flex items-center justify-center ' + doc.color">
+                      <span class="material-symbols-outlined">picture_as_pdf</span>
+                    </div>
+                    <div>
+                      <div class="text-base font-black text-white tracking-tight">{{ doc.nombre }}</div>
+                      <div class="text-[10px] font-black uppercase mt-1 opacity-60">{{ doc.categoria }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-8">
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm font-bold text-[#c2c6d6]">{{ doc.auditor }}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-8">
+                  <span class="text-xs font-mono text-[#c2c6d6] opacity-60">{{ doc.timestamp }}</span>
+                </td>
+                <td class="px-6 py-8">
+                  <span class="text-[11px] font-mono text-[#3b82f6] bg-[#3b82f6]/10 px-3 py-1 rounded-full font-black">{{ doc.hash }}</span>
+                </td>
+                <td class="px-10 py-8 text-right">
+                  <button class="text-xs font-black uppercase tracking-widest text-[#3b82f6] hover:underline flex items-center gap-2 ml-auto group-hover:-translate-x-2 transition-transform">
+                    Descargar PDF <span class="material-symbols-outlined text-sm font-black">download</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Proof Section -->
+      <section class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-[#222a3d]/40 rounded-3xl p-12 border border-white/5">
+        <div class="space-y-10">
+          <div>
+            <h3 class="text-4xl font-black tracking-tighter text-white mb-6">Marco de Auditoría de Grado Institucional</h3>
+            <p class="text-[#c2c6d6] leading-relaxed font-medium text-lg">Nuestra arquitectura de bóveda legal utiliza hashing criptográfico de última generación para garantizar la inmutabilidad del historial legal de su activo. Cada documento es verificado por firmas legales de primer nivel.</p>
+          </div>
+          <div class="grid grid-cols-2 gap-8">
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#3b82f6]/10 flex items-center justify-center border border-[#3b82f6]/20">
+                <span class="material-symbols-outlined text-[#3b82f6] text-2xl" style="font-variation-settings: 'FILL' 1;">dataset</span>
+              </div>
+              <div>
+                <h4 class="text-sm font-black text-white uppercase tracking-wider mb-2">Almacenamiento Inmutable</h4>
+                <p class="text-xs text-[#c2c6d6] font-medium leading-relaxed">Persistencia de datos en nodos seguros con permisos de eliminación cero.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#ffb786]/10 flex items-center justify-center border border-[#ffb786]/20">
+                <span class="material-symbols-outlined text-[#ffb786] text-2xl" style="font-variation-settings: 'FILL' 1;">visibility</span>
+              </div>
+              <div>
+                <h4 class="text-sm font-black text-white uppercase tracking-wider mb-2">Transparencia Total</h4>
+                <p class="text-xs text-[#c2c6d6] font-medium leading-relaxed">Logs de acceso en tiempo real para cada interacción y descarga.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="relative rounded-3xl overflow-hidden aspect-video shadow-2xl border border-white/5 group">
+          <img class="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-60 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida/ADBb0ujAoHwpKG-YjOt5Un9ooFoeTMupUOg672VgZjDKD62okkHq8DHXGivNExBvJUk_hlLE1lFNfBlsBmDnwgxhncPeRSUg1U_-Ksu6x7nhKcXL4zLKQ3g00ttb4CAx26yWbn945pFnCkza2BbIgiQqsJMaxv_vStEQ5098YI2QFuqv6zPVRem4KRTPr_D25ZZjBwXhKLaVW9KMNE7DOc8O1kMv_FV0eqtyT9Hy1cb38QzH0_mMzedjXcUMHA7IQh_3sn4I9fdRVnDI6CI"/>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="bg-[#3b82f6]/20 p-6 rounded-full border border-[#3b82f6]/40 backdrop-blur-md">
+              <span class="material-symbols-outlined text-white text-4xl animate-pulse">lock</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>

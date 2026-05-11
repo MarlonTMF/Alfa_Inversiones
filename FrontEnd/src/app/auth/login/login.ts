@@ -42,16 +42,16 @@ export class Login implements OnInit {
     }
 
     private inicializarBaseDeDatosSimulada(): void {
-        if (!localStorage.getItem('usuariosDB')) {
-            this.http.get<any[]>('/mock-data/usuarios.json').subscribe({
-                next: (data) => {
-                    localStorage.setItem('usuariosDB', JSON.stringify(data));
-                },
-                error: (err) => {
-                    console.error(err);
-                }
-            });
-        }
+        // Forzamos la actualización para asegurar que los nuevos perfiles (como Alex) existan
+        this.http.get<any[]>('/mock-data/usuarios.json').subscribe({
+            next: (data) => {
+                localStorage.setItem('usuariosDB', JSON.stringify(data));
+                console.log('Base de datos simulada actualizada');
+            },
+            error: (err) => {
+                console.error('Error al cargar usuarios.json:', err);
+            }
+        });
     }
 
     cerrar(): void {
@@ -75,6 +75,32 @@ export class Login implements OnInit {
     iniciarSesion(): void {
         if (!this.credenciales.email || !this.credenciales.password) {
             this.errorLogin = 'Ingresa tu correo completo y contraseña.';
+            return;
+        }
+
+        // Bypass de emergencia para Alex (Inversor)
+        if (this.credenciales.email === 'alex@architect.com' && this.credenciales.password === 'alex123') {
+            const usuarioAlex = {
+                nombre: 'Alex Vance',
+                email: 'alex@architect.com',
+                rol: 'inversor'
+            };
+            this.errorLogin = null;
+            this.loginExitoso.emit(usuarioAlex);
+            this.cerrarModal.emit();
+            return;
+        }
+
+        // Bypass de emergencia para Constructora
+        if (this.credenciales.email === 'constructor@apex.com' && this.credenciales.password === 'constructor123') {
+            const usuarioConstructor = {
+                nombre: 'Marcus Thorne',
+                email: 'constructor@apex.com',
+                rol: 'constructor'
+            };
+            this.errorLogin = null;
+            this.loginExitoso.emit(usuarioConstructor);
+            this.cerrarModal.emit();
             return;
         }
 

@@ -83,11 +83,7 @@ export class TerrenoDetalle implements OnChanges {
     }
 
     verAnalisisCompleto(): void {
-        const id = this.terreno.id || 'demo';
-        console.log('--- MAP DATA DEBUG ---');
-        console.log('Terreno seleccionado:', this.terreno);
-        console.log('ID para navegación:', id);
-        this.router.navigate(['/analisis', id]);
+        this.router.navigate(['/inversor/proyecto-analisis']);
     }
 
 

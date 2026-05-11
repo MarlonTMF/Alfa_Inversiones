@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Investor Portal | Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-primary": "#002e6a",
+                        "surface-dim": "#0b1326",
+                        "on-secondary": "#263143",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-secondary-container": "#aeb9d0",
+                        "on-secondary-fixed": "#111c2d",
+                        "on-surface-variant": "#c2c6d6",
+                        "on-tertiary-container": "#461f00",
+                        "secondary-container": "#3e495d",
+                        "error-container": "#93000a",
+                        "surface": "#0b1326",
+                        "error": "#ffb4ab",
+                        "primary": "#adc6ff",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container-low": "#131b2e",
+                        "on-primary-container": "#00285d",
+                        "outline-variant": "#424754",
+                        "surface-variant": "#2d3449",
+                        "surface-container": "#171f33",
+                        "tertiary-container": "#df7412",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-tertiary-fixed": "#311400",
+                        "surface-bright": "#31394d",
+                        "inverse-surface": "#dae2fd",
+                        "background": "#0b1326",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-tertiary": "#502400",
+                        "secondary-fixed": "#d8e3fb",
+                        "outline": "#8c909f",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "inverse-primary": "#005ac2",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-container-lowest": "#060e20",
+                        "on-background": "#dae2fd",
+                        "inverse-on-surface": "#283044",
+                        "secondary": "#bcc7de",
+                        "primary-fixed": "#d8e2ff",
+                        "on-error": "#690005",
+                        "surface-container-high": "#222a3d",
+                        "tertiary": "#ffb786",
+                        "surface-tint": "#adc6ff",
+                        "primary-container": "#4d8eff",
+                        "on-primary-fixed": "#001a42"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "display": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .headline-md { font-size: 1.75rem; line-height: 2.25rem; }
+        .label-sm { font-size: 0.6875rem; line-height: 1rem; letter-spacing: 0.05em; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary/30 min-h-screen pb-24 md:pb-0">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-6 h-16 bg-[#0b1326]/80 backdrop-blur-xl shadow-2xl shadow-black/20">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img alt="Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged institutional investor in a sleek dark suit. The lighting is dramatic and low-key, emphasizing a serious and authoritative persona. The background is a blurred high-end office with deep blue and obsidian tones. This visual represents the 'Digital Architect' user identity within the premium financial system." src="https://lh3.googleusercontent.com/aida/ADBb0uhT2uwdlm_dPlgGopP2eHFRkiUaXZr7k0zkmKPTQI-4O489V_xBg1Aa08Gf90ZrY8vPL0-q9DRNlDTCo2ZGELRqnuHNAd6sc6rYb6ODbdUb666AT4uHwJJdjOtR1gxBBt_yb4nz2Uo7cgd1Kn7B7CDXJ45CtIFAeMez6LiK0wt4Nxyc--Uhrn9n7EquVFCYPrJ3tlJJMmIBAVbbxVKMgNFddwxqIGG459e_NkzaPWuC4i0Ep52bFR_9lu8bCj7d9leQTrZylEZ7dyw"/>
+</div>
+<span class="text-xl font-bold tracking-widest uppercase text-[#3b82f6]">Architect</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6">
+<a class="text-[#3b82f6] font-semibold text-sm" href="#">Portfolio</a>
+<a class="text-[#c2c6d6] hover:text-white transition-colors font-semibold text-sm" href="#">Market</a>
+<a class="text-[#c2c6d6] hover:text-white transition-colors font-semibold text-sm" href="#">Wallet</a>
+<a class="text-[#c2c6d6] hover:text-white transition-colors font-semibold text-sm" href="#">Insights</a>
+</nav>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-[#222a3d] transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+</header>
+<main class="max-w-7xl mx-auto px-6 pt-24 pb-12">
+<!-- Welcome Header -->
+<section class="mb-12">
+<h1 class="font-headline font-semibold headline-md text-on-surface mb-2">Bienvenido, Alex</h1>
+<p class="text-on-surface-variant max-w-2xl">Tu centro de operaciones está actualizado. Revisa el rendimiento de tu portafolio y las nuevas oportunidades de mercado hoy.</p>
+</section>
+<!-- Quick Stats Banner -->
+<section class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-high p-8 rounded-xl shadow-2xl shadow-black/10 flex flex-col justify-between border-l-4 border-primary">
+<div>
+<span class="label-sm uppercase font-bold text-on-surface-variant">Valor Total Neto</span>
+<div class="flex items-baseline gap-2 mt-2">
+<span class="text-4xl font-bold text-on-surface">$1,482,900</span>
+<span class="text-primary text-sm font-bold">+12.4%</span>
+</div>
+</div>
+<div class="mt-6 flex items-center gap-2 text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                    Actualizado hace 5 minutos
+                </div>
+</div>
+<div class="col-span-1 md:col-span-2 relative overflow-hidden rounded-xl bg-surface-container-low flex items-center p-8">
+<div class="relative z-10 w-1/2">
+<span class="label-sm uppercase font-bold text-primary">Próximo Dividendo</span>
+<h3 class="text-2xl font-bold mt-2">Cerrito 1144</h3>
+<p class="text-on-surface-variant text-sm mt-1">Estimado para el 15 de Mayo</p>
+<div class="mt-4">
+<span class="text-2xl font-bold text-on-surface">$3,420.00</span>
+</div>
+</div>
+<div class="absolute right-0 top-0 h-full w-3/4 opacity-40">
+<img class="w-full h-full object-cover" data-alt="A cinematic, wide-angle shot of a high-rise luxury apartment building in a modern metropolitan skyline at dusk. The city lights glow with deep blues and ambers, casting a premium architectural glow on the structure. The overall mood is sophisticated and prosperous, perfectly aligned with the Obsidian and Primary Blue design system of a high-end investment portal." src="https://lh3.googleusercontent.com/aida/ADBb0ujXJo5v3OJV0LIKdtzitC5ADeP1oTeA7K42ESed9yL4rCx5-vdO3EE054F7JAF5k4KKumPdf8qtwSR-TzqouxJvLFh_UHkX7arZGjTaqPnTWv0Nx5xme9mXJmY_wYX-svkDbmxTHbH7_qTXSGOP4ak0EbgcwwnabjhEDkH-gGvEww_Erlk_EVZBNP4AZQgWilvRlwHS9QiGxvEMk5ORe8LlZJWJUSKQqFIvHylgYW7Q3tDaKkPpcQfMhkEiwgA4QWGAzXYGA-XtrWg"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface-container-low via-surface-container-low/80 to-transparent"></div>
+</div>
+</section>
+<!-- Main Navigation Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
+<!-- Portafolio -->
+<a class="md:col-span-8 group relative overflow-hidden rounded-xl bg-surface-container-high h-[400px] transition-all hover:bg-surface-bright active:scale-[0.98]" href="#">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover grayscale opacity-20 group-hover:grayscale-0 group-hover:opacity-40 transition-all duration-700" data-alt="A sophisticated data visualization dashboard showing complex financial candlestick charts and algorithmic patterns. The colors are strictly limited to the brand's primary blue and deep navy tones. High-tech digital interfaces and translucent glass elements overlay the composition, creating a sense of deep analytical power and professional precision." src="https://lh3.googleusercontent.com/aida/ADBb0uhfPgy4stpIORFUqbjihjoSlX-ckXyII9kqq3ivQ4KtmsZ5bC1yzQYCAe6YvdVLkRBVIUMeGbn-ZydQKe7bler3vyDq2VjS5izDMe09_h_l4pb-dqAQ-rpvujN15ijEeeLeSfgIh501lSM6v_N_tZpDyJ_kY-nd994ETD48ZShSmzyPGSBGMBYVRKl4lcQiV15n9oMr7nHsE4Yuz1Mf1NdeM5H_URkOV7f7hIArvxtx049lVEv4ecwGDJfT-IvjAMrUviDKMgba4A"/>
+</div>
+<div class="relative z-10 p-8 h-full flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">dashboard</span>
+<span class="label-sm uppercase font-bold text-primary">Estrategia</span>
+</div>
+<h2 class="text-3xl font-bold">Mi Portafolio</h2>
+<p class="text-on-surface-variant mt-2 max-w-sm">Gestiona tus activos inmobiliarios y monitorea la rentabilidad histórica de tus participaciones.</p>
+</div>
+<div class="flex items-end justify-between">
+<div class="space-y-1">
+<span class="label-sm uppercase text-on-surface-variant block">Activos Totales</span>
+<span class="text-xl font-bold">14 Propiedades</span>
+</div>
+<div class="w-32 h-12">
+<div class="flex items-end gap-1 h-full">
+<div class="w-2 bg-primary/20 h-1/2 rounded-t-sm"></div>
+<div class="w-2 bg-primary/40 h-2/3 rounded-t-sm"></div>
+<div class="w-2 bg-primary/60 h-3/4 rounded-t-sm"></div>
+<div class="w-2 bg-primary h-full rounded-t-sm"></div>
+<div class="w-2 bg-primary/80 h-4/5 rounded-t-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</a>
+<!-- Marketplace -->
+<a class="md:col-span-4 group relative overflow-hidden rounded-xl bg-surface-container-highest h-[400px] transition-all hover:translate-y-[-4px] active:scale-[0.98]" href="#">
+<div class="absolute top-4 right-4 z-20 bg-primary text-on-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Nuevo</div>
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-30 group-hover:scale-110 transition-transform duration-1000" data-alt="A detailed architectural model of a futuristic sustainable residential complex. The image captures the intricate textures of glass and steel under professional studio lighting. The color palette is dominated by dark navy and metallic accents, creating a high-end, exclusive atmosphere that invites the user to explore new premium investment opportunities." src="https://lh3.googleusercontent.com/aida/ADBb0uhAQEFTsUyt8n6x0YOWZmra4Uyp7EjIQXVbbCHJ9YFi3LTdZdz7A5Kboqj6vck7y6261DdRxSMHNkSx_4HIIvFN14UR6OSZMqmlB_B4c4Mb4-2c1YM13lnsxMCYHP_dyjWHdc3iNJGZCsiV-JeOI4BBATCK4eRYWFxKUhyS2s2HbJqappiXwDAWgRcK1rycELjZGeIP-_N_lTBF_BGXUHHEsuxXM7rLsagfB4ZUjacXbqokFrm6nEx8lftPeFwzVQi_mUKrPSd3rQ"/>
+</div>
+<div class="relative z-10 p-8 h-full flex flex-col justify-end">
+<div class="bg-surface/60 backdrop-blur-md p-6 rounded-xl border border-outline-variant/20">
+<h2 class="text-xl font-bold">Marketplace</h2>
+<p class="text-on-surface-variant text-sm mt-1">Explora 3 nuevas oportunidades disponibles hoy.</p>
+<div class="mt-4 flex items-center gap-2 text-primary font-semibold text-sm">
+                            Ver Oportunidades
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+</div>
+</a>
+<!-- Wallet -->
+<a class="md:col-span-5 group p-8 rounded-xl bg-surface-container-low border border-outline-variant/10 flex flex-col justify-between h-[280px] hover:bg-surface-container transition-colors" href="#">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">USD Wallet</span>
+</div>
+<div>
+<span class="label-sm uppercase font-bold text-on-surface-variant">Balance Líquido</span>
+<div class="text-3xl font-bold mt-1 text-on-surface">$42,502.80</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-1 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center font-bold text-xs uppercase tracking-wider text-on-surface border border-outline-variant/20 group-hover:bg-primary group-hover:text-on-primary transition-all">Retirar</div>
+<div class="flex-1 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center font-bold text-xs uppercase tracking-wider text-on-surface border border-outline-variant/20 hover:bg-white hover:text-surface transition-all">Fondear</div>
+</div>
+</a>
+<!-- Updates -->
+<a class="md:col-span-7 group relative overflow-hidden rounded-xl bg-surface-container h-[280px] hover:shadow-2xl hover:shadow-primary/5 transition-all" href="#">
+<div class="absolute inset-0">
+<img class="w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-opacity" data-alt="A long exposure photograph of a massive construction site at night. Crane silhouettes are visible against a deep blue sky with streaks of light from machinery. The scene conveys progress, industrial power, and large-scale architectural development, consistent with the institutional and authoritative tone of the Digital Architect design system." src="https://lh3.googleusercontent.com/aida/ADBb0ujxOsxLo0Iy0mAAsNhbf08V_EASwADc14Fkwf0TsyIbuGFmoTP919DUIJ1c2eO5QshybWL4CbF-DsCNKKKYaVde4bu15N-BZhpREvy3OmHvCnI0EMCe9tmFlIXJUG9S-IXimv2hb9ORvVeugk5P_YM5RxPcBilKKAmQkXB-2CdbZkWjyPRO1YcbdKdUa5uROBmNRRQqT88Q5x68wx6wCHZUUvVFTzbnzpbgI7lmXBgymBoy-nGZx7CDI4VHKQdOAUybThJxyVqjG-g"/>
+</div>
+<div class="relative z-10 p-8 h-full flex flex-col justify-center">
+<div class="flex items-center gap-3 mb-4">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="label-sm uppercase font-bold text-primary">Seguimiento de Obra</span>
+</div>
+<h3 class="text-2xl font-bold leading-tight max-w-md">Lanzamiento oficial de 'Torre Vanguardia' supera el 85% de avance estructural.</h3>
+<div class="mt-6 flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uhT2uwdlm_dPlgGopP2eHFRkiUaXZr7k0zkmKPTQI-4O489V_xBg1Aa08Gf90ZrY8vPL0-q9DRNlDTCo2ZGELRqnuHNAd6sc6rYb6ODbdUb666AT4uHwJJdjOtR1gxBBt_yb4nz2Uo7cgd1Kn7B7CDXJ45CtIFAeMez6LiK0wt4Nxyc--Uhrn9n7EquVFCYPrJ3tlJJMmIBAVbbxVKMgNFddwxqIGG459e_NkzaPWuC4i0Ep52bFR_9lu8bCj7d9leQTrZylEZ7dyw"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-primary flex items-center justify-center text-[10px] font-bold text-on-primary">+12</div>
+</div>
+<span class="text-xs text-on-surface-variant">Inversores siguiendo esta obra</span>
+</div>
+</div>
+</a>
+</section>
+<!-- Recent Activity -->
+<section class="mb-12">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold">Actividad Reciente</h2>
+<a class="text-sm font-semibold text-primary hover:underline" href="#">Ver Todo</a>
+</div>
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<div class="divide-y divide-outline-variant/10">
+<!-- Activity Item 1 -->
+<div class="p-4 flex items-center justify-between hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">payments</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface">Dividendo Recibido - Edificio Olivos</h4>
+<p class="text-xs text-on-surface-variant">Acreditado a tu billetera</p>
+</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-primary">+$850.00</div>
+<div class="text-[10px] uppercase text-on-surface-variant font-bold">Hoy, 10:45 AM</div>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="p-4 flex items-center justify-between hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">description</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface">Documentación Actualizada</h4>
+<p class="text-xs text-on-surface-variant">Reporte trimestral disponible</p>
+</div>
+</div>
+<div class="text-right">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">download</span>
+<div class="text-[10px] uppercase text-on-surface-variant font-bold">Ayer</div>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="p-4 flex items-center justify-between hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">apartment</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface">Inversión Confirmada</h4>
+<p class="text-xs text-on-surface-variant">Fracciones adquiridas en 'Residencias del Sol'</p>
+</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-on-surface">-$15,000.00</div>
+<div class="text-[10px] uppercase text-on-surface-variant font-bold">4 May 2024</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 bg-[#0b1326]/90 backdrop-blur-md shadow-[0_-10px_40px_rgba(0,0,0,0.4)] h-20">
+<a class="flex flex-col items-center justify-center text-blue-400 bg-blue-500/10 rounded-xl px-4 py-1 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-['Inter'] text-[11px] font-bold uppercase tracking-wider mt-1">Portfolio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#c2c6d6]/60 hover:text-blue-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-['Inter'] text-[11px] font-bold uppercase tracking-wider mt-1">Market</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#c2c6d6]/60 hover:text-blue-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-['Inter'] text-[11px] font-bold uppercase tracking-wider mt-1">Wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#c2c6d6]/60 hover:text-blue-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-['Inter'] text-[11px] font-bold uppercase tracking-wider mt-1">Insights</span>
+</a>
+</nav>
+<!-- Content Separation Logic (Visual only) -->
+<div class="fixed bottom-0 left-0 w-full h-24 pointer-events-none bg-gradient-to-t from-[#060e20] to-transparent z-40"></div>
+</body></html>

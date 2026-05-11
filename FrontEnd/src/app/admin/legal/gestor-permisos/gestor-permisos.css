@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.bg-surface-container-high {
+  background-color: #222a3d;
+}
+
+.bg-surface-container-low {
+  background-color: #131b2e;
+}
+
+.bg-surface-container-lowest {
+  background-color: #060e20;
+}

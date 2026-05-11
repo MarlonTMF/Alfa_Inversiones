@@ -1,0 +1,241 @@
+<div class="bg-[#0b1326] text-[#dae2fd] min-h-screen flex overflow-hidden font-sans">
+  
+  <!-- Global Side Navigation -->
+  <aside class="hidden md:flex flex-col h-full w-72 fixed left-0 top-0 bg-[#060e20] z-50 py-8 px-6 border-r border-white/5 shadow-2xl bg-gradient-to-r from-[#060e20] to-[#0b1326]">
+    <div class="mb-10 px-2 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-[#3b82f6] flex items-center justify-center overflow-hidden border border-white/10">
+        <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uiolIUqEaFbeUbm48ZcbJ-RswiCXnpzh9VlJPPgLxXPvKa_W9SqIeHukLtJTddyJ9mUGFi1u8SA1AtGcjMkm-sD-Ue7pyX1-iv3XfeFfadJV8GApch5zI13TrwFGkhu8Fgs72YQj7h5fddRf5dV8kIXxxJHyN6AmqEjbghO0yXCafK14mtMnmRuEDHHsylsW2g5eY2JgvPZETiIYdJlgyvtZJNXC3vAc74gSqit3zrigWFSnqYMYbKaSQLtqM0HyXr89ESc84DV3p4"/>
+      </div>
+      <div>
+        <div class="text-[#adc6ff] font-black uppercase tracking-tighter text-lg leading-none">Alex Vance</div>
+        <div class="text-[9px] uppercase tracking-widest font-black text-[#c2c6d6] opacity-60">Inversor Institucional</div>
+      </div>
+    </div>
+    
+    <nav class="flex-1 space-y-2">
+      <a [routerLink]="['/inversor']" class="flex items-center gap-4 px-4 py-3 text-[#c2c6d6] hover:bg-[#222a3d] rounded-xl transition-all duration-300 group">
+        <span class="material-symbols-outlined text-[22px] group-hover:text-white">dashboard</span>
+        <span class="text-[11px] font-black uppercase tracking-widest">Dashboard</span>
+      </a>
+      <a [routerLink]="['/inversor/portafolio']" class="flex items-center gap-4 px-4 py-3 text-[#3b82f6] font-black border-l-4 border-[#3b82f6] bg-[#3b82f6]/10 rounded-r-xl transition-all duration-300">
+        <span class="material-symbols-outlined text-[22px]">business_center</span>
+        <span class="text-[11px] uppercase tracking-widest">Portafolio</span>
+      </a>
+      <a [routerLink]="['/inversor/avances']" class="flex items-center gap-4 px-4 py-3 text-[#c2c6d6] hover:bg-[#222a3d] rounded-xl transition-all duration-300 group">
+        <span class="material-symbols-outlined text-[22px] group-hover:text-white">engineering</span>
+        <span class="text-[11px] font-black uppercase tracking-widest">Avances de Obra</span>
+      </a>
+      <a [routerLink]="['/inversor/legal']" class="flex items-center gap-4 px-4 py-3 text-[#c2c6d6] hover:bg-[#222a3d] rounded-xl transition-all duration-300 group">
+        <span class="material-symbols-outlined text-[22px] group-hover:text-white">lock</span>
+        <span class="text-[11px] font-black uppercase tracking-widest">Bóveda Legal</span>
+      </a>
+    </nav>
+
+    <div class="mt-auto px-2">
+      <button class="w-full py-4 bg-[#3b82f6] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-blue-900/40 hover:scale-[1.02] active:scale-[0.98] transition-all">
+        Descargar Reporte PDF
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 md:ml-72 flex flex-col h-screen overflow-y-auto">
+    
+    <!-- TopAppBar -->
+    <header class="sticky top-0 z-50 bg-[#131b2e]/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-10 py-5 shadow-2xl h-20">
+      <div class="flex items-center gap-8">
+        <div class="text-lg font-black tracking-tighter text-[#adc6ff] uppercase">Equities Core Platform</div>
+        <div class="hidden lg:flex gap-8">
+          <button class="text-xs font-black uppercase tracking-widest text-[#3b82f6] border-b-2 border-[#3b82f6] pb-1">Detalles de Inversión</button>
+          <button class="text-xs font-black uppercase tracking-widest text-[#c2c6d6] hover:text-white pb-1 transition-colors">Análisis de Mercado</button>
+          <a [routerLink]="['/inversor/legal']" class="text-xs font-black uppercase tracking-widest text-[#c2c6d6] hover:text-white pb-1 transition-colors">Documentos Legales</a>
+        </div>
+      </div>
+      <div class="flex items-center gap-6">
+        <span class="material-symbols-outlined text-[#c2c6d6] hover:text-[#3b82f6] cursor-pointer transition-colors">notifications</span>
+        <div class="h-8 w-px bg-white/10 mx-2"></div>
+        <div class="flex items-center gap-4">
+          <div class="text-right hidden xl:block">
+            <div class="text-sm font-black text-white leading-none">Jameson Sterling</div>
+            <div class="text-[9px] text-[#c2c6d6] font-black uppercase tracking-widest opacity-60">Director de Inversiones</div>
+          </div>
+          <div class="w-10 h-10 rounded-full border-2 border-[#3b82f6]/30 overflow-hidden">
+            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujthFBsji73FyzzsDdFn2Qrw6mmbLSMqfiGE3V6BWnZZY_oabf0pWV63nOEUKGXbfvEuHg3QCNmw-aUdZ_fLx3iYgJIn-WOjjqLV3fNEBpGDEHm407qnbY7CUb_rv78rLrpo22H5tptofiy8wVqWQOyWBH9ecU7y86suQs9FJh8PRjWWC5FGKkbHvG6PHpmLDfrrPWn4s2AKXBcjo3hVoneAtTr6qjDvu9nkdyt80jsbJE0O7x3qXdqxfJ1sSrIgS_SGFtNJJtOyeU"/>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Canvas -->
+    <div class="p-10 max-w-[1600px] mx-auto w-full space-y-12 animate-in fade-in duration-700">
+      
+      <!-- Hero Header -->
+      <div class="flex flex-col md:flex-row justify-between items-end gap-10">
+        <div class="space-y-6 max-w-3xl">
+          <div class="flex items-center gap-4">
+            <span class="px-4 py-1.5 bg-[#3b82f6]/10 text-[#3b82f6] text-[10px] font-black uppercase tracking-widest rounded-full border border-[#3b82f6]/20">Construcción Activa</span>
+            <span class="text-[#c2c6d6] text-[10px] font-black uppercase tracking-widest opacity-40">• ID: {{ inversion.id }}</span>
+          </div>
+          <h1 class="text-7xl font-black leading-none tracking-tighter text-white">{{ inversion.nombre }}</h1>
+          <p class="text-[#c2c6d6] text-xl font-medium max-w-2xl leading-relaxed">
+            {{ inversion.descripcion }}
+          </p>
+        </div>
+        <div class="flex gap-4">
+          <a [routerLink]="['/inversor/legal']" class="flex items-center gap-3 px-8 py-4 bg-[#222a3d] hover:bg-[#31394d] text-white text-xs font-black uppercase tracking-widest transition-all rounded-2xl border border-white/5 shadow-xl">
+            <span class="material-symbols-outlined text-sm">lock</span>
+            Bóveda Legal
+          </a>
+          <button class="flex items-center gap-3 px-8 py-4 bg-[#3b82f6] text-white hover:bg-blue-600 text-xs font-black uppercase tracking-widest transition-all rounded-2xl shadow-2xl shadow-blue-900/40">
+            <span class="material-symbols-outlined text-sm">download</span>
+            Reporte Mensual
+          </button>
+        </div>
+      </div>
+
+      <!-- Bento Stats Grid -->
+      <div class="grid grid-cols-12 gap-8">
+        
+        <!-- Left Stats -->
+        <div class="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-[#131b2e] rounded-3xl p-10 flex flex-col justify-between h-56 group hover:bg-[#1e293b] transition-all border border-white/5 shadow-2xl">
+            <div class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] group-hover:text-[#3b82f6] transition-colors opacity-60">Total Invertido</div>
+            <div class="text-5xl font-black tracking-tighter text-white">${{ inversion.montoInvertido | number }}</div>
+            <div class="flex items-center gap-2 text-[10px] font-black text-[#3b82f6] uppercase tracking-widest">
+              <span class="material-symbols-outlined text-sm">lock</span>
+              Capital Comprometido
+            </div>
+          </div>
+
+          <div class="bg-[#131b2e] rounded-3xl p-10 flex flex-col justify-between h-56 group hover:bg-[#1e293b] transition-all border border-white/5 shadow-2xl">
+            <div class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] group-hover:text-[#3b82f6] transition-colors opacity-60">Rendimiento Actual</div>
+            <div class="text-5xl font-black tracking-tighter text-[#3b82f6]">{{ inversion.rendimientoActual }}</div>
+            <div class="flex items-center gap-2 text-[10px] font-black text-[#3b82f6] uppercase tracking-widest">
+              <span class="material-symbols-outlined text-sm">arrow_upward</span>
+              Sobre lo proyectado
+            </div>
+          </div>
+
+          <div class="bg-[#131b2e] rounded-3xl p-10 flex flex-col justify-between h-56 group hover:bg-[#1e293b] transition-all border border-white/5 shadow-2xl">
+            <div class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] group-hover:text-[#3b82f6] transition-colors opacity-60">Participación Equity</div>
+            <div class="text-5xl font-black tracking-tighter text-white">{{ inversion.equityStake }}</div>
+            <div class="flex items-center gap-2 text-[10px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-60">
+              <span class="material-symbols-outlined text-sm">pie_chart</span>
+              Nivel Institucional B
+            </div>
+          </div>
+
+          <!-- Valuation Chart Proxy -->
+          <div class="col-span-1 md:col-span-3 bg-[#131b2e] rounded-3xl p-10 relative overflow-hidden group border border-white/5 shadow-2xl">
+            <div class="flex justify-between items-center mb-12">
+              <div>
+                <h3 class="text-lg font-black uppercase tracking-widest text-white">Crecimiento de Valoración</h3>
+                <p class="text-xs text-[#c2c6d6] font-bold opacity-60">Rendimiento histórico de tu posición de capital</p>
+              </div>
+              <div class="flex gap-2">
+                <span class="px-3 py-1 bg-[#222a3d] rounded-lg text-[10px] font-black text-white">1A</span>
+                <span class="px-3 py-1 bg-[#3b82f6] text-white rounded-lg text-[10px] font-black">TODO</span>
+              </div>
+            </div>
+            <div class="h-72 w-full relative">
+              <img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" src="https://lh3.googleusercontent.com/aida/ADBb0ujxOsxLo0Iy0mAAsNhbf08V_EASwADc14Fkwf0TsyIbuGFmoTP919DUIJ1c2eO5QshybWL4CbF-DsCNKKKYaVde4bu15N-BZhpREvy3OmHvCnI0EMCe9tmFlIXJUG9S-IXimv2hb9ORvVeugk5P_YM5RxPcBilKKAmQkXB-2CdbZkWjyPRO1YcbdKdUa5uROBmNRRQqT88Q5x68wx6wCHZUUvVFTzbnzpbgI7lmXBgymBoy-nGZx7CDI4VHKQdOAUybThJxyVqjG-g"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Progress & Payout -->
+        <div class="col-span-12 lg:col-span-4 flex flex-col gap-8">
+          
+          <div class="bg-[#222a3d] rounded-3xl p-10 border border-white/5 shadow-2xl space-y-10">
+            <div class="flex justify-between items-start">
+              <h3 class="text-xs font-black uppercase tracking-widest text-white">Progreso del Proyecto</h3>
+              <span class="text-3xl font-black text-[#3b82f6] tracking-tighter">{{ inversion.progresoObra }}%</span>
+            </div>
+            <div class="w-full h-3 bg-[#0b1326] rounded-full overflow-hidden border border-white/5">
+              <div class="h-full bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] rounded-full shadow-[0_0_20px_rgba(59,130,246,0.4)]" [style.width.%]="inversion.progresoObra"></div>
+            </div>
+            <div class="space-y-8">
+              <div class="flex gap-5">
+                <div class="w-12 h-12 rounded-2xl bg-[#0b1326] flex-shrink-0 flex items-center justify-center border border-white/5">
+                  <span class="material-symbols-outlined text-[#3b82f6] text-2xl">architecture</span>
+                </div>
+                <div>
+                  <div class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] opacity-40">Última Actualización</div>
+                  <div class="text-base font-bold text-white">{{ inversion.descUltimaActualizacion }}</div>
+                  <div class="text-[10px] text-[#3b82f6] mt-1 font-black uppercase italic">{{ inversion.ultimaActualizacion }} ago</div>
+                </div>
+              </div>
+              <div class="flex gap-5">
+                <div class="w-12 h-12 rounded-2xl bg-[#0b1326] flex-shrink-0 flex items-center justify-center border border-white/5">
+                  <span class="material-symbols-outlined text-[#c2c6d6] text-2xl opacity-40">event</span>
+                </div>
+                <div>
+                  <div class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] opacity-40">Próximo Hito</div>
+                  <div class="text-base font-bold text-white">Instalación de Sistemas HVAC</div>
+                  <div class="text-[10px] text-[#c2c6d6] mt-1 font-black uppercase">Vence Nov 12, 2023</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-br from-[#3b82f6] to-[#1d4ed8] rounded-3xl p-10 relative overflow-hidden group shadow-2xl">
+            <div class="relative z-10 space-y-6">
+              <div class="text-[10px] font-black uppercase tracking-widest text-white/60">Próxima Distribución Programada</div>
+              <div class="text-4xl font-black text-white tracking-tighter">{{ inversion.proximaDistribucion }}</div>
+              <div class="text-sm font-black text-white/80 uppercase tracking-widest">
+                Pago Estimado: <span class="text-white text-2xl ml-2">${{ inversion.pagoEstimado | number }}</span>
+              </div>
+            </div>
+            <div class="absolute -right-8 -bottom-8 opacity-10 group-hover:scale-125 transition-transform duration-1000">
+              <span class="material-symbols-outlined text-[180px]">payments</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Footer Compliance Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-[#131b2e] rounded-3xl overflow-hidden flex h-48 border border-white/5 shadow-2xl group">
+          <div class="w-1/3 relative h-full">
+            <img class="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" src="https://lh3.googleusercontent.com/aida/ADBb0uhT2uwdlm_dPlgGopP2eHFRkiUaXZr7k0zkmKPTQI-4O489V_xBg1Aa08Gf90ZrY8vPL0-q9DRNlDTCo2ZGELRqnuHNAd6sc6rYb6ODbdUb666AT4uHwJJdjOtR1gxBBt_yb4nz2Uo7cgd1Kn7B7CDXJ45CtIFAeMez6LiK0wt4Nxyc--Uhrn9n7EquVFCYPrJ3tlJJMmIBAVbbxVKMgNFddwxqIGG459e_NkzaPWuC4i0Ep52bFR_9lu8bCj7d9leQTrZylEZ7dyw"/>
+          </div>
+          <div class="w-2/3 p-8 flex flex-col justify-center">
+            <div class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] mb-2 opacity-40">Contexto de Mercado</div>
+            <div class="text-xl font-black text-white tracking-tight">Crecimiento Metropolitano</div>
+            <div class="text-xs text-[#c2c6d6] mt-2 leading-relaxed font-medium">Índice de demanda regional en 8.4/10. Superando el promedio por 12%.</div>
+          </div>
+        </div>
+
+        <div class="bg-[#131b2e] rounded-3xl p-8 flex items-center gap-8 h-48 border border-white/5 shadow-2xl">
+          <div class="w-20 h-20 rounded-full border-4 border-[#3b82f6]/20 flex items-center justify-center flex-shrink-0 bg-[#0b1326]">
+            <span class="material-symbols-outlined text-[#3b82f6] text-4xl font-black" style="font-variation-settings: 'FILL' 1;">shield</span>
+          </div>
+          <div>
+            <div class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] mb-2 opacity-40">Estado de Cumplimiento</div>
+            <div class="text-xl font-black text-white tracking-tight">Totalmente Conforme</div>
+            <div class="text-xs text-[#c2c6d6] mt-2 leading-relaxed font-medium">Documentos K-1 para FY2022 disponibles para descarga en la bóveda.</div>
+          </div>
+        </div>
+
+        <div class="bg-[#131b2e] rounded-3xl p-8 flex items-center gap-8 h-48 border border-white/5 shadow-2xl">
+          <div class="w-20 h-20 rounded-full border-4 border-[#adc6ff]/20 flex items-center justify-center flex-shrink-0 bg-[#0b1326]">
+            <span class="material-symbols-outlined text-[#adc6ff] text-4xl font-black">public</span>
+          </div>
+          <div>
+            <div class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] mb-2 opacity-40">Calificación ESG</div>
+            <div class="text-xl font-black text-white tracking-tight">Grado Platino</div>
+            <div class="text-xs text-[#c2c6d6] mt-2 leading-relaxed font-medium">Huella de carbono 18% inferior a los estándares industriales.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Contact Advisor FAB -->
+  <button class="fixed bottom-12 right-12 flex items-center gap-4 px-8 py-5 bg-[#3b82f6] text-white rounded-full shadow-2xl shadow-blue-900/40 hover:scale-105 active:scale-95 transition-all z-50 group">
+    <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">chat_bubble</span>
+    <span class="text-xs font-black uppercase tracking-widest">Contactar Asesor</span>
+  </button>
+</div>

@@ -152,13 +152,18 @@
                                     </button>
                                 }
                                 @case ('constructor') {
-                                    <button type="button" class="dropdown-item text-primary" routerLink="/constructor/panel" (click)="mostrarMenuPerfil = false">
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/constructor" (click)="mostrarMenuPerfil = false">
                                         Panel Constructora
                                     </button>
                                 }
+                                @case ('inversor') {
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/inversor" (click)="mostrarMenuPerfil = false">
+                                        Panel Inversor
+                                    </button>
+                                }
                                 @case ('inversionista') {
-                                    <button type="button" class="dropdown-item text-primary" routerLink="/inversionista/panel" (click)="mostrarMenuPerfil = false">
-                                        Panel Inversionista
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/inversor" (click)="mostrarMenuPerfil = false">
+                                        Panel Inversor
                                     </button>
                                 }
                                 @case ('propietario') {

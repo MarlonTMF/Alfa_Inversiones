@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProyectoService } from '../../core/services/proyecto.service';
 import { ProyectoResumen } from './resumen/resumen';
+import { ProyectoPlanificacion } from './planificacion/planificacion';
 import { ProyectoLegal } from './legal/legal';
 import { ProyectoBitacora } from './bitacora/bitacora';
 import { ProyectoInversores } from './inversores/inversores';
@@ -13,8 +14,9 @@ import { ProyectoInversores } from './inversores/inversores';
   imports: [
     CommonModule,
     RouterLink,
-    RouterLinkActive,
+    RouterLink,
     ProyectoResumen,
+    ProyectoPlanificacion,
     ProyectoLegal,
     ProyectoBitacora,
     ProyectoInversores
@@ -25,10 +27,11 @@ import { ProyectoInversores } from './inversores/inversores';
 export class ProyectoControlPanel implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly proyectoService = inject(ProyectoService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   proyectoId: string | null = null;
   proyecto: any = null;
-  seccionActual: string = 'resumen'; // resumen, legal, bitacora, inversores
+  seccionActual: string = 'resumen'; // resumen, planificacion, legal, bitacora, inversores
 
   ngOnInit(): void {
     this.proyectoId = this.route.snapshot.paramMap.get('id');
@@ -41,6 +44,7 @@ export class ProyectoControlPanel implements OnInit {
     this.proyectoService.obtenerProyecto(id).subscribe({
       next: (data) => {
         this.proyecto = data;
+        this.cdr.detectChanges();
       },
       error: (err) => console.error('Error cargando proyecto', err)
     });

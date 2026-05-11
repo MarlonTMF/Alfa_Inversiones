@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Centro de Proyecto - Vista Inversor | Apex Prime Plaza</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#3e495d",
+                      "on-secondary-fixed": "#111c2d",
+                      "surface-tint": "#adc6ff",
+                      "error": "#ffb4ab",
+                      "on-primary": "#002e6a",
+                      "on-primary-container": "#00285d",
+                      "inverse-primary": "#005ac2",
+                      "on-surface-variant": "#c2c6d6",
+                      "tertiary-fixed": "#ffdcc6",
+                      "on-secondary-container": "#aeb9d0",
+                      "surface-container": "#171f33",
+                      "secondary": "#bcc7de",
+                      "on-error": "#690005",
+                      "on-tertiary-fixed-variant": "#723600",
+                      "on-secondary": "#263143",
+                      "surface-container-highest": "#2d3449",
+                      "tertiary-fixed-dim": "#ffb786",
+                      "surface": "#0b1326",
+                      "secondary-fixed-dim": "#bcc7de",
+                      "on-secondary-fixed-variant": "#3c475a",
+                      "outline": "#8c909f",
+                      "secondary-fixed": "#d8e3fb",
+                      "background": "#0b1326",
+                      "outline-variant": "#424754",
+                      "inverse-on-surface": "#283044",
+                      "surface-container-lowest": "#060e20",
+                      "primary-fixed-dim": "#adc6ff",
+                      "on-primary-fixed": "#001a42",
+                      "surface-dim": "#0b1326",
+                      "on-surface": "#dae2fd",
+                      "on-error-container": "#ffdad6",
+                      "on-background": "#dae2fd",
+                      "surface-container-high": "#222a3d",
+                      "on-tertiary-fixed": "#311400",
+                      "tertiary": "#ffb786",
+                      "on-tertiary": "#502400",
+                      "inverse-surface": "#dae2fd",
+                      "primary-fixed": "#d8e2ff",
+                      "on-primary-fixed-variant": "#004395",
+                      "error-container": "#93000a",
+                      "surface-variant": "#2d3449",
+                      "surface-bright": "#31394d",
+                      "tertiary-container": "#df7412",
+                      "on-tertiary-container": "#461f00",
+                      "primary-container": "#4d8eff",
+                      "surface-container-low": "#131b2e",
+                      "primary": "#adc6ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Inter"],
+                      "display": ["Inter"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(45, 52, 73, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #adc6ff, #4d8eff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary/30 min-h-screen flex overflow-hidden">
+<!-- NavigationDrawer (Shared Component Logic) -->
+<aside class="hidden md:flex flex-col h-full w-64 fixed left-0 top-0 bg-[#060e20] z-40 py-8 px-4 border-r border-outline-variant/10 shadow-2xl shadow-black/50">
+<div class="mb-10 px-4">
+<span class="text-[#3b82f6] font-bold text-xl tracking-tighter uppercase">Apex Console</span>
+<div class="mt-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate financial executive, styled in a dark, high-contrast digital environment. The person wears a crisp dark suit with a subtle pattern, exuding authority and institutional trust. The background is a blurred high-end office interior with deep navy and cool blue tones, matching the sophisticated financial dashboard aesthetic." src="https://lh3.googleusercontent.com/aida/ADBb0uiolIUqEaFbeUbm48ZcbJ-RswiCXnpzh9VlJPPgLxXPvKa_W9SqIeHukLtJTddyJ9mUGFi1u8SA1AtGcjMkm-sD-Ue7pyX1-iv3XfeFfadJV8GApch5zI13TrwFGkhu8Fgs72YQj7h5fddRf5dV8kIXxxJHyN6AmqEjbghO0yXCafK14mtMnmRuEDHHsylsW2g5eY2JgvPZETiIYdJlgyvtZJNXC3vAc74gSqit3zrigWFSnqYMYbKaSQLtqM0HyXr89ESc84DV3p4"/>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Admin Console</p>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant">Orchestration Hub</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-['Inter'] label-sm uppercase tracking-widest text-[11px] font-bold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#131b2e] text-[#3b82f6] border-l-4 border-[#3b82f6] transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">business_center</span>
+<span class="font-['Inter'] label-sm uppercase tracking-widest text-[11px] font-bold">Portfolio</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">domain</span>
+<span class="font-['Inter'] label-sm uppercase tracking-widest text-[11px] font-bold">Market</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">cached</span>
+<span class="font-['Inter'] label-sm uppercase tracking-widest text-[11px] font-bold">Vault</span>
+</a>
+</nav>
+<div class="mt-auto px-4 pt-4 border-t border-outline-variant/10">
+<p class="text-[10px] text-outline tracking-widest uppercase">v2.4.1</p>
+</div>
+</aside>
+<!-- Main Viewport -->
+<main class="flex-1 md:ml-64 flex flex-col h-screen overflow-y-auto overflow-x-hidden">
+<!-- TopAppBar (Shared Component Logic) -->
+<header class="w-full sticky top-0 z-50 bg-[#131b2e] shadow-[0_1px_2px_rgba(0,0,0,0.1)] flex items-center justify-between px-8 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#adc6ff]">architecture</span>
+<div class="flex items-center gap-2 font-['Inter'] text-sm">
+<span class="text-on-surface-variant">Portfolio</span>
+<span class="text-on-surface-variant">/</span>
+<span class="text-[#adc6ff] font-semibold">Apex Prime Plaza</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-[#c2c6d6] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface">Investor Portal</span>
+<div class="w-8 h-8 rounded bg-primary/10 border border-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-primary">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-8 space-y-8 max-w-[1600px] mx-auto w-full">
+<!-- Hero Section: Architectural Render -->
+<section class="relative h-[480px] w-full rounded-xl overflow-hidden shadow-2xl group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A grand, hyper-realistic architectural rendering of a modern commercial skyscraper, Apex Prime Plaza. The building features sleek glass facades reflecting a dramatic sunset sky with deep oranges and electric blues. The setting is a prestigious metropolitan business district at dusk, with ambient street lighting beginning to glow. The image uses a cinematic, low-angle perspective to emphasize institutional scale and architectural elegance." src="https://lh3.googleusercontent.com/aida/ADBb0ujAoHwpKG-YjOt5Un9ooFoeTMupUOg672VgZjDKD62okkHq8DHXGivNExBvJUk_hlLE1lFNfBlsBmDnwgxhncPeRSUg1U_-Ksu6x7nhKcXL4zLKQ3g00ttb4CAx26yWbn945pFnCkza2BbIgiQqsJMaxv_vStEQ5098YI2QFuqv6zPVRem4KRTPr_D25ZZjBwXhKLaVW9KMNE7DOc8O1kMv_FV0eqtyT9Hy1cb38QzH0_mMzedjXcUMHA7IQh_3sn4I9fdRVnDI6CI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-10 w-full flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-primary text-on-primary text-[10px] font-extrabold uppercase tracking-widest rounded">Institutional Asset</span>
+<span class="text-on-surface/80 flex items-center gap-1 text-sm font-medium">
+<span class="material-symbols-outlined text-sm">location_on</span> Metropolitan Hub, Prime District
+                            </span>
+</div>
+<h1 class="text-5xl md:text-6xl font-bold tracking-tighter text-white">Apex Prime Plaza</h1>
+<p class="text-on-surface-variant max-w-xl text-lg leading-relaxed">
+                            A flagship Class-A commercial development anchored by Fortune 500 tenants, featuring sustainable engineering and state-of-the-art intelligent systems.
+                        </p>
+</div>
+<div class="glass-panel p-8 rounded-xl border border-outline-variant/20 min-w-[340px] space-y-6">
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<p class="text-[10px] font-bold uppercase tracking-widest text-primary">Capital Allocation</p>
+<p class="text-2xl font-bold text-white">$42.8M <span class="text-sm font-normal text-on-surface-variant">/ $52.0M</span></p>
+</div>
+<div class="text-right">
+<p class="text-3xl font-bold text-primary">82%</p>
+<p class="text-[10px] font-bold uppercase text-on-surface-variant">Funded</p>
+</div>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[82%] shadow-[0_0_12px_rgba(173,198,255,0.4)]"></div>
+</div>
+<button class="w-full py-4 bg-[#3b82f6] hover:bg-[#3b82f6]/90 text-white font-bold uppercase tracking-widest rounded-lg transition-all active:scale-[0.98] shadow-lg shadow-primary/20">
+                            Participate Now
+                        </button>
+</div>
+</div>
+</section>
+<!-- KPI Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-high p-6 rounded-xl hover:bg-surface-bright transition-colors group">
+<p class="text-[11px] font-bold uppercase tracking-[0.15em] text-on-surface-variant mb-4">Target ROI</p>
+<div class="flex items-end justify-between">
+<span class="text-4xl font-bold text-white tracking-tight">18.4%</span>
+<span class="material-symbols-outlined text-primary opacity-30 group-hover:opacity-100 transition-opacity">trending_up</span>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/10 text-[10px] text-on-surface-variant">
+                        Annualized Internal Rate of Return
+                    </div>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xl hover:bg-surface-bright transition-colors group">
+<p class="text-[11px] font-bold uppercase tracking-[0.15em] text-on-surface-variant mb-4">Projected Yield</p>
+<div class="flex items-end justify-between">
+<span class="text-4xl font-bold text-white tracking-tight">8.5%</span>
+<span class="material-symbols-outlined text-primary opacity-30 group-hover:opacity-100 transition-opacity">payments</span>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/10 text-[10px] text-on-surface-variant">
+                        Quarterly Distribution Target
+                    </div>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xl hover:bg-surface-bright transition-colors group">
+<p class="text-[11px] font-bold uppercase tracking-[0.15em] text-on-surface-variant mb-4">Hold Period</p>
+<div class="flex items-end justify-between">
+<span class="text-4xl font-bold text-white tracking-tight">5 Years</span>
+<span class="material-symbols-outlined text-primary opacity-30 group-hover:opacity-100 transition-opacity">event_repeat</span>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/10 text-[10px] text-on-surface-variant">
+                        Scheduled Asset Liquidation
+                    </div>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xl hover:bg-surface-bright transition-colors group">
+<p class="text-[11px] font-bold uppercase tracking-[0.15em] text-on-surface-variant mb-4">LTV Ratio</p>
+<div class="flex items-end justify-between">
+<span class="text-4xl font-bold text-white tracking-tight">62.0%</span>
+<span class="material-symbols-outlined text-primary opacity-30 group-hover:opacity-100 transition-opacity">account_balance</span>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/10 text-[10px] text-on-surface-variant">
+                        Conservative Leverage Structure
+                    </div>
+</div>
+</div>
+<!-- Lower Layout: Main Insights & Side Info -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Center Column: Pulse & Details -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Daily Pulse Section -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+<h3 class="text-xl font-bold text-white">Project Pulse</h3>
+<button class="text-xs font-bold uppercase tracking-widest text-primary hover:underline">View Ledger</button>
+</div>
+<div class="divide-y divide-outline-variant/10">
+<div class="p-6 flex gap-6 hover:bg-surface-container-high/50 transition-colors">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">engineering</span>
+</div>
+<div class="space-y-1">
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-white">Structural Phase IV Complete</span>
+<span class="text-[10px] text-on-surface-variant">2 hours ago</span>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">External curtain wall installation finalized for floors 12-18. Engineering sign-off obtained for primary HVAC load-balancing units.</p>
+</div>
+</div>
+<div class="p-6 flex gap-6 hover:bg-surface-container-high/50 transition-colors">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">description</span>
+</div>
+<div class="space-y-1">
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-white">Lease Agreement: Global Tech Anchor</span>
+<span class="text-[10px] text-on-surface-variant">Yesterday</span>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">Letter of Intent signed for 45,000 sq ft of premium office space. Anchoring lease secures 12% of total project revenue.</p>
+</div>
+</div>
+<div class="p-6 flex gap-6 hover:bg-surface-container-high/50 transition-colors">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+</div>
+<div class="space-y-1">
+<div class="flex items-center gap-3">
+<span class="text-sm font-bold text-white">BREEAM Excellence Certification</span>
+<span class="text-[10px] text-on-surface-variant">3 days ago</span>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">Interim audit confirms 'Outstanding' rating for energy efficiency and sustainable material sourcing.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Institutional Backing -->
+<div>
+<h3 class="text-[11px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-6">Underwriting &amp; Institutional Backing</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-high/50 aspect-[3/2] rounded-lg flex flex-col items-center justify-center p-4 group cursor-pointer hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined text-3xl mb-2 text-outline group-hover:text-primary transition-colors">account_balance</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant group-hover:text-white transition-colors">Global Trust Co.</span>
+</div>
+<div class="bg-surface-container-high/50 aspect-[3/2] rounded-lg flex flex-col items-center justify-center p-4 group cursor-pointer hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined text-3xl mb-2 text-outline group-hover:text-primary transition-colors">security</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant group-hover:text-white transition-colors">Securitas Asset</span>
+</div>
+<div class="bg-surface-container-high/50 aspect-[3/2] rounded-lg flex flex-col items-center justify-center p-4 group cursor-pointer hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined text-3xl mb-2 text-outline group-hover:text-primary transition-colors">gavel</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant group-hover:text-white transition-colors">Legis Underwriting</span>
+</div>
+<div class="bg-surface-container-high/50 aspect-[3/2] rounded-lg flex flex-col items-center justify-center p-4 group cursor-pointer hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined text-3xl mb-2 text-outline group-hover:text-primary transition-colors">query_stats</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant group-hover:text-white transition-colors">Prime Analytics</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Market context -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Market Context Widget -->
+<div class="bg-surface-container-high p-8 rounded-xl border border-outline-variant/10 space-y-8">
+<div>
+<h3 class="text-sm font-bold uppercase tracking-widest text-white mb-6">Regional Market Data</h3>
+<div class="space-y-6">
+<div class="flex justify-between items-center">
+<span class="text-sm text-on-surface-variant">Avg. Vacancy Rate</span>
+<div class="text-right">
+<p class="text-lg font-bold text-white">4.2%</p>
+<p class="text-[10px] text-primary">Institutional Low</p>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-on-surface-variant">Rental Growth (YoY)</span>
+<div class="text-right">
+<p class="text-lg font-bold text-white">+12.8%</p>
+<p class="text-[10px] text-primary">Top Tier Market</p>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-on-surface-variant">Prime Yield Cap</span>
+<div class="text-right">
+<p class="text-lg font-bold text-white">5.1%</p>
+<p class="text-[10px] text-on-surface-variant">Market Standard</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Map Placeholder -->
+<div class="relative h-48 w-full rounded-lg overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover opacity-50" data-alt="A sophisticated, dark-themed satellite map overlay of a prime metropolitan business district. The map shows structural grid patterns in muted cool tones, with golden light accents indicating high-traffic commercial zones and the specific location of Apex Prime Plaza highlighted with a glowing blue waypoint. The visual style is technical, architectural, and high-tech." data-location="New York, USA" src="https://lh3.googleusercontent.com/aida/ADBb0ujxOsxLo0Iy0mAAsNhbf08V_EASwADc14Fkwf0TsyIbuGFmoTP919DUIJ1c2eO5QshybWL4CbF-DsCNKKKYaVde4bu15N-BZhpREvy3OmHvCnI0EMCe9tmFlIXJUG9S-IXimv2hb9ORvVeugk5P_YM5RxPcBilKKAmQkXB-2CdbZkWjyPRO1YcbdKdUa5uROBmNRRQqT88Q5x68wx6wCHZUUvVFTzbnzpbgI7lmXBgymBoy-nGZx7CDI4VHKQdOAUybThJxyVqjG-g"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-primary/20 p-2 rounded-full border border-primary animate-pulse">
+<div class="w-3 h-3 bg-primary rounded-full"></div>
+</div>
+</div>
+<div class="absolute bottom-2 left-2 bg-surface-container-highest px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
+                                District: Prime-A Central
+                            </div>
+</div>
+<div class="p-4 bg-primary/5 rounded-lg border border-primary/10">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl">info</span>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                                    The regional market has shown 24 consecutive months of appreciation. Apex Prime Plaza is positioned at the intersection of the city's financial and technology corridors.
+                                </p>
+</div>
+</div>
+</div>
+<!-- Asset Documents -->
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<h3 class="text-sm font-bold uppercase tracking-widest text-white mb-4">Investment Materials</h3>
+<div class="space-y-2">
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-high transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">picture_as_pdf</span>
+<span class="text-xs font-medium text-on-surface-variant group-hover:text-white">Full Prospectus v4.0</span>
+</div>
+<span class="material-symbols-outlined text-sm text-outline">download</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-high transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">analytics</span>
+<span class="text-xs font-medium text-on-surface-variant group-hover:text-white">Financial Models (XLSX)</span>
+</div>
+<span class="material-symbols-outlined text-sm text-outline">download</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-high transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">history_edu</span>
+<span class="text-xs font-medium text-on-surface-variant group-hover:text-white">Legal Structure &amp; Deeds</span>
+</div>
+<span class="material-symbols-outlined text-sm text-outline">download</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Spacer for Desktop -->
+<div class="h-12 md:h-0"></div>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component Logic - Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 md:hidden bg-[#0b1326]/80 backdrop-blur-xl border-t border-[#222a3d] z-50">
+<a class="flex flex-col items-center justify-center text-[#c2c6d6] p-2 hover:bg-[#222a3d] transition-transform" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-['Inter'] label-sm font-bold uppercase text-[9px] mt-1">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#3b82f6] p-2 bg-[#3b82f6]/10 rounded-xl transition-transform" href="#">
+<span class="material-symbols-outlined">engineering</span>
+<span class="font-['Inter'] label-sm font-bold uppercase text-[9px] mt-1">Teams</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#c2c6d6] p-2 hover:bg-[#222a3d] transition-transform" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-['Inter'] label-sm font-bold uppercase text-[9px] mt-1">Land</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#c2c6d6] p-2 hover:bg-[#222a3d] transition-transform" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-['Inter'] label-sm font-bold uppercase text-[9px] mt-1">Alerts</span>
+</a>
+</nav>
+</body></html>

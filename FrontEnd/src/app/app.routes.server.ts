@@ -3,10 +3,26 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 export const serverRoutes: ServerRoute[] = [
   {
     path: 'analisis/:id',
-    renderMode: RenderMode.Server // Asegura que las rutas con :id no se pre-rendericen
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'admin/proyectos/:id',
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'admin/proyectos/:id/editar',
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'admin/validar-terreno/:id',
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'inversor/inversion-detalle',
+    renderMode: RenderMode.Server
   },
   {
     path: '**',
-    renderMode: RenderMode.Prerender // El resto de rutas estáticas se mantienen rápidas
+    renderMode: RenderMode.Prerender
   }
 ];

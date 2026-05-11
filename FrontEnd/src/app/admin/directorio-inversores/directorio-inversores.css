@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+table th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.bg-blue-500\/10 { background-color: rgba(59, 130, 246, 0.1); }
+.text-blue-500 { color: #3b82f6; }
+
+.bg-purple-500\/10 { background-color: rgba(168, 85, 247, 0.1); }
+.text-purple-500 { color: #a855f7; }
+
+.bg-emerald-500\/10 { background-color: rgba(16, 185, 129, 0.1); }
+.text-emerald-500 { color: #10b981; }
+
+.bg-amber-500\/10 { background-color: rgba(245, 158, 11, 0.1); }
+.text-amber-500 { color: #f59e0b; }
+
+.bg-rose-500\/10 { background-color: rgba(244, 63, 94, 0.1); }
+.text-rose-500 { color: #f43f5e; }

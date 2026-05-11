@@ -18,14 +18,34 @@ export class LandingPage implements OnInit {
     public mostrarLogin: boolean = false;
 
     ngOnInit(): void {
-        if (this.authService.estaAutenticado()) {
-            this.router.navigate(['/mapa']);
+        const usuario = this.authService.usuarioActual();
+        if (usuario) {
+            const rol = (usuario.rol || '').toLowerCase();
+            if (rol === 'inversor') {
+                this.router.navigate(['/inversor']);
+            } else if (rol === 'constructor') {
+                this.router.navigate(['/constructor']);
+            } else if (rol === 'admin' || rol === 'super-admin') {
+                this.router.navigate(['/admin/dashboard']);
+            } else {
+                this.router.navigate(['/mapa']);
+            }
         }
     }
 
     procesarLogin(usuario: any): void {
         this.authService.login(usuario);
         this.mostrarLogin = false;
-        this.router.navigate(['/mapa']);
+        
+        const rol = (usuario.rol || '').toLowerCase();
+        if (rol === 'inversor') {
+            this.router.navigate(['/inversor']);
+        } else if (rol === 'constructor') {
+            this.router.navigate(['/constructor']);
+        } else if (rol === 'admin' || rol === 'super-admin') {
+            this.router.navigate(['/admin/dashboard']);
+        } else {
+            this.router.navigate(['/mapa']);
+        }
     }
 }

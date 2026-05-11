@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Consola de Control de Cumplimiento - Global Legal Health</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#461f00",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "primary-container": "#4d8eff",
+                        "inverse-on-surface": "#283044",
+                        "on-tertiary-fixed": "#311400",
+                        "on-surface": "#dae2fd",
+                        "primary-fixed-dim": "#adc6ff",
+                        "surface-container-lowest": "#060e20",
+                        "secondary": "#bcc7de",
+                        "inverse-surface": "#dae2fd",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#df7412",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container-high": "#222a3d",
+                        "secondary-container": "#3e495d",
+                        "inverse-primary": "#005ac2",
+                        "surface-bright": "#31394d",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "surface-variant": "#2d3449",
+                        "on-primary": "#002e6a",
+                        "outline-variant": "#424754",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-secondary-fixed": "#111c2d",
+                        "surface-tint": "#adc6ff",
+                        "on-background": "#dae2fd",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "surface": "#0b1326",
+                        "tertiary-fixed": "#ffdcc6",
+                        "outline": "#8c909f",
+                        "surface-container": "#171f33",
+                        "primary": "#adc6ff",
+                        "on-secondary": "#263143",
+                        "on-secondary-container": "#aeb9d0",
+                        "on-tertiary": "#502400",
+                        "on-primary-fixed": "#001a42",
+                        "secondary-fixed": "#d8e3fb",
+                        "surface-dim": "#0b1326",
+                        "background": "#0b1326",
+                        "tertiary": "#ffb786",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-primary-container": "#00285d",
+                        "surface-container-low": "#131b2e",
+                        "primary-fixed": "#d8e2ff",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-surface-variant": "#c2c6d6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "display": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-glow-red {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
+        }
+        .bento-glow-yellow {
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+        }
+        .bento-glow-green {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header Section -->
+<div class="flex items-center bg-surface p-4 pb-2 justify-between sticky top-0 z-50">
+<div class="text-white flex size-12 shrink-0 items-center">
+<span class="material-symbols-outlined text-primary text-2xl">list</span>
+</div>
+<h2 class="text-on-surface text-lg font-bold leading-tight tracking-[-0.015em] flex-1">Global Legal Health</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<span class="material-symbols-outlined text-primary text-2xl">account_circle</span>
+</button>
+</div>
+</div>
+<!-- Filters Section -->
+<div class="flex gap-3 p-4 overflow-x-auto no-scrollbar bg-surface-container-low">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-container-high px-4 hover:bg-surface-container-highest transition-colors">
+<p class="text-on-surface text-sm font-medium leading-normal">Todos los Activos</p>
+<span class="material-symbols-outlined text-primary text-sm">keyboard_arrow_down</span>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-container-high px-4 border border-primary/20">
+<p class="text-primary text-sm font-medium leading-normal">Vertical</p>
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-surface-container-high px-4 hover:bg-surface-container-highest transition-colors">
+<p class="text-on-surface text-sm font-medium leading-normal">Horizontal</p>
+<span class="material-symbols-outlined text-primary text-sm">keyboard_arrow_down</span>
+</button>
+</div>
+<!-- Main Dashboard Content -->
+<main class="flex-1 p-4 md:p-6 space-y-6">
+<!-- Summary Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-surface-container-high border-t-2 border-green-500/50 bento-glow-green">
+<p class="text-on-surface-variant text-label-sm font-bold uppercase tracking-wider">Salud Legal Global</p>
+<div class="flex items-baseline gap-2">
+<span class="text-on-surface text-4xl font-bold tracking-tight">88%</span>
+<span class="text-green-400 text-sm font-medium">+2% vs mes anterior</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-surface-container-high border-t-2 border-primary/50">
+<p class="text-on-surface-variant text-label-sm font-bold uppercase tracking-wider">Blindaje Jurídico</p>
+<div class="flex items-baseline gap-2">
+<span class="text-on-surface text-4xl font-bold tracking-tight">94%</span>
+<span class="text-primary text-sm font-medium">Nivel: Óptimo</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-surface-container-high border-t-2 border-red-500/50 bento-glow-red">
+<p class="text-on-surface-variant text-label-sm font-bold uppercase tracking-wider">Riesgos Críticos</p>
+<div class="flex items-baseline gap-2">
+<span class="text-red-400 text-4xl font-bold tracking-tight">03</span>
+<span class="text-on-surface-variant text-sm font-medium">Requieren atención</span>
+</div>
+</div>
+</div>
+<!-- Semaphore Status Grid -->
+<section>
+<h2 class="text-on-surface text-headline-md font-bold mb-4 px-1">Estado Semafórico de Activos</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<!-- Alert Item: Critical -->
+<div class="md:col-span-2 flex flex-col gap-4 rounded-xl p-6 bg-surface-container-low bento-glow-red border border-red-500/10">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-red-500/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-red-500 text-3xl">warning</span>
+</div>
+<div>
+<h3 class="text-on-surface font-semibold">Torre Financiera Sur</h3>
+<p class="text-on-surface-variant text-sm">Vencimiento: Licencia Ambiental</p>
+</div>
+</div>
+<span class="bg-red-500 text-on-error px-2 py-1 rounded text-[10px] font-bold uppercase">Vencido</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-red-500" style="width: 100%"></div>
+</div>
+<div class="flex justify-between items-center">
+<p class="text-on-surface-variant text-xs">Acción requerida: Renovación inmediata</p>
+<button class="text-primary text-sm font-bold flex items-center gap-1">Gestionar <span class="material-symbols-outlined text-sm">arrow_forward</span></button>
+</div>
+</div>
+<!-- Warning Item -->
+<div class="flex flex-col gap-4 rounded-xl p-6 bg-surface-container-low bento-glow-yellow border border-amber-500/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-amber-500">schedule</span>
+</div>
+<h3 class="text-on-surface font-semibold text-sm">Parque Logístico Norte</h3>
+</div>
+<p class="text-on-surface-variant text-xs">Póliza de Responsabilidad Civil expira en <span class="text-amber-400 font-bold">12 días</span>.</p>
+<div class="mt-auto">
+<div class="flex justify-between text-[10px] uppercase font-bold mb-1 text-on-surface-variant">
+<span>Progreso</span>
+<span>75%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full">
+<div class="h-full bg-amber-500" style="width: 75%"></div>
+</div>
+</div>
+</div>
+<!-- Clean Item -->
+<div class="flex flex-col gap-4 rounded-xl p-6 bg-surface-container-low bento-glow-green border border-green-500/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-green-500" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h3 class="text-on-surface font-semibold text-sm">Centro Corporativo Este</h3>
+</div>
+<p class="text-on-surface-variant text-xs">Todos los documentos legales están al día.</p>
+<div class="mt-auto">
+<span class="text-green-400 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">verified</span> Cumplimiento 100%
+                            </span>
+</div>
+</div>
+<!-- Summary Chart Component (Placeholder style) -->
+<div class="md:col-span-4 rounded-xl bg-surface-container-low p-6 flex flex-col md:flex-row gap-8 items-center border border-outline-variant/10">
+<div class="relative w-48 h-48 flex items-center justify-center shrink-0">
+<!-- SVG Donut Chart Simulation -->
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-green-500" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-dasharray="502" stroke-dashoffset="60" stroke-width="12"></circle>
+<circle class="text-amber-500" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-dasharray="502" stroke-dashoffset="442" stroke-width="12"></circle>
+<circle class="text-red-500" cx="96" cy="96" fill="transparent" r="80" stroke="currentColor" stroke-dasharray="502" stroke-dashoffset="482" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="text-3xl font-bold text-on-surface">14</span>
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">Activos Totales</span>
+</div>
+</div>
+<div class="flex-1 grid grid-cols-2 gap-x-8 gap-y-4">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-green-500"></div>
+<div>
+<p class="text-on-surface font-semibold">10 Activos</p>
+<p class="text-on-surface-variant text-xs font-bold uppercase">Al Día</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-amber-500"></div>
+<div>
+<p class="text-on-surface font-semibold">03 Activos</p>
+<p class="text-on-surface-variant text-xs font-bold uppercase">Por Vencer</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-red-500"></div>
+<div>
+<p class="text-on-surface font-semibold">01 Activo</p>
+<p class="text-on-surface-variant text-xs font-bold uppercase">Crítico</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider hover:brightness-110 transition-all">
+                                    Ver Reporte Completo
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<div class="flex gap-2 border-t border-outline-variant bg-surface px-4 pb-3 pt-2 sticky bottom-0">
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 rounded-full text-primary" href="#">
+<div class="text-primary flex h-8 items-center justify-center" data-icon="Gauge" data-size="24px" data-weight="fill">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<p class="text-primary text-xs font-medium leading-normal tracking-[0.015em]">Dashboard</p>
+</a>
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 text-on-surface-variant" href="#">
+<div class="text-on-surface-variant flex h-8 items-center justify-center" data-icon="Buildings" data-size="24px" data-weight="regular">
+<span class="material-symbols-outlined">apartment</span>
+</div>
+<p class="text-on-surface-variant text-xs font-medium leading-normal tracking-[0.015em]">Activos</p>
+</a>
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 text-on-surface-variant" href="#">
+<div class="text-on-surface-variant flex h-8 items-center justify-center" data-icon="Exam" data-size="24px" data-weight="regular">
+<span class="material-symbols-outlined">article</span>
+</div>
+<p class="text-on-surface-variant text-xs font-medium leading-normal tracking-[0.015em]">Reportes</p>
+</a>
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 text-on-surface-variant" href="#">
+<div class="text-on-surface-variant flex h-8 items-center justify-center" data-icon="Gear" data-size="24px" data-weight="regular">
+<span class="material-symbols-outlined">settings</span>
+</div>
+<p class="text-on-surface-variant text-xs font-medium leading-normal tracking-[0.015em]">Ajustes</p>
+</a>
+</div>
+</div>
+</body></html>

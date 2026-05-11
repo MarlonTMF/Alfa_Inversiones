@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AssetArchitect | Publicar Avance Legal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#4d8eff",
+                        "on-secondary": "#263143",
+                        "primary-fixed": "#d8e2ff",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#00285d",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-background": "#dae2fd",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-tertiary-container": "#461f00",
+                        "on-primary-fixed-variant": "#004395",
+                        "outline": "#8c909f",
+                        "on-primary": "#002e6a",
+                        "on-surface-variant": "#c2c6d6",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "tertiary": "#ffb786",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container-high": "#222a3d",
+                        "on-secondary-container": "#aeb9d0",
+                        "on-tertiary-fixed": "#311400",
+                        "on-surface": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-error": "#690005",
+                        "surface-container": "#171f33",
+                        "secondary-fixed": "#d8e3fb",
+                        "inverse-on-surface": "#283044",
+                        "surface-tint": "#adc6ff",
+                        "surface-container-low": "#131b2e",
+                        "on-secondary-fixed": "#111c2d",
+                        "inverse-primary": "#005ac2",
+                        "primary": "#adc6ff",
+                        "surface-variant": "#2d3449",
+                        "tertiary-fixed": "#ffdcc6",
+                        "error-container": "#93000a",
+                        "surface-bright": "#31394d",
+                        "outline-variant": "#424754",
+                        "surface-dim": "#0b1326",
+                        "surface": "#0b1326",
+                        "tertiary-container": "#df7412",
+                        "secondary": "#bcc7de",
+                        "secondary-container": "#3e495d",
+                        "background": "#0b1326",
+                        "surface-container-lowest": "#060e20",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#502400",
+                        "on-primary-fixed": "#001a42",
+                        "inverse-surface": "#dae2fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "display": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(45, 52, 73, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #060e20; }
+        ::-webkit-scrollbar-thumb { background: #2d3449; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary/30 min-h-screen flex">
+<!-- Sidebar Navigation Drawer -->
+<aside class="hidden md:flex flex-col gap-2 p-4 h-full w-72 fixed left-0 top-0 bg-[#060e20] shadow-[20px_0_40px_rgba(0,0,0,0.3)] z-50">
+<div class="flex items-center gap-3 px-2 py-6 mb-4">
+<span class="material-symbols-outlined text-[#3b82f6] text-3xl" style="font-variation-settings: 'FILL' 1;">domain</span>
+<span class="text-[#adc6ff] font-black text-xl tracking-tighter">AssetArchitect</span>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<div class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] rounded-lg transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-[0.05em]">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] rounded-lg transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">business_center</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-[0.05em]">Portfolio</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] rounded-lg transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">engineering</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-[0.05em]">Construction</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] rounded-lg transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">payments</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-[0.05em]">Financials</span>
+</div>
+<!-- Active State: Legal -->
+<div class="flex items-center gap-3 px-4 py-3 bg-[#222a3d] text-[#3b82f6] rounded-lg font-bold transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">balance</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-[0.05em]">Legal</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] rounded-lg transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span class="font-['Inter'] text-sm font-medium uppercase tracking-[0.05em]">Settings</span>
+</div>
+</nav>
+<div class="mt-auto p-4 bg-[#131b2e] rounded-xl flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of an institutional real estate fund manager, dressed in a sleek charcoal grey suit against a blurred architectural background of a modern glass skyscraper. The lighting is focused and professional, highlighting a sense of authority and global expertise. The overall aesthetic is clean, sharp, and aligned with a premium dark-themed financial interface." src="https://lh3.googleusercontent.com/aida/ADBb0uhT2uwdlm_dPlgGopP2eHFRkiUaXZr7k0zkmKPTQI-4O489V_xBg1Aa08Gf90ZrY8vPL0-q9DRNlDTCo2ZGELRqnuHNAd6sc6rYb6ODbdUb666AT4uHwJJdjOtR1gxBBt_yb4nz2Uo7cgd1Kn7B7CDXJ45CtIFAeMez6LiK0wt4Nxyc--Uhrn9n7EquVFCYPrJ3tlJJMmIBAVbbxVKMgNFddwxqIGG459e_NkzaPWuC4i0Ep52bFR_9lu8bCj7d9leQTrZylEZ7dyw"/>
+</div>
+<div class="flex flex-col">
+<span class="text-on-surface text-sm font-bold">Institutional Admin</span>
+<span class="text-on-surface-variant text-[10px] uppercase tracking-wider">Global Manager</span>
+</div>
+</div>
+<span class="text-outline text-[10px] font-mono">v2.4.0</span>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-72 flex flex-col">
+<!-- Top App Bar -->
+<header class="bg-[#0b1326]/80 backdrop-blur-xl flex items-center justify-between px-6 py-4 w-full sticky top-0 z-40 border-b border-outline-variant/10">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#3b82f6]">domain</span>
+<h1 class="font-['Inter'] font-semibold tracking-tight text-on-surface">Publicar Avance Legal</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center gap-2 px-3 py-1 bg-surface-container-low rounded-full border border-outline-variant/20">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Live Audit Active</span>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-[#3b82f6] p-0.5">
+<img class="w-full h-full rounded-full object-cover" data-alt="A small circular avatar of a high-end commercial property developer, showcasing a polished and trustworthy appearance. The image has a deep, dramatic lighting setup with cool blue undertones to match the obsidian surface logic of the dashboard. It conveys a sense of high-stakes asset management and meticulous professional structure." src="https://lh3.googleusercontent.com/aida/ADBb0uhAQEFTsUyt8n6x0YOWZmra4Uyp7EjIQXVbbCHJ9YFi3LTdZdz7A5Kboqj6vck7y6261DdRxSMHNkSx_4HIIvFN14UR6OSZMqmlB_B4c4Mb4-2c1YM13lnsxMCYHP_dyjWHdc3iNJGZCsiV-JeOI4BBATCK4eRYWFxKUhyS2s2HbJqappiXwDAWgRcK1rycELjZGeIP-_N_lTBF_BGXUHHEsuxXM7rLsagfB4ZUjacXbqokFrm6nEx8lftPeFwzVQi_mUKrPSd3rQ"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-6 lg:p-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Form Inputs -->
+<div class="lg:col-span-8 flex flex-col gap-8">
+<!-- Form Header -->
+<div class="flex flex-col gap-2">
+<span class="text-primary text-xs font-bold uppercase tracking-[0.2em]">Formulario de Registro</span>
+<h2 class="text-3xl font-bold tracking-tight text-on-surface">Nueva Actualización Documental</h2>
+<p class="text-on-surface-variant text-sm max-w-2xl leading-relaxed">Complete los campos técnicos requeridos para la validación del activo. Los documentos cargados serán auditados por el departamento legal antes de su consolidación final.</p>
+</div>
+<!-- Main Form Card -->
+<div class="bg-surface-container-high rounded-xl p-8 shadow-2xl shadow-black/40 flex flex-col gap-8">
+<!-- Category & Status -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-[11px] font-bold uppercase tracking-widest text-primary">Categoría Documental</label>
+<select class="bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface focus:border-primary focus:ring-0 transition-all appearance-none cursor-pointer">
+<option>Permiso de Construcción</option>
+<option>Licencia Ambiental</option>
+<option>Título de Propiedad</option>
+<option>Certificado de Tradición</option>
+<option>Poder Representativo</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-[11px] font-bold uppercase tracking-widest text-primary">Estado Inicial</label>
+<div class="flex gap-2">
+<button class="flex-1 py-2 rounded-lg border border-primary text-primary text-xs font-bold bg-primary/5 transition-all">Verificado</button>
+<button class="flex-1 py-2 rounded-lg border border-outline-variant/20 text-on-surface-variant text-xs font-bold hover:bg-surface-container-highest transition-all">En Proceso</button>
+<button class="flex-1 py-2 rounded-lg border border-outline-variant/20 text-on-surface-variant text-xs font-bold hover:bg-surface-container-highest transition-all">Pendiente</button>
+</div>
+</div>
+</div>
+<!-- Technical Fields -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-[11px] font-bold uppercase tracking-widest text-primary">Referencia Oficial</label>
+<input class="bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface focus:border-primary focus:ring-0 transition-all" placeholder="REF-2024-001" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-[11px] font-bold uppercase tracking-widest text-primary">Fecha de Emisión</label>
+<input class="bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface focus:border-primary focus:ring-0 transition-all" type="date"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-[11px] font-bold uppercase tracking-widest text-primary">Ente Emisor</label>
+<input class="bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface focus:border-primary focus:ring-0 transition-all" placeholder="Curaduría Urbana No. 4" type="text"/>
+</div>
+</div>
+<!-- Dropzone -->
+<div class="flex flex-col gap-2">
+<label class="text-[11px] font-bold uppercase tracking-widest text-primary">Expediente Digital</label>
+<div class="border-2 border-dashed border-outline-variant/30 rounded-xl bg-surface-container-lowest p-10 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">upload_file</span>
+</div>
+<div>
+<p class="text-on-surface font-semibold">Arrastre el archivo aquí o haga clic</p>
+<p class="text-on-surface-variant text-xs mt-1">Soporte para PDF, PNG, JPG (Máx. 25MB)</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-4">
+<button class="flex-1 md:flex-none px-8 py-4 bg-[#3b82f6] text-on-primary font-bold rounded-lg shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">publish</span>
+                        Publicar Actualización
+                    </button>
+<button class="flex-1 md:flex-none px-8 py-4 bg-surface-container-high border border-outline-variant/20 text-on-surface font-bold rounded-lg hover:bg-surface-container-highest transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">draft</span>
+                        Guardar como Borrador
+                    </button>
+</div>
+</div>
+<!-- Right Column: Sidebar Widgets -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<!-- Legal Shield Summary Widget -->
+<div class="bg-surface-container-high rounded-xl overflow-hidden shadow-2xl shadow-black/40">
+<div class="p-6 bg-gradient-to-br from-primary/20 to-transparent">
+<div class="flex items-center justify-between mb-6">
+<span class="text-xs font-bold uppercase tracking-[0.2em] text-primary">Blindaje Jurídico</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="text-5xl font-black text-on-surface tracking-tighter">84.2</span>
+<span class="text-xl font-bold text-primary">%</span>
+</div>
+<p class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">Salud Legal Total</p>
+</div>
+<div class="p-6 flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-[10px] font-bold uppercase text-on-surface-variant">
+<span>Impacto de esta carga</span>
+<span class="text-primary">+3.8%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[88%] rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+</div>
+</div>
+<div class="p-4 rounded-lg bg-surface-container-highest border-l-4 border-primary">
+<p class="text-xs italic text-on-surface-variant leading-relaxed">"La incorporación de la Licencia Ambiental reduce el riesgo de suspensión de obra en un 15% para el Q3."</p>
+</div>
+</div>
+</div>
+<!-- Related Assets Card -->
+<div class="bg-surface-container-high rounded-xl p-6 shadow-2xl shadow-black/40">
+<h3 class="text-sm font-bold uppercase tracking-widest text-on-surface mb-4">Proyecto Relacionado</h3>
+<div class="relative group rounded-lg overflow-hidden h-40 mb-4">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A panoramic wide-angle view of a futuristic luxury residential complex under construction at dusk. The scene is bathed in a sophisticated blue hour lighting, with cranes and scaffolding glowing under cool-toned industrial spotlights. The style is hyper-modern and architecturally focused, symbolizing progress and large-scale investment." src="https://lh3.googleusercontent.com/aida/ADBb0ui97Z3UblNdgwwVzPU7tgT7HKa9AMJ2qLG54URPqwlJpTzLq7D5YBLoXpwUA94S9yIt2vwMtzOqPcwa0p9S6MJ_H2wmJSY0P8Jsct5Qt6utqXlHkJoSq4jqkb4LDYQYc8-SlF0x7D3BVElCBQ_3Y1E-JWz4rmquK_CCcC8YSPYU235d9waZSemWpiFPTHTqPRJeLYxd9ogbLv3IdKeYIqK2paxFUAWpwBFH1Hvf5L4s7562bu3axP79F2SDCoPQqv3dH0WGaM-GWGY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-4">
+<span class="text-white font-bold tracking-tight">Skyline Heights Phase II</span>
+<span class="text-on-surface-variant text-[10px] uppercase">ID: ASSET-4820</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/10">
+<span class="text-xs text-on-surface-variant">Ubicación</span>
+<span class="text-xs font-semibold">Silicon Valley, CA</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/10">
+<span class="text-xs text-on-surface-variant">Valorización</span>
+<span class="text-xs font-semibold text-primary">$42.8M</span>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="text-xs text-on-surface-variant">Riesgo</span>
+<span class="text-xs font-semibold text-green-400">Bajo</span>
+</div>
+</div>
+</div>
+<!-- Recent Activity Feed (Minimal) -->
+<div class="flex flex-col gap-4">
+<h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-outline px-2">Historial Reciente</h3>
+<div class="flex gap-4 items-start bg-surface-container-low p-3 rounded-lg border border-outline-variant/5">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-sm">history</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold">Título de Propiedad Validado</span>
+<span class="text-[10px] text-on-surface-variant">Hace 2 horas por Sistema Central</span>
+</div>
+</div>
+<div class="flex gap-4 items-start bg-surface-container-low p-3 rounded-lg border border-outline-variant/5">
+<div class="w-8 h-8 rounded bg-primary/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-sm">edit</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold">Edición de Metadatos</span>
+<span class="text-[10px] text-on-surface-variant">Ayer por Legal Admin</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-[#0b1326]/90 backdrop-blur-lg border-t border-[#222a3d]/20 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] flex justify-around items-center h-16 px-2">
+<div class="flex flex-col items-center text-[#c2c6d6]">
+<span class="material-symbols-outlined">home_app_logo</span>
+<span class="text-[11px] font-bold uppercase tracking-widest font-['Inter']">Home</span>
+</div>
+<div class="flex flex-col items-center text-[#c2c6d6]">
+<span class="material-symbols-outlined">domain</span>
+<span class="text-[11px] font-bold uppercase tracking-widest font-['Inter']">Assets</span>
+</div>
+<!-- Active Tab: Legal/Updates -->
+<div class="flex flex-col items-center text-[#3b82f6] bg-[#3b82f6]/10 rounded-xl px-4 py-1 scale-110 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">campaign</span>
+<span class="text-[11px] font-bold uppercase tracking-widest font-['Inter']">Updates</span>
+</div>
+<div class="flex flex-col items-center text-[#c2c6d6]">
+<span class="material-symbols-outlined">menu</span>
+<span class="text-[11px] font-bold uppercase tracking-widest font-['Inter']">Menu</span>
+</div>
+</nav>
+</body></html>

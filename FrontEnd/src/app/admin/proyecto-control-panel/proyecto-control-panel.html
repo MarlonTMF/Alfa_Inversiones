@@ -6,6 +6,7 @@
         <h2 class="text-sm font-black text-[#adc6ff] uppercase tracking-tighter">{{ proyecto?.nombre || 'Cargando...' }}</h2>
         <nav class="flex items-center gap-4 ml-6">
           <button (click)="setSeccion('resumen')" class="tab-btn" [class.active]="seccionActual === 'resumen'">Resumen</button>
+          <button (click)="setSeccion('planificacion')" class="tab-btn" [class.active]="seccionActual === 'planificacion'">Planificación</button>
           <button (click)="setSeccion('legal')" class="tab-btn" [class.active]="seccionActual === 'legal'">Legal</button>
           <button (click)="setSeccion('bitacora')" class="tab-btn" [class.active]="seccionActual === 'bitacora'">Avances</button>
           <button (click)="setSeccion('inversores')" class="tab-btn" [class.active]="seccionActual === 'inversores'">Inversores</button>
@@ -22,6 +23,7 @@
   <!-- Content Area -->
   <div class="project-content">
     <app-proyecto-resumen *ngIf="seccionActual === 'resumen'" [proyecto]="proyecto" (seccionChange)="setSeccion($event)"></app-proyecto-resumen>
+    <app-proyecto-planificacion *ngIf="seccionActual === 'planificacion'" [proyecto]="proyecto"></app-proyecto-planificacion>
     <app-proyecto-legal *ngIf="seccionActual === 'legal'" [proyecto]="proyecto"></app-proyecto-legal>
     <app-proyecto-bitacora *ngIf="seccionActual === 'bitacora'" [proyecto]="proyecto"></app-proyecto-bitacora>
     <app-proyecto-inversores *ngIf="seccionActual === 'inversores'" [proyecto]="proyecto"></app-proyecto-inversores>
