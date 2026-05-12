@@ -5,6 +5,7 @@ import { Proyecto } from '../../data/fuentes-datos/proyecto.fuente-datos.js';
 import { ProyectoFase } from '../../data/fuentes-datos/proyecto-fase.fuente-datos.js';
 import { ProyectoMetrica } from '../../data/fuentes-datos/proyecto-metrica.fuente-datos.js';
 import { ProyectoDocumento } from '../../data/fuentes-datos/proyecto-documento.fuente-datos.js';
+import { ProyectoMultimedia } from '../../data/fuentes-datos/proyecto-multimedia.fuente-datos.js';
 import { ProyectoRepository } from '../../domain/interfaces/proyecto.repository.js';
 
 @Injectable()
@@ -18,6 +19,8 @@ export class ProyectoRepositoryImpl implements ProyectoRepository {
     private readonly metricaRepo: Repository<ProyectoMetrica>,
     @InjectRepository(ProyectoDocumento)
     private readonly documentoRepo: Repository<ProyectoDocumento>,
+    @InjectRepository(ProyectoMultimedia)
+    private readonly multimediaRepo: Repository<ProyectoMultimedia>,
   ) {}
 
   // CRUD básico
@@ -135,5 +138,36 @@ export class ProyectoRepositoryImpl implements ProyectoRepository {
       where: { proyectoId },
       order: { createdAt: 'DESC' },
     });
+  }
+
+  // Multimedia
+  async createMultimedia(
+    multimedia: Partial<ProyectoMultimedia>,
+  ): Promise<ProyectoMultimedia> {
+    const nueva = this.multimediaRepo.create(multimedia);
+    return this.multimediaRepo.save(nueva);
+  }
+
+  async findMultimediaByProyectoId(
+    proyectoId: string,
+  ): Promise<ProyectoMultimedia[]> {
+    return this.multimediaRepo.find({
+      where: { proyectoId },
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  async deleteMultimedia(id: string): Promise<void> {
+    await this.multimediaRepo.delete(id);
+  }
+
+  async updateMultimedia(
+    id: string,
+    multimedia: Partial<ProyectoMultimedia>,
+  ): Promise<ProyectoMultimedia> {
+    await this.multimediaRepo.update(id, multimedia);
+    const actualizada = await this.multimediaRepo.findOne({ where: { id } });
+    if (!actualizada) throw new NotFoundException('Multimedia no encontrada');
+    return actualizada;
   }
 }

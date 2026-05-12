@@ -1,97 +1,87 @@
-<div class="registro-container">
-    <div class="header-section text-center mb-8 relative">
-        <!-- Botón Volver -->
-        <div class="absolute left-0 top-0">
-            <button class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors" routerLink="/admin/dashboard">
-                <i class="bi bi-arrow-left"></i>
-                <span class="text-xs font-bold uppercase tracking-wider">Volver al Panel</span>
-            </button>
+<div class="registro-container animate-in">
+    <!-- Header -->
+    <header class="page-header">
+        <div class="header-content">
+            <p class="subtitle uppercase tracking-[0.3em] text-blue-400 font-black mb-2">Institutional Registry</p>
+            <h1 class="text-4xl font-black text-white tracking-tighter uppercase">Registrar Propiedad</h1>
         </div>
+        <button class="btn-outline-lg" routerLink="/admin/dashboard">
+            <span class="material-symbols-outlined">arrow_back</span> Volver al Panel
+        </button>
+    </header>
 
-        <h1 class="text-4xl font-bold text-white mb-2">Orquestador <span class="text-blue-500">Alfa Invest</span></h1>
-        <p class="text-gray-400 max-w-2xl mx-auto">Módulo administrativo para la captura y registro de propiedades, expedientes legales y creación de credenciales.</p>
+    <!-- Progress Indicator -->
+    <div class="progress-container" *ngIf="!registroExitoso">
+        <div class="progress-info">
+            <p class="step-count">Paso {{ pasoActual }} de 03</p>
+            <p class="step-title">{{ pasoActual === 1 ? 'Expediente Legal' : pasoActual === 2 ? 'Especificaciones Técnicas' : 'Credenciales de Acceso' }}</p>
+        </div>
+        <div class="progress-track">
+            <div [style.width.%]="(pasoActual / 3) * 100" class="progress-fill"></div>
+        </div>
     </div>
 
-    <!-- PANTALLA DE ÉXITO -->
-    <div *ngIf="registroExitoso" class="success-screen animate__animated animate__fadeIn">
-        <div class="success-card glass-panel p-8 text-center">
-            <div class="success-icon mb-6">
-                <div class="icon-circle bg-green-500 text-white mx-auto flex items-center justify-center">
-                    <i class="bi bi-check-lg text-5xl"></i>
-                </div>
+    <!-- ÉXITO -->
+    <div *ngIf="registroExitoso" class="success-screen animate-in">
+        <div class="success-card glass-panel">
+            <div class="success-icon-wrapper">
+                <i class="material-symbols-outlined">verified</i>
             </div>
-            <h2 class="text-3xl font-bold text-white mb-4">¡Registro Completado Exitosamente!</h2>
-            <p class="text-gray-300 mb-8 text-lg">El terreno ha sido guardado y ya es visible en el mapa inteligente.</p>
+            <h2 class="text-4xl font-black text-white uppercase tracking-tight mb-4">¡Propiedad Registrada!</h2>
+            <p class="text-slate-400 text-lg mb-8">El terreno ha sido guardado exitosamente y ya está disponible para su gestión.</p>
 
-            <div class="credentials-box bg-slate-800 rounded-xl p-6 mb-8 text-left border border-slate-700">
-                <h3 class="text-blue-400 font-semibold mb-4 flex items-center">
-                    <i class="bi bi-person-badge me-2"></i> Credenciales del Propietario
+            <div class="credentials-box">
+                <h3 class="text-blue-400 font-black uppercase text-xs tracking-widest mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">key</span> Acceso Propietario
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-gray-500 text-sm block mb-1 uppercase tracking-wider">Usuario (Email)</label>
-                        <p class="text-white font-mono bg-slate-900 px-3 py-2 rounded border border-slate-600 select-all">
-                            {{ formularioGeneral.get('credenciales.emailPropietario')?.value }}
-                        </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="cred-item">
+                        <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 block">USUARIO / EMAIL</label>
+                        <p class="text-white font-bold bg-white/5 p-4 rounded-2xl border border-white/5">{{ formularioGeneral.get('credenciales.emailPropietario')?.value }}</p>
                     </div>
-                    <div>
-                        <label class="text-gray-500 text-sm block mb-1 uppercase tracking-wider">Contraseña Temporal</label>
-                        <p class="text-green-400 font-mono bg-slate-900 px-3 py-2 rounded border border-slate-600 select-all">
-                            {{ formularioGeneral.get('credenciales.passwordGenerado')?.value }}
-                        </p>
+                    <div class="cred-item">
+                        <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 block">CONTRASEÑA TEMPORAL</label>
+                        <p class="text-green-400 font-black bg-white/5 p-4 rounded-2xl border border-white/5">{{ formularioGeneral.get('credenciales.passwordGenerado')?.value }}</p>
                     </div>
                 </div>
-                <p class="text-xs text-gray-500 mt-4 italic">
-                    * Entrega estas credenciales al propietario para que pueda acceder a su portafolio.
-                </p>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button (click)="irAlMapa()" class="btn-primary-lg flex items-center justify-center">
-                    <i class="bi bi-map me-2"></i> Ver en el Mapa
+                <button (click)="irAlMapa()" class="btn-primary-lg">
+                    <span class="material-symbols-outlined">map</span> Ver en el Mapa
                 </button>
-                <button (click)="registroExitoso = false; pasoActual = 1" class="btn-outline-lg flex items-center justify-center">
-                    <i class="bi bi-plus-circle me-2"></i> Registrar otro Terreno
+                <button (click)="registroExitoso = false; pasoActual = 1" class="btn-outline-lg">
+                    <span class="material-symbols-outlined">add_circle</span> Registrar Otro
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- FORMULARIO DE PASOS -->
-    <div *ngIf="!registroExitoso" class="steps-wrapper glass-panel p-1">
-        <!-- Indicador de Pasos -->
-        <div class="steps-nav p-6 border-b border-slate-700/50 flex items-center justify-between">
-            <div class="step-badge">
-                PASO {{ pasoActual }} DE 3
-            </div>
-            <div class="step-labels flex gap-8">
-                <span [class.active]="pasoActual === 1">1. DOCUMENTACIÓN</span>
-                <span [class.active]="pasoActual === 2">2. ESPECIFICACIONES</span>
-                <span [class.active]="pasoActual === 3">3. CREDENCIALES</span>
-            </div>
+    <!-- FORMULARIO -->
+    <div *ngIf="!registroExitoso" class="steps-wrapper">
+        <!-- Error Alert -->
+        <div *ngIf="errorRegistro" class="max-w-4xl mx-auto mb-8 p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-3 animate-in">
+            <span class="material-symbols-outlined text-sm">error</span> {{ errorRegistro }}
         </div>
 
-        <!-- Alerta de Error -->
-        <div *ngIf="errorRegistro" class="p-4 bg-red-500/10 border-l-4 border-red-500 text-red-400 m-6 animate__animated animate__headShake">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ errorRegistro }}
-        </div>
+        <div class="step-content">
+            <div class="glass-panel max-w-5xl mx-auto">
+                <app-paso-documentacion *ngIf="pasoActual === 1" 
+                    [documentos]="documentos"
+                    (documentosCambiados)="actualizarDocumentos($event)"
+                    (siguiente)="avanzar()"></app-paso-documentacion>
 
-        <div class="step-content p-6">
-            <app-paso-documentacion *ngIf="pasoActual === 1" 
-                [documentos]="documentos"
-                (documentosCambiados)="actualizarDocumentos($event)"
-                (siguiente)="avanzar()"></app-paso-documentacion>
+                <app-paso-especificaciones *ngIf="pasoActual === 2" 
+                    [formulario]="formEspecificaciones"
+                    (siguiente)="avanzar()"
+                    (atras)="retroceder()"></app-paso-especificaciones>
 
-            <app-paso-especificaciones *ngIf="pasoActual === 2" 
-                [formulario]="formEspecificaciones"
-                (siguiente)="avanzar()"
-                (atras)="retroceder()"></app-paso-especificaciones>
-
-            <app-paso-credenciales *ngIf="pasoActual === 3" 
-                [formulario]="formCredenciales"
-                [cargando]="cargando"
-                (siguiente)="finalizarRegistro()"
-                (atras)="retroceder()"></app-paso-credenciales>
+                <app-paso-credenciales *ngIf="pasoActual === 3" 
+                    [formulario]="formCredenciales"
+                    [cargando]="cargando"
+                    (siguiente)="finalizarRegistro()"
+                    (atras)="retroceder()"></app-paso-credenciales>
+            </div>
         </div>
     </div>
 </div>

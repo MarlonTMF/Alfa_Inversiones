@@ -47,7 +47,7 @@
           </div>
           <div class="roi-indicator" *ngIf="p.roi">
             <span class="roi-label">ROI Est.</span>
-            <span class="roi-value">{{ p.roi }}%</span>
+            <span class="roi-value">{{ p.roi | number:'1.1-1' }}%</span>
           </div>
         </div>
 

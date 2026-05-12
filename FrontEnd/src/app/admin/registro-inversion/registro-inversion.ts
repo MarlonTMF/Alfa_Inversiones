@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ProyectoService } from '../../core/services/proyecto.service';
+import { SocioService } from '../../core/services/socio.service';
+import { InversionService } from '../../core/services/inversion.service';
 
 @Component({
   selector: 'app-registro-inversion',
@@ -10,8 +13,15 @@ import { RouterLink } from '@angular/router';
   templateUrl: './registro-inversion.html',
   styleUrl: './registro-inversion.css'
 })
-export class RegistroInversion {
+export class RegistroInversion implements OnInit {
+  private proyectoService = inject(ProyectoService);
+  private socioService = inject(SocioService);
+  private inversionService = inject(InversionService);
+  private cdr = inject(ChangeDetectorRef);
+
   pasoActual = 1;
+  cargando = false;
+  error: string | null = null;
 
   form = {
     proyectoId: '',
@@ -21,23 +31,43 @@ export class RegistroInversion {
     archivo: null as File | null
   };
 
-  proyectos = [
-    { id: '1', nombre: 'Zenith Skyline Hub', categoria: 'Mixed-Use Commercial', imagen: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAzZKnuZodUWuOS5yP321QF05hUNOhxy36er7usg7Es346CPu5S-C-tSpA0wfXefUXWkKPCyDAjwdNqhsUcKIXSrMLRxcXLHPoHG5W4AX8LhtoQ1ZcWCJ3h894bl290vuE7d4P11HNlofFoKSYgkbhJtnJAhCifg3VWsZVxm53QbkvTbio33-EbZ8mY9gt2NB47zFEfSUrqkuBasZM7eBVSeueHMsc24y5-3eroG1AcSeGrwpxvmRUVkDvOmfgfMmuQtK93NYkqJCYO' },
-    { id: '2', nombre: 'Torre Los Alpes', categoria: 'Residencial', imagen: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=400' }
-  ];
-
-  inversores = [
-    { id: '1', nombre: 'Alexander Vance', empresa: 'Vance Institutional Holdings', imagen: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAxAeaCj3k3GwRfd2InbT_zev1d7vpdn-NRU6VjfbTU0_QrF8uKTx5aokY_FyRkhbTmFE_KQLBdImwHSUKPQY3f-fDmMCrPG1dm5zXAFoGes-ocAbSaiexrna_bRrldN-geUVbu-A2JzcBqIQN4dWhjAh_5ajaIn3oESjLwnlAhoJE_L83i7KQfCP-bK8-hHBTMK3rOfuFZCcnhG9b0XQoGEbx1oHG-PDJGRMAsWHArYIjYj_n2cu3wGMSeoHLTpYMKiaHhTLNCAi9L' },
-    { id: '2', nombre: 'Elena Rodriguez', empresa: 'Private Equity Group', imagen: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400' }
-  ];
+  proyectos: any[] = [];
+  inversores: any[] = [];
+  
+  searchTermProyecto = '';
+  searchTermInversor = '';
 
   proyectoSeleccionado: any = null;
   inversorSeleccionado: any = null;
 
-  constructor() {
-    // Inicializar con el primero por defecto para el mock
-    this.proyectoSeleccionado = this.proyectos[0];
-    this.inversorSeleccionado = this.inversores[0];
+  get proyectosFiltrados() {
+    return this.proyectos.filter(p => 
+      p.nombre.toLowerCase().includes(this.searchTermProyecto.toLowerCase()) ||
+      p.tipo_proyecto.toLowerCase().includes(this.searchTermProyecto.toLowerCase())
+    );
+  }
+
+  get inversoresFiltrados() {
+    return this.inversores.filter(i => 
+      i.usuario.nombre.toLowerCase().includes(this.searchTermInversor.toLowerCase()) ||
+      i.ci_dni.includes(this.searchTermInversor)
+    );
+  }
+
+  ngOnInit(): void {
+    this.cargarDatos();
+  }
+
+  cargarDatos(): void {
+    this.proyectoService.listarProyectos().subscribe({
+      next: (proyectos: any[]) => this.proyectos = proyectos,
+      error: (err: any) => console.error('Error cargando proyectos:', err)
+    });
+
+    this.socioService.obtenerInversionistas().subscribe({
+      next: (inversores: any[]) => this.inversores = inversores,
+      error: (err: any) => console.error('Error cargando inversores:', err)
+    });
   }
 
   seleccionarProyecto(p: any): void {
@@ -51,6 +81,11 @@ export class RegistroInversion {
   }
 
   nextStep(): void {
+    if (this.pasoActual === 1 && (!this.proyectoSeleccionado || !this.inversorSeleccionado)) {
+      this.error = 'Debe seleccionar un proyecto y un inversionista';
+      return;
+    }
+    this.error = null;
     if (this.pasoActual < 2) {
       this.pasoActual++;
     }
@@ -70,7 +105,47 @@ export class RegistroInversion {
   }
 
   finalizarRegistro(): void {
-    console.log('Inversión Registrada:', this.form);
-    this.pasoActual = 3; // Éxito
+    if (this.form.monto <= 0) {
+      this.error = 'El monto debe ser mayor a 0';
+      return;
+    }
+
+    this.cargando = true;
+    this.error = null;
+
+    const formData = new FormData();
+    formData.append('proyectoId', this.form.proyectoId);
+    formData.append('inversorId', this.form.inversorId);
+    formData.append('monto', this.form.monto.toString());
+    formData.append('fecha', this.form.fecha);
+    if (this.form.archivo) {
+      formData.append('archivo', this.form.archivo);
+    }
+
+    this.inversionService.registrarInversion(formData).subscribe({
+      next: () => {
+        this.cargando = false;
+        this.pasoActual = 3; // Éxito
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.cargando = false;
+        this.error = err.error?.message || 'Error al registrar la inversión';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  nuevoRegistro(): void {
+    this.pasoActual = 1;
+    this.form = {
+      proyectoId: '',
+      inversorId: '',
+      monto: 0,
+      fecha: new Date().toISOString().split('T')[0],
+      archivo: null as File | null
+    };
+    this.proyectoSeleccionado = null;
+    this.inversorSeleccionado = null;
   }
 }

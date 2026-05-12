@@ -6,6 +6,7 @@ import { Proyecto } from './data/fuentes-datos/proyecto.fuente-datos.js';
 import { ProyectoFase } from './data/fuentes-datos/proyecto-fase.fuente-datos.js';
 import { ProyectoMetrica } from './data/fuentes-datos/proyecto-metrica.fuente-datos.js';
 import { ProyectoDocumento } from './data/fuentes-datos/proyecto-documento.fuente-datos.js';
+import { ProyectoMultimedia } from './data/fuentes-datos/proyecto-multimedia.fuente-datos.js';
 import { ProyectoRepositoryImpl } from './data/repositorios/proyecto.repository-impl.js';
 
 import { PROYECTO_REPOSITORIO } from './domain/interfaces/proyecto.repository.js';
@@ -26,7 +27,18 @@ import { GetUltimaMetricaCasoUso } from './domain/use-cases/get-ultima-metrica.c
 import { CrearProyectoDocumentoCasoUso } from './domain/use-cases/crear-proyecto-documento.caso-uso.js';
 import { GetProyectoDocumentosCasoUso } from './domain/use-cases/get-proyecto-documentos.caso-uso.js';
 
+// Multimedia Use Cases
+import { AddProyectoMultimediaCasoUso } from './domain/use-cases/add-proyecto-multimedia.caso-uso.js';
+import { GetProyectoMultimediaCasoUso } from './domain/use-cases/get-proyecto-multimedia.caso-uso.js';
+import { DeleteProyectoMultimediaCasoUso } from './domain/use-cases/delete-proyecto-multimedia.caso-uso.js';
+import { SetMainProyectoMultimediaCasoUso } from './domain/use-cases/set-main-proyecto-multimedia.caso-uso.js';
+
+// Services
+import { ImageKitService } from '../common/services/imagekit.service.js';
+import { CloudinaryService } from '../common/services/cloudinary.service.js';
+
 import { ProyectosControlador } from './presentation/controllers/proyectos.controlador.js';
+import { ProyectoMultimediaControlador } from './presentation/controllers/proyecto-multimedia.controlador.js';
 
 @Module({
   imports: [
@@ -35,11 +47,14 @@ import { ProyectosControlador } from './presentation/controllers/proyectos.contr
       ProyectoFase,
       ProyectoMetrica,
       ProyectoDocumento,
+      ProyectoMultimedia,
     ]),
   ],
-  controllers: [ProyectosControlador],
+  controllers: [ProyectosControlador, ProyectoMultimediaControlador],
   providers: [
     AdminGuard,
+    ImageKitService,
+    CloudinaryService,
     {
       provide: PROYECTO_REPOSITORIO,
       useClass: ProyectoRepositoryImpl,
@@ -60,6 +75,10 @@ import { ProyectosControlador } from './presentation/controllers/proyectos.contr
     GetUltimaMetricaCasoUso,
     CrearProyectoDocumentoCasoUso,
     GetProyectoDocumentosCasoUso,
+    AddProyectoMultimediaCasoUso,
+    GetProyectoMultimediaCasoUso,
+    DeleteProyectoMultimediaCasoUso,
+    SetMainProyectoMultimediaCasoUso,
   ],
   exports: [PROYECTO_REPOSITORIO],
 })

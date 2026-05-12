@@ -5,11 +5,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
   JoinColumn,
 } from 'typeorm';
 import { PropertyFuenteDatos } from '../../../registro_propiedades/data/fuentes-datos/property.fuente-datos.js';
 import { SocioFuenteDatos } from '../../../socios/data/fuentes-datos/socio.fuente-datos.js';
 import { UsuarioFuenteDatos } from '../../../autenticacion/data/fuentes-datos/usuario.fuente-datos.js';
+import { ProyectoMultimedia } from './proyecto-multimedia.fuente-datos.js';
 
 @Entity('proyectos')
 export class Proyecto {
@@ -120,6 +122,9 @@ export class Proyecto {
   @ManyToOne(() => UsuarioFuenteDatos, { nullable: true })
   @JoinColumn({ name: 'creator_id' })
   creator: UsuarioFuenteDatos;
+
+  @OneToMany(() => ProyectoMultimedia, (multimedia) => multimedia.proyecto)
+  multimedia: ProyectoMultimedia[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

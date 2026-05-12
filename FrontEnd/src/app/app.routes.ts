@@ -87,6 +87,11 @@ export const routes: Routes = [
           import('./admin/registro-socio/registro-socio').then((m) => m.RegistroSocio),
       },
       {
+        path: 'registro-inversionista',
+        loadComponent: () =>
+          import('./admin/registro-inversionista/registro-inversionista').then((m) => m.RegistroInversionista),
+      },
+      {
         path: 'registro-terreno',
         loadComponent: () =>
           import('./registro-terreno/registro-terreno').then((m) => m.RegistroTerreno),

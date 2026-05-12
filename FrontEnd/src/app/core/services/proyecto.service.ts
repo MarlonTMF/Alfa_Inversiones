@@ -53,6 +53,40 @@ export class ProyectoService {
     });
   }
 
+  // Multimedia (Específica del Proyecto)
+  uploadMultimedia(proyectoId: string, files: File[], category: string = 'general') {
+    const formData = new FormData();
+    files.forEach(file => formData.append('files', file));
+    formData.append('category', category);
+    return this.http.post<any>(`${this.apiUrl}/${proyectoId}/multimedia/upload`, formData, {
+      headers: this.buildAdminHeaders(),
+    });
+  }
+
+  addExternalVideo(proyectoId: string, url: string, category: string = 'general') {
+    return this.http.post<any>(`${this.apiUrl}/${proyectoId}/multimedia/external`, { url, category }, {
+      headers: this.buildAdminHeaders(),
+    });
+  }
+
+  listarMultimedia(proyectoId: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/${proyectoId}/multimedia`, {
+      headers: this.buildAdminHeaders(),
+    });
+  }
+
+  eliminarMultimedia(proyectoId: string, fileId: string) {
+    return this.http.delete(`${this.apiUrl}/${proyectoId}/multimedia/${fileId}`, {
+      headers: this.buildAdminHeaders(),
+    });
+  }
+
+  setMainMultimedia(proyectoId: string, fileId: string) {
+    return this.http.patch(`${this.apiUrl}/${proyectoId}/multimedia/${fileId}/main`, {}, {
+      headers: this.buildAdminHeaders(),
+    });
+  }
+
   listarMetricas(id: string) {
     return this.http.get<any[]>(`${this.apiUrl}/${id}/metricas`, {
       headers: this.buildAdminHeaders(),

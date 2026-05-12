@@ -229,6 +229,45 @@ export class RegistroProyecto implements OnInit {
     this.form.archivosModelos3D.splice(index, 1);
   }
 
+  videoId: string | null = null;
+  videoError: string | null = null;
+  videoSuccess: string | null = null;
+
+  validarVideo(): void {
+    this.videoError = null;
+    this.videoSuccess = null;
+    this.videoId = null;
+
+    if (!this.form.youtubeUrl) {
+      this.videoError = 'Ingrese un link';
+      return;
+    }
+
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const shortsRegExp = /youtube.com\/shorts\/([^\?\/]+)/;
+    
+    const match = this.form.youtubeUrl.match(regExp);
+    const shortsMatch = this.form.youtubeUrl.match(shortsRegExp);
+
+    if (match && match[2].length === 11) {
+      this.videoId = match[2];
+    } else if (shortsMatch && shortsMatch[1]) {
+      this.videoId = shortsMatch[1];
+    }
+
+    if (this.videoId) {
+      this.videoSuccess = 'Validado';
+    } else {
+      this.videoError = 'Inválido';
+    }
+  }
+
+  resetVideoStatus(): void {
+    this.videoId = null;
+    this.videoError = null;
+    this.videoSuccess = null;
+  }
+
   quitarVideo(index: number): void {
     this.form.archivosVideos.splice(index, 1);
   }
@@ -244,7 +283,8 @@ export class RegistroProyecto implements OnInit {
       this.form.documentos.push({
         tipo: 'otro',
         nombre: this.nuevoRequerimientoNombre.trim(),
-        requerido: false
+        requerido: false,
+        archivo: null
       });
       this.nuevoRequerimientoNombre = '';
     }
@@ -254,8 +294,23 @@ export class RegistroProyecto implements OnInit {
     this.form.documentos.splice(index, 1);
   }
 
+  prepararCargaDocumento(index: number): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.pdf,.doc,.docx,.jpg,.png';
+    input.onchange = (e: any) => {
+      const file = e.target.files[0];
+      if (file) {
+        this.form.documentos[index].archivo = file;
+        this.form.documentos[index].nombreArchivo = file.name;
+      }
+    };
+    input.click();
+  }
+
   // Finalizar
   finalizar(): void {
+    if (this.cargando) return;
     this.error = null;
     this.cargando = true;
 
@@ -276,30 +331,87 @@ export class RegistroProyecto implements OnInit {
       costoMarketing: this.sumarPorCategoria('Marketing'),
       costoIndirectos: this.sumarPorCategoria('Indirectos'),
       costoFinanciero: this.sumarPorCategoria('Financiero'),
-      contingencia: this.sumarPorCategoria('Contingencia')
+      contingencia: this.sumarPorCategoria('Contingencia'),
+      roi: this.getROI(),
+      margenUtilidad: this.getMargenNeto()
     };
 
     this.proyectoService.crearProyecto(payload).subscribe({
       next: (res) => {
-        const id = res.id;
-        // Si hay imagenes, subirlas (necesitamos propertyId)
-        if (this.form.propertyId && this.form.archivosImagenes.length > 0) {
-          this.propertyService.uploadMultimedia(this.form.propertyId, this.form.archivosImagenes).subscribe();
-        }
-        // Si hay youtube URL
-        if (this.form.propertyId && this.form.youtubeUrl) {
-          this.propertyService.addYouTubeVideo(this.form.propertyId, this.form.youtubeUrl, 'Video Recorrido').subscribe();
-        }
-
-        this.cargando = false;
-        this.exito = 'Proyecto creado exitosamente.';
-        setTimeout(() => this.router.navigate(['/admin/proyectos']), 1500);
+        const proyectoId = res.id;
+        this.procesarMultimediaYDocumentos(proyectoId);
       },
-      error: () => {
+      error: (err) => {
         this.cargando = false;
-        this.error = 'Error al crear el proyecto.';
+        this.error = 'Error al crear el proyecto: ' + (err.error?.message || 'Error desconocido');
       }
     });
+  }
+
+  private procesarMultimediaYDocumentos(proyectoId: string): void {
+    const subs: any[] = [];
+
+    // 1. Renders
+    if (this.form.archivosRenders.length > 0) {
+      subs.push(this.proyectoService.uploadMultimedia(proyectoId, this.form.archivosRenders, 'render'));
+    }
+
+    // 2. Fotos Reales
+    if (this.form.archivosFotos.length > 0) {
+      subs.push(this.proyectoService.uploadMultimedia(proyectoId, this.form.archivosFotos, 'progress'));
+    }
+
+    // 3. Videos
+    if (this.form.archivosVideos.length > 0) {
+      subs.push(this.proyectoService.uploadMultimedia(proyectoId, this.form.archivosVideos, 'progress'));
+    }
+
+    // 4. Planos y 3D
+    if (this.form.archivosPlanos.length > 0) {
+      subs.push(this.proyectoService.uploadMultimedia(proyectoId, this.form.archivosPlanos, 'plano'));
+    }
+    if (this.form.archivosModelos3D.length > 0) {
+      subs.push(this.proyectoService.uploadMultimedia(proyectoId, this.form.archivosModelos3D, '3d_model'));
+    }
+
+    // 5. YouTube URL
+    if (this.form.youtubeUrl) {
+      subs.push(this.proyectoService.addExternalVideo(proyectoId, this.form.youtubeUrl, 'render'));
+    }
+
+    // 6. Documentos de la Bóveda
+    this.form.documentos.forEach((doc: any) => {
+      if (doc.archivo) {
+        // Por ahora los subimos como multimedia de tipo 'document' o implementamos endpoint específico
+        subs.push(this.proyectoService.uploadMultimedia(proyectoId, [doc.archivo], 'legal'));
+      }
+    });
+
+    if (subs.length === 0) {
+      this.completarRegistro();
+      return;
+    }
+
+    // Ejecutar todas las subidas
+    let completados = 0;
+    subs.forEach(s => {
+      s.subscribe({
+        next: () => {
+          completados++;
+          if (completados === subs.length) this.completarRegistro();
+        },
+        error: () => {
+          completados++;
+          if (completados === subs.length) this.completarRegistro();
+        }
+      });
+    });
+  }
+
+  private completarRegistro(): void {
+    this.cargando = false;
+    this.exito = 'Proyecto y archivos sincronizados correctamente.';
+    setTimeout(() => this.router.navigate(['/admin/proyectos']), 2000);
   }
 
   private sumarPorCategoria(cat: string): number {

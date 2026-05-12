@@ -1,89 +1,70 @@
-<form [formGroup]="formulario" class="grid grid-cols-1 md:grid-cols-12 gap-8">
-    <!-- Left Narrative Column -->
-    <div class="md:col-span-5 space-y-6">
-        <h2 class="text-[1.75rem] font-bold leading-tight text-on-surface">Generación de Accesos y Credenciales</h2>
-        <p class="text-on-surface-variant body-md leading-relaxed">
-            Finalice el proceso de alta configurando la identidad digital del constructor. Esta información permitirá el acceso seguro a la plataforma de licitaciones de Alfa Invest.
+<form [formGroup]="formulario" class="grid grid-cols-1 md:grid-cols-12 gap-12 animate-in">
+    <!-- COLUMNA IZQUIERDA: RESUMEN Y NARRATIVA -->
+    <div class="md:col-span-5 space-y-8">
+        <div class="flex items-center gap-3 mb-6">
+            <span class="material-symbols-outlined text-blue-500">vpn_key</span>
+            <h3 class="text-xs font-black uppercase tracking-widest text-white">Identidad Digital</h3>
+        </div>
+
+        <p class="text-slate-400 font-medium leading-relaxed">
+            Configure los accesos para la nueva constructora. Estas credenciales permitirán al equipo técnico gestionar sus avances de obra y documentos legales de forma independiente.
         </p>
 
-        <div class="p-6 bg-surface-container-high rounded-xl space-y-4">
-            <div class="flex gap-4">
-                <span class="material-symbols-outlined text-primary">security</span>
-                <div>
-                    <p class="text-sm font-semibold">Seguridad Cifrada</p>
-                    <p class="text-[0.6875rem] text-on-surface-variant">Todos los accesos son monitoreados y protegidos bajo protocolos AES-256.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Decorative Asset Image -->
-        <div class="rounded-xl overflow-hidden h-48 w-full relative">
-            <div class="absolute inset-0 bg-[#3b82f6]/20"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
-        </div>
-    </div>
-
-    <!-- Right Functional Column (Form) -->
-    <div class="md:col-span-7 space-y-6">
         <div class="space-y-4">
-            <!-- Input: Email -->
-            <div class="space-y-2">
-                <label class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant px-1">Correo Electrónico de Contacto (Usuario)</label>
-                <div class="relative">
-                    <input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 transition-all"
-                           formControlName="email" placeholder="contacto@constructora.com" type="email"/>
-                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">alternate_email</span>
+            <div class="p-6 rounded-3xl bg-white/5 border border-white/5 flex items-start gap-4">
+                <span class="material-symbols-outlined text-blue-400">shield_with_heart</span>
+                <div>
+                    <p class="text-[11px] font-black text-white uppercase tracking-tight mb-1">Cifrado de Extremo a Extremo</p>
+                    <p class="text-[10px] text-slate-500 font-medium leading-tight">Las contraseñas generadas son temporales y deben ser renovadas en el primer inicio de sesión.</p>
                 </div>
             </div>
-
-            <!-- Input: Phone -->
-            <div class="space-y-2">
-                <label class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant px-1">Teléfono</label>
-                <div class="flex gap-2">
-                    <div class="w-24 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-3 py-3 text-on-surface text-center flex items-center justify-center">+591</div>
-                    <input class="flex-1 bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 transition-all"
-                           formControlName="telefono" placeholder="70000000" type="tel"/>
+            
+            <div class="p-6 rounded-3xl bg-blue-500/5 border border-blue-500/10 flex items-start gap-4">
+                <span class="material-symbols-outlined text-blue-400">mail</span>
+                <div>
+                    <p class="text-[11px] font-black text-white uppercase tracking-tight mb-1">Notificación Automática</p>
+                    <p class="text-[10px] text-slate-500 font-medium leading-tight">Se enviará un correo con el kit de bienvenida digital al finalizar el proceso.</p>
                 </div>
-            </div>
-
-            <!-- Password Section -->
-            <div class="space-y-2 mt-8 pt-4">
-                <label class="text-[0.6875rem] font-bold uppercase tracking-[0.05em] text-on-surface-variant px-1">Contraseña Temporal Auto-generada</label>
-                <div class="flex gap-2">
-                    <div class="flex-1 bg-surface-container-high border border-outline-variant/20 rounded-lg px-4 py-3 text-primary font-mono tracking-widest text-lg flex items-center justify-between">
-                        <span>{{ formulario.get('passwordGenerado')?.value || 'GENERANDO...' }}</span>
-                        <span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" (click)="onRegenerar()">refresh</span>
-                    </div>
-                </div>
-                <p class="text-[0.6875rem] text-on-surface-variant italic px-1">El usuario deberá cambiar esta contraseña en su primer inicio de sesión.</p>
-            </div>
-
-            <!-- Alert Box -->
-            <div class="mt-8 p-4 bg-primary/10 border border-primary/20 rounded-xl flex gap-4 items-start">
-                <span class="material-symbols-outlined text-primary">info</span>
-                <p class="text-sm text-on-surface-variant leading-tight">
-                    Al hacer clic en "Finalizar Registro", se enviará un correo de bienvenida a la dirección proporcionada con las instrucciones de acceso.
-                </p>
             </div>
         </div>
     </div>
 
-    <!-- Footer Actions -->
-    <div class="md:col-span-12 mt-10 pt-6 border-t border-outline-variant/20 flex items-center justify-between">
-        <button type="button"
-                class="px-5 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition"
-                (click)="onAtras()">
-            ← Atrás
-        </button>
+    <!-- COLUMNA DERECHA: FORMULARIO -->
+    <div class="md:col-span-7 space-y-8">
+        <div class="flex items-center gap-3 mb-6">
+            <span class="material-symbols-outlined text-blue-500">person_add</span>
+            <h3 class="text-xs font-black uppercase tracking-widest text-white">Configuración de Cuenta</h3>
+        </div>
 
-        <button type="button"
-                class="px-7 py-3 rounded-lg bg-[#10b981] text-white font-semibold text-sm hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                [disabled]="formulario.invalid || cargando"
-                (click)="onSiguiente()">
-            <span *ngIf="!cargando">Finalizar Registro y Crear Usuario</span>
-            <span *ngIf="cargando" class="flex items-center gap-2">
-                <i class="bi bi-arrow-repeat animate-spin"></i> Guardando...
-            </span>
-        </button>
+        <div class="space-y-6">
+            <div class="input-group">
+                <label>Correo Electrónico de Usuario</label>
+                <div class="input-wrapper has-prefix">
+                    <span class="material-symbols-outlined prefix text-sm">alternate_email</span>
+                    <input formControlName="email" placeholder="contacto@constructora.com" type="email"/>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Teléfono de Contacto Directo</label>
+                <div class="input-wrapper has-prefix">
+                    <span class="material-symbols-outlined prefix text-sm">call</span>
+                    <input formControlName="telefono" placeholder="Ej. 70000000" type="tel"/>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-white/5">
+                <div class="input-group highlight-input">
+                    <label class="text-center">Contraseña Temporal Auto-generada</label>
+                    <div class="input-wrapper mx-auto max-w-sm">
+                        <input formControlName="passwordGenerado" readonly class="!text-green-400 !tracking-[0.2em] !font-mono text-center">
+                        <button type="button" class="btn-trash !bg-blue-500/10 !text-blue-500 absolute right-2" (click)="onRegenerar()">
+                            <span class="material-symbols-outlined">refresh</span>
+                        </button>
+                    </div>
+                    <p class="text-[9px] text-slate-600 font-black uppercase tracking-widest text-center mt-4">Haga clic en el icono para regenerar si es necesario.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </form>

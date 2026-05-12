@@ -2,6 +2,7 @@ import { Proyecto } from '../../data/fuentes-datos/proyecto.fuente-datos.js';
 import { ProyectoFase } from '../../data/fuentes-datos/proyecto-fase.fuente-datos.js';
 import { ProyectoMetrica } from '../../data/fuentes-datos/proyecto-metrica.fuente-datos.js';
 import { ProyectoDocumento } from '../../data/fuentes-datos/proyecto-documento.fuente-datos.js';
+import { ProyectoMultimedia } from '../../data/fuentes-datos/proyecto-multimedia.fuente-datos.js';
 
 export interface ProyectoRepository {
   // CRUD básico
@@ -31,6 +32,17 @@ export interface ProyectoRepository {
     documento: Partial<ProyectoDocumento>,
   ): Promise<ProyectoDocumento>;
   findDocumentosByProyectoId(proyectoId: string): Promise<ProyectoDocumento[]>;
+
+  // Multimedia
+  createMultimedia(
+    multimedia: Partial<ProyectoMultimedia>,
+  ): Promise<ProyectoMultimedia>;
+  findMultimediaByProyectoId(proyectoId: string): Promise<ProyectoMultimedia[]>;
+  deleteMultimedia(id: string): Promise<void>;
+  updateMultimedia(
+    id: string,
+    multimedia: Partial<ProyectoMultimedia>,
+  ): Promise<ProyectoMultimedia>;
 }
 
 export const PROYECTO_REPOSITORIO = Symbol('PROYECTO_REPOSITORIO');

@@ -1,0 +1,153 @@
+<div class="page-container fade-in">
+    <header class="page-header">
+        <div class="header-content">
+            <p class="subtitle uppercase tracking-[0.3em] text-green-400 font-black mb-2">Onboarding System</p>
+            <h1 class="text-4xl font-black text-white tracking-tighter uppercase">Registrar Inversionista</h1>
+        </div>
+        <button class="btn-outline" routerLink="/admin/dashboard">
+            <span class="material-symbols-outlined">arrow_back</span> Volver
+        </button>
+    </header>
+
+    <div class="main-content">
+        <!-- Estado de Éxito -->
+        <div *ngIf="registroExitoso" class="success-card animate-in zoom-in duration-500">
+            <div class="success-icon-wrapper">
+                <span class="material-symbols-outlined success-icon">verified_user</span>
+            </div>
+            <h2 class="text-2xl font-black text-white uppercase tracking-tight mb-2">¡Registro Exitoso!</h2>
+            <p class="text-on-surface-variant mb-8">El inversionista ha sido creado correctamente en el sistema Alpha.</p>
+            
+            <div class="credentials-box">
+                <div class="cred-item">
+                    <span class="label">USUARIO / EMAIL</span>
+                    <span class="value">{{ datosRegistroFinal?.email }}</span>
+                </div>
+                <div class="cred-item">
+                    <span class="label">CONTRASEÑA TEMPORAL</span>
+                    <span class="value mono text-green-400">{{ datosRegistroFinal?.password }}</span>
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-8">
+                <button class="btn-primary flex-1" (click)="nuevoRegistro()">Registrar Otro</button>
+                <button class="btn-outline flex-1" routerLink="/admin/inversores">Ir al Directorio</button>
+            </div>
+        </div>
+
+        <!-- Formulario de Registro -->
+        <div *ngIf="!registroExitoso" class="registration-card overflow-hidden relative">
+            <div class="form-overlay" *ngIf="cargando">
+                <div class="loader"></div>
+                <p class="text-xs font-black text-white uppercase tracking-widest mt-4">Sincronizando con Alpha Network...</p>
+            </div>
+
+            <form [formGroup]="formularioInversionista" (ngSubmit)="registrarInversionista()" class="space-y-8">
+                <div class="form-grid grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Datos Personales -->
+                    <div class="form-section col-span-full">
+                        <h3 class="section-title">Información Personal</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <div class="input-group">
+                                <label>Nombre Completo</label>
+                                <div class="input-wrapper">
+                                    <span class="material-symbols-outlined icon">person</span>
+                                    <input type="text" formControlName="nombreCompleto" placeholder="EJ. JUAN PÉREZ">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>CI / DNI / Pasaporte</label>
+                                <div class="input-wrapper">
+                                    <span class="material-symbols-outlined icon">badge</span>
+                                    <input type="text" formControlName="ciDni" placeholder="DOCUMENTO DE IDENTIDAD">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contacto y Ubicación -->
+                    <div class="form-section col-span-full">
+                        <h3 class="section-title">Contacto y Ubicación</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                            <div class="input-group">
+                                <label>Email Institucional</label>
+                                <div class="input-wrapper">
+                                    <span class="material-symbols-outlined icon">mail</span>
+                                    <input type="email" formControlName="email" placeholder="EMAIL@EJEMPLO.COM">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Teléfono / WhatsApp</label>
+                                <div class="input-wrapper">
+                                    <span class="material-symbols-outlined icon">call</span>
+                                    <input type="text" formControlName="telefono" placeholder="+591 ...">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Dirección de Domicilio</label>
+                                <div class="input-wrapper">
+                                    <span class="material-symbols-outlined icon">location_on</span>
+                                    <input type="text" formControlName="direccion" placeholder="CALLE, NÚMERO, CIUDAD">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Perfil Profesional -->
+                    <div class="form-section col-span-full">
+                        <h3 class="section-title">Perfil Financiero</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <div class="input-group">
+                                <label>Ocupación / Profesión</label>
+                                <div class="input-wrapper">
+                                    <span class="material-symbols-outlined icon">work</span>
+                                    <input type="text" formControlName="profesion" placeholder="EJ. INGENIERO, EMPRESARIO">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Origen de Fondos (Opcional)</label>
+                                <div class="input-wrapper">
+                                    <span class="material-symbols-outlined icon">account_balance_wallet</span>
+                                    <input type="text" formControlName="origenFondos" placeholder="EJ. AHORROS, VENTA DE ACTIVOS">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Credenciales -->
+                    <div class="form-section col-span-full bg-white/5 p-6 rounded-2xl border border-white/10">
+                        <h3 class="section-title !text-green-400">Acceso al Sistema</h3>
+                        <div class="flex items-end gap-6 mt-4">
+                            <div class="input-group flex-1">
+                                <label>Contraseña Generada por ALPHA</label>
+                                <div class="input-wrapper !bg-black/40">
+                                    <span class="material-symbols-outlined icon">key</span>
+                                    <input type="text" formControlName="passwordGenerado" class="mono text-green-400 font-bold" readonly>
+                                </div>
+                            </div>
+                            <button type="button" (click)="regenerarPassword()" class="btn-icon-square" title="Regenerar">
+                                <span class="material-symbols-outlined">refresh</span>
+                            </button>
+                        </div>
+                        <p class="text-[10px] text-white/40 uppercase font-black tracking-widest mt-4 italic">
+                            * Esta contraseña será enviada al correo del inversionista para su primer acceso.
+                        </p>
+                    </div>
+                </div>
+
+                <div *ngIf="errorRegistro" class="error-msg animate-in slide-in-from-top-2">
+                    <span class="material-symbols-outlined">error</span>
+                    {{ errorRegistro }}
+                </div>
+
+                <div class="form-actions flex justify-end gap-4">
+                    <button type="button" class="btn-ghost" routerLink="/admin/dashboard">Cancelar</button>
+                    <button type="submit" class="btn-primary min-w-[200px]" [disabled]="cargando">
+                        <span class="material-symbols-outlined">how_to_reg</span> Finalizar Registro
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

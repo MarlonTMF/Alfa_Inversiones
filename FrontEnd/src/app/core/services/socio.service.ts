@@ -14,6 +14,14 @@ export class SocioService {
     return this.http.post(`${this.apiUrl}/registrar`, datos);
   }
 
+  registrarInversionista(datos: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/registrar-inversionista`, datos);
+  }
+
+  obtenerInversionistas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/inversionistas`);
+  }
+
   obtenerSocios(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }

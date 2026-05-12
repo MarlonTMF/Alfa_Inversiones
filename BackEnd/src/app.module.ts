@@ -9,6 +9,7 @@ import { TrazabilidadModule } from './trazabilidad/trazabilidad.module';
 import { OrquestacionModule } from './orquestacion/orquestacion.module';
 import { SociosModule } from './socios/socios.module';
 import { ProyectosModule } from './proyectos/proyectos.module';
+import { InversionesModule } from './inversiones/inversiones.module';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { ProyectosModule } from './proyectos/proyectos.module';
         password: configService.get<string>('DB_PASSWORD', 'Marlon22'),
         database: configService.get<string>('DB_NAME', 'db_inmobiliaria'),
         entities: [__dirname + '/**/*.fuente-datos{.ts,.js}'],
-        synchronize: false, // Desactivado para manejar la migración manualmente en el script de seed
+        synchronize: false, // Desactivado para evitar conflictos de sincronización
         autoLoadEntities: true,
       }),
     }),
@@ -38,6 +39,7 @@ import { ProyectosModule } from './proyectos/proyectos.module';
     OrquestacionModule,
     SociosModule,
     ProyectosModule,
+    InversionesModule,
   ],
 })
 export class AppModule {}

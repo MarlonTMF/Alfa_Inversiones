@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ProyectoService } from '../../core/services/proyecto.service';
@@ -15,6 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class GestionProyectos implements OnInit {
   private readonly proyectoService = inject(ProyectoService);
   public readonly authService = inject(AuthService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   cargando = false;
   error: string | null = null;
@@ -35,6 +36,7 @@ export class GestionProyectos implements OnInit {
         this.proyectos = data ?? [];
         this.aplicarFiltro();
         this.cargando = false;
+        this.cdr.detectChanges();
       },
       error: (err: unknown) => {
         const id = this.authService.usuarioActual()?.id;
@@ -43,6 +45,7 @@ export class GestionProyectos implements OnInit {
           this.error =
             'Falta `id` de admin en sesión. Cierra sesión e inicia sesión de nuevo.';
           this.cargando = false;
+          this.cdr.detectChanges();
           return;
         }
 
@@ -59,6 +62,7 @@ export class GestionProyectos implements OnInit {
             'No se pudo cargar proyectos. Verifica: 1) BackEnd arriba en http://localhost:3000 2) tabla proyectos creada 3) CORS/Network.';
         }
         this.cargando = false;
+        this.cdr.detectChanges();
       },
     });
   }
