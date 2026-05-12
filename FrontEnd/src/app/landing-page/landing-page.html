@@ -1,32 +1,42 @@
-<div class="landing-wrapper">
-    <div class="hero-section">
-        <div class="hero-content">
-            <span class="badge">ALFA INVEST • INTELIGENCIA INMOBILIARIA</span>
-            <h1>Aumente el valor de su terreno con nuestra red de <span>inversionistas y constructoras</span></h1>
-            <p>Gestionamos todo el proceso legal y de desarrollo para convertir su propiedad en un activo de alta rentabilidad bajo el modelo de sociedad por permuta.</p>
-            
-            <div class="cta-buttons">
-                <button type="button" class="btn-primary" (click)="mostrarLogin = true">Iniciar Sesión</button>
-                <a href="mailto:contacto@alfainvest.bo" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center;">Contactar Asesor</a>
+<nav class="public-navbar">
+    <div class="nav-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
+        <span>Plataforma Orquestadora</span>
+    </div>
+    <div class="nav-links">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="javascript:void(0)" (click)="mostrarLogin = true">Proyectos</a>
+        <a routerLink="/ayuda">Ayuda</a>
+    </div>
+    <div class="nav-auth">
+        <button class="btn-login" (click)="mostrarLogin = true">Iniciar Sesión</button>
+    </div>
+</nav>
+
+<section class="hero-section">
+    <div class="hero-content">
+        <span class="badge">INTELIGENCIA INMOBILIARIA</span>
+        <h1 class="hero-title">Aumente el valor de su terreno con nuestra red de <span class="text-blue">inversionistas.</span></h1>
+        <p class="hero-subtitle">Gestionamos todo el proceso legal y de desarrollo para convertir su propiedad en un activo de alta rentabilidad bajo el modelo de sociedad por permuta.</p>
+        
+        <div class="stats-row">
+            <div class="stat">
+                <h2>+150</h2>
+                <span>Terrenos</span>
             </div>
-            
-            <div class="stats-row">
-                <div class="stat">
-                    <h2>+150</h2>
-                    <span>Terrenos Avaluados</span>
-                </div>
-                <div class="divider"></div>
-                <div class="stat">
-                    <h2>$12M</h2>
-                    <span>Capital Gestionado</span>
-                </div>
-                <div class="divider"></div>
-                <div class="stat">
-                    <h2>45</h2>
-                    <span>Proyectos Activos</span>
-                </div>
+            <div class="divider"></div>
+            <div class="stat">
+                <h2>$12M</h2>
+                <span>Capital</span>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+                <h2>45</h2>
+                <span>Proyectos</span>
             </div>
         </div>
+    </div>
+    <div class="hero-image-container">
         <div class="hero-image">
             <div class="glass-card">
                 <div class="card-header">
@@ -34,15 +44,81 @@
                     <span>Orquestador Inmobiliario Activo</span>
                 </div>
                 <h3>¿Quiere vender o desarrollar su propiedad?</h3>
-                <p>Nuestros asesores legales y financieros se encargarán de subir su propiedad al mapa interactivo privado y de conectarlo con las mejores constructoras del país.</p>
-                <div class="contact-info">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    <span>Av. América y Beijing, Edificio Alfa, Piso 4. Cochabamba, Bolivia.</span>
-                </div>
+                <p>Nuestros asesores legales y financieros se encargarán de subir su propiedad al mapa interactivo y conectarlo con constructores.</p>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<section id="como-funciona" class="how-it-works">
+    <h2 class="section-title">¿Cómo funciona la plataforma?</h2>
+    
+    <div class="pillars-grid">
+        <div class="pillar-card">
+            <div class="icon-circle bg-blue-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h3>1. Avaluamos</h3>
+            <p>Nuestros asesores legales y financieros analizan su propiedad para garantizar la viabilidad del proyecto.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="icon-circle bg-green-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <h3>2. Conectamos</h3>
+            <p>Publicamos su activo en nuestro mapa privado y lo conectamos con las mejores constructoras del país.</p>
+        </div>
+        <div class="pillar-card">
+            <div class="icon-circle bg-yellow-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h3>3. Rentabilizamos</h3>
+            <p>Participa del desarrollo y maximiza tus ganancias bajo un modelo seguro y transparente.</p>
+        </div>
+    </div>
+</section>
+
+<section class="action-section">
+    <div class="action-box">
+        <div class="action-tabs">
+            <button class="tab-btn" [class.active]="activeTab === 'inversor'" (click)="setTab('inversor')">Soy Inversionista</button>
+            <button class="tab-btn" [class.active]="activeTab === 'constructor'" (click)="setTab('constructor')">Soy Constructora</button>
+        </div>
+
+        <div class="action-content">
+            @if (activeTab === 'inversor') {
+                <ul class="check-list fade-in">
+                    <li><span class="check-icon">✓</span> Busca un proyecto validado en nuestro Mapa de Activos.</li>
+                    <li><span class="check-icon">✓</span> Analiza la proyección financiera y el ROI estimado.</li>
+                    <li><span class="check-icon">✓</span> Participa del proceso y monitorea tu inversión en tiempo real.</li>
+                    <li><span class="check-icon">✓</span> Recibe tu capital invertido más las ganancias al finalizar.</li>
+                </ul>
+                <button (click)="mostrarLogin = true" class="btn-action">Ingresar a mi panel ➔</button>
+            } @else {
+                <ul class="check-list fade-in">
+                    <li><span class="check-icon">✓</span> Registra tu empresa y sube tu documentación legal.</li>
+                    <li><span class="check-icon">✓</span> Publica terrenos o proyectos en busca de financiamiento.</li>
+                    <li><span class="check-icon">✓</span> Accede a nuestra red de inversionistas dispuestos a fondear.</li>
+                    <li><span class="check-icon">✓</span> Construye con liquidez y gestiona el avance desde tu panel.</li>
+                </ul>
+                <a href="mailto:contacto@orquestador.bo" class="btn-action" style="display: inline-block; text-decoration: none;">Contactar Asesor ➔</a>
+            }
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
+        <span>ORQUESTADOR INMOBILIARIO</span>
+    </div>
+    <div class="contact-info-footer">
+        <span>contacto@orquestador.bo</span>
+        <span>|</span>
+        <span>Oficinas Centrales, Bolivia</span>
+    </div>
+    <p class="footer-copy">Plataforma Orquestadora 2026 - Todos los derechos reservados</p>
+</footer>
 
 @if (mostrarLogin) {
     <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin($event)"></app-login>
