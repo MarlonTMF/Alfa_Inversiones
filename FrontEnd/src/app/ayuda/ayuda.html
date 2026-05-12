@@ -1,0 +1,53 @@
+<nav class="public-navbar">
+    <div class="nav-brand" routerLink="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
+        <span>Plataforma Orquestadora</span>
+    </div>
+    <div class="nav-links">
+        <a routerLink="/">Inicio</a>
+        <a routerLink="/mapa">Proyectos</a>
+        <a routerLink="/ayuda" class="active-link">Ayuda</a>
+    </div>
+    <div class="nav-auth">
+        <a routerLink="/mapa" class="btn-primary-sm">Ir al Mapa Interactivo</a>
+    </div>
+</nav>
+
+<header class="help-header">
+    <div class="header-content">
+        <h1>Centro de Ayuda</h1>
+        <p>Resolvemos sus dudas sobre el modelo de inversión, seguridad legal y uso de la plataforma.</p>
+    </div>
+</header>
+
+<main class="help-content">
+    <div class="faq-container">
+        <h2>Preguntas Frecuentes</h2>
+        
+        <div class="accordion">
+            @for (faq of preguntasFrecuentes; track faq.pregunta; let i = $index) {
+                <div class="accordion-item" [class.active]="faq.abierto">
+                    <button class="accordion-header" (click)="togglePregunta(i)">
+                        <span>{{ faq.pregunta }}</span>
+                        <svg class="icon-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="body-content">
+                            {{ faq.respuesta }}
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="contact-box">
+        <h3>¿Necesita asistencia personalizada?</h3>
+        <p>Nuestro equipo de asesores legales y financieros está disponible para ayudarle.</p>
+        <a href="mailto:contacto@orquestador.bo" class="btn-contact">Contactar a Soporte</a>
+    </div>
+</main>
+
+<footer class="footer">
+    <p class="footer-copy">Plataforma Orquestadora 2026 - Todos los derechos reservados</p>
+</footer>
