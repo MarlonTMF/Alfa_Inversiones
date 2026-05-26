@@ -22,10 +22,17 @@
 
   <!-- Content Area -->
   <div class="project-content">
-    <app-proyecto-resumen *ngIf="seccionActual === 'resumen'" [proyecto]="proyecto" (seccionChange)="setSeccion($event)"></app-proyecto-resumen>
-    <app-proyecto-planificacion *ngIf="seccionActual === 'planificacion'" [proyecto]="proyecto"></app-proyecto-planificacion>
+    <app-proyecto-resumen *ngIf="seccionActual === 'resumen'" 
+      [proyecto]="proyecto" 
+      [dashboard]="dashboard"
+      [docCount]="docCount"
+      [multimediaCount]="multimediaCount"
+      [fases]="fases"
+      (seccionChange)="setSeccion($event)">
+    </app-proyecto-resumen>
+    <app-proyecto-planificacion *ngIf="seccionActual === 'planificacion'" [proyecto]="proyecto" [fases]="fases"></app-proyecto-planificacion>
     <app-proyecto-legal *ngIf="seccionActual === 'legal'" [proyecto]="proyecto"></app-proyecto-legal>
-    <app-proyecto-bitacora *ngIf="seccionActual === 'bitacora'" [proyecto]="proyecto"></app-proyecto-bitacora>
-    <app-proyecto-inversores *ngIf="seccionActual === 'inversores'" [proyecto]="proyecto"></app-proyecto-inversores>
+    <app-proyecto-bitacora *ngIf="seccionActual === 'bitacora'" [proyecto]="proyecto" [fases]="fases"></app-proyecto-bitacora>
+    <app-proyecto-inversores *ngIf="seccionActual === 'inversores'" [proyecto]="proyecto" [inversiones]="dashboard?.inversiones || []"></app-proyecto-inversores>
   </div>
 </div>

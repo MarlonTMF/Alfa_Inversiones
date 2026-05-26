@@ -16,7 +16,7 @@ export class LandingPage implements OnInit {
     private router = inject(Router);
     
     public mostrarLogin: boolean = false;
-    public activeTab: 'inversor' | 'constructor' = 'inversor';
+    public activeTab: 'inversor' | 'constructor' | 'propiedad' = 'inversor';
 
     ngOnInit(): void {
         const usuario = this.authService.usuarioActual();
@@ -44,7 +44,7 @@ export class LandingPage implements OnInit {
         }
     }
 
-    setTab(tab: 'inversor' | 'constructor') {
+    setTab(tab: 'inversor' | 'constructor' | 'propiedad') {
         this.activeTab = tab;
     }
 }

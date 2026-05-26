@@ -22,8 +22,17 @@ export class App {
             const url = event.urlAfterRedirects;
             this.esAdminRoute = url.includes('/admin') || 
                                 url.includes('/constructor') || 
-                                url.includes('/inversor');
+                                url.includes('/inversor') ||
+                                url === '/' ||
+                                url === '' ||
+                                url.includes('/explorar') ||
+                                url.includes('/terreno-info') ||
+                                url.includes('/ayuda');
+
+
         });
+
+
     }
 
     toggleSidebar(): void {

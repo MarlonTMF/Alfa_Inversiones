@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ProyectoService } from '../../../core/services/proyecto.service';
 
 @Component({
   selector: 'app-proyecto-legal',
@@ -10,90 +11,84 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './legal.html',
   styleUrl: './legal.css'
 })
-export class ProyectoLegal {
+export class ProyectoLegal implements OnInit {
   @Input() proyecto: any;
   
-  // Control de Vistas: consola (Salud Legal), operativa (Contratos/Alertas), timeline (Procesos)
+  private readonly proyectoService = inject(ProyectoService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
   vistaActual: 'consola' | 'operativa' | 'timeline' = 'consola';
   faseTimeline = 'Pre-operativa';
-
-  // --- DATOS VISTA CONSOLA (KPIs e Índice) ---
+  documentos: any[] = [];
+  
   stats = {
-    salud: 94.2,
-    pendientes: 18,
-    vencidos: 4
+    salud: 0,
+    pendientes: 0,
+    vencidos: 0
   };
 
-  categorias = [
-    { nombre: 'Ambiental', progreso: 88 },
-    { nombre: 'Estructural', progreso: 96 },
-    { nombre: 'Financiero', progreso: 100 }
-  ];
+  categorias: any[] = [];
 
-  accionesRequeridas = [
-    { 
-      id: 1, 
-      titulo: 'Renovación Certificación EIA', 
-      estado: 'Vencido', 
-      categoria: 'Ambiental', 
-      fecha: '12 Oct 2023', 
-      icono: 'eco',
-      critico: true
-    },
-    { 
-      id: 2, 
-      titulo: 'Auditoría de Integridad Estructural', 
-      estado: 'Requiere Revisión', 
-      categoria: 'Estructural', 
-      fecha: '18 Oct 2023', 
-      icono: 'architecture',
-      critico: false
+  ngOnInit(): void {
+    if (this.proyecto?.id) {
+      this.cargarDocumentos();
     }
-  ];
+  }
 
-  // --- DATOS VISTA OPERATIVA (Contratos e Inversores) ---
+  cargarDocumentos(): void {
+    this.proyectoService.listarDocumentos(this.proyecto.id).subscribe({
+      next: (data) => {
+        this.documentos = data;
+        this.calcularEstadisticas();
+        this.agruparPorCategorias();
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error cargando documentos', err)
+    });
+  }
+
+  calcularEstadisticas(): void {
+    const total = this.documentos.length;
+    if (total === 0) {
+      this.stats = { salud: 0, pendientes: 0, vencidos: 0 };
+      return;
+    }
+    const vigentes = this.documentos.filter(d => d.estado === 'vigente').length;
+    this.stats = {
+      salud: Math.round((vigentes / total) * 100),
+      pendientes: this.documentos.filter(d => d.estado === 'pendiente').length,
+      vencidos: this.documentos.filter(d => d.estado === 'vencido').length
+    };
+  }
+
+  agruparPorCategorias(): void {
+    // Agrupación simulada por tipos de documentos comunes
+    const cats = [
+      { nombre: 'Permisos', docs: this.documentos.filter(d => d.nombre.toLowerCase().includes('permiso') || d.nombre.toLowerCase().includes('licencia')) },
+      { nombre: 'Contratos', docs: this.documentos.filter(d => d.nombre.toLowerCase().includes('contrato') || d.nombre.toLowerCase().includes('acuerdo')) },
+      { nombre: 'Técnicos', docs: this.documentos.filter(d => !d.nombre.toLowerCase().includes('permiso') && !d.nombre.toLowerCase().includes('contrato')) }
+    ];
+    
+    this.categorias = cats.map(c => ({
+      nombre: c.nombre,
+      progreso: c.docs.length > 0 ? Math.round((c.docs.filter(d => d.estado === 'vigente').length / c.docs.length) * 100) : 0,
+      cantidad: c.docs.length
+    }));
+  }
+
+  // Propiedades para compatibilidad con el HTML (Vistas Operativa y Timeline)
   alertasCriticas = [
-    { 
-      titulo: 'Licencia de Construcción Vencida', 
-      mensaje: 'Las operaciones administrativas han sido suspendidas por falta de vigencia en la licencia #EXP-2938.' 
-    }
+    { titulo: 'Licencia de Construcción', mensaje: 'Documentación en regla y vigente.' }
   ];
 
   firmas = [
     { rol: 'Director General', estado: 'Firmado', icono: 'check_circle', color: 'text-[#3b82f6]' },
-    { rol: 'Inversor Principal', estado: 'Pendiente', icono: 'pending', color: 'text-slate-500' },
-    { rol: 'Líder de Cumplimiento', estado: 'En Espera', icono: 'pending', color: 'text-slate-500' }
+    { rol: 'Inversor Principal', estado: 'Pendiente', icono: 'pending', color: 'text-slate-500' }
   ];
 
-  contratosInversores = [
-    { id: 'C1', inversor: 'Alexander Vance', monto: '$1,250,000', estado: 'Firmado', fecha: '24 Oct 2023' },
-    { id: 'C2', inversor: 'Nordic Wealth Fund', monto: '$5,000,000', estado: 'Pendiente', fecha: '02 Nov 2023' }
-  ];
-
-  // --- DATOS VISTA TIMELINE (Gestor Dinámico) ---
   permisosTimeline = [
-    { 
-      id: 1, 
-      expediente: '#104-A', 
-      titulo: 'Certificado de Títulos', 
-      ente: 'Dirección General de Catastro', 
-      estado: 'Vigente', 
-      emision: '12 Oct 2023', 
-      caducidad: '12 Oct 2025',
-      validado: true,
-      tipo: 'completado'
-    },
-    { 
-      id: 2, 
-      expediente: '#109-B', 
-      titulo: 'Factibilidad de Servicios Públicos', 
-      ente: 'Secretaría de Infraestructura', 
-      estado: 'Pendiente', 
-      solicitado: '05 Ene 2024', 
-      estimado: '15 Feb 2024',
-      validado: false,
-      tipo: 'pendiente'
-    }
+    { expediente: '#104-A', titulo: 'Certificado de Títulos', tipo: 'completado' },
+    { expediente: '#109-B', titulo: 'Factibilidad de Servicios', tipo: 'pendiente' }
   ];
 
   setVista(v: 'consola' | 'operativa' | 'timeline'): void {

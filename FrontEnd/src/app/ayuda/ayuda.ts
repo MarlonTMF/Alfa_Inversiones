@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../auth/services/auth';
+import { Login } from '../auth/login/login';
 
 interface FAQ {
   pregunta: string;
@@ -11,7 +13,7 @@ interface FAQ {
 @Component({
   selector: 'app-ayuda',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, Login],
   templateUrl: './ayuda.html',
   styleUrl: './ayuda.css'
 })
@@ -39,7 +41,14 @@ export class Ayuda {
     }
   ];
 
+  public authService = inject(AuthService);
+  public mostrarLogin = false;
+
   togglePregunta(index: number): void {
     this.preguntasFrecuentes[index].abierto = !this.preguntasFrecuentes[index].abierto;
+  }
+
+  procesarLogin() {
+    this.mostrarLogin = false;
   }
 }

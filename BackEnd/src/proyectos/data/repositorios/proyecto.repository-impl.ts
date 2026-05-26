@@ -6,6 +6,7 @@ import { ProyectoFase } from '../../data/fuentes-datos/proyecto-fase.fuente-dato
 import { ProyectoMetrica } from '../../data/fuentes-datos/proyecto-metrica.fuente-datos.js';
 import { ProyectoDocumento } from '../../data/fuentes-datos/proyecto-documento.fuente-datos.js';
 import { ProyectoMultimedia } from '../../data/fuentes-datos/proyecto-multimedia.fuente-datos.js';
+import { ProyectoAvance } from '../../data/fuentes-datos/proyecto-avance.fuente-datos.js';
 import { ProyectoRepository } from '../../domain/interfaces/proyecto.repository.js';
 
 @Injectable()
@@ -21,6 +22,8 @@ export class ProyectoRepositoryImpl implements ProyectoRepository {
     private readonly documentoRepo: Repository<ProyectoDocumento>,
     @InjectRepository(ProyectoMultimedia)
     private readonly multimediaRepo: Repository<ProyectoMultimedia>,
+    @InjectRepository(ProyectoAvance)
+    private readonly avanceRepo: Repository<ProyectoAvance>,
   ) {}
 
   // CRUD básico
@@ -99,6 +102,10 @@ export class ProyectoRepositoryImpl implements ProyectoRepository {
     return actualizada;
   }
 
+  async findFaseById(id: string): Promise<ProyectoFase | null> {
+    return this.faseRepo.findOne({ where: { id } });
+  }
+
   // Métricas
   async createMetrica(
     metrica: Partial<ProyectoMetrica>,
@@ -169,5 +176,19 @@ export class ProyectoRepositoryImpl implements ProyectoRepository {
     const actualizada = await this.multimediaRepo.findOne({ where: { id } });
     if (!actualizada) throw new NotFoundException('Multimedia no encontrada');
     return actualizada;
+  }
+
+  // Avances (Bitácora)
+  async createAvance(avance: Partial<ProyectoAvance>): Promise<ProyectoAvance> {
+    const nuevo = this.avanceRepo.create(avance);
+    return this.avanceRepo.save(nuevo);
+  }
+
+  async findAvancesByProyectoId(proyectoId: string): Promise<ProyectoAvance[]> {
+    return this.avanceRepo.find({
+      where: { proyectoId },
+      order: { fechaReporte: 'DESC', createdAt: 'DESC' },
+      relations: ['fase'],
+    });
   }
 }

@@ -83,8 +83,13 @@ export class TerrenoDetalle implements OnChanges {
     }
 
     verAnalisisCompleto(): void {
-        this.router.navigate(['/inversor/proyecto-analisis']);
+        if (this.router.url.includes('/explorar')) {
+            this.router.navigate(['/explorar/proyecto', this.terreno.id]);
+        } else {
+            this.router.navigate(['/inversor/proyecto-analisis']);
+        }
     }
+
 
 
     private extraerYouTubeId(url: string): string | null {

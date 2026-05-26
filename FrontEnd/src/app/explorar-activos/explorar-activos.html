@@ -1,0 +1,115 @@
+<nav class="public-navbar">
+    <div class="nav-container">
+        <div class="nav-brand" routerLink="/">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
+            <span>Plataforma Orquestadora</span>
+        </div>
+        <div class="nav-links">
+            <a routerLink="/">Inicio</a>
+            <a routerLink="/explorar" class="active-link">Proyectos</a>
+            <a routerLink="/constructor-info">Constructor</a>
+            <a routerLink="/inversor-info">Inversionista</a>
+            <a routerLink="/terreno-info">Propietario de terreno</a>
+            <a routerLink="/ayuda">Ayuda</a>
+        </div>
+        <div class="nav-auth">
+            @if (authService.usuarioActual()) {
+                <div class="user-pill">
+                    <span class="user-name">{{ authService.usuarioActual().nombre }}</span>
+                    <button class="btn-logout-small" (click)="authService.logout()">✕</button>
+                </div>
+            } @else {
+                <button class="btn-login" (click)="mostrarLogin = true">Iniciar Sesión</button>
+            }
+        </div>
+    </div>
+</nav>
+
+<div class="explorar-container">
+    <aside class="sidebar-activos">
+        <div class="sidebar-header">
+            <h2 class="sidebar-title">Mapa de Activos</h2>
+            <p class="sidebar-subtitle">Explora terrenos y proyectos disponibles</p>
+        </div>
+        
+        <div class="search-box-sidebar">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" 
+                   class="sidebar-search-input" 
+                   placeholder="Filtrar proyectos..." 
+                   (input)="onSearch($event)">
+        </div>
+
+        <div class="sidebar-section">
+            <label class="section-label">UBICACIÓN</label>
+            <select class="department-select" (change)="cambiarDepartamento($event)" [value]="exploradorService.departamentoSeleccionado()">
+                <option value="Todos">🇧🇴 Todos los Departamentos</option>
+                <option value="Santa Cruz">Santa Cruz</option>
+                <option value="Cochabamba">Cochabamba</option>
+                <option value="La Paz">La Paz</option>
+                <option value="Tarija">Tarija</option>
+                <option value="Potosí">Potosí</option>
+                <option value="Oruro">Oruro</option>
+                <option value="Chuquisaca">Chuquisaca</option>
+                <option value="Beni">Beni</option>
+                <option value="Pando">Pando</option>
+            </select>
+        </div>
+
+        <div class="sidebar-section">
+            <label class="section-label">SERVICIOS CERCANOS</label>
+            <div class="filter-chips-grid">
+                <button type="button" class="filter-pill" [class.active]="amenidadesService.mostrarMercados()" (click)="amenidadesService.toggleMercados()">
+                    Mercados
+                </button>
+                <button type="button" class="filter-pill" [class.active]="amenidadesService.mostrarTransporte()" (click)="amenidadesService.toggleTransporte()">
+                    Transporte
+                </button>
+                <button type="button" class="filter-pill" [class.active]="amenidadesService.mostrarColegios()" (click)="amenidadesService.toggleColegios()">
+                    Colegios
+                </button>
+                <button type="button" class="filter-pill" [class.active]="amenidadesService.mostrarHospitales()" (click)="amenidadesService.toggleHospitales()">
+                    Salud
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-section results-section">
+            <div class="section-header-row">
+                <span class="section-label">PROYECTOS ({{ exploradorService.terrenosFiltrados().length }})</span>
+            </div>
+            
+            <div class="explorer-list-sidebar">
+                @for (t of exploradorService.terrenosFiltrados(); track t.id) {
+                    <button type="button" 
+                            class="property-card-sidebar" 
+                            [class.active]="exploradorService.terrenoSeleccionado()?.id === t.id"
+                            (click)="seleccionarActivo(t)">
+                        <div class="card-body">
+                            <span class="card-title">{{ t.ubicacion }}</span>
+                            <div class="card-meta">
+                                <span>{{ t.departamento || 'Bolivia' }}</span>
+                                <span class="card-price">${{ t.precio | number }}</span>
+                            </div>
+                        </div>
+                        @if (exploradorService.terrenosVisiblesIds().has(t.id)) {
+                            <div class="visible-indicator"></div>
+                        }
+                    </button>
+                } @empty {
+                    <div class="empty-state">
+                        <p>No hay activos para mostrar.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </aside>
+
+    <main class="map-view">
+        <app-mapa></app-mapa>
+    </main>
+</div>
+
+@if (mostrarLogin) {
+    <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin($event)"></app-login>
+}

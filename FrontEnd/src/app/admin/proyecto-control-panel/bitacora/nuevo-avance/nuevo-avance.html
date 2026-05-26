@@ -23,19 +23,19 @@
         <div class="h-1.5 flex-1 bg-white/5 rounded-full"></div>
       </div>
 
-      <!-- Section 1: Milestone Selector -->
+      <!-- Section 1: Phase Selector -->
       <section class="space-y-4">
-        <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#3b82f6]">Hito de la Obra</label>
+        <label class="text-[10px] font-black uppercase tracking-[0.2em] text-[#3b82f6]">Fase Asociada</label>
         <div class="flex overflow-x-auto pb-2 gap-3 custom-scrollbar">
-          <button *ngFor="let hito of hitos" 
-                  (click)="seleccionarHito(hito.id)"
-                  [class.bg-[#3b82f6]/10]="form.hitoId === hito.id"
-                  [class.border-[#3b82f6]]="form.hitoId === hito.id"
-                  [class.bg-white/5]="form.hitoId !== hito.id"
-                  [class.text-[#3b82f6]]="form.hitoId === hito.id"
-                  class="flex-shrink-0 px-6 py-4 rounded-2xl border border-white/5 flex flex-col items-center gap-2 transition-all hover:bg-white/10 min-w-[100px]">
-            <span class="material-symbols-outlined text-xl">{{ hito.icono }}</span>
-            <span class="text-[9px] font-black uppercase tracking-widest">{{ hito.nombre }}</span>
+          <button *ngFor="let fase of fases" 
+                  (click)="seleccionarFase(fase.id)"
+                  [class.bg-[#3b82f6]/10]="form.faseId === fase.id"
+                  [class.border-[#3b82f6]]="form.faseId === fase.id"
+                  [class.bg-white/5]="form.faseId !== fase.id"
+                  [class.text-[#3b82f6]]="form.faseId === fase.id"
+                  class="flex-shrink-0 px-6 py-4 rounded-2xl border border-white/5 flex flex-col items-center gap-2 transition-all hover:bg-white/10 min-w-[120px]">
+            <span class="material-symbols-outlined text-xl">architecture</span>
+            <span class="text-[9px] font-black uppercase tracking-widest text-center">{{ fase.nombre }}</span>
           </button>
         </div>
       </section>
@@ -46,6 +46,18 @@
           <label class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Título del Avance</label>
           <input [(ngModel)]="form.titulo" class="w-full bg-[#060e20] border border-white/5 rounded-2xl p-5 text-white focus:border-[#3b82f6] outline-none transition-all placeholder:text-slate-700 font-bold" placeholder="Ej: Finalización de platea sector A" type="text"/>
         </div>
+        
+        <!-- Progress Percentage Slider -->
+        <div class="space-y-4 bg-[#060e20] p-6 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center">
+            <label class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Nuevo Progreso de Fase</label>
+            <span class="text-xl font-black text-[#3b82f6]">{{ form.porcentajeAvance }}%</span>
+          </div>
+          <input type="range" min="0" max="100" [(ngModel)]="form.porcentajeAvance" 
+                 class="w-full h-2 bg-white/5 rounded-lg appearance-none cursor-pointer accent-[#3b82f6]"/>
+          <p class="text-[9px] text-slate-600 font-bold uppercase tracking-widest text-center">Este valor actualizará el cronograma maestro</p>
+        </div>
+
         <div class="space-y-3">
           <label class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Descripción Detallada</label>
           <textarea [(ngModel)]="form.descripcion" class="w-full bg-[#060e20] border border-white/5 rounded-2xl p-5 text-white focus:border-[#3b82f6] outline-none transition-all placeholder:text-slate-700 resize-none font-medium text-sm" placeholder="Describe los avances logrados..." rows="4"></textarea>

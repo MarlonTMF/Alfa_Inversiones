@@ -92,4 +92,22 @@ export class ProyectoService {
       headers: this.buildAdminHeaders(),
     });
   }
+
+  listarFases(id: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/${id}/fases`, {
+      headers: this.buildAdminHeaders(),
+    });
+  }
+
+  listarAvances(id: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/${id}/avances`, {
+      headers: this.buildAdminHeaders(),
+    });
+  }
+
+  crearAvance(id: string, payload: any) {
+    return this.http.post<any>(`${this.apiUrl}/${id}/avances`, payload, {
+      headers: this.buildAdminHeaders(),
+    });
+  }
 }

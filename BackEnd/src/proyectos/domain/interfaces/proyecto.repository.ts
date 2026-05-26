@@ -3,6 +3,7 @@ import { ProyectoFase } from '../../data/fuentes-datos/proyecto-fase.fuente-dato
 import { ProyectoMetrica } from '../../data/fuentes-datos/proyecto-metrica.fuente-datos.js';
 import { ProyectoDocumento } from '../../data/fuentes-datos/proyecto-documento.fuente-datos.js';
 import { ProyectoMultimedia } from '../../data/fuentes-datos/proyecto-multimedia.fuente-datos.js';
+import { ProyectoAvance } from '../../data/fuentes-datos/proyecto-avance.fuente-datos.js';
 
 export interface ProyectoRepository {
   // CRUD básico
@@ -21,6 +22,7 @@ export interface ProyectoRepository {
   createFase(fase: Partial<ProyectoFase>): Promise<ProyectoFase>;
   findFasesByProyectoId(proyectoId: string): Promise<ProyectoFase[]>;
   updateFase(id: string, fase: Partial<ProyectoFase>): Promise<ProyectoFase>;
+  findFaseById(id: string): Promise<ProyectoFase | null>;
 
   // Métricas
   createMetrica(metrica: Partial<ProyectoMetrica>): Promise<ProyectoMetrica>;
@@ -43,6 +45,10 @@ export interface ProyectoRepository {
     id: string,
     multimedia: Partial<ProyectoMultimedia>,
   ): Promise<ProyectoMultimedia>;
+
+  // Avances (Bitácora)
+  createAvance(avance: Partial<ProyectoAvance>): Promise<ProyectoAvance>;
+  findAvancesByProyectoId(proyectoId: string): Promise<ProyectoAvance[]>;
 }
 
 export const PROYECTO_REPOSITORIO = Symbol('PROYECTO_REPOSITORIO');

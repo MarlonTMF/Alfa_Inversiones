@@ -7,7 +7,35 @@ import { authGuard, adminGuard, adminOnlyGuard, superAdminGuard } from './guards
 export const routes: Routes = [
     { path: '', component: LandingPage },
     { path: 'mapa', component: Mapa, canActivate: [authGuard] },
+    { 
+        path: 'explorar', 
+        loadComponent: () => import('./explorar-activos/explorar-activos').then(m => m.ExplorarActivos) 
+    },
+    { 
+        path: 'explorar/proyecto/:id', 
+        loadComponent: () => import('./explorar-detalle/explorar-detalle').then(m => m.ExplorarDetalle) 
+    },
+    { 
+        path: 'explorar/simulador', 
+        loadComponent: () => import('./explorar-simulador/explorar-simulador').then(m => m.ExplorarSimulador) 
+    },
+    {
+        path: 'inversor-info',
+        loadComponent: () => import('./landing-page/landing-inversor/landing-inversor').then(m => m.LandingInversor)
+    },
+    {
+        path: 'constructor-info',
+        loadComponent: () => import('./landing-page/landing-constructor/landing-constructor').then(m => m.LandingConstructor)
+    },
+    {
+        path: 'terreno-info',
+        loadComponent: () => import('./landing-page/landing-terreno/landing-terreno').then(m => m.LandingTerreno)
+    },
     { path: 'analisis/:id', component: AnalisisFinanciero, canActivate: [authGuard] },
+
+
+
+
     {
         path: 'admin',
         loadComponent: () => import('./admin/admin-layout/admin-layout').then((m) => m.AdminLayout),

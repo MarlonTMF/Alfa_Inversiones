@@ -29,6 +29,8 @@ import { GetProyectoMetricasCasoUso } from '../../domain/use-cases/get-proyecto-
 import { GetUltimaMetricaCasoUso } from '../../domain/use-cases/get-ultima-metrica.caso-uso.js';
 import { CrearProyectoDocumentoCasoUso } from '../../domain/use-cases/crear-proyecto-documento.caso-uso.js';
 import { GetProyectoDocumentosCasoUso } from '../../domain/use-cases/get-proyecto-documentos.caso-uso.js';
+import { CrearProyectoAvanceCasoUso } from '../../domain/use-cases/crear-proyecto-avance.caso-uso.js';
+import { GetProyectoAvancesCasoUso } from '../../domain/use-cases/get-proyecto-avances.caso-uso.js';
 import { CrearProyectoDto } from '../dto/crear-proyecto.dto.js';
 import { ActualizarProyectoDto } from '../dto/actualizar-proyecto.dto.js';
 import { CrearProyectoFaseDto } from '../dto/crear-proyecto-fase.dto.js';
@@ -55,6 +57,8 @@ export class ProyectosControlador {
     private readonly getUltimaMetricaCasoUso: GetUltimaMetricaCasoUso,
     private readonly crearProyectoDocumentoCasoUso: CrearProyectoDocumentoCasoUso,
     private readonly getProyectoDocumentosCasoUso: GetProyectoDocumentosCasoUso,
+    private readonly crearProyectoAvanceCasoUso: CrearProyectoAvanceCasoUso,
+    private readonly getProyectoAvancesCasoUso: GetProyectoAvancesCasoUso,
   ) {}
 
   @Post()
@@ -153,5 +157,19 @@ export class ProyectosControlador {
   @Get(':id/documentos')
   async listarDocumentos(@Param('id') proyectoId: string) {
     return this.getProyectoDocumentosCasoUso.ejecutar(proyectoId);
+  }
+
+  @Post(':id/avances')
+  @HttpCode(HttpStatus.CREATED)
+  async crearAvance(
+    @Param('id') proyectoId: string,
+    @Body() dto: any, // Aquí podrías usar un DTO formal si lo prefieres
+  ) {
+    return this.crearProyectoAvanceCasoUso.ejecutar(proyectoId, dto);
+  }
+
+  @Get(':id/avances')
+  async listarAvances(@Param('id') proyectoId: string) {
+    return this.getProyectoAvancesCasoUso.ejecutar(proyectoId);
   }
 }

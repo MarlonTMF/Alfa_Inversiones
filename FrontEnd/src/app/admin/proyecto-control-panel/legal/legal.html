@@ -31,11 +31,11 @@
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <span class="material-symbols-outlined text-6xl">bolt</span>
           </div>
-          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-black mb-2">Velocidad de Verificación</p>
+          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-black mb-2">Salud de Cumplimiento</p>
           <h3 class="text-5xl font-black text-[#adc6ff] mb-2">{{ stats.salud }}%</h3>
           <div class="flex items-center gap-2 text-xs text-[#3b82f6]">
-            <span class="material-symbols-outlined text-sm">trending_up</span>
-            <span class="font-bold">+2.4% vs trimestre anterior</span>
+            <span class="material-symbols-outlined text-sm">verified_user</span>
+            <span class="font-bold">{{ documentos.length }} Documentos en bóveda</span>
           </div>
         </div>
 
@@ -43,23 +43,23 @@
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <span class="material-symbols-outlined text-6xl">pending_actions</span>
           </div>
-          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-black mb-2">Revisiones Pendientes</p>
-          <h3 class="text-5xl font-black text-amber-500 mb-2">{{ stats.pendientes }}</h3>
+          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-black mb-2">Pendientes / Vencidos</p>
+          <h3 class="text-5xl font-black text-amber-500 mb-2">{{ stats.pendientes + stats.vencidos }}</h3>
           <div class="flex items-center gap-2 text-xs text-slate-500">
             <span class="material-symbols-outlined text-sm">schedule</span>
-            <span class="font-bold">Promedio TAT: 14.5 horas</span>
+            <span class="font-bold">{{ stats.vencidos }} documentos requieren acción inmediata</span>
           </div>
         </div>
 
         <div class="bg-[#222a3d] p-8 rounded-2xl relative overflow-hidden group hover:shadow-2xl hover:shadow-black/40 transition-all duration-300 border border-white/5">
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <span class="material-symbols-outlined text-6xl">account_balance_wallet</span>
+            <span class="material-symbols-outlined text-6xl">category</span>
           </div>
-          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-black mb-2">Bóvedas Archivadas</p>
-          <h3 class="text-5xl font-black text-white mb-2">2,840</h3>
+          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-black mb-2">Categorías Activas</p>
+          <h3 class="text-5xl font-black text-white mb-2">{{ categorias.length }}</h3>
           <div class="flex items-center gap-2 text-xs text-slate-500">
-            <span class="material-symbols-outlined text-sm">verified_user</span>
-            <span class="font-bold">100% de cumplimiento</span>
+            <span class="material-symbols-outlined text-sm">account_tree</span>
+            <span class="font-bold">Estructura de archivos optimizada</span>
           </div>
         </div>
       </div>
@@ -112,91 +112,51 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-white/5">
-              <tr class="group hover:bg-white/5 transition-colors">
+              <tr *ngFor="let doc of documentos" class="group hover:bg-white/5 transition-colors">
                 <td class="px-8 py-6">
                   <div class="flex items-center gap-4">
                     <span class="material-symbols-outlined text-[#3b82f6]">description</span>
                     <div>
-                      <p class="font-bold text-white text-sm">Permiso Ambiental</p>
-                      <p class="text-[10px] font-black text-slate-600 uppercase tracking-tighter">ENV-2024-0892</p>
+                      <p class="font-bold text-white text-sm">{{ doc.nombre }}</p>
+                      <p class="text-[10px] font-black text-slate-600 uppercase tracking-tighter">ID: {{ doc.id.substring(0,8) }}</p>
                     </div>
                   </div>
                 </td>
-                <td class="px-8 py-6 text-xs font-bold text-slate-400">Sustentabilidad</td>
+                <td class="px-8 py-6 text-xs font-bold text-slate-400">{{ doc.tipo || 'General' }}</td>
                 <td class="px-8 py-6">
-                  <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
-                    Aprobado
+                  <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest"
+                        [ngClass]="{
+                          'bg-emerald-500/10 text-emerald-500 border-emerald-500/20': doc.estado === 'vigente',
+                          'bg-amber-500/10 text-amber-500 border-amber-500/20': doc.estado === 'pendiente',
+                          'bg-rose-500/10 text-rose-500 border-rose-500/20': doc.estado === 'vencido'
+                        }">
+                    <span class="w-1.5 h-1.5 rounded-full" 
+                          [ngClass]="{
+                            'bg-emerald-500': doc.estado === 'vigente',
+                            'bg-amber-500 animate-pulse': doc.estado === 'pendiente',
+                            'bg-rose-500': doc.estado === 'vencido'
+                          }"></span>
+                    {{ doc.estado }}
                   </span>
                 </td>
-                <td class="px-8 py-6 text-xs font-bold text-slate-400">Oct 12, 2023</td>
+                <td class="px-8 py-6 text-xs font-bold text-slate-400">{{ doc.createdAt | date:'MMM dd, yyyy' }}</td>
                 <td class="px-8 py-6 text-right">
                   <div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button class="p-2 text-slate-500 hover:text-white transition-colors"><span class="material-symbols-outlined">download</span></button>
+                    <a [href]="doc.url" target="_blank" class="p-2 text-slate-500 hover:text-white transition-colors"><span class="material-symbols-outlined">visibility</span></a>
                     <button class="p-2 text-slate-500 hover:text-white transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
                   </div>
                 </td>
               </tr>
-              <tr class="group hover:bg-white/5 transition-colors">
-                <td class="px-8 py-6">
-                  <div class="flex items-center gap-4">
-                    <span class="material-symbols-outlined text-[#3b82f6]">history_edu</span>
-                    <div>
-                      <p class="font-bold text-white text-sm">Escritura de Terreno</p>
-                      <p class="text-[10px] font-black text-slate-600 uppercase tracking-tighter">TIT-774-XP</p>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-8 py-6 text-xs font-bold text-slate-400">Propiedad Legal</td>
-                <td class="px-8 py-6">
-                  <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-[#3b82f6]/10 text-[#3b82f6] border border-[#3b82f6]/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#3b82f6] animate-pulse"></span>
-                    En Proceso
-                  </span>
-                </td>
-                <td class="px-8 py-6 text-xs font-bold text-slate-400">Ene 05, 2024</td>
-                <td class="px-8 py-6 text-right">
-                  <div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button class="p-2 text-slate-500 hover:text-white transition-colors"><span class="material-symbols-outlined">download</span></button>
-                    <button class="p-2 text-slate-500 hover:text-white transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
-                  </div>
-                </td>
-              </tr>
-              <tr class="group hover:bg-white/5 transition-colors">
-                <td class="px-8 py-6">
-                  <div class="flex items-center gap-4">
-                    <span class="material-symbols-outlined text-[#3b82f6]">architecture</span>
-                    <div>
-                      <p class="font-bold text-white text-sm">Licencia de Construcción</p>
-                      <p class="text-[10px] font-black text-slate-600 uppercase tracking-tighter">BLD-PLAN-V4</p>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-8 py-6 text-xs font-bold text-slate-400">Urbanismo</td>
-                <td class="px-8 py-6">
-                  <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-amber-500/10 text-amber-500 border border-amber-500/20">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                    Pendiente
-                  </span>
-                </td>
-                <td class="px-8 py-6 text-xs font-bold text-slate-400">---</td>
-                <td class="px-8 py-6 text-right">
-                  <div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button class="p-2 text-slate-500 hover:text-white transition-colors"><span class="material-symbols-outlined">download</span></button>
-                    <button class="p-2 text-slate-500 hover:text-white transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
-                  </div>
+              <tr *ngIf="documentos.length === 0">
+                <td colspan="5" class="px-8 py-12 text-center text-slate-500 text-xs font-bold uppercase tracking-widest bg-white/2">
+                   No hay documentos cargados en el expediente legal
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="px-8 py-5 bg-[#060e20]/50 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-600">
-          <span>Mostrando 3 de 24 ítems de cumplimiento</span>
-          <div class="flex gap-2">
-            <button class="w-8 h-8 rounded-lg bg-[#3b82f6] text-white flex items-center justify-center font-black">1</button>
-            <button class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center transition-colors">2</button>
-            <button class="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center transition-colors">3</button>
-          </div>
+          <span>Expediente: {{ documentos.length }} documentos validados</span>
         </div>
       </div>
     </div>

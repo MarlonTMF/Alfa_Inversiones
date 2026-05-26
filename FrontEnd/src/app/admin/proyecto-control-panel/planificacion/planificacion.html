@@ -10,48 +10,60 @@
     <div class="lg:col-span-8 space-y-6">
       <div class="bg-surface-container-low p-8 rounded-3xl border border-white/5 shadow-2xl space-y-8">
         <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold text-primary tracking-tight uppercase tracking-[0.1em]">Milestones Builder</h2>
+          <h2 class="text-xl font-bold text-primary tracking-tight uppercase tracking-[0.1em]">Cronograma de Obra</h2>
           <div class="flex gap-2">
-            <span class="bg-primary/10 text-primary px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest">{{ hitos.length }} TOTAL STEPS</span>
+            <span class="bg-primary/10 text-primary px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest">{{ fases.length }} FASES TOTALES</span>
           </div>
         </div>
 
-        <!-- Add Milestone Form -->
-        <div class="bg-[#060e20]/50 p-6 rounded-2xl border border-white/5 grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-          <div class="md:col-span-5 space-y-2">
-            <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Nombre del Hito</label>
-            <input [(ngModel)]="nuevoHito.nombre" placeholder="Ej: Excavación Finalizada" class="w-full bg-[#0b1326] border border-outline-variant/20 rounded-xl px-4 py-3 text-xs text-white font-medium focus:border-primary outline-none transition-all"/>
+        <!-- Legend / Info -->
+        <div class="bg-[#060e20]/50 p-6 rounded-2xl border border-white/5 flex items-center justify-between">
+          <div class="space-y-1">
+            <h4 class="text-xs font-bold text-white uppercase tracking-wider">Gestión de Fases Proyectadas</h4>
+            <p class="text-[10px] text-on-surface-variant font-medium">Define el cronograma maestro del proyecto. Los avances reales se registrarán en la bitácora.</p>
           </div>
-          <div class="md:col-span-4 space-y-2">
-            <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Fecha Estimada</label>
-            <input [(ngModel)]="nuevoHito.fecha" type="date" class="w-full bg-[#0b1326] border border-outline-variant/20 rounded-xl px-4 py-3 text-xs text-white font-medium focus:border-primary outline-none transition-all"/>
-          </div>
-          <div class="md:col-span-3">
-             <button (click)="agregarHito()" class="w-full bg-primary text-on-primary font-black px-4 py-3 rounded-xl hover:scale-[1.02] active:scale-95 transition-all text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20">
-               + Añadir Hito
-             </button>
-          </div>
+          <button class="bg-primary/10 text-primary border border-primary/20 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
+            Configurar Fases
+          </button>
         </div>
 
         <!-- Milestones List -->
         <div class="space-y-4">
-          <div *ngFor="let hito of hitos; let i = index" class="flex items-center gap-6 group bg-[#060e20]/30 p-5 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300">
+          <div *ngFor="let fase of fases; let i = index" class="flex items-center gap-6 group bg-[#060e20]/30 p-5 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300">
             <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 group-hover:bg-primary group-hover:text-on-primary transition-all">
               <span class="text-xs font-black">{{ i + 1 }}</span>
             </div>
             <div class="flex-1">
-              <h4 class="text-sm font-bold text-white uppercase tracking-tight">{{ hito.nombre }}</h4>
-              <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">{{ hito.fecha | date:'dd MMM, yyyy' }}</p>
-            </div>
-            <div class="flex items-center gap-4">
-              <div class="flex flex-col items-end">
-                <span class="text-[8px] font-black uppercase tracking-widest" [ngClass]="hito.estado === 'completado' ? 'text-green-400' : 'text-slate-500'">{{ hito.estado }}</span>
-                <span *ngIf="hito.critico" class="text-[7px] bg-red-900/30 text-red-400 px-2 py-0.5 rounded font-black mt-1 uppercase tracking-tighter">RUTA CRÍTICA</span>
+              <h4 class="text-sm font-bold text-white uppercase tracking-tight">{{ fase.nombre }}</h4>
+              <div class="flex gap-4 mt-1">
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">INICIO: {{ fase.fechaInicioEstimada | date:'dd/MM/yy' }}</p>
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">FIN: {{ fase.fechaFinEstimada | date:'dd/MM/yy' }}</p>
               </div>
-              <button (click)="eliminarHito(i)" class="text-slate-500 hover:text-red-500 transition-all p-2 hover:bg-red-500/10 rounded-lg">
-                <span class="material-symbols-outlined text-base">delete</span>
-              </button>
             </div>
+            <div class="flex items-center gap-6">
+              <div class="w-32">
+                <div class="flex justify-between items-center mb-1">
+                   <span class="text-[8px] font-black text-slate-500 uppercase tracking-widest">Progreso</span>
+                   <span class="text-[10px] font-bold text-white">{{ fase.progreso }}%</span>
+                </div>
+                <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                   <div class="bg-primary h-full rounded-full" [style.width.%]="fase.progreso"></div>
+                </div>
+              </div>
+              <div class="flex flex-col items-end">
+                <span class="text-[8px] font-black uppercase tracking-widest" 
+                      [ngClass]="{
+                        'text-green-400': fase.estado === 'completado',
+                        'text-blue-400': fase.estado === 'en_progreso',
+                        'text-slate-500': fase.estado === 'pendiente'
+                      }">
+                  {{ fase.estado.replace('_', ' ') }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!fases || fases.length === 0" class="text-center py-12 bg-[#060e20]/20 rounded-3xl border border-dashed border-white/10">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">No hay fases configuradas para este proyecto</p>
           </div>
         </div>
       </div>
@@ -76,10 +88,10 @@
           </div>
 
           <div class="p-6 bg-primary text-on-primary rounded-2xl shadow-xl shadow-primary/20">
-             <p class="text-[10px] font-black uppercase tracking-widest mb-2 opacity-80">Timeline Health</p>
-             <p class="text-xl font-black">94% EST.</p>
+             <p class="text-[10px] font-black uppercase tracking-widest mb-2 opacity-80">Avance de Planificación</p>
+             <p class="text-xl font-black">{{ getProgresoPlanificacion() | number:'1.0-0' }}% COMPLETE</p>
              <div class="w-full bg-on-primary/20 h-1.5 rounded-full mt-4">
-                <div class="bg-white h-full rounded-full w-[94%]"></div>
+                <div class="bg-white h-full rounded-full" [style.width.%]="getProgresoPlanificacion()"></div>
              </div>
           </div>
         </div>

@@ -31,22 +31,59 @@ export class ProyectoControlPanel implements OnInit {
 
   proyectoId: string | null = null;
   proyecto: any = null;
+  dashboard: any = null;
+  docCount: number = 0;
+  multimediaCount: number = 0;
+  fases: any[] = [];
   seccionActual: string = 'resumen'; // resumen, planificacion, legal, bitacora, inversores
 
   ngOnInit(): void {
     this.proyectoId = this.route.snapshot.paramMap.get('id');
     if (this.proyectoId) {
-      this.cargarProyecto(this.proyectoId);
+      this.cargarTodo(this.proyectoId);
     }
   }
 
-  cargarProyecto(id: string): void {
+  cargarTodo(id: string): void {
+    // 1. Datos Básicos
     this.proyectoService.obtenerProyecto(id).subscribe({
       next: (data) => {
         this.proyecto = data;
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error cargando proyecto', err)
+    });
+
+    // 2. Dashboard Financiero
+    this.proyectoService.obtenerDashboard(id).subscribe({
+      next: (data) => {
+        this.dashboard = data;
+        this.cdr.detectChanges();
+      }
+    });
+
+    // 3. Documentos (Conteo)
+    this.proyectoService.listarDocumentos(id).subscribe({
+      next: (docs) => {
+        this.docCount = docs.length;
+        this.cdr.detectChanges();
+      }
+    });
+
+    // 4. Multimedia (Conteo y Main)
+    this.proyectoService.listarMultimedia(id).subscribe({
+      next: (items) => {
+        this.multimediaCount = items.length;
+        this.cdr.detectChanges();
+      }
+    });
+
+    // 5. Fases
+    this.proyectoService.listarFases(id).subscribe({
+      next: (items) => {
+        this.fases = items;
+        this.cdr.detectChanges();
+      }
     });
   }
 

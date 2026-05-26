@@ -1,0 +1,206 @@
+<nav class="public-navbar">
+    <div class="nav-container">
+        <div class="nav-brand" routerLink="/">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
+            <span>Plataforma Orquestadora</span>
+        </div>
+        <div class="nav-links">
+            <a routerLink="/">Inicio</a>
+            <a routerLink="/explorar">Proyectos</a>
+            <a routerLink="/constructor-info">Constructor</a>
+            <a routerLink="/inversor-info">Inversionista</a>
+            <a routerLink="/terreno-info">Propietario de terreno</a>
+            <a routerLink="/ayuda">Ayuda</a>
+        </div>
+        <div class="nav-auth">
+            @if (authService.usuarioActual()) {
+                <div class="user-pill">
+                    <span class="user-name">{{ authService.usuarioActual().nombre }}</span>
+                    <button class="btn-logout-small" (click)="authService.logout()">✕</button>
+                </div>
+            } @else {
+                <button class="btn-login" (click)="mostrarLogin = true">Iniciar Sesión</button>
+            }
+        </div>
+    </div>
+</nav>
+
+<div class="bg-[#0b1326] text-[#dae2fd] min-h-[calc(100vh-70px)] flex flex-col overflow-x-hidden font-sans">
+  
+    <!-- Header de navegación secundaria -->
+    <div class="w-full bg-[#131b2e]/50 backdrop-blur-xl border-b border-white/5 px-8 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <button routerLink="/explorar" class="flex items-center gap-2 text-[#94a3b8] hover:text-white transition-colors text-sm font-bold">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Volver al Mapa
+            </button>
+            <div class="h-4 w-[1px] bg-white/10 mx-2"></div>
+            <div class="flex flex-col">
+                <h1 class="text-xl font-black tracking-tighter text-white">Estrategia de Inversión: <span class="text-[#3b82f6]">Evaluador Público</span></h1>
+                <p class="text-[#3b82f6] text-[10px] font-black uppercase tracking-[0.2em] opacity-80">Simula tu rentabilidad patrimonial</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-10 max-w-7xl mx-auto space-y-10 animate-in fade-in duration-700 w-full mb-32">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Simulator -->
+        <section class="lg:col-span-4 space-y-6">
+          <div class="bg-[#131b2e] p-8 rounded-3xl border border-white/5 shadow-2xl space-y-8 relative overflow-hidden group">
+            <div class="space-y-6 relative z-10">
+              <div class="flex justify-between items-end">
+                <span class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] opacity-60">Monto de Inversión</span>
+                <span class="text-3xl font-black text-[#3b82f6] tracking-tighter">{{ formattedMonto }}</span>
+              </div>
+              <input class="w-full h-2 bg-[#0b1326] rounded-full appearance-none cursor-pointer accent-[#3b82f6]" 
+                     max="1000000" min="10000" step="10000" type="range" [value]="montoInversion()" (input)="onMontoChange($event)"/>
+              <div class="flex justify-between text-[10px] text-[#c2c6d6] font-black uppercase tracking-widest opacity-40">
+                <span>$10k</span>
+                <span>$1M</span>
+              </div>
+            </div>
+
+            <div class="space-y-4 relative z-10">
+              <div class="bg-[#222a3d] p-6 rounded-2xl border-l-4 border-[#3b82f6] shadow-inner">
+                <span class="block text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] mb-2 opacity-60">ROI Mensual Proyectado</span>
+                <div class="text-3xl font-black text-white tracking-tighter">{{ roiMensual() }}<span class="text-[#3b82f6] text-xs ml-2 font-black uppercase">USD</span></div>
+              </div>
+              <div class="bg-[#222a3d] p-6 rounded-2xl border-l-4 border-[#adc6ff] shadow-inner">
+                <span class="block text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] mb-2 opacity-60">Rendimiento Anual (14.4% APY)</span>
+                <div class="text-3xl font-black text-white tracking-tighter">{{ yieldAnual() }}<span class="text-[#adc6ff] text-xs ml-2 font-black uppercase">USD</span></div>
+              </div>
+            </div>
+
+            <div class="relative h-44 rounded-2xl overflow-hidden border border-white/5 shadow-2xl">
+              <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida/ADBb0ui97Z3UblNdgwwVzPU7tgT7HKa9AMJ2qLG54URPqwlJpTzLq7D5YBLoXpwUA94S9yIt2vwMtzOqPcwa0p9S6MJ_H2wmJSY0P8Jsct5Qt6utqXlHkJoSq4jqkb4LDYQYc8-SlF0x7D3BVElCBQ_3Y1E-JWz4rmquK_CCcC8YSPYU235d9waZSemWpiFPTHTqPRJeLYxd9ogbLv3IdKeYIqK2paxFUAWpwBFH1Hvf5L4s7562bu3axP79F2SDCoPQqv3dH0WGaM-GWGY"/>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] to-transparent opacity-60"></div>
+              <div class="absolute bottom-4 left-4">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#c2c6d6]">Pronóstico de Rendimiento</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Analytics -->
+        <section class="lg:col-span-5 space-y-8">
+          <div class="bg-[#131b2e] p-8 rounded-3xl border border-white/5 shadow-2xl">
+            <div class="flex items-center justify-between mb-10">
+              <h2 class="text-xl font-black text-white tracking-tight uppercase">Desglose de Cartera</h2>
+              <span class="material-symbols-outlined text-[#c2c6d6] cursor-help">info</span>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-10">
+              <div class="relative w-40 h-40 flex items-center justify-center">
+                <svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+                  <path class="text-white/5" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="100, 100" stroke-width="4"></path>
+                  <path class="text-[#3b82f6]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="45, 100" stroke-width="4"></path>
+                  <path class="text-[#adc6ff]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="30, 100" stroke-dashoffset="-45" stroke-width="4"></path>
+                  <path class="text-[#60a5fa]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="25, 100" stroke-dashoffset="-75" stroke-width="4"></path>
+                </svg>
+                <div class="absolute flex flex-col items-center">
+                  <span class="text-2xl font-black text-white">14.4%</span>
+                  <span class="text-[8px] font-black uppercase tracking-widest text-[#c2c6d6]">Total</span>
+                </div>
+              </div>
+              <div class="flex-1 space-y-4">
+                <div class="flex justify-between items-center bg-[#0b1326] p-4 rounded-xl border border-white/5">
+                  <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-[#3b82f6] shadow-[0_0_10px_rgba(59,130,246,0.5)]"></span>
+                    <span class="text-xs font-black text-[#c2c6d6] uppercase tracking-widest">Inmobiliario</span>
+                  </div>
+                  <span class="font-black text-white">45%</span>
+                </div>
+                <div class="flex justify-between items-center bg-[#0b1326] p-4 rounded-xl border border-white/5">
+                  <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-[#adc6ff] shadow-[0_0_10px_rgba(173,198,255,0.5)]"></span>
+                    <span class="text-xs font-black text-[#c2c6d6] uppercase tracking-widest">Fondos Comunes</span>
+                  </div>
+                  <span class="font-black text-white">30%</span>
+                </div>
+                <div class="flex justify-between items-center bg-[#0b1326] p-4 rounded-xl border border-white/5">
+                  <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-[#60a5fa] shadow-[0_0_10px_rgba(96,165,250,0.5)]"></span>
+                    <span class="text-xs font-black text-[#c2c6d6] uppercase tracking-widest">Activos Cobertura</span>
+                  </div>
+                  <span class="font-black text-white">25%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-[#222a3d] p-8 rounded-3xl border border-white/5 shadow-2xl space-y-6">
+            <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-[#c2c6d6] opacity-60">Contexto del Mercado</h3>
+            <div class="grid grid-cols-2 gap-6">
+              <div class="bg-[#131b2e] p-6 rounded-2xl border border-white/5">
+                <span class="text-[10px] text-[#c2c6d6] font-black uppercase tracking-widest mb-2 block">Volatilidad Global</span>
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-[#3b82f6] font-black">trending_down</span>
+                  <span class="text-2xl font-black text-white">12.4</span>
+                </div>
+              </div>
+              <div class="bg-[#131b2e] p-6 rounded-2xl border border-white/5">
+                <span class="text-[10px] text-[#c2c6d6] font-black uppercase tracking-widest mb-2 block">Apetito al Riesgo</span>
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-[#ffb786] font-black">bolt</span>
+                  <span class="text-2xl font-black text-[#ffb786]">ALTO</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Strategist -->
+        <section class="lg:col-span-3">
+          <div class="bg-[#131b2e] rounded-3xl p-8 shadow-2xl border border-white/5 space-y-8 sticky top-32 text-center">
+            <div class="flex flex-col items-center space-y-4">
+              <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-[#3b82f6]/20 p-1 bg-[#222a3d]">
+                <img class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida/ADBb0uhhlc8MQh8-w4FBNnPNHBsovpcZYNfZnH0P8tnUy3iHG33r32efX4-OnX5Ao9ufAruKzNAPyT8cbJPb7eN8Vnhb9kB-iG671tMXiI7wvxF3eXZGSHF8r_AZ3XA2znhoWHgZqNEUFUz1ex2o610RGpxWBR8BFVR3GSZ_Bpu0faxf9XJMaKa-LN6A-wE70yLGHrxWC3gq-xkHzp4Cad37NPQRO1PkFOPsyaDHJGJqiYcejFIT9pkNULcI1X7hGtOTA7DquvM7CXEdS78"/>
+              </div>
+              <div>
+                <h3 class="text-xl font-black text-white tracking-tight">Marcus Thorne</h3>
+                <p class="text-[10px] text-[#3b82f6] font-black tracking-widest uppercase mt-1">Estratega Senior</p>
+              </div>
+              <p class="text-sm text-[#c2c6d6] italic font-medium leading-relaxed">
+                "Nuestra estrategia Alpha Plus se enfoca en la protección asimétrica del riesgo mientras capturamos primas de liquidez."
+              </p>
+              <button class="w-full py-4 bg-[#3b82f6] text-white font-black text-xs uppercase tracking-widest rounded-2xl flex items-center justify-center gap-3 hover:bg-blue-600 transition-all shadow-xl shadow-blue-900/40 active:scale-95">
+                <span class="material-symbols-outlined text-sm font-black">call</span>
+                Solicitar Llamada Directa
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+
+    <!-- Confirm Footer -->
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-[#131b2e] shadow-[0_-20px_40px_rgba(0,0,0,0.4)] border-t border-white/5">
+      <div class="max-w-7xl mx-auto px-10 h-28 md:h-36 flex flex-col md:flex-row items-center justify-between gap-6 py-6">
+        <div class="hidden md:flex flex-col">
+          <span class="text-[10px] text-[#c2c6d6] font-black uppercase tracking-widest opacity-60">Estrategia Seleccionada</span>
+          <span class="text-xl font-black text-white tracking-tighter uppercase">Terminal Alpha Plus Premium</span>
+        </div>
+        <div class="flex flex-col items-center gap-2 w-full md:w-auto">
+          <a href="https://wa.me/591XXXXXXXXX" target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-[#060e20] w-full md:w-[480px] py-4 rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-95 shadow-2xl shadow-green-900/20 no-underline">
+            <svg class="w-6 h-6 fill-current" viewbox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.539 2.016 2.041-.541c.915.526 1.942.822 3.247.823 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.766-5.768-5.766zm3.363 8.281c-.139.392-.705.714-1.017.762-.284.043-.653.076-1.049-.05-.246-.078-.56-.183-.96-.355-1.701-.733-2.802-2.457-2.887-2.571-.085-.114-.689-.915-.689-1.745 0-.83.434-1.237.587-1.408.153-.17.334-.213.445-.213.111 0 .222.001.32.005.105.004.246-.04.385.293.143.344.488 1.19.531 1.276.042.086.071.186.014.299-.057.114-.085.186-.171.285-.085.1-.186.222-.264.307-.089.1-.181.209-.078.385.102.176.452.747.969 1.206.666.592 1.229.776 1.405.862.176.085.279.071.385-.05.105-.121.453-.526.575-.705.121-.18.243-.153.409-.092.165.061 1.05.495 1.233.586.183.091.305.137.349.213.045.076.045.441-.094.832z"></path></svg>
+            <span class="text-base font-black uppercase tracking-tight">Confirmar Inversión vía WhatsApp</span>
+          </a>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[10px] text-[#c2c6d6] opacity-60">lock</span>
+            <span class="text-[9px] text-[#c2c6d6] uppercase tracking-[0.2em] font-black opacity-40">Verificación Criptográfica End-to-End</span>
+          </div>
+        </div>
+        <div class="hidden lg:flex flex-col text-right">
+          <span class="text-[10px] text-[#c2c6d6] font-black uppercase tracking-widest opacity-60">Disponibilidad Estimada</span>
+          <span class="text-lg font-black text-white tracking-tighter">Inmediata</span>
+        </div>
+      </div>
+    </div>
+</div>
+
+@if (mostrarLogin) {
+    <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin($event)"></app-login>
+}

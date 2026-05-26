@@ -7,6 +7,7 @@ import { ProyectoFase } from './data/fuentes-datos/proyecto-fase.fuente-datos.js
 import { ProyectoMetrica } from './data/fuentes-datos/proyecto-metrica.fuente-datos.js';
 import { ProyectoDocumento } from './data/fuentes-datos/proyecto-documento.fuente-datos.js';
 import { ProyectoMultimedia } from './data/fuentes-datos/proyecto-multimedia.fuente-datos.js';
+import { ProyectoAvance } from './data/fuentes-datos/proyecto-avance.fuente-datos.js';
 import { ProyectoRepositoryImpl } from './data/repositorios/proyecto.repository-impl.js';
 
 import { PROYECTO_REPOSITORIO } from './domain/interfaces/proyecto.repository.js';
@@ -26,6 +27,8 @@ import { GetProyectoMetricasCasoUso } from './domain/use-cases/get-proyecto-metr
 import { GetUltimaMetricaCasoUso } from './domain/use-cases/get-ultima-metrica.caso-uso.js';
 import { CrearProyectoDocumentoCasoUso } from './domain/use-cases/crear-proyecto-documento.caso-uso.js';
 import { GetProyectoDocumentosCasoUso } from './domain/use-cases/get-proyecto-documentos.caso-uso.js';
+import { CrearProyectoAvanceCasoUso } from './domain/use-cases/crear-proyecto-avance.caso-uso.js';
+import { GetProyectoAvancesCasoUso } from './domain/use-cases/get-proyecto-avances.caso-uso.js';
 
 // Multimedia Use Cases
 import { AddProyectoMultimediaCasoUso } from './domain/use-cases/add-proyecto-multimedia.caso-uso.js';
@@ -48,6 +51,7 @@ import { ProyectoMultimediaControlador } from './presentation/controllers/proyec
       ProyectoMetrica,
       ProyectoDocumento,
       ProyectoMultimedia,
+      ProyectoAvance,
     ]),
   ],
   controllers: [ProyectosControlador, ProyectoMultimediaControlador],
@@ -75,6 +79,8 @@ import { ProyectoMultimediaControlador } from './presentation/controllers/proyec
     GetUltimaMetricaCasoUso,
     CrearProyectoDocumentoCasoUso,
     GetProyectoDocumentosCasoUso,
+    CrearProyectoAvanceCasoUso,
+    GetProyectoAvancesCasoUso,
     AddProyectoMultimediaCasoUso,
     GetProyectoMultimediaCasoUso,
     DeleteProyectoMultimediaCasoUso,
