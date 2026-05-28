@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class SocioService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/v1/socios';
+  private apiUrl = 'https://three65-desarrollo-inmobiliario.onrender.com/api/v1/socios';
 
   registrarSocio(datos: any): Observable<any> {
     // Si datos es FormData, HttpClient pondrá automáticamente el boundary y Content-Type correcto

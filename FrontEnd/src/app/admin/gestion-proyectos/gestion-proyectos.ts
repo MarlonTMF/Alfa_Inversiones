@@ -59,7 +59,7 @@ export class GestionProyectos implements OnInit {
           }
         } else {
           this.error =
-            'No se pudo cargar proyectos. Verifica: 1) BackEnd arriba en http://localhost:3000 2) tabla proyectos creada 3) CORS/Network.';
+            'No se pudo cargar proyectos. Verifica: 1) BackEnd arriba en https://three65-desarrollo-inmobiliario.onrender.com 2) tabla proyectos creada 3) CORS/Network.';
         }
         this.cargando = false;
         this.cdr.detectChanges();

@@ -23,7 +23,7 @@ export class Login implements OnInit {
     };
 
     errorLogin: string | null = null;
-    private readonly apiUrl = 'http://localhost:3000/api/v1/auth';
+    private readonly apiUrl = 'https://three65-desarrollo-inmobiliario.onrender.com/api/v1/auth';
 
     constructor(
         private readonly http: HttpClient,

@@ -29,7 +29,7 @@ export class AmenidadesService {
 
     // TODO REFACTOR BACKEND:
     // Reemplazar la constante 'elementosMock' y el 'of().pipe(delay)' por la petición real HTTP:
-    // return this.http.get<any[]>(`http://localhost:3000/api/v1/amenidades?tipo=${tipo}&lat=${lat}&lng=${lng}`);
+    // return this.http.get<any[]>(`https://three65-desarrollo-inmobiliario.onrender.com/api/v1/amenidades?tipo=${tipo}&lat=${lat}&lng=${lng}`);
 
     const cantidad = Math.floor(Math.random() * 4) + 3;
     const elementosMock = Array.from({ length: cantidad }).map((_, i) => {

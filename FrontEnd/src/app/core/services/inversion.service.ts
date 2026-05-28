@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class InversionService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/v1/inversiones';
+  private apiUrl = 'https://three65-desarrollo-inmobiliario.onrender.com/api/v1/inversiones';
 
   registrarInversion(formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}/registrar`, formData);

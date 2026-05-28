@@ -9,7 +9,7 @@ export class ProyectoService {
   private readonly http = inject(HttpClient);
   private readonly authService = inject(AuthService);
 
-  private readonly apiUrl = 'http://localhost:3000/api/v1/proyectos';
+  private readonly apiUrl = 'https://three65-desarrollo-inmobiliario.onrender.com/api/v1/proyectos';
 
   private buildAdminHeaders(): HttpHeaders {
     const user = this.authService.usuarioActual();

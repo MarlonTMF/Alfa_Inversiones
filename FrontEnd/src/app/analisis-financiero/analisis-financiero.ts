@@ -118,7 +118,7 @@ export class AnalisisFinanciero implements OnInit, OnDestroy {
   // ────────────────────────────────────────────────────────────────
   private cargarDatos(): void {
     this.cargando = true;
-    this.http.get(`http://localhost:3000/api/v1/properties/${this.propertyId}/analysis`).subscribe({
+    this.http.get(`https://three65-desarrollo-inmobiliario.onrender.com/api/v1/properties/${this.propertyId}/analysis`).subscribe({
       next: (data: any) => {
         this.datosDashboard = data;
         this.procesarMultimedia(data.multimedia || []);

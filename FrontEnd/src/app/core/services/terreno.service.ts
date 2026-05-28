@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class TerrenoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/v1/properties';
+  private apiUrl = 'https://three65-desarrollo-inmobiliario.onrender.com/api/v1/properties';
 
   /**
    * Realiza el registro completo de un terreno y su propietario.
