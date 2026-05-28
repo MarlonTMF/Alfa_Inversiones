@@ -125,9 +125,10 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
     private iniciarLeaflet(): void {
         import('leaflet')
-            .then((L) => {
-                this.L = L;
-                this.gestionarGeolocalizacion(L);
+            .then((L: any) => {
+                const leafletLib = L.default || L;
+                this.L = leafletLib;
+                this.gestionarGeolocalizacion(leafletLib);
             })
             .catch(err => console.error(err));
     }
