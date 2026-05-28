@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "postbuild": "cp dist/plataforma-inmobiliaria/browser/index.csr.html dist/plataforma-inmobiliaria/browser/index.html || true",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:plataforma-inmobiliaria": "node dist/plataforma-inmobiliaria/server/server.mjs"
