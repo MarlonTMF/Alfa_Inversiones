@@ -21,14 +21,24 @@ import { InversionesModule } from './inversiones/inversiones.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get<string>('DB_HOST', 'localhost'),
+        host: configService.get<string>('DB_HOST'),
         port: configService.get<number>('DB_PORT', 5432),
-        username: configService.get<string>('DB_USER', 'postgres'),
-        password: configService.get<string>('DB_PASSWORD', 'Marlon22'),
-        database: configService.get<string>('DB_NAME', 'db_inmobiliaria'),
+        username: configService.get<string>('DB_USER'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_NAME'),
         entities: [__dirname + '/**/*.fuente-datos{.ts,.js}'],
-        synchronize: false, // Desactivado para evitar conflictos de sincronización
         autoLoadEntities: true,
+        // Forzamos temporalmente la sincronización automática para poblar Render
+        synchronize: true,
+        // Pool de conexiones: evita que pg reutilice el mismo cliente para queries concurrentes
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+          max: 10,        // máximo de conexiones en el pool
+          idleTimeoutMillis: 30000,
+          connectionTimeoutMillis: 2000,
+        },
       }),
     }),
     MapaConstructorModule,
@@ -42,4 +52,4 @@ import { InversionesModule } from './inversiones/inversiones.module';
     InversionesModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

@@ -24,13 +24,13 @@ export class PropertyMultimediaFuenteDatos {
   @JoinColumn({ name: 'property_id' })
   property: PropertyFuenteDatos;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   type: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   provider: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   url: string;
 
   @Column({ name: 'public_id', type: 'text', nullable: true })

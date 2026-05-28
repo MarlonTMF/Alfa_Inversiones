@@ -20,7 +20,7 @@ export class InversionistaFuenteDatos {
   @JoinColumn({ name: 'usuario_id' })
   usuario: UsuarioFuenteDatos;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   ci_dni: string;
 
   @Column({ nullable: true })

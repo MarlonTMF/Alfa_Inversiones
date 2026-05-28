@@ -20,10 +20,10 @@ export class SocioFuenteDatos {
   @JoinColumn({ name: 'usuario_id' })
   usuario: UsuarioFuenteDatos;
 
-  @Column()
+  @Column({ nullable: true })
   nombre_empresa: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   nit: string;
 
   @Column({ nullable: true })

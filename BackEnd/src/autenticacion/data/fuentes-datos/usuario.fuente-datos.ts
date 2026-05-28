@@ -10,16 +10,16 @@ export class UsuarioFuenteDatos {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   nombre: string;
 
-  @Column()
+  @Column({ nullable: true })
   rol: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @CreateDateColumn()
