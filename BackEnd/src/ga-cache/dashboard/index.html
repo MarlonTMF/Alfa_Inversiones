@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GA-Cache — Dashboard de Evolución</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0e1a;--surface:#111827;--glass:rgba(17,24,39,.7);--border:rgba(99,102,241,.2);--primary:#6366f1;--primary-glow:rgba(99,102,241,.3);--accent:#22d3ee;--accent2:#a78bfa;--success:#10b981;--warning:#f59e0b;--danger:#ef4444;--text:#e5e7eb;--text-dim:#9ca3af;--text-bright:#f9fafb;--mono:'JetBrains Mono',monospace}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.bg-glow{position:fixed;width:600px;height:600px;border-radius:50%;filter:blur(150px);opacity:.15;pointer-events:none;z-index:0}
+.bg-glow-1{top:-200px;left:-100px;background:var(--primary)}
+.bg-glow-2{bottom:-200px;right:-100px;background:var(--accent)}
+.container{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:24px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+.logo{display:flex;align-items:center;gap:14px}
+.logo-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 30px var(--primary-glow)}
+.logo h1{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--text-bright),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo p{font-size:13px;color:var(--text-dim);font-weight:400}
+.status-badge{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:99px;font-size:13px;font-weight:500;backdrop-filter:blur(10px);border:1px solid var(--border)}
+.status-badge.online{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.3);color:var(--success)}
+.status-badge.offline{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:var(--danger)}
+.status-dot{width:8px;height:8px;border-radius:50%;animation:pulse 2s infinite}
+.status-badge.online .status-dot{background:var(--success)}
+.status-badge.offline .status-dot{background:var(--danger)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.grid{display:grid;gap:20px}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(400px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:16px;padding:24px;transition:all .3s ease}
+.card:hover{border-color:rgba(99,102,241,.4);box-shadow:0 0 30px rgba(99,102,241,.08)}
+.card-title{font-size:13px;font-weight:500;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.card-value{font-size:36px;font-weight:700;color:var(--text-bright);font-family:var(--mono)}
+.card-value.sm{font-size:24px}
+.card-sub{font-size:12px;color:var(--text-dim);margin-top:4px}
+.card-value .unit{font-size:16px;font-weight:400;color:var(--text-dim)}
+.section-title{font-size:18px;font-weight:700;color:var(--text-bright);margin:32px 0 16px;display:flex;align-items:center;gap:10px}
+.chart-container{position:relative;height:280px;width:100%}
+.genome-table{width:100%;border-collapse:collapse;font-size:14px}
+.genome-table th{text-align:left;padding:10px 12px;color:var(--text-dim);font-weight:500;border-bottom:1px solid var(--border);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.genome-table td{padding:10px 12px;border-bottom:1px solid rgba(99,102,241,.08);font-family:var(--mono);font-size:13px}
+.genome-table tr:hover td{background:rgba(99,102,241,.05)}
+.tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;font-family:var(--mono)}
+.tag-lru{background:rgba(99,102,241,.15);color:var(--primary)}
+.tag-lfu{background:rgba(34,211,238,.15);color:var(--accent)}
+.tag-arc{background:rgba(167,139,250,.15);color:var(--accent2)}
+.btn{padding:12px 24px;border:none;border-radius:12px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:linear-gradient(135deg,var(--primary),#4f46e5);color:#fff;box-shadow:0 4px 15px var(--primary-glow)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px var(--primary-glow)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+.controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.select{padding:10px 16px;border-radius:10px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer}
+.select:focus{outline:none;border-color:var(--primary)}
+.input{padding:10px 16px;border-radius:10px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:13px;width:100px}
+.input:focus{outline:none;border-color:var(--primary)}
+.progress-bar{height:6px;background:var(--surface);border-radius:99px;overflow:hidden;margin-top:12px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:99px;transition:width .5s ease;width:0%}
+.savings-card{background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(34,211,238,.05));border-color:rgba(16,185,129,.3)}
+.savings-card .card-value{color:var(--success)}
+.comparison-table{width:100%;border-collapse:collapse;font-size:13px}
+.comparison-table th{padding:12px;text-align:left;color:var(--text-dim);font-weight:500;border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase}
+.comparison-table td{padding:12px;border-bottom:1px solid rgba(99,102,241,.08)}
+.comparison-table .best{color:var(--success);font-weight:600}
+.comparison-table .worst{color:var(--danger);opacity:.6}
+.log{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;font-family:var(--mono);font-size:12px;max-height:200px;overflow-y:auto;line-height:1.8}
+.log-entry{color:var(--text-dim)}.log-entry .t{color:var(--text-dim);opacity:.5}.log-entry .ok{color:var(--success)}.log-entry .warn{color:var(--warning)}
+.hidden{display:none!important}
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}.card-value{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+
+<div class="container">
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🧬</div>
+      <div><h1>GA-Cache</h1><p>Evolutionary Cache Optimization Engine</p></div>
+    </div>
+    <div class="status-badge offline" id="statusBadge">
+      <div class="status-dot"></div>
+      <span id="statusText">Desconectado</span>
+    </div>
+  </header>
+
+  <!-- KPIs -->
+  <div class="grid grid-4" id="kpis">
+    <div class="card"><div class="card-title">Generación</div><div class="card-value sm" id="kpiGen">0</div></div>
+    <div class="card"><div class="card-title">Hit Rate</div><div class="card-value sm" id="kpiHitRate">0<span class="unit">%</span></div></div>
+    <div class="card"><div class="card-title">Avg Latencia</div><div class="card-value sm" id="kpiLatency">0<span class="unit">ms</span></div></div>
+    <div class="card"><div class="card-title">Best Fitness</div><div class="card-value sm" id="kpiFitness">0</div></div>
+  </div>
+
+  <!-- Benchmark Controls -->
+  <div class="section-title">🏁 Benchmark — Comparación de Escenarios</div>
+  <div class="controls">
+    <select class="select" id="patternSelect">
+      <option value="composite" selected>🔀 Composite (Día real)</option>
+      <option value="hotspot">Hotspot (80/20)</option>
+      <option value="normal">Normal (Uniforme)</option>
+      <option value="burst">Burst (Tráfico viral)</option>
+      <option value="drift">Drift (Cambio gradual)</option>
+    </select>
+    <label style="font-size:13px;color:var(--text-dim)">Requests:</label>
+    <input class="input" id="requestsInput" type="number" value="8000" min="500" max="50000" step="500">
+    <label style="font-size:13px;color:var(--text-dim)">Keys:</label>
+    <input class="input" id="keysInput" type="number" value="500" min="10" max="5000" step="10">
+    <button class="btn btn-primary" id="runBenchmark" onclick="runBenchmark()">▶ Ejecutar Benchmark</button>
+  </div>
+  <div id="benchProgress" class="hidden">
+    <div style="font-size:13px;color:var(--text-dim)" id="benchPhase">Preparando...</div>
+    <div class="progress-bar"><div class="progress-fill" id="benchFill"></div></div>
+  </div>
+
+  <!-- Benchmark Results -->
+  <div id="benchResults" class="hidden">
+    <div class="grid grid-3" style="margin:20px 0">
+      <div class="card savings-card"><div class="card-title">💰 Ahorro vs Sin Caché</div><div class="card-value" id="savingsNoCache">—</div><div class="card-sub" id="savingsNoCacheUSD"></div></div>
+      <div class="card savings-card"><div class="card-title">📊 Ahorro vs Estático</div><div class="card-value" id="savingsStatic">—</div><div class="card-sub" id="savingsStaticUSD"></div></div>
+      <div class="card"><div class="card-title">🧬 Generaciones Evolucionadas</div><div class="card-value sm" id="totalGens">—</div><div class="card-sub" id="finalFitness"></div></div>
+    </div>
+    <div class="grid grid-2">
+      <div class="card"><div class="card-title">Tabla Comparativa</div>
+        <table class="comparison-table" id="compTable"><thead><tr><th>Métrica</th><th>Sin Caché</th><th>Estático</th><th>GA-Cache</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="card"><div class="card-title">Evolución del Fitness</div><div class="chart-container"><canvas id="fitnessChart"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- Real-time Charts -->
+  <div class="section-title">📈 Telemetría en Tiempo Real</div>
+  <div class="grid grid-2">
+    <div class="card"><div class="card-title">Hit Rate por Generación</div><div class="chart-container"><canvas id="hitRateChart"></canvas></div></div>
+    <div class="card"><div class="card-title">Latencia Promedio</div><div class="chart-container"><canvas id="latencyChart"></canvas></div></div>
+  </div>
+
+  <!-- Active Genome -->
+  <div class="section-title">🧬 Genoma Activo</div>
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="card-title">Genoma Evolucionado (Mejor Configuración)</div>
+      <table class="genome-table" id="genomeTable">
+        <thead><tr><th>Gen</th><th>Valor</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td>TTL</td><td id="genTtlL1">—</td><td>Tiempo de vida en caché</td></tr>
+          <tr><td>Max Entries</td><td id="genTtlL2">—</td><td>Entradas máximas en caché</td></tr>
+          <tr><td>Eviction</td><td id="genEviction">—</td><td>Política de reemplazo</td></tr>
+          <tr><td>Fitness</td><td id="genFitness">—</td><td>Score de aptitud (0 – 1)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card"><div class="card-title">📋 Log de Eventos</div><div class="log" id="eventLog"><div class="log-entry"><span class="t">[init]</span> Esperando conexión...</div></div></div>
+  </div>
+</div>
+
+<script>
+const API=location.origin+'/api/v1/ga-cache';
+let socket,fitnessChart,hitRateChart,latencyChart;
+const maxDataPoints=100;
+
+// ─── Inicialización ──────────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  initCharts();
+  connectSocket();
+  fetchStatus();
+});
+
+function connectSocket(){
+  try{
+    socket=io(location.origin+'/ga-cache',{transports:['websocket','polling']});
+    socket.on('connect',()=>{
+      document.getElementById('statusBadge').className='status-badge online';
+      document.getElementById('statusText').textContent='Conectado';
+      log('Conectado al servidor','ok');
+    });
+    socket.on('disconnect',()=>{
+      document.getElementById('statusBadge').className='status-badge offline';
+      document.getElementById('statusText').textContent='Desconectado';
+      log('Desconectado','warn');
+    });
+    socket.on('ga:generation',onGeneration);
+    socket.on('ga:metrics',onMetrics);
+    socket.on('ga:benchmark',onBenchmarkResult);
+    socket.on('ga:benchmarkProgress',onBenchmarkProgress);
+  }catch(e){log('Error de conexión: '+e.message,'warn')}
+}
+
+// ─── Eventos WebSocket ───────────────────────────────────────
+function onGeneration(ev){
+  document.getElementById('kpiGen').textContent=ev.generation;
+  document.getElementById('kpiFitness').textContent=ev.bestFitness.toFixed(4);
+  addChartData(hitRateChart,ev.generation,(ev.bestChromosome?ev.bestChromosome.prefetchProb*100:0));
+  updateGenome(ev.bestChromosome);
+}
+
+function onMetrics(m){
+  document.getElementById('kpiHitRate').innerHTML=(m.combinedHitRate*100).toFixed(1)+'<span class="unit">%</span>';
+  document.getElementById('kpiLatency').innerHTML=m.avgLatencyMs.toFixed(1)+'<span class="unit">ms</span>';
+  addChartData(latencyChart,'',m.avgLatencyMs);
+}
+
+function onBenchmarkProgress(p){
+  document.getElementById('benchProgress').classList.remove('hidden');
+  document.getElementById('benchPhase').textContent=p.phase;
+  document.getElementById('benchFill').style.width=p.percent+'%';
+  if(p.percent>=100)setTimeout(()=>document.getElementById('benchProgress').classList.add('hidden'),1500);
+}
+
+function onBenchmarkResult(r){
+  document.getElementById('runBenchmark').disabled=false;
+  document.getElementById('benchResults').classList.remove('hidden');
+  renderBenchmarkResult(r);
+  log('Benchmark completado — GA ahorra '+r.savings.gaCacheVsStatic.costSavingsPercent.toFixed(1)+'% vs estático','ok');
+}
+
+// ─── Benchmark ───────────────────────────────────────────────
+async function runBenchmark(){
+  const btn=document.getElementById('runBenchmark');
+  btn.disabled=true;
+  document.getElementById('benchProgress').classList.remove('hidden');
+  document.getElementById('benchFill').style.width='0%';
+  const body={
+    pattern:document.getElementById('patternSelect').value,
+    totalRequests:parseInt(document.getElementById('requestsInput').value)||5000,
+    uniqueKeys:parseInt(document.getElementById('keysInput').value)||200,
+    rps:500
+  };
+  log('Iniciando benchmark: '+body.pattern+' ('+body.totalRequests+' reqs)');
+  try{
+    const res=await fetch(API+'/benchmark/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const data=await res.json();
+    onBenchmarkResult(data);
+  }catch(e){log('Error: '+e.message,'warn');btn.disabled=false}
+}
+
+function renderBenchmarkResult(r){
+  const s=r.savings;
+  document.getElementById('savingsNoCache').textContent=s.gaCacheVsNoCache.dbQueryReduction.toFixed(1)+'%';
+  document.getElementById('savingsNoCacheUSD').textContent='~$'+s.gaCacheVsNoCache.costSavingsUSD+'/mes reducción queries DB';
+  document.getElementById('savingsStatic').textContent=s.gaCacheVsStatic.hitRateImprovement.toFixed(1)+'%';
+  document.getElementById('savingsStaticUSD').textContent='Mejora en hit rate vs caché estático — $'+s.gaCacheVsStatic.costSavingsUSD+'/mes ahorro';
+  document.getElementById('totalGens').textContent=r.gaEvolution.totalGenerations;
+  document.getElementById('finalFitness').textContent='Fitness final: '+r.gaEvolution.finalBestFitness.toFixed(4);
+
+  // Tabla comparativa
+  const sc=r.scenarios;
+  const metrics=[
+    ['Hit Rate',fmt(0,'%'),fmt(sc.staticCache.hitRate*100,'%'),fmt(sc.gaCache.hitRate*100,'%')],
+    ['Avg Latencia',fmt(sc.noCache.avgLatencyMs,'ms'),fmt(sc.staticCache.avgLatencyMs,'ms'),fmt(sc.gaCache.avgLatencyMs,'ms')],
+    ['DB Queries',sc.noCache.dbQueries,sc.staticCache.dbQueries,sc.gaCache.dbQueries],
+    ['Memoria',fmtBytes(sc.noCache.memoryUsedBytes),fmtBytes(sc.staticCache.memoryUsedBytes),fmtBytes(sc.gaCache.memoryUsedBytes)],
+    ['Costo/mes','$'+sc.noCache.estimatedMonthlyCostUSD,'$'+sc.staticCache.estimatedMonthlyCostUSD,'$'+sc.gaCache.estimatedMonthlyCostUSD],
+  ];
+  const tbody=document.querySelector('#compTable tbody');
+  tbody.innerHTML='';
+  metrics.forEach(row=>{
+    const tr=document.createElement('tr');
+    row.forEach((cell,i)=>{
+      const td=document.createElement('td');
+      td.textContent=cell;
+      if(i===3)td.className='best';
+      if(i===1&&row[0]!=='Memoria')td.className='worst';
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+
+  // Gráfico de fitness
+  if(r.gaEvolution.fitnessHistory.length>0){
+    const labels=r.gaEvolution.fitnessHistory.map(h=>h.generation);
+    const bestData=r.gaEvolution.fitnessHistory.map(h=>h.best);
+    const avgData=r.gaEvolution.fitnessHistory.map(h=>h.avg);
+    if(fitnessChart)fitnessChart.destroy();
+    fitnessChart=new Chart(document.getElementById('fitnessChart'),{
+      type:'line',
+      data:{labels,datasets:[
+        {label:'Best Fitness',data:bestData,borderColor:'#6366f1',backgroundColor:'rgba(99,102,241,.1)',fill:true,tension:.4,pointRadius:0},
+        {label:'Avg Fitness',data:avgData,borderColor:'#a78bfa',backgroundColor:'rgba(167,139,250,.05)',fill:true,tension:.4,pointRadius:0,borderDash:[5,5]}
+      ]},
+      options:chartOpts('Fitness')
+    });
+  }
+  // Update genome
+  if(r.gaEvolution.finalGenome)updateGenome(r.gaEvolution.finalGenome);
+}
+
+// ─── Genome Display ──────────────────────────────────────────
+function updateGenome(g){
+  if(!g)return;
+  // Soportar formato de ga-engine y de mini-GA del benchmark
+  const ttl = g.ttlMs ? (g.ttlMs/1000).toFixed(0)+'s' : (g.ttlL1||0)+'s';
+  const maxE = g.maxEntries || g.ttlL2 || '—';
+  const pol = g.policy || g.evictionPolicy || 'LRU';
+  document.getElementById('genTtlL1').textContent=ttl;
+  document.getElementById('genTtlL2').textContent=maxE;
+  document.getElementById('genEviction').innerHTML='<span class="tag tag-'+pol.toLowerCase()+'">'+pol+'</span>';
+  document.getElementById('genFitness').textContent=(g.fitness||0).toFixed(4);
+}
+
+// ─── Charts Setup ────────────────────────────────────────────
+function chartOpts(yLabel){
+  return{responsive:true,maintainAspectRatio:false,scales:{
+    x:{display:true,grid:{color:'rgba(99,102,241,.06)'},ticks:{color:'#6b7280',font:{size:10}}},
+    y:{display:true,grid:{color:'rgba(99,102,241,.06)'},ticks:{color:'#6b7280',font:{size:10}},title:{display:true,text:yLabel,color:'#6b7280',font:{size:11}}}
+  },plugins:{legend:{labels:{color:'#9ca3af',font:{size:11}}},tooltip:{backgroundColor:'#1f2937',titleColor:'#f9fafb',bodyColor:'#e5e7eb',borderColor:'rgba(99,102,241,.3)',borderWidth:1}},animation:{duration:300}}
+}
+
+function initCharts(){
+  hitRateChart=new Chart(document.getElementById('hitRateChart'),{
+    type:'line',data:{labels:[],datasets:[{label:'Hit Rate %',data:[],borderColor:'#22d3ee',backgroundColor:'rgba(34,211,238,.1)',fill:true,tension:.4,pointRadius:0}]},
+    options:chartOpts('Hit Rate %')
+  });
+  latencyChart=new Chart(document.getElementById('latencyChart'),{
+    type:'line',data:{labels:[],datasets:[{label:'Latencia ms',data:[],borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,.1)',fill:true,tension:.4,pointRadius:0}]},
+    options:chartOpts('ms')
+  });
+}
+
+function addChartData(chart,label,value){
+  if(!chart)return;
+  chart.data.labels.push(label);
+  chart.data.datasets[0].data.push(value);
+  if(chart.data.labels.length>maxDataPoints){chart.data.labels.shift();chart.data.datasets[0].data.shift()}
+  chart.update('none');
+}
+
+// ─── Utilities ───────────────────────────────────────────────
+function fmt(v,u){return(typeof v==='number'?v.toFixed(1):v)+u}
+function fmtBytes(b){if(b===0)return'0 B';const k=1024,s=['B','KB','MB','GB'];const i=Math.floor(Math.log(b)/Math.log(k));return(b/Math.pow(k,i)).toFixed(1)+' '+s[i]}
+function log(msg,cls=''){
+  const el=document.getElementById('eventLog');
+  const d=new Date().toLocaleTimeString();
+  el.innerHTML+='<div class="log-entry"><span class="t">['+d+']</span> <span class="'+(cls||'')+'">'+msg+'</span></div>';
+  el.scrollTop=el.scrollHeight;
+}
+
+async function fetchStatus(){
+  try{
+    const r=await fetch(API+'/status');
+    const d=await r.json();
+    if(d.gaEngine){document.getElementById('kpiGen').textContent=d.gaEngine.generation}
+    if(d.activeGenome)updateGenome(d.activeGenome);
+    log('Estado cargado desde servidor','ok');
+  }catch(e){log('Servidor no disponible — inicie con npm run start:dev','warn')}
+}
+</script>
+</body>
+</html>

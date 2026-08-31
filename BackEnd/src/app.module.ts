@@ -10,6 +10,7 @@ import { OrquestacionModule } from './orquestacion/orquestacion.module';
 import { SociosModule } from './socios/socios.module';
 import { ProyectosModule } from './proyectos/proyectos.module';
 import { InversionesModule } from './inversiones/inversiones.module';
+import { GaCacheModule } from './ga-cache/ga-cache.module';
 
 @Module({
   imports: [
@@ -50,6 +51,10 @@ import { InversionesModule } from './inversiones/inversiones.module';
     SociosModule,
     ProyectosModule,
     InversionesModule,
+    GaCacheModule.forRoot({
+      autoStart: false,
+      metricsIntervalMs: 2000,
+    }),
   ],
 })
 export class AppModule { }
