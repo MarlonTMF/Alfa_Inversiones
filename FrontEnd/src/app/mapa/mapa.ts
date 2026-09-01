@@ -201,7 +201,7 @@ export class Mapa implements AfterViewInit, OnDestroy {
 
     private obtenerTerrenosDelBackend(): void {
         if (!this.map) return;
-        const url = `https://three65-desarrollo-inmobiliario.onrender.com/api/v1/terrenos`;
+        const url = `https://alfa-inversiones.onrender.com/api/v1/terrenos`;
 
         this.http.get<any[]>(url).subscribe({
             next: (terrenos) => {

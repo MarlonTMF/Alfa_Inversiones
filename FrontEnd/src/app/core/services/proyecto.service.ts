@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../auth/services/auth';
+import { API_URL } from '../../config/api.config';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ export class ProyectoService {
   private readonly http = inject(HttpClient);
   private readonly authService = inject(AuthService);
 
-  private readonly apiUrl = 'https://three65-desarrollo-inmobiliario.onrender.com/api/v1/proyectos';
+  private readonly apiUrl = `${API_URL}/proyectos`;
 
   private buildAdminHeaders(): HttpHeaders {
     const user = this.authService.usuarioActual();

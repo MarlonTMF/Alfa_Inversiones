@@ -5,32 +5,60 @@ import { isPlatformBrowser } from '@angular/common';
     providedIn: 'root',
 })
 export class AuthService {
-    
+    private static readonly STORAGE_KEY = 'usuario365';
+
     public usuarioActual = signal<any>(null);
+
+    private readonly usuariosDemo: Record<string, any> = {
+        admin: { nombre: 'Super Orquestador', email: 'admin@365soft.com', rol: 'admin' },
+        inversor: { nombre: 'Alex Vance', email: 'alex@architect.com', rol: 'inversor' },
+        inversionista: { nombre: 'Inversionista Capital', email: 'inv@empresa.com', rol: 'inversionista' },
+        constructor: { nombre: 'Constructora Delta', email: 'const@empresa.com', rol: 'constructor' },
+        propietario: { nombre: 'Dueño Terreno Norte', email: 'prop@empresa.com', rol: 'propietario' },
+    };
+
     constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
         this.verificarSesionGuardada();
     }
 
     private verificarSesionGuardada(): void {
-        if (isPlatformBrowser(this.platformId)) {
-            const usuarioGuardado = localStorage.getItem('usuario365');
-            if (usuarioGuardado) {
-                this.usuarioActual.set(JSON.parse(usuarioGuardado));
-            }
+        if (!isPlatformBrowser(this.platformId)) {
+            return;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const usuarioDemo = params.get('demoUser');
+        if (usuarioDemo && this.usuariosDemo[usuarioDemo]) {
+            this.login(this.usuariosDemo[usuarioDemo]);
+            return;
+        }
+
+        const usuarioGuardado = sessionStorage.getItem(AuthService.STORAGE_KEY)
+            ?? localStorage.getItem(AuthService.STORAGE_KEY);
+
+        if (usuarioGuardado) {
+            this.usuarioActual.set(JSON.parse(usuarioGuardado));
         }
     }
 
     login(usuario: any): void {
-        this.usuarioActual.set(usuario);
+        const usuarioNormalizado = {
+            ...usuario,
+            rol: (usuario?.rol || '').toLowerCase()
+        };
+
+        this.usuarioActual.set(usuarioNormalizado);
         if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem('usuario365', JSON.stringify(usuario));
+            sessionStorage.setItem(AuthService.STORAGE_KEY, JSON.stringify(usuarioNormalizado));
+            localStorage.setItem(AuthService.STORAGE_KEY, JSON.stringify(usuarioNormalizado));
         }
     }
 
     logout(): void {
         this.usuarioActual.set(null);
         if (isPlatformBrowser(this.platformId)) {
-            localStorage.removeItem('usuario365');
+            sessionStorage.removeItem(AuthService.STORAGE_KEY);
+            localStorage.removeItem(AuthService.STORAGE_KEY);
         }
     }
 

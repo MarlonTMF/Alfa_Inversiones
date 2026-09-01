@@ -55,6 +55,27 @@
     </div>
 </section>
 
+<section class="demo-section">
+    <div class="demo-box">
+        <div class="demo-heading">
+            <span class="demo-chip">DEMO MULTIUSUARIO</span>
+            <h2>Abre una ventana por perfil para probar todas las funcionalidades</h2>
+        </div>
+
+        <div class="demo-grid">
+            @for (usuario of usuariosDemo; track usuario.rol) {
+                <button class="demo-user-card" (click)="abrirVentanaDemo(usuario.rol)">
+                    <span class="demo-dot" [style.background]="usuario.color"></span>
+                    <div>
+                        <strong>{{ usuario.nombre }}</strong>
+                        <small>{{ usuario.descripcion }}</small>
+                    </div>
+                </button>
+            }
+        </div>
+    </div>
+</section>
+
 <section id="como-funciona" class="how-it-works">
     <h2 class="section-title">¿Cómo funciona la plataforma?</h2>
     

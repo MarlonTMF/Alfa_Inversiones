@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, OnInit, Inject, PLATFORM_ID } from '@a
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { API_URL } from '../../config/api.config';
 
 @Component({
     selector: 'app-login',
@@ -23,7 +24,7 @@ export class Login implements OnInit {
     };
 
     errorLogin: string | null = null;
-    private readonly apiUrl = 'https://three65-desarrollo-inmobiliario.onrender.com/api/v1/auth';
+    private readonly apiUrl = `${API_URL}/auth`;
 
     constructor(
         private readonly http: HttpClient,

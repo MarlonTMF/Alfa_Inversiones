@@ -17,6 +17,12 @@ export class LandingPage implements OnInit {
     
     public mostrarLogin: boolean = false;
     public activeTab: 'inversor' | 'constructor' | 'propiedad' = 'inversor';
+    public usuariosDemo = [
+        { rol: 'admin', nombre: 'Administrador', descripcion: 'Panel completo de operación', color: '#60a5fa' },
+        { rol: 'inversor', nombre: 'Inversor', descripcion: 'Seguimiento del portafolio', color: '#34d399' },
+        { rol: 'constructor', nombre: 'Constructor', descripcion: 'Gestión de proyectos y avances', color: '#fbbf24' },
+        { rol: 'propietario', nombre: 'Propietario', descripcion: 'Registro y validación de terrenos', color: '#f472b6' },
+    ];
 
     ngOnInit(): void {
         const usuario = this.authService.usuarioActual();
@@ -31,14 +37,25 @@ export class LandingPage implements OnInit {
         this.redireccionarSegunRol(usuario);
     }
 
+    abrirVentanaDemo(rol: string): void {
+        if (typeof window === 'undefined') {
+            return;
+        }
+
+        const url = `${window.location.origin}${window.location.pathname}?demoUser=${rol}`;
+        window.open(url, '_blank', 'noopener,noreferrer,width=1500,height=1000');
+    }
+
     private redireccionarSegunRol(usuario: any): void {
-        const rol = (usuario.rol || '').toLowerCase();
-        if (rol === 'inversor') {
+        const rol = (usuario?.rol || '').toLowerCase();
+        if (rol === 'inversor' || rol === 'inversionista') {
             this.router.navigate(['/inversor']);
         } else if (rol === 'constructor') {
             this.router.navigate(['/constructor']);
         } else if (rol === 'admin' || rol === 'super-admin') {
             this.router.navigate(['/admin/dashboard']);
+        } else if (rol === 'propietario') {
+            this.router.navigate(['/registro-terreno']);
         } else {
             this.router.navigate(['/mapa']);
         }

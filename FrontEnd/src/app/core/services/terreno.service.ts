@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_URL } from '../../config/api.config';
 
 /**
  * Servicio para la gestión de terrenos y propiedades desde el Frontend.
@@ -10,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class TerrenoService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://three65-desarrollo-inmobiliario.onrender.com/api/v1/properties';
+  private apiUrl = `${API_URL}/properties`;
 
   /**
    * Realiza el registro completo de un terreno y su propietario.
