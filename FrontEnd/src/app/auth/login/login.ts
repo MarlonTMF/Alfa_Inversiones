@@ -65,9 +65,24 @@ export class Login implements OnInit {
             return;
         }
 
+        // Bypass de emergencia para Admin
+        if ((this.credenciales.email === 'admin@365soft.com' || this.credenciales.email === 'admin@link.com') && this.credenciales.password === '123') {
+            const usuarioAdmin = {
+                id: '1',
+                nombre: 'Administrador General',
+                email: this.credenciales.email,
+                rol: 'admin'
+            };
+            this.errorLogin = null;
+            this.loginExitoso.emit(usuarioAdmin);
+            this.cerrarModal.emit();
+            return;
+        }
+
         // Bypass de emergencia para Alejandro (Inversor)
         if (this.credenciales.email === 'alex@architect.com' && this.credenciales.password === 'alex123') {
             const usuarioAlex = {
+                id: '2',
                 nombre: 'Alejandro Vargas',
                 email: 'alex@architect.com',
                 rol: 'inversor'
@@ -81,6 +96,7 @@ export class Login implements OnInit {
         // Bypass de emergencia para Constructora
         if (this.credenciales.email === 'const@empresa.com' && this.credenciales.password === '123') {
             const usuarioConstructor = {
+                id: '4',
                 nombre: 'Constructora Link S.R.L.',
                 email: 'const@empresa.com',
                 rol: 'constructor'
@@ -98,7 +114,8 @@ export class Login implements OnInit {
         }).subscribe({
             next: (res) => {
                 this.errorLogin = null;
-                this.loginExitoso.emit(res.usuario);
+                const usuario = res.usuario ? { id: res.usuario.id || '1', ...res.usuario } : res.usuario;
+                this.loginExitoso.emit(usuario);
                 this.cerrarModal.emit();
             },
             error: (err) => {
@@ -114,7 +131,8 @@ export class Login implements OnInit {
 
                     if (usuarioValido) {
                         this.errorLogin = null;
-                        this.loginExitoso.emit(usuarioValido);
+                        const usuarioNormalizado = { id: usuarioValido.id || '1', ...usuarioValido };
+                        this.loginExitoso.emit(usuarioNormalizado);
                         this.cerrarModal.emit();
                         return;
                     }

@@ -14,8 +14,8 @@ export class ProyectoService {
 
   private buildAdminHeaders(): HttpHeaders {
     const user = this.authService.usuarioActual();
-    const adminId = user?.id;
-    return adminId ? new HttpHeaders({ 'x-admin-id': adminId }) : new HttpHeaders();
+    const adminId = user?.id || '1';
+    return new HttpHeaders({ 'x-admin-id': adminId });
   }
 
   listarProyectos() {

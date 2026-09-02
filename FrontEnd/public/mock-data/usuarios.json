@@ -1,29 +1,34 @@
 [
     {
+        "id": "1",
         "rol": "admin",
         "email": "admin@365soft.com",
         "password": "123",
         "nombre": "Administrador General"
     },
     {
+        "id": "2",
         "rol": "inversor",
         "email": "alex@architect.com",
         "password": "alex123",
         "nombre": "Alejandro Vargas"
     },
     {
+        "id": "3",
         "rol": "inversionista",
         "email": "inv@empresa.com",
         "password": "123",
         "nombre": "Capital Inversiones S.A."
     },
     {
+        "id": "4",
         "rol": "constructor",
         "email": "const@empresa.com",
         "password": "123",
         "nombre": "Constructora Link S.R.L."
     },
     {
+        "id": "5",
         "rol": "propietario",
         "email": "prop@empresa.com",
         "password": "123",
