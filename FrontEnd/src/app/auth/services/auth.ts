@@ -37,12 +37,24 @@ export class AuthService {
             ?? localStorage.getItem(AuthService.STORAGE_KEY);
 
         if (usuarioGuardado) {
-            this.usuarioActual.set(JSON.parse(usuarioGuardado));
+            try {
+                const parsed = JSON.parse(usuarioGuardado);
+                const normalizado = {
+                    id: parsed.id || '1',
+                    ...parsed
+                };
+                this.usuarioActual.set(normalizado);
+                sessionStorage.setItem(AuthService.STORAGE_KEY, JSON.stringify(normalizado));
+                localStorage.setItem(AuthService.STORAGE_KEY, JSON.stringify(normalizado));
+            } catch {
+                this.usuarioActual.set(null);
+            }
         }
     }
 
     login(usuario: any): void {
         const usuarioNormalizado = {
+            id: usuario?.id || '1',
             ...usuario,
             rol: (usuario?.rol || '').toLowerCase()
         };
