@@ -20,27 +20,31 @@ import { GaCacheModule } from './ga-cache/ga-cache.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT', 5432),
-        username: configService.get<string>('DB_USER'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_NAME'),
-        entities: [__dirname + '/**/*.fuente-datos{.ts,.js}'],
-        autoLoadEntities: true,
-        // Forzamos temporalmente la sincronización automática para poblar Render
-        synchronize: true,
-        // Pool de conexiones: evita que pg reutilice el mismo cliente para queries concurrentes
-        extra: {
-          ssl: {
-            rejectUnauthorized: false,
+      useFactory: (configService: ConfigService) => {
+        const sslEnabled = configService.get<string>('DB_SSL') === 'true';
+
+        return {
+          type: 'postgres',
+          host: configService.get<string>('DB_HOST'),
+          port: configService.get<number>('DB_PORT', 5432),
+          username: configService.get<string>('DB_USER'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_NAME'),
+          entities: [__dirname + '/**/*.fuente-datos{.ts,.js}'],
+          autoLoadEntities: true,
+          synchronize: true,
+          extra: {
+            ...(sslEnabled ? {
+              ssl: {
+                rejectUnauthorized: false,
+              },
+            } : {}),
+            max: 10,
+            idleTimeoutMillis: 30000,
+            connectionTimeoutMillis: 2000,
           },
-          max: 10,        // máximo de conexiones en el pool
-          idleTimeoutMillis: 30000,
-          connectionTimeoutMillis: 2000,
-        },
-      }),
+        };
+      },
     }),
     MapaConstructorModule,
     AutenticacionModule,

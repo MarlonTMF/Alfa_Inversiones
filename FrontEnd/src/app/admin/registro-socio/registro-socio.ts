@@ -54,7 +54,7 @@ export class RegistroSocio implements OnInit {
             .trim()
             .replace(/\s+/g, '.')
             .replace(/[^a-z0-9.]/g, '');
-        return `${base}.constructora@365soft.com`;
+        return `${base}.constructora@link.com`;
     }
 
     regenerarPassword(): void {

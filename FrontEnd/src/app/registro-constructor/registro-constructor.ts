@@ -87,7 +87,7 @@ export class RegistroConstructor implements OnInit {
             const emailControl = this.formularioGeneral.get('credenciales')?.get('email');
             if (nombre && emailControl && !emailControl.dirty) {
                 const base = nombre.toLowerCase().trim().replace(/\s+/g, '.').replace(/[^a-z0-9.]/g, '');
-                emailControl.patchValue(`${base}.constructora@365soft.com`, { emitEvent: false });
+                emailControl.patchValue(`${base}.constructora@link.com`, { emitEvent: false });
             }
         });
     }

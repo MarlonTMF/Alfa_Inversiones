@@ -12,8 +12,8 @@ import { RouterLink } from '@angular/router';
 export class ProyectoAnalisis {
   // Datos simulados para la vista
   proyecto = {
-    nombre: 'Apex Prime Plaza',
-    ubicacion: 'Metropolitan Hub, Prime District',
+    nombre: 'Complejo Empresarial Equipetrol',
+    ubicacion: 'Barrio Equipetrol, Santa Cruz',
     capitalAsignado: 42.8,
     capitalTotal: 52.0,
     progreso: 82,
@@ -25,21 +25,21 @@ export class ProyectoAnalisis {
 
   pulse = [
     {
-      titulo: 'Structural Phase IV Complete',
-      tiempo: '2 hours ago',
-      desc: 'External curtain wall installation finalized for floors 12-18. Engineering sign-off obtained for primary HVAC load-balancing units.',
+      titulo: 'Fase Estructural IV Completada',
+      tiempo: 'Hace 2 horas',
+      desc: 'Instalación de muro cortina exterior finalizada para los pisos 12-18. Firma de ingeniería obtenida para unidades primarias de balanceo de carga HVAC.',
       icon: 'engineering'
     },
     {
-      titulo: 'Lease Agreement: Global Tech Anchor',
-      tiempo: 'Yesterday',
-      desc: 'Letter of Intent signed for 45,000 sq ft of premium office space. Anchoring lease secures 12% of total project revenue.',
+      titulo: 'Contrato de Alquiler: Empresa Tecnológica',
+      tiempo: 'Ayer',
+      desc: 'Carta de intención firmada para alquiler corporativo de oficinas premium. El alquiler base asegura el 12% de los ingresos totales del proyecto.',
       icon: 'description'
     },
     {
-      titulo: 'BREEAM Excellence Certification',
-      tiempo: '3 days ago',
-      desc: "Interim audit confirms 'Outstanding' rating for energy efficiency and sustainable material sourcing.",
+      titulo: 'Certificación Ambiental EDGE',
+      tiempo: 'Hace 3 días',
+      desc: "Auditoría provisional confirma calificación 'Excelente' en eficiencia energética y obtención de materiales sostenibles.",
       icon: 'verified_user'
     }
   ];

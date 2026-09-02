@@ -59,7 +59,7 @@ export class GestionProyectos implements OnInit {
           }
         } else {
           this.error =
-            'No se pudo cargar proyectos. Verifica: 1) BackEnd arriba en https://alfa-inversiones.onrender.com 2) tabla proyectos creada 3) CORS/Network.';
+            'No se pudo cargar proyectos. Verifica: 1) que el BackEnd esté arriba 2) que la tabla de proyectos exista 3) que no haya errores de CORS o Network.';
         }
         this.cargando = false;
         this.cdr.detectChanges();

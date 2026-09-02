@@ -23,16 +23,16 @@ export class InversorDashboard {
   stats = {
     valorNeto: '1,482,900',
     crecimiento: '+12.4%',
-    proximoDividendo: '3,420.00',
-    propiedadDividendo: 'Cerrito 1144',
+    proximoDividendo: '23,800.00',
+    propiedadDividendo: 'Residencial Calacoto Sur',
     fechaDividendo: '15 de Mayo'
   };
 
   actividad = [
     { 
-      titulo: 'Dividendo Recibido - Edificio Olivos', 
-      desc: 'Acreditado a tu billetera', 
-      monto: '+$850.00', 
+      titulo: 'Dividendo Recibido - Condominio Los Tajibos', 
+      desc: 'Acreditado a tu cuenta bancaria', 
+      monto: '+Bs. 5,900.00', 
       fecha: 'Hoy, 10:45 AM',
       tipo: 'pago',
       positivo: true
@@ -47,8 +47,8 @@ export class InversorDashboard {
     },
     { 
       titulo: 'Inversión Confirmada', 
-      desc: 'Fracciones adquiridas en \'Residencias del Sol\'', 
-      monto: '-$15,000.00', 
+      desc: 'Fracciones adquiridas en \'Residencias del Urubó\'', 
+      monto: '-Bs. 105,000.00', 
       fecha: '4 May 2024',
       tipo: 'inv',
       positivo: false

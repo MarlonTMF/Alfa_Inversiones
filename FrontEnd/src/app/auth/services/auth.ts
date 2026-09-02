@@ -10,11 +10,11 @@ export class AuthService {
     public usuarioActual = signal<any>(null);
 
     private readonly usuariosDemo: Record<string, any> = {
-        admin: { nombre: 'Super Orquestador', email: 'admin@365soft.com', rol: 'admin' },
-        inversor: { nombre: 'Alex Vance', email: 'alex@architect.com', rol: 'inversor' },
-        inversionista: { nombre: 'Inversionista Capital', email: 'inv@empresa.com', rol: 'inversionista' },
-        constructor: { nombre: 'Constructora Delta', email: 'const@empresa.com', rol: 'constructor' },
-        propietario: { nombre: 'Dueño Terreno Norte', email: 'prop@empresa.com', rol: 'propietario' },
+        admin: { nombre: 'Administrador General', email: 'admin@link.com', rol: 'admin' },
+        inversor: { nombre: 'Alejandro Vargas', email: 'alex@architect.com', rol: 'inversor' },
+        inversionista: { nombre: 'Capital Inversiones S.A.', email: 'inv@empresa.com', rol: 'inversionista' },
+        constructor: { nombre: 'Constructora Link S.R.L.', email: 'const@empresa.com', rol: 'constructor' },
+        propietario: { nombre: 'Juan Quispe Mamani', email: 'prop@empresa.com', rol: 'propietario' },
     };
 
     constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {

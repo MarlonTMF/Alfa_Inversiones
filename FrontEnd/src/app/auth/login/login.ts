@@ -65,10 +65,10 @@ export class Login implements OnInit {
             return;
         }
 
-        // Bypass de emergencia para Alex (Inversor)
+        // Bypass de emergencia para Alejandro (Inversor)
         if (this.credenciales.email === 'alex@architect.com' && this.credenciales.password === 'alex123') {
             const usuarioAlex = {
-                nombre: 'Alex Vance',
+                nombre: 'Alejandro Vargas',
                 email: 'alex@architect.com',
                 rol: 'inversor'
             };
@@ -79,10 +79,10 @@ export class Login implements OnInit {
         }
 
         // Bypass de emergencia para Constructora
-        if (this.credenciales.email === 'constructor@apex.com' && this.credenciales.password === 'constructor123') {
+        if (this.credenciales.email === 'const@empresa.com' && this.credenciales.password === '123') {
             const usuarioConstructor = {
-                nombre: 'Marcus Thorne',
-                email: 'constructor@apex.com',
+                nombre: 'Constructora Link S.R.L.',
+                email: 'const@empresa.com',
                 rol: 'constructor'
             };
             this.errorLogin = null;

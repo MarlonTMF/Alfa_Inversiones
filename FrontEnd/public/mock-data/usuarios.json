@@ -3,30 +3,30 @@
         "rol": "admin",
         "email": "admin@365soft.com",
         "password": "123",
-        "nombre": "Super Orquestador"
+        "nombre": "Administrador General"
     },
     {
         "rol": "inversor",
         "email": "alex@architect.com",
         "password": "alex123",
-        "nombre": "Alex Vance"
+        "nombre": "Alejandro Vargas"
     },
     {
         "rol": "inversionista",
         "email": "inv@empresa.com",
         "password": "123",
-        "nombre": "Inversionista Capital"
+        "nombre": "Capital Inversiones S.A."
     },
     {
         "rol": "constructor",
         "email": "const@empresa.com",
         "password": "123",
-        "nombre": "Constructora Delta"
+        "nombre": "Constructora Link S.R.L."
     },
     {
         "rol": "propietario",
         "email": "prop@empresa.com",
         "password": "123",
-        "nombre": "Dueño Terreno Norte"
+        "nombre": "Juan Quispe Mamani"
     }
 ]
