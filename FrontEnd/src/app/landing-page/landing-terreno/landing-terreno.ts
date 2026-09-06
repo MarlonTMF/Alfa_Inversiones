@@ -139,7 +139,7 @@ import { AuthService } from '../../auth/services/auth';
 <div class="col-span-1 md:col-span-2">
 <div class="flex items-center gap-3 mb-6">
 <span class="material-symbols-outlined text-blue-500" data-icon="account_balance">account_balance</span>
-<span class="text-xl font-bold tracking-tighter text-blue-500 font-['Inter']">Plataforma Orquestadora</span>
+<span class="text-xl font-bold tracking-tighter text-blue-500 font-['Inter']">LINK</span>
 </div>
 <p class="text-on-surface-variant max-w-sm text-sm">Plataforma institucional líder en la gestión y monetización de activos inmobiliarios de alto valor. Seguridad, transparencia y red de élite.</p>
 </div>
@@ -161,7 +161,7 @@ import { AuthService } from '../../auth/services/auth';
 </div>
 </div>
 <div class="container mx-auto mt-20 pt-8 border-t border-outline-variant/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">
-<p>© 2024 Plataforma Orquestadora. Todos los derechos reservados.</p>
+<p>© LINK · Inteligencia Inmobiliaria. Todos los derechos reservados.</p>
 <p>Acceso Restringido a Usuarios Autorizados</p>
 </div>
 </footer>

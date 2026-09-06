@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '../auth/services/auth';
 import { Login } from '../auth/login/login';
+import { PublicNavbar } from '../layout/public-navbar/public-navbar';
 
 interface FAQ {
   pregunta: string;
@@ -13,7 +13,7 @@ interface FAQ {
 @Component({
   selector: 'app-ayuda',
   standalone: true,
-  imports: [CommonModule, RouterLink, Login],
+  imports: [CommonModule, Login, PublicNavbar],
   templateUrl: './ayuda.html',
   styleUrl: './ayuda.css'
 })

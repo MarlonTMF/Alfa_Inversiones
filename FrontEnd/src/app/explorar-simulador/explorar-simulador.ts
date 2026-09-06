@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth/services/auth';
 import { Login } from '../auth/login/login';
+import { PublicNavbar } from '../layout/public-navbar/public-navbar';
 
 @Component({
   selector: 'app-explorar-simulador',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, Login],
+  imports: [CommonModule, RouterLink, FormsModule, Login, PublicNavbar],
   templateUrl: './explorar-simulador.html',
   styleUrl: './explorar-simulador.css'
 })

@@ -145,7 +145,7 @@ import { AuthService } from '../../auth/services/auth';
 <div class="col-span-1 md:col-span-1">
 <div class="flex items-center gap-3 mb-6">
 <span class="material-symbols-outlined text-blue-400" style="font-variation-settings: 'FILL' 1;">account_balance</span>
-<h1 class="text-xl font-bold tracking-tighter text-blue-500">Plataforma Orquestadora</h1>
+<h1 class="text-xl font-bold tracking-tighter text-blue-500">LINK</h1>
 </div>
 <p class="text-on-surface-variant text-sm leading-relaxed">Infraestructura financiera para el mundo real. Conectando capital con visión arquitectónica.</p>
 </div>
@@ -175,7 +175,7 @@ import { AuthService } from '../../auth/services/auth';
 </div>
 </div>
 <div class="pt-8 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4 text-on-surface-variant text-xs">
-<p>© 2024 Plataforma Orquestadora Institutional. Todos los derechos reservados.</p>
+<p>© LINK · Inteligencia Inmobiliaria. Todos los derechos reservados.</p>
 <div class="flex gap-6">
 <span class="material-symbols-outlined cursor-pointer hover:text-blue-400">public</span>
 <span class="material-symbols-outlined cursor-pointer hover:text-blue-400">groups</span>

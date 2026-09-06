@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth/services/auth';
 import { Login } from '../auth/login/login';
+import { PublicNavbar } from '../layout/public-navbar/public-navbar';
 
 @Component({
   selector: 'app-explorar-detalle',
   standalone: true,
-  imports: [CommonModule, RouterLink, Login],
+  imports: [CommonModule, RouterLink, Login, PublicNavbar],
   templateUrl: './explorar-detalle.html',
   styleUrl: './explorar-detalle.css'
 })

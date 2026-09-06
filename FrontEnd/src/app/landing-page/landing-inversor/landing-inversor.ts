@@ -129,7 +129,7 @@ import { AuthService } from '../../auth/services/auth';
 </div>
 </div>
 <div class="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/5 gap-6">
-<p class="text-xs text-slate-500">© 2024 Plataforma Orquestadora Asset Management. Todos los derechos reservados.</p>
+<p class="text-xs text-slate-500">© LINK · Inteligencia Inmobiliaria. Todos los derechos reservados.</p>
 <div class="flex gap-6">
 <span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-white">public</span>
 <span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-white">business_center</span>

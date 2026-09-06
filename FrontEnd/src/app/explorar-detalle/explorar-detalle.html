@@ -1,29 +1,4 @@
-<nav class="public-navbar">
-    <div class="nav-container">
-        <div class="nav-brand" routerLink="/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
-            <span>Plataforma Orquestadora</span>
-        </div>
-        <div class="nav-links">
-            <a routerLink="/">Inicio</a>
-            <a routerLink="/explorar">Proyectos</a>
-            <a routerLink="/constructor-info">Constructor</a>
-            <a routerLink="/inversor-info">Inversionista</a>
-            <a routerLink="/terreno-info">Propietario de terreno</a>
-            <a routerLink="/ayuda">Ayuda</a>
-        </div>
-        <div class="nav-auth">
-            @if (authService.usuarioActual()) {
-                <div class="user-pill">
-                    <span class="user-name">{{ authService.usuarioActual().nombre }}</span>
-                    <button class="btn-logout-small" (click)="authService.logout()">✕</button>
-                </div>
-            } @else {
-                <button class="btn-login" (click)="mostrarLogin = true">Iniciar Sesión</button>
-            }
-        </div>
-    </div>
-</nav>
+<app-public-navbar></app-public-navbar>
 
 <div class="bg-[#0b1326] text-[#dae2fd] selection:bg-[#adc6ff]/30 min-h-[calc(100vh-70px)] flex flex-col overflow-x-hidden font-sans">
     

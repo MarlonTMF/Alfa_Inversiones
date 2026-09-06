@@ -14,6 +14,29 @@
   color: inherit;
 }
 
+/* Lockup de marca: LINK manda, el descriptor acompana y se retira en movil. */
+.marca {
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+.marca-tagline {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  padding-left: 10px;
+  margin-left: 2px;
+  border-left: 1px solid rgba(148, 163, 184, 0.35);
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .marca-tagline {
+    display: none;
+  }
+}
+
 .nav-collapse {
   display: flex;
   flex: 1;
