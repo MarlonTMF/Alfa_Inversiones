@@ -1,0 +1,122 @@
+<div class="min-h-screen bg-[#0b1326] text-[#dae2fd] font-sans selection:bg-[#adc6ff]/30">
+
+  <!-- Sidebar de escritorio -->
+  <aside
+    class="hidden md:flex flex-col fixed left-0 top-0 h-full w-64 bg-[#060e20] z-40 py-8 px-4
+           border-r border-white/5 shadow-2xl"
+  >
+    <a routerLink="/inversor" class="px-4 block">
+      <span class="text-[#3b82f6] font-black text-xl tracking-tighter uppercase">Panel Inversionista</span>
+    </a>
+
+    <div class="mt-8 mb-10 px-4 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-[#2d3449] flex items-center justify-center border border-white/10">
+        <span class="material-symbols-outlined text-[#3b82f6]" aria-hidden="true">person</span>
+      </div>
+      <div class="min-w-0">
+        <p class="text-sm font-bold text-white truncate">{{ usuario()?.nombre || 'Inversionista' }}</p>
+        <p class="text-[10px] uppercase tracking-widest text-[#c2c6d6] opacity-60">{{ etiquetaRol() }}</p>
+      </div>
+    </div>
+
+    <nav class="flex-1 space-y-1 overflow-y-auto" aria-label="Navegación del panel">
+      @for (item of principales.concat(secundarias); track item.ruta) {
+        <a
+          [routerLink]="item.ruta"
+          routerLinkActive="activo"
+          [routerLinkActiveOptions]="opciones(item)"
+          class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6]
+                 hover:bg-[#131b2e] hover:text-white transition-colors"
+        >
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">{{ item.icono }}</span>
+          <span class="uppercase tracking-widest text-[11px] font-black">{{ item.etiqueta }}</span>
+        </a>
+      }
+    </nav>
+
+    <button
+      type="button"
+      class="mt-4 flex items-center gap-3 px-4 py-3 rounded-lg text-rose-300 hover:bg-rose-400/10 transition-colors"
+      (click)="cerrarSesion()"
+    >
+      <span class="material-symbols-outlined text-[20px]" aria-hidden="true">logout</span>
+      <span class="uppercase tracking-widest text-[11px] font-black">Cerrar sesión</span>
+    </button>
+  </aside>
+
+  <!-- Cabecera movil -->
+  <header
+    class="md:hidden sticky top-0 z-40 flex items-center justify-between px-5 h-14
+           bg-[#0b1326]/90 backdrop-blur-xl border-b border-white/5"
+  >
+    <a routerLink="/inversor" class="text-[#3b82f6] font-black text-sm tracking-tighter uppercase">
+      Panel Inversionista
+    </a>
+    <span class="text-[11px] font-bold text-[#c2c6d6] truncate max-w-[45%]">{{ nombreCorto() }}</span>
+  </header>
+
+  <!-- Contenido -->
+  <div class="md:ml-64 pb-24 md:pb-0">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- Hoja "Mas" (movil) -->
+  @if (menuMasAbierto()) {
+    <button
+      type="button"
+      class="md:hidden fixed inset-0 z-40 bg-[#060e20]/70"
+      (click)="cerrarMas()"
+      aria-label="Cerrar menú"
+      tabindex="-1"
+    ></button>
+    <div class="md:hidden fixed bottom-16 left-0 right-0 z-50 bg-[#131b2e] border-t border-white/10 p-2">
+      @for (item of secundarias; track item.ruta) {
+        <a
+          [routerLink]="item.ruta"
+          routerLinkActive="activo"
+          class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#0b1326]"
+        >
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">{{ item.icono }}</span>
+          <span class="uppercase tracking-widest text-[11px] font-black">{{ item.etiqueta }}</span>
+        </a>
+      }
+      <button
+        type="button"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-rose-300 hover:bg-rose-400/10"
+        (click)="cerrarSesion()"
+      >
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">logout</span>
+        <span class="uppercase tracking-widest text-[11px] font-black">Cerrar sesión</span>
+      </button>
+    </div>
+  }
+
+  <!-- Barra inferior (movil) -->
+  <nav
+    class="md:hidden fixed bottom-0 left-0 right-0 z-50 h-16 grid grid-cols-5
+           bg-[#131b2e] border-t border-white/10"
+    aria-label="Navegación del panel"
+  >
+    @for (item of principales; track item.ruta) {
+      <a
+        [routerLink]="item.ruta"
+        routerLinkActive="activo"
+        [routerLinkActiveOptions]="opciones(item)"
+        class="nav-tab flex flex-col items-center justify-center gap-0.5 text-[#c2c6d6]"
+      >
+        <span class="material-symbols-outlined text-[21px]" aria-hidden="true">{{ item.icono }}</span>
+        <span class="text-[9px] font-black uppercase tracking-wider">{{ item.etiqueta }}</span>
+      </a>
+    }
+    <button
+      type="button"
+      class="nav-tab flex flex-col items-center justify-center gap-0.5 text-[#c2c6d6]"
+      [class.activo]="menuMasAbierto()"
+      (click)="toggleMas()"
+      [attr.aria-expanded]="menuMasAbierto()"
+    >
+      <span class="material-symbols-outlined text-[21px]" aria-hidden="true">more_horiz</span>
+      <span class="text-[9px] font-black uppercase tracking-wider">Más</span>
+    </button>
+  </nav>
+</div>

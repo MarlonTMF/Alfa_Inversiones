@@ -1,35 +1,6 @@
-<div class="bg-[#0b1326] text-[#dae2fd] selection:bg-[#adc6ff]/30 min-h-screen pb-24 md:pb-0 font-sans">
+<div class="min-h-screen font-sans">
   
-  <!-- TopAppBar -->
-  <header class="fixed top-0 w-full z-50 flex items-center justify-between px-6 h-16 bg-[#0b1326]/80 backdrop-blur-xl shadow-2xl shadow-black/20 border-b border-white/5">
-    <div class="flex items-center gap-4">
-      <div class="w-10 h-10 rounded-full bg-[#2d3449] flex items-center justify-center overflow-hidden border border-white/10 shadow-inner">
-        <span class="material-symbols-outlined text-[#3b82f6]">person</span>
-      </div>
-      <span class="text-xl font-black tracking-widest uppercase text-[#3b82f6]">Plataforma</span>
-    </div>
-    
-    <div class="hidden md:flex items-center gap-8">
-      <nav class="flex gap-6">
-        <a [routerLink]="['/inversor/portafolio']" class="text-[#c2c6d6] hover:text-white transition-colors font-bold text-sm tracking-wide uppercase">Portafolio</a>
-        <a [routerLink]="['/mapa']" class="text-[#c2c6d6] hover:text-white transition-colors font-bold text-sm tracking-wide uppercase">Mercado</a>
-        <a [routerLink]="['/inversor/avances']" class="text-[#c2c6d6] hover:text-white transition-colors font-bold text-sm tracking-wide uppercase">Avances de Obra</a>
-        <a [routerLink]="['/inversor/legal']" class="text-[#c2c6d6] hover:text-white transition-colors font-bold text-sm tracking-wide uppercase">Bóveda Legal</a>
-        <a [routerLink]="['/inversor/proyecto-analisis']" class="text-[#c2c6d6] hover:text-white transition-colors font-bold text-sm tracking-wide uppercase">Análisis</a>
-      </nav>
-    </div>
-
-    <div class="flex items-center gap-3">
-        <button class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-[#222a3d] transition-colors active:scale-95 duration-200 group">
-          <span class="material-symbols-outlined text-[#adc6ff] group-hover:scale-110 transition-transform">notifications</span>
-        </button>
-        <button (click)="authService.logout()" class="p-2 text-rose-400 hover:bg-rose-400/10 rounded-lg transition-colors">
-            <span class="material-symbols-outlined">logout</span>
-        </button>
-    </div>
-  </header>
-
-  <main class="max-w-7xl mx-auto px-6 pt-24 pb-12">
+<main class="max-w-7xl mx-auto px-6 pt-10 pb-12">
     
     <!-- Welcome Header -->
     <section class="mb-12 animate-in fade-in slide-in-from-top-4 duration-700">

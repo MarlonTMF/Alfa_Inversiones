@@ -1,45 +1,7 @@
-<div class="bg-[#0b1326] text-[#dae2fd] min-h-screen flex overflow-hidden font-sans">
+<div class="bg-[#0b1326] text-[#dae2fd] min-h-screen font-sans">
   
-  <!-- Sidebar Navigation -->
-  <aside class="hidden md:flex flex-col h-full w-64 fixed left-0 top-0 bg-[#060e20] z-40 py-8 px-4 border-r border-white/5 shadow-2xl">
-    <div class="mb-10 px-4">
-      <span class="text-[#3b82f6] font-black text-xl tracking-tighter uppercase">Apex Console</span>
-      <div class="mt-8 flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-[#2d3449] flex items-center justify-center overflow-hidden border border-white/10">
-          <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-[#3b82f6]" aria-hidden="true">person</span>
-        </div>
-        <div>
-          <p class="text-sm font-bold text-white">Alex Vance</p>
-          <p class="text-[10px] uppercase tracking-widest text-[#c2c6d6] opacity-60">Inversor Pro</p>
-        </div>
-      </div>
-    </div>
-    <nav class="flex-1 space-y-1">
-      <a [routerLink]="['/inversor']" class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
-        <span class="material-symbols-outlined text-[20px]">dashboard</span>
-        <span class="label-sm uppercase tracking-widest text-[11px] font-black">Inicio</span>
-      </a>
-      <a [routerLink]="['/inversor/portafolio']" class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
-        <span class="material-symbols-outlined text-[20px]">business_center</span>
-        <span class="label-sm uppercase tracking-widest text-[11px] font-black">Portafolio</span>
-      </a>
-      <a [routerLink]="['/inversor/avances']" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#131b2e] text-[#3b82f6] border-l-4 border-[#3b82f6] transition-all duration-300">
-        <span class="material-symbols-outlined text-[20px]">engineering</span>
-        <span class="label-sm uppercase tracking-widest text-[11px] font-black">Avances de Obra</span>
-      </a>
-      <a [routerLink]="['/inversor/legal']" class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
-        <span class="material-symbols-outlined text-[20px]">lock</span>
-        <span class="label-sm uppercase tracking-widest text-[11px] font-black">Bóveda Legal</span>
-      </a>
-      <a [routerLink]="['/mapa']" class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
-        <span class="material-symbols-outlined text-[20px]">domain</span>
-        <span class="label-sm uppercase tracking-widest text-[11px] font-black">Mercado</span>
-      </a>
-    </nav>
-  </aside>
-
-  <!-- Main Viewport -->
-  <main class="flex-1 md:ml-64 flex flex-col h-screen overflow-y-auto overflow-x-hidden">
+<!-- Main Viewport -->
+  <main class="flex flex-col min-h-screen">
     <!-- TopAppBar -->
     <header class="w-full sticky top-0 z-50 bg-[#131b2e]/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-8 py-4">
       <div class="flex items-center gap-4">

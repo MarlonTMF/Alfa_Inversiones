@@ -164,39 +164,43 @@ export const routes: Routes = [
         ],
     },
     {
+        // Cascara unica del panel: sidebar en escritorio, barra inferior en
+        // movil, usuario real y cierre de sesion. Las rutas hijas conservan
+        // las mismas URLs de antes.
         path: 'inversor',
-        loadComponent: () => import('./inversor/dashboard/dashboard').then((m) => m.InversorDashboard),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/portafolio',
-        loadComponent: () => import('./inversor/portafolio/portafolio').then((m) => m.InversorPortafolio),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/proyecto-analisis',
-        loadComponent: () => import('./inversor/proyecto-analisis/proyecto-analisis').then((m) => m.ProyectoAnalisis),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/avances',
-        loadComponent: () => import('./inversor/avances/avances').then((m) => m.InversorAvances),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/legal',
-        loadComponent: () => import('./inversor/legal/legal').then((m) => m.InversorLegal),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/terminal',
-        loadComponent: () => import('./inversor/terminal/terminal').then((m) => m.InversorTerminal),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/inversion-detalle',
-        loadComponent: () => import('./inversor/inversion-detalle/inversion-detalle').then((m) => m.InversorInversionDetalle),
-        canActivate: [authGuard]
+        loadComponent: () =>
+            import('./inversor/inversor-layout/inversor-layout').then((m) => m.InversorLayout),
+        canActivate: [authGuard],
+        children: [
+            {
+                path: '',
+                loadComponent: () => import('./inversor/dashboard/dashboard').then((m) => m.InversorDashboard),
+            },
+            {
+                path: 'portafolio',
+                loadComponent: () => import('./inversor/portafolio/portafolio').then((m) => m.InversorPortafolio),
+            },
+            {
+                path: 'proyecto-analisis',
+                loadComponent: () => import('./inversor/proyecto-analisis/proyecto-analisis').then((m) => m.ProyectoAnalisis),
+            },
+            {
+                path: 'avances',
+                loadComponent: () => import('./inversor/avances/avances').then((m) => m.InversorAvances),
+            },
+            {
+                path: 'legal',
+                loadComponent: () => import('./inversor/legal/legal').then((m) => m.InversorLegal),
+            },
+            {
+                path: 'terminal',
+                loadComponent: () => import('./inversor/terminal/terminal').then((m) => m.InversorTerminal),
+            },
+            {
+                path: 'inversion-detalle',
+                loadComponent: () => import('./inversor/inversion-detalle/inversion-detalle').then((m) => m.InversorInversionDetalle),
+            },
+        ],
     },
     {
         path: 'constructor',

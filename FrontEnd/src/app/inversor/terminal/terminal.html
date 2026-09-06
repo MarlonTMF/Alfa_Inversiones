@@ -1,38 +1,7 @@
-<div class="bg-[#0b1326] text-[#dae2fd] min-h-screen flex overflow-hidden font-sans">
+<div class="bg-[#0b1326] text-[#dae2fd] min-h-screen font-sans">
   
-  <!-- Sidebar Navigation -->
-  <aside class="hidden md:flex flex-col h-full w-72 fixed left-0 top-0 bg-[#060e20] z-50 py-8 px-6 border-r border-white/5 shadow-2xl bg-gradient-to-r from-[#131b2e] to-transparent">
-    <div class="mb-10 flex flex-col items-start gap-1 px-2">
-      <span class="text-[#3b82f6] font-black text-xl tracking-tighter uppercase">Apex Terminal</span>
-      <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#c2c6d6] opacity-60">Acceso Institucional</span>
-    </div>
-    <nav class="flex-1 space-y-2">
-      <a [routerLink]="['/inversor']" class="flex items-center gap-4 px-4 py-3 text-[#c2c6d6] hover:bg-[#222a3d] rounded-xl transition-all duration-300 group">
-        <span class="material-symbols-outlined text-[22px] group-hover:text-white">dashboard</span>
-        <span class="text-[11px] font-black uppercase tracking-widest group-hover:text-white">Dashboard</span>
-      </a>
-      <a [routerLink]="['/inversor/portafolio']" class="flex items-center gap-4 px-4 py-3 text-[#c2c6d6] hover:bg-[#222a3d] rounded-xl transition-all duration-300 group">
-        <span class="material-symbols-outlined text-[22px] group-hover:text-white">business_center</span>
-        <span class="text-[11px] font-black uppercase tracking-widest group-hover:text-white">Portafolio</span>
-      </a>
-      <a [routerLink]="['/inversor/terminal']" class="flex items-center gap-4 px-4 py-3 text-[#3b82f6] font-black border-l-4 border-[#3b82f6] bg-[#3b82f6]/10 rounded-r-xl transition-all duration-300">
-        <span class="material-symbols-outlined text-[22px]">payments</span>
-        <span class="text-[11px] uppercase tracking-widest">Terminal de Inversión</span>
-      </a>
-    </nav>
-    <div class="mt-auto pt-6 flex items-center gap-4 px-2 border-t border-white/5">
-      <div class="w-10 h-10 rounded-full bg-[#2d3449] overflow-hidden border border-white/10">
-        <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-[#3b82f6]" aria-hidden="true">person</span>
-      </div>
-      <div class="flex flex-col">
-        <span class="text-sm font-black text-white">Alex Vance</span>
-        <span class="text-[9px] text-[#c2c6d6] uppercase tracking-widest font-bold">Inversor Premium</span>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Main Workspace -->
-  <main class="flex-1 md:ml-72 flex flex-col h-screen overflow-y-auto">
+<!-- Main Workspace -->
+  <main class="flex flex-col min-h-screen">
     <!-- Top Bar -->
     <header class="sticky top-0 z-50 bg-[#0b1326]/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-8 py-5 shadow-2xl">
       <div class="flex flex-col">
@@ -196,7 +165,7 @@
     </div>
 
     <!-- Confirm Footer -->
-    <div class="fixed bottom-0 left-0 right-0 md:left-72 z-50 bg-[#131b2e] shadow-[0_-20px_40px_rgba(0,0,0,0.4)] border-t border-white/5">
+    <div class="fixed bottom-16 md:bottom-0 left-0 right-0 md:left-64 z-40 bg-[#131b2e] shadow-[0_-20px_40px_rgba(0,0,0,0.4)] border-t border-white/5">
       <div class="max-w-7xl mx-auto px-10 h-28 md:h-36 flex flex-col md:flex-row items-center justify-between gap-6 py-6">
         <div class="hidden md:flex flex-col">
           <span class="text-[10px] text-[#c2c6d6] font-black uppercase tracking-widest opacity-60">Estrategia Seleccionada</span>
