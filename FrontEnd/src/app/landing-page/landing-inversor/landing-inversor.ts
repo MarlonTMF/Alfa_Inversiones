@@ -1,40 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { PublicNavbar } from '../../layout/public-navbar/public-navbar';
 import { AuthService } from '../../auth/services/auth';
-import { Login } from '../../auth/login/login';
 
 @Component({
   selector: 'app-landing-inversor',
   standalone: true,
-  imports: [CommonModule, RouterLink, Login],
+  imports: [CommonModule, PublicNavbar],
   template: `
-<nav class="public-navbar">
-    <div class="nav-container">
-        <div routerLink="/" class="nav-brand cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
-            <span>Plataforma Orquestadora</span>
-        </div>
-        <div class="nav-links">
-            <a routerLink="/">Inicio</a>
-            <a routerLink="/explorar">Proyectos</a>
-            <a routerLink="/constructor-info">Constructor</a>
-            <a routerLink="/inversor-info" class="active-link">Inversionista</a>
-            <a routerLink="/terreno-info">Propietario de terreno</a>
-            <a routerLink="/ayuda">Ayuda</a>
-        </div>
-        <div class="nav-auth">
-            @if (authService.usuarioActual()) {
-                <div class="user-pill">
-                    <span class="user-name">{{ authService.usuarioActual().nombre }}</span>
-                    <button class="btn-logout-small" (click)="authService.logout()">✕</button>
-                </div>
-            } @else {
-                <button class="btn-login" (click)="mostrarLogin = true">Iniciar Sesión</button>
-            }
-        </div>
-    </div>
-</nav>
+<app-public-navbar></app-public-navbar>
 
 <main class="min-h-screen bg-surface text-on-surface">
 <section class="relative h-[819px] w-full flex items-center px-12 overflow-hidden">
@@ -165,9 +139,6 @@ import { Login } from '../../auth/login/login';
 </footer>
 </main>
 
-@if (mostrarLogin) {
-    <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin()"></app-login>
-}
   `,
   styles: [`
     :host { display: block; overflow-x: hidden; background-color: #0b1326; }
@@ -176,9 +147,4 @@ import { Login } from '../../auth/login/login';
 })
 export class LandingInversor {
     public authService = inject(AuthService);
-    public mostrarLogin = false;
-
-    procesarLogin() {
-        this.mostrarLogin = false;
-    }
 }

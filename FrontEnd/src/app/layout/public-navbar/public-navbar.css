@@ -1,0 +1,145 @@
+/* La base (.public-navbar, .nav-links, .btn-login...) vive en styles.css
+   porque la comparten varias pantallas publicas. Aqui solo va lo propio de
+   este componente: el plegado movil y el estado de sesion. */
+
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-brand {
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-collapse {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #f8fafc;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+}
+.nav-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.user-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 6px 14px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.6);
+}
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  white-space: nowrap;
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.btn-logout-small {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #fecaca;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.btn-logout-small:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.btn-panel {
+  background: transparent;
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  color: #93c5fd;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-panel:hover {
+  background: rgba(59, 130, 246, 0.12);
+}
+
+:host a:focus-visible,
+:host button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Por debajo de 768px el menu se pliega tras la hamburguesa. Antes
+   simplemente se ocultaba y no quedaba ninguna forma de navegar. */
+@media (max-width: 768px) {
+  .public-navbar {
+    height: auto;
+    padding: 0 20px;
+  }
+  .nav-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 14px 0;
+  }
+  .nav-toggle {
+    display: flex;
+  }
+  .nav-collapse {
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px 0 8px;
+  }
+  .nav-collapse.abierto {
+    display: flex;
+  }
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .nav-links a {
+    padding: 12px 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    opacity: 1;
+  }
+  .nav-auth {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding-top: 12px;
+  }
+  .nav-auth .btn-login,
+  .btn-panel {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.5);
+    border-radius: 8px;
+  }
+  .user-pill {
+    justify-content: space-between;
+  }
+}

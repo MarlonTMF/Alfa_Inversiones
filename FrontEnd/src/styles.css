@@ -145,17 +145,6 @@ path.poligono-terreno:hover {
     background-color: #2563eb;
 }
 
-@media (max-width: 768px) {
-    .public-navbar {
-        height: auto;
-        padding: 20px;
-    }
-    .nav-container {
-        flex-direction: column;
-        gap: 16px;
-    }
-    .nav-links {
-        display: none; /* Usually you'd use a hamburger menu, but keeping it simple as per original */
-    }
-}
-
+/* El comportamiento responsive de esta barra lo define el componente
+   app-public-navbar, que pliega el menu tras una hamburguesa. */
+

@@ -1,13 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { PublicNavbar } from '../layout/public-navbar/public-navbar';
 import { AuthService } from '../auth/services/auth';
 import { Login } from '../auth/login/login';
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, Login],
+  imports: [CommonModule, RouterLink, Login, PublicNavbar],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css'
 })

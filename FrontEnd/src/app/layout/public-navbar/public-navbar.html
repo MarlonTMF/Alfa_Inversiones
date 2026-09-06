@@ -1,0 +1,65 @@
+<nav class="public-navbar">
+  <div class="nav-container">
+    <a routerLink="/" class="nav-brand" aria-label="Ir al inicio">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+           stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 21h18"></path>
+        <path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path>
+        <path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path>
+        <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+      </svg>
+      <span>Plataforma Orquestadora</span>
+    </a>
+
+    <button
+      type="button"
+      class="nav-toggle"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuAbierto"
+      aria-label="Abrir menu de navegacion"
+    >
+      @if (menuAbierto) {
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      } @else {
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      }
+    </button>
+
+    <div class="nav-collapse" [class.abierto]="menuAbierto">
+      <div class="nav-links">
+        <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+        <a routerLink="/explorar" routerLinkActive="active-link">Proyectos</a>
+        <a routerLink="/constructor-info" routerLinkActive="active-link">Constructor</a>
+        <a routerLink="/inversor-info" routerLinkActive="active-link">Inversionista</a>
+        <a routerLink="/terreno-info" routerLinkActive="active-link">Propietario de terreno</a>
+        <a routerLink="/ayuda" routerLinkActive="active-link">Ayuda</a>
+      </div>
+
+      <div class="nav-auth">
+        @if (authService.usuarioActual()) {
+          <button type="button" class="btn-panel" (click)="irAMiPanel()">Ir a mi panel</button>
+          <div class="user-pill">
+            <span class="user-name">{{ authService.usuarioActual().nombre }}</span>
+            <button type="button" class="btn-logout-small" (click)="cerrarSesion()" aria-label="Cerrar sesion">
+              Salir
+            </button>
+          </div>
+        } @else {
+          <button type="button" class="btn-login" (click)="abrirLogin()">Iniciar Sesión</button>
+        }
+      </div>
+    </div>
+  </div>
+</nav>
+
+@if (mostrarLogin) {
+  <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin($event)"></app-login>
+}

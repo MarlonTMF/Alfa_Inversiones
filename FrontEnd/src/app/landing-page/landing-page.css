@@ -496,9 +496,6 @@
 }
 
 @media (max-width: 768px) {
-    .nav-links {
-        display: none;
-    }
     .pillars-grid {
         grid-template-columns: 1fr;
     }
