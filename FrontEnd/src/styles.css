@@ -1,5 +1,9 @@
-/* 1. LOS IMPORTS SIEMPRE VAN HASTA ARRIBA */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* La fuente se carga desde index.html con <link rel=preconnect>; aqui se
+   pedia por segunda vez con un @import, que ademas bloquea el render. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* 2. RESET GLOBAL Y TIPOGRAFÍA */
 html, body {
