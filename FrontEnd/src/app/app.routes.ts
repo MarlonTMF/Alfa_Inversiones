@@ -32,6 +32,12 @@ export const routes: Routes = [
         loadComponent: () => import('./landing-page/landing-terreno/landing-terreno').then(m => m.LandingTerreno)
     },
     { path: 'analisis/:id', component: AnalisisFinanciero, canActivate: [authGuard] },
+    {
+        // Destino del rol propietario: registrar y dar seguimiento a su terreno.
+        path: 'registro-terreno',
+        loadComponent: () => import('./registro-terreno/registro-terreno').then((m) => m.RegistroTerreno),
+        canActivate: [authGuard],
+    },
 
 
 
@@ -88,6 +94,21 @@ export const routes: Routes = [
                 path: 'registro-inversion',
                 loadComponent: () =>
                     import('./admin/registro-inversion/registro-inversion').then((m) => m.RegistroInversion),
+            },
+            {
+                path: 'legal',
+                redirectTo: 'legal/consola',
+                pathMatch: 'full',
+            },
+            {
+                path: 'legal/consola',
+                loadComponent: () =>
+                    import('./admin/legal/consola/legal-consola').then((m) => m.LegalConsola),
+            },
+            {
+                path: 'legal/verificar',
+                loadComponent: () =>
+                    import('./admin/legal/verificacion/legal-verificacion').then((m) => m.LegalVerificacion),
             },
             {
                 path: 'legal/gestor',

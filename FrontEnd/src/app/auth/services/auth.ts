@@ -77,4 +77,30 @@ export class AuthService {
     estaAutenticado(): boolean {
         return this.usuarioActual() !== null;
     }
+
+    /**
+     * Ruta de inicio de cada rol. Es la unica fuente de verdad: la landing,
+     * el navbar y cualquier pantalla que redirija tras iniciar sesion deben
+     * usarla, para que un mismo perfil no aterrice en dos lugares distintos.
+     */
+    rutaInicioPorRol(rol: string | null | undefined): string {
+        switch ((rol || '').toLowerCase()) {
+            case 'admin':
+            case 'super-admin':
+                return '/admin/dashboard';
+            case 'inversor':
+            case 'inversionista':
+                return '/inversor';
+            case 'constructor':
+                return '/constructor';
+            case 'propietario':
+                return '/registro-terreno';
+            default:
+                return '/mapa';
+        }
+    }
+
+    rutaInicioUsuarioActual(): string {
+        return this.rutaInicioPorRol(this.usuarioActual()?.rol);
+    }
 }

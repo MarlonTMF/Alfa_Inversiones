@@ -47,18 +47,7 @@ export class LandingPage implements OnInit {
     }
 
     private redireccionarSegunRol(usuario: any): void {
-        const rol = (usuario?.rol || '').toLowerCase();
-        if (rol === 'inversor' || rol === 'inversionista') {
-            this.router.navigate(['/inversor']);
-        } else if (rol === 'constructor') {
-            this.router.navigate(['/constructor']);
-        } else if (rol === 'admin' || rol === 'super-admin') {
-            this.router.navigate(['/admin/dashboard']);
-        } else if (rol === 'propietario') {
-            this.router.navigate(['/registro-terreno']);
-        } else {
-            this.router.navigate(['/mapa']);
-        }
+        this.router.navigateByUrl(this.authService.rutaInicioPorRol(usuario?.rol));
     }
 
     setTab(tab: 'inversor' | 'constructor' | 'propiedad') {
