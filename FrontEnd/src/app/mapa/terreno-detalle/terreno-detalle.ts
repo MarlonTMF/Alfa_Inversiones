@@ -59,7 +59,7 @@ export class TerrenoDetalle implements OnChanges {
 
         // Si después de todo no hay nada, usamos el fallback
         if (imagenes.length === 0 && this.mediaItems.length === 0) {
-            imagenes.push('https://images.unsplash.com/photo-1524813686514-a57563d77965?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+            imagenes.push('/images/terreno_warnes.webp');
         }
 
         imagenes.forEach((img: string) => {

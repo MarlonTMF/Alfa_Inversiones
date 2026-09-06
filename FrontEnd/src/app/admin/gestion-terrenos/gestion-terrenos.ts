@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TerrenoService } from '../../core/services/terreno.service';
+import { imagenPrincipal } from '../../core/media';
 
 @Component({
     selector: 'app-gestion-terrenos',
@@ -45,7 +46,7 @@ export class GestionTerrenos implements OnInit {
                         estado: t.status || 'DISPONIBLE',
                         estadoClase: (t.status || 'DISPONIBLE').toLowerCase() === 'disponible' ? 'estado-disponible' : 'estado-tramite',
                         ubicacion: city,
-                        img: t.multimedia?.find((m: any) => m.isMain)?.url || t.multimedia?.[0]?.url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                        img: imagenPrincipal(t.multimedia)
                     };
                 });
                 this.cdr.detectChanges();

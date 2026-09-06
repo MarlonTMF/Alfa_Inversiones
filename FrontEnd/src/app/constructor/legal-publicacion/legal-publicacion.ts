@@ -32,7 +32,7 @@ export class ConstructorLegalPublicacion {
     ubicacion: 'Silicon Valley, CA',
     valoracion: 42.8,
     riesgo: 'Bajo',
-    imagen: 'https://lh3.googleusercontent.com/aida/ADBb0ui97Z3UblNdgwwVzPU7tgT7HKa9AMJ2qLG54URPqwlJpTzLq7D5YBLoXpwUA94S9yIt2vwMtzOqPcwa0p9S6MJ_H2wmJSY0P8Jsct5Qt6utqXlHkJoSq4jqkb4LDYQYc8-SlF0x7D3BVElCBQ_3Y1E-JWz4rmquK_CCcC8YSPYU235d9waZSemWpiFPTHTqPRJeLYxd9ogbLv3IdKeYIqK2paxFUAWpwBFH1Hvf5L4s7562bu3axP79F2SDCoPQqv3dH0WGaM-GWGY'
+    imagen: '/images/proyecto_calacoto.webp'
   };
 
   historial = [

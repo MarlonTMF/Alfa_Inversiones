@@ -39,7 +39,7 @@ import { Login } from '../../auth/login/login';
 <main class="min-h-screen bg-surface text-on-surface">
 <section class="relative h-[819px] w-full flex items-center px-12 overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img class="w-full h-full object-cover opacity-40 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfYSyozlYqlDpogkLNONNwLgOrGvfkzpgicf81xRZf1YmZ3IsYe_K8dSH05sE-Xi-3Xm2TKWM20-OKJ63AUTnsVz7lK0Zje2ve5ocEf58nPXwWD6fGaplLwHndY-DqBfcuc4Zg8_1FyWTWXYmdmdY2RvAz5UOciw7XE0OcE6ifPOvyzT83LpuIxRObGXjie7Hj3EGfCuDV2odnNtM06DmwxprCEtUMwtXf2uZ7aHn9TNv9yT1FgiAj04fAEj4sSNk6MH2u6aXFLlP6"/>
+<img alt="" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" src="/images/proyecto_equipetrol.webp"/>
 <div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent"></div>
 </div>
 <div class="relative z-10 max-w-4xl">
@@ -114,7 +114,7 @@ import { Login } from '../../auth/login/login';
 </div>
 <div class="relative">
 <div class="aspect-square rounded-3xl overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.5)]">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIMLbFoVuYCftHHWLa90v72mQ8EfKTGLBil736gzni_zEaYatpu9MlIlbyq8rczQnNYfh02IgAD9lqVQ-qGWrGclUyy_M70ZekIKaH-TFTxSG4lcBP_TTp_xnJmwkQqf1KuiAugIN7tPzkKOxC1-bOo14S7JkNiiGGShgBgrccnUI8thLtFEqr25RM2Ys35m_t3I7fW5hJ_xDMKw3SrYD4OQRogY3Mx8RW9uDJD4ljoC1zsCU9L0wZDxtKqkBfdQP3BB4sBpQ_INmT"/>
+<img alt="Proyecto en cartera" class="w-full h-full object-cover" src="/images/proyecto_calacoto.webp"/>
 </div>
 <div class="absolute -bottom-10 -left-10 p-8 glass-panel rounded-2xl border border-white/10 shadow-2xl max-w-xs">
 <div class="flex items-center gap-3 mb-4">

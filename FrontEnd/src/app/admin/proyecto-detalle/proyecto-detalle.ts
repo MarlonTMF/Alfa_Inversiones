@@ -112,11 +112,11 @@ export class ProyectoDetalle implements OnInit {
       ]
     };
     this.renderPreviews = [
-      'https://images.unsplash.com/photo-1545324418-f1d3c5b5a271?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop'
+      '/images/proyecto_torres_prado.webp',
+      '/images/proyecto_equipetrol.webp'
     ];
     this.fotoPreviews = [
-      'https://images.unsplash.com/photo-1503387762-592dea58ef23?q=80&w=1000&auto=format&fit=crop'
+      '/images/terreno_urubo.webp'
     ];
   }
 

@@ -39,7 +39,7 @@ import { Login } from '../../auth/login/login';
 <main class="relative">
 <section class="relative min-h-[921px] flex items-center overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img class="w-full h-full object-cover opacity-40 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP9-21FLJ7z8N-SSOV-FunJn9KzgC0pr1d5uWQ7-xCaBormYKr0bdHvPyjHdb5AO6SZJSa9tiglzFTchTDVqIWPk1esR0H2akjmZB2hIo6HyoaRy6tPCrwTTLVdoces_H-UiNKfh1xcDCr5TmHIGjYFmQT71t0mm4Nhb4anYa__B4RN1pHcgIMH2mkn-HU5pxfNHi4915HwqgqqH4OnF-xcFpNcryt9XlusuucSKvqugVZAo--figRvRKF792-8hnu7n6kzPMOzPlT"/>
+<img alt="" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" src="/images/terreno_urubo.webp"/>
 <div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent"></div>
 </div>
 <div class="container mx-auto px-12 relative z-10 grid grid-cols-12 gap-8">
@@ -85,11 +85,11 @@ import { Login } from '../../auth/login/login';
 <span class="text-xl font-bold text-on-surface">+450</span>
 </div>
 </div>
-<img class="absolute right-0 bottom-0 w-1/2 h-2/3 object-contain opacity-20 group-hover:opacity-40 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjIjRspWS-X09Czvgx3FRrEuJsiFkG65Ww2Piv5PSzPYOzLCGVFtIHkQv7U4-cyJ6q7_TGmOIGNYS5yOSjxecAMnT2mX51DFFqHcnyzGWAD7QPM777z0_sP54Xce_OIsa6HOrVv5LbF1ebKAH_E9ryZIzkJ9ScUaxJH4IPcx9BnWR8dcRbO-Q8w8-Nd0QL8uMvb2bkoe_RYQMQYgxWUjqr0ap1tUgUkO5WiPvRxLNlatDc9mbNxhYkgnGFRlXYDEpNYJHVGLR_Ukyt"/>
+<img alt="" class="absolute right-0 bottom-0 w-1/2 h-2/3 object-contain opacity-20 group-hover:opacity-40 transition-opacity" src="/images/terreno_warnes.webp"/>
 </div>
 <div class="md:col-span-4 bg-surface-container-high rounded-xl p-10 flex flex-col justify-end relative overflow-hidden group">
 <div class="absolute inset-0">
-<img class="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTEZ5ueth-eJ3hv54tqxUfY42WNVk5UIu_y3xWq3LTxT5JVgNxpHgBknrvnB71unckGnBDLpR4el82daZpy_d2_22-fnie64fzNrp14vuOZcBxYgPmdF-S_aXsZ4IOcrZjrTipMgQZlRjmnzhlEOBEBBHEsGPdLWYW9qDBKtWu8vUIzTswmv3chnrFhB96bG1oselGPgXkGuUvt7KX0o7BgW_6gGjwHe46J3gHyv1gjJkxSexvC7uLY0hir3eyHvoUMlOwvaycTuyh"/>
+<img alt="" class="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-700" src="/images/mercado_regional_map.webp"/>
 </div>
 <div class="relative z-10">
 <span class="material-symbols-outlined text-4xl text-blue-500 mb-6" data-icon="handshake">handshake</span>

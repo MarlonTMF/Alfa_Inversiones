@@ -39,7 +39,7 @@ import { Login } from '../../auth/login/login';
 <main>
 <section class="relative min-h-[870px] flex items-center overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img class="w-full h-full object-cover opacity-30 grayscale brightness-75" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC20WVCMqww7XpSCc9ubv_91uQpuc_QvTEZa3gfg7CpEwS_oRBk_gOfOEpDqoYP0zDk91g6qT2Yu33hPJjlCyzsMjbXXMuDVjADUTo0Qv4-pers6O8ZStyxVPE9WW4b9COgrOn6GtSN6pFEZ_MUrZDi1AUjhRcyh-AmM2yCrifJENd6D8n79NOPSf54mQWQ92Rco38bHxyrHpIAWG4O7NXn8mzgrS69dv4Ky05HGOEzQiFIeoMHgMuOkslo_M3LypIR6gfIBVUR_bu5"/>
+<img alt="" class="w-full h-full object-cover opacity-30 grayscale brightness-75" src="/images/hero_constructor.webp"/>
 <div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent"></div>
 </div>
 <div class="container mx-auto px-6 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -123,7 +123,7 @@ import { Login } from '../../auth/login/login';
 <div class="relative">
 <div class="bg-surface-container-highest rounded-2xl p-4 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)] border border-outline-variant/30">
 <div class="rounded-xl overflow-hidden aspect-video bg-surface shadow-inner">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZCd4c1DdZZBPeLN_rGVR-XG3D-ufKDWNFmWQKv7bOsjRCJiX1D5f1FJo_mzokiphMe3_NleWteyjHP306H8H1pgZGLSFQssCNJGDqOEWHKdglS8PJ6gJgDhOiARwOybwfS3UXBrqd93b8eCLBxu1tUO29GILrW2jNo1pBSPucfgSdQrdeGKlcPuTNMZTVVl-HWeUMAdEqnBRmc3qI-hdqX2Y-QQrIhLUQYFK8nEP6L_PyGV0YwoB45njLXu4huTV5A6_GGmD72bS2"/>
+<img alt="Proyecto en construccion" class="w-full h-full object-cover" src="/images/proyecto_torres_prado.webp"/>
 </div>
 <div class="absolute -bottom-6 -left-6 glass-card p-6 rounded-xl border border-white/5 shadow-2xl">
 <div class="flex items-center gap-4">
