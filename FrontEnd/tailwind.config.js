@@ -12,6 +12,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        /* Marca LINK. Es el color mas usado de la interfaz (727 apariciones);
+           tenerlo aqui hace que un cambio de marca sea una sola edicion. */
+        brand: {
+          DEFAULT: '#3b82f6',
+          claro: '#60a5fa',
+          oscuro: '#1d4ed8',
+        },
+        /* Verde oficial de WhatsApp, el canal de contacto de la landing. */
+        whatsapp: {
+          DEFAULT: '#25d366',
+          oscuro: '#20bd5a',
+        },
         'tertiary-fixed-dim': '#ffb786',
         'inverse-on-surface': '#283044',
         'primary-fixed-dim': '#adc6ff',

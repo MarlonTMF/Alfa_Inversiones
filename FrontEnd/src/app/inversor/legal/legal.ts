@@ -16,7 +16,7 @@ export class InversorLegal {
       auditor: 'Estudio Jurídico Andino S.R.L.',
       timestamp: '2023-10-24 14:22:01 UTC',
       hash: '0x84f2...a90e',
-      color: 'bg-[#3b82f6]/10 text-[#3b82f6]'
+      color: 'bg-brand/10 text-brand'
     },
     {
       nombre: 'Structural Integrity Report V2',
@@ -24,7 +24,7 @@ export class InversorLegal {
       auditor: 'Consultora Legal Oriente',
       timestamp: '2023-10-22 09:15:45 UTC',
       hash: '0x31c8...e7fb',
-      color: 'bg-[#ffb786]/10 text-[#ffb786]'
+      color: 'bg-tertiary/10 text-tertiary'
     },
     {
       nombre: 'Environmental Impact Assessment',
@@ -32,7 +32,7 @@ export class InversorLegal {
       auditor: 'Estudio Jurídico Andino S.R.L.',
       timestamp: '2023-10-18 11:30:12 UTC',
       hash: '0x9a44...b2cc',
-      color: 'bg-[#adc6ff]/10 text-[#adc6ff]'
+      color: 'bg-primary/10 text-primary'
     }
   ];
 }

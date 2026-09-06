@@ -2,15 +2,15 @@
   <!-- Header -->
   <header class="flex justify-between items-end mb-10">
     <div>
-      <span class="text-[10px] font-black uppercase tracking-[0.3em] text-[#3b82f6] mb-2 block">Institutional Registry</span>
+      <span class="text-[10px] font-black uppercase tracking-[0.3em] text-brand mb-2 block">Institutional Registry</span>
       <h1 class="text-4xl font-black text-white tracking-tight">Directorio de Inversores</h1>
     </div>
     <div class="flex gap-4">
       <div class="relative group">
-        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-[#3b82f6] transition-colors">search</span>
-        <input class="bg-[#060e20] border border-white/5 rounded-xl py-3 pl-12 pr-6 text-sm text-white focus:border-[#3b82f6] outline-none transition-all w-80" placeholder="Buscar en la base de datos..." type="text"/>
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-brand transition-colors">search</span>
+        <input class="bg-surface-container-lowest border border-white/5 rounded-xl py-3 pl-12 pr-6 text-sm text-white focus:border-brand outline-none transition-all w-80" placeholder="Buscar en la base de datos..." type="text"/>
       </div>
-      <button (click)="abrirRegistro()" class="bg-[#3b82f6] text-white px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-[#3b82f6]/20 flex items-center gap-2">
+      <button (click)="abrirRegistro()" class="bg-brand text-white px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-brand/20 flex items-center gap-2">
         <span class="material-symbols-outlined text-sm">add_circle</span>
         Nuevo Inversionista
       </button>
@@ -19,11 +19,11 @@
 
   <!-- Stats Grid -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-    <div *ngFor="let s of stats" class="bg-surface-container-high p-6 rounded-3xl border border-white/5 relative overflow-hidden group hover:border-[#3b82f6]/30 transition-all">
-      <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#3b82f6]/5 blur-3xl rounded-full group-hover:bg-[#3b82f6]/10 transition-all"></div>
+    <div *ngFor="let s of stats" class="bg-surface-container-high p-6 rounded-3xl border border-white/5 relative overflow-hidden group hover:border-brand/30 transition-all">
+      <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand/5 blur-3xl rounded-full group-hover:bg-brand/10 transition-all"></div>
       <div class="relative z-10">
         <div class="flex justify-between items-start mb-4">
-          <span class="material-symbols-outlined text-[#3b82f6] bg-[#3b82f6]/10 p-2 rounded-xl">{{ s.icon }}</span>
+          <span class="material-symbols-outlined text-brand bg-brand/10 p-2 rounded-xl">{{ s.icon }}</span>
           <span class="text-[10px] font-black text-emerald-500">{{ s.trend }}</span>
         </div>
         <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{{ s.label }}</p>
@@ -84,7 +84,7 @@
               <span class="text-[10px] font-medium text-slate-500">{{ inv.ultimaAccion }}</span>
             </td>
             <td class="px-8 py-6 text-right">
-              <button class="p-2 opacity-0 group-hover:opacity-100 transition-all hover:bg-[#3b82f6]/20 rounded-xl text-[#3b82f6]">
+              <button class="p-2 opacity-0 group-hover:opacity-100 transition-all hover:bg-brand/20 rounded-xl text-brand">
                 <span class="material-symbols-outlined">chevron_right</span>
               </button>
             </td>

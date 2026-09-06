@@ -26,7 +26,7 @@ import { AuthService } from '../../auth/services/auth';
                         Transformamos su patrimonio en una oportunidad de inversión institucional. Acceda a una valorización experta y conecte con los constructores de élite del mercado global.
                     </p>
 <div class="flex items-center gap-6">
-<button class="bg-[#3b82f6] text-white px-8 py-4 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-blue-500/20">
+<button class="bg-brand text-white px-8 py-4 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-blue-500/20">
                             Registrar Propiedad
                         </button>
 <button class="flex items-center gap-2 text-blue-400 font-semibold group">
@@ -122,7 +122,7 @@ import { AuthService } from '../../auth/services/auth';
 <p class="text-lg text-on-surface-variant">Únase a la red de propietarios más exclusiva y convierta su terreno en un proyecto de legado mundial.</p>
 </div>
 <div class="flex flex-col items-center gap-4">
-<button class="bg-[#3b82f6] text-white text-lg px-12 py-5 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-2xl shadow-blue-500/40">
+<button class="bg-brand text-white text-lg px-12 py-5 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-2xl shadow-blue-500/40">
                                 Registrar Mi Propiedad Ahora
                             </button>
 <span class="text-[0.6875rem] text-on-surface-variant uppercase tracking-widest font-bold">Sin costos iniciales por evaluación</span>

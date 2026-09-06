@@ -24,7 +24,7 @@ import { AuthService } from '../../auth/services/auth';
                         Transformamos el capital global en infraestructura local. Acceda a fondeo estratégico diseñado para los ritmos reales de la construcción.
                     </p>
 <div class="flex flex-col sm:flex-row gap-4">
-<button class="bg-[#3b82f6] hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+<button class="bg-brand hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
                             Solicitar Evaluación
                         </button>
 <button class="border border-outline-variant hover:border-primary px-8 py-4 rounded-lg text-lg font-bold text-on-surface transition-all">
@@ -54,7 +54,7 @@ import { AuthService } from '../../auth/services/auth';
 <span class="material-symbols-outlined text-[20rem]" style="font-variation-settings: 'FILL' 1;">speed</span>
 </div>
 </div>
-<div class="md:col-span-5 bg-[#3b82f6] text-white rounded-xl p-12 relative overflow-hidden flex flex-col justify-between">
+<div class="md:col-span-5 bg-brand text-white rounded-xl p-12 relative overflow-hidden flex flex-col justify-between">
 <div class="relative z-10">
 <span class="material-symbols-outlined text-4xl mb-6">assured_workload</span>
 <h4 class="text-3xl font-bold mb-4">Sin Burocracia Bancaria</h4>
@@ -120,7 +120,7 @@ import { AuthService } from '../../auth/services/auth';
 <div class="relative z-10">
 <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-8">¿Listo para escalar su próximo proyecto?</h2>
 <p class="text-on-surface-variant text-xl mb-12 max-w-2xl mx-auto">Nuestro equipo de arquitectos financieros está listo para evaluar su portafolio en menos de 48 horas.</p>
-<button class="bg-[#3b82f6] hover:bg-blue-600 text-white px-12 py-5 rounded-lg text-xl font-bold shadow-lg shadow-blue-500/20 transition-all hover:scale-105">
+<button class="bg-brand hover:bg-blue-600 text-white px-12 py-5 rounded-lg text-xl font-bold shadow-lg shadow-blue-500/20 transition-all hover:scale-105">
                             Iniciar Solicitud Ahora
                         </button>
 <p class="mt-8 text-on-surface-variant/60 font-mono text-sm tracking-widest uppercase">Consulta sin compromiso — 100% Confidencial</p>

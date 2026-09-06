@@ -16,17 +16,17 @@
   </header>
 
   <!-- Viewer & Log -->
-  <main class="flex-1 overflow-y-auto bg-[#060e20] relative">
+  <main class="flex-1 overflow-y-auto bg-surface-container-lowest relative">
     <div class="p-8 flex flex-col gap-8 max-w-3xl mx-auto">
       <!-- Document Preview -->
       <div class="relative flex flex-col items-center justify-center bg-surface-container-high aspect-[3/4] rounded-3xl shadow-2xl overflow-hidden group border border-white/5">
         <img alt="" class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-110 transition-transform duration-1000" src="/images/proyecto_torres_prado.webp">
         <div class="relative z-10 flex flex-col items-center gap-6">
-          <div class="p-6 rounded-3xl bg-[#3b82f6]/10 border border-[#3b82f6]/20 backdrop-blur-xl shadow-2xl">
-            <span class="material-symbols-outlined text-[#3b82f6] text-6xl">description</span>
+          <div class="p-6 rounded-3xl bg-brand/10 border border-brand/20 backdrop-blur-xl shadow-2xl">
+            <span class="material-symbols-outlined text-brand text-6xl">description</span>
           </div>
           <p class="text-white font-black tracking-tight">{{ documentoNombre }}</p>
-          <button class="flex items-center gap-2 px-6 py-3 bg-[#3b82f6] text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-[#3b82f6]/20 hover:brightness-110 transition-all">
+          <button class="flex items-center gap-2 px-6 py-3 bg-brand text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-brand/20 hover:brightness-110 transition-all">
             <span class="material-symbols-outlined text-sm">zoom_in</span>
             PANTALLA COMPLETA
           </button>
@@ -38,23 +38,23 @@
       </div>
 
       <!-- Audit History -->
-      <section class="bg-[#131b2e] rounded-3xl p-8 mb-40 border border-white/5 shadow-2xl">
+      <section class="bg-surface-container-low rounded-3xl p-8 mb-40 border border-white/5 shadow-2xl">
         <div class="flex items-center justify-between mb-8">
           <h3 class="text-white text-base font-black flex items-center gap-3">
-            <span class="material-symbols-outlined text-[#3b82f6]">history</span>
+            <span class="material-symbols-outlined text-brand">history</span>
             Historial de Auditoría
           </h3>
-          <span class="text-slate-500 text-[9px] font-black uppercase tracking-widest bg-[#060e20] px-3 py-1.5 rounded-xl border border-white/5">Inmutable</span>
+          <span class="text-slate-500 text-[9px] font-black uppercase tracking-widest bg-surface-container-lowest px-3 py-1.5 rounded-xl border border-white/5">Inmutable</span>
         </div>
         
         <div class="space-y-8 relative pl-4">
           <!-- Linea Vertical -->
-          <div class="absolute left-[11px] top-4 bottom-4 w-0.5 bg-[#3b82f6]/10"></div>
+          <div class="absolute left-[11px] top-4 bottom-4 w-0.5 bg-brand/10"></div>
           
           <div *ngFor="let item of historial" class="relative pl-10">
             <div [class]="'absolute left-0 top-1.5 size-6 rounded-full border-2 bg-surface flex items-center justify-center ' + 
-              (item.color === 'primary' ? 'border-[#3b82f6]' : item.color === 'tertiary' ? 'border-amber-500' : 'border-slate-700')">
-              <div [class]="'size-2 rounded-full ' + (item.color === 'primary' ? 'bg-[#3b82f6]' : item.color === 'tertiary' ? 'bg-amber-500' : 'bg-slate-700')"></div>
+              (item.color === 'primary' ? 'border-brand' : item.color === 'tertiary' ? 'border-amber-500' : 'border-slate-700')">
+              <div [class]="'size-2 rounded-full ' + (item.color === 'primary' ? 'bg-brand' : item.color === 'tertiary' ? 'bg-amber-500' : 'bg-slate-700')"></div>
             </div>
             <div class="flex justify-between items-start">
               <p class="text-white text-sm font-bold">{{ item.evento }}</p>
@@ -73,8 +73,8 @@
       <div class="flex flex-col gap-3">
         <label class="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em] ml-1">Decisión del Auditor</label>
         <div class="flex gap-3">
-          <button class="flex-1 flex flex-col items-center justify-center gap-2 py-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-[#3b82f6]/30 transition-all group">
-            <span class="material-symbols-outlined text-[#3b82f6] group-hover:scale-110 transition-transform">verified</span>
+          <button class="flex-1 flex flex-col items-center justify-center gap-2 py-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-brand/30 transition-all group">
+            <span class="material-symbols-outlined text-brand group-hover:scale-110 transition-transform">verified</span>
             <span class="text-[10px] font-black text-white uppercase tracking-widest">Aprobar</span>
           </button>
           <button class="flex-1 flex flex-col items-center justify-center gap-2 py-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-amber-500/30 transition-all group">
@@ -88,9 +88,9 @@
         </div>
       </div>
       <div class="relative">
-        <textarea [(ngModel)]="comentarios" class="w-full bg-[#060e20] border border-white/5 rounded-2xl p-4 text-sm text-white placeholder:text-slate-700 outline-none focus:border-[#3b82f6] min-h-[100px] transition-all" placeholder="Agregar comentarios de validación..."></textarea>
+        <textarea [(ngModel)]="comentarios" class="w-full bg-surface-container-lowest border border-white/5 rounded-2xl p-4 text-sm text-white placeholder:text-slate-700 outline-none focus:border-brand min-h-[100px] transition-all" placeholder="Agregar comentarios de validación..."></textarea>
       </div>
-      <button (click)="confirmar()" class="w-full py-5 bg-[#3b82f6] text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-[#3b82f6]/20 flex items-center justify-center gap-3 hover:brightness-110 active:scale-95 transition-all">
+      <button (click)="confirmar()" class="w-full py-5 bg-brand text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-brand/20 flex items-center justify-center gap-3 hover:brightness-110 active:scale-95 transition-all">
         <span class="material-symbols-outlined">send</span>
         CONFIRMAR AUDITORÍA
       </button>

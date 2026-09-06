@@ -28,7 +28,7 @@ import { AuthService } from '../../auth/services/auth';
                     Acceda a vehículos de inversión optimizados con estructuras de gobernanza de nivel institucional y despliegue de capital en activos premium globales.
                 </p>
 <div class="flex items-center gap-6">
-<button class="bg-[#3b82f6] text-white px-8 py-4 rounded-lg font-bold transition-transform active:scale-95 shadow-lg shadow-blue-500/20">
+<button class="bg-brand text-white px-8 py-4 rounded-lg font-bold transition-transform active:scale-95 shadow-lg shadow-blue-500/20">
                         Comenzar Inversión
                     </button>
 <button class="bg-surface-container-highest/50 backdrop-blur-md text-on-surface px-8 py-4 rounded-lg font-bold border border-outline-variant/30 hover:bg-surface-container-highest transition-colors">

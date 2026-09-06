@@ -1,27 +1,27 @@
-<div class="bg-[#0b1326] text-[#dae2fd] min-h-screen flex overflow-hidden font-sans selection:bg-[#3b82f6]/30">
+<div class="bg-surface text-on-surface min-h-screen flex overflow-hidden font-sans selection:bg-brand/30">
   
   <!-- Sidebar Navigation -->
-  <aside class="hidden md:flex flex-col h-full w-72 fixed left-0 top-0 bg-[#060e20] z-50 py-8 px-6 border-r border-white/5 shadow-2xl bg-gradient-to-b from-[#060e20] to-[#0b1326]">
+  <aside class="hidden md:flex flex-col h-full w-72 fixed left-0 top-0 bg-surface-container-lowest z-50 py-8 px-6 border-r border-white/5 shadow-2xl bg-gradient-to-b from-surface-container-lowest to-surface">
     <div class="mb-12 px-2 flex items-center gap-4">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3b82f6] to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20">
         <span class="material-symbols-outlined text-white text-2xl font-black">architecture</span>
       </div>
       <div>
         <div class="text-white font-black uppercase tracking-tighter text-lg leading-none">LINK</div>
-        <div class="text-[9px] uppercase tracking-[0.2em] font-black text-[#3b82f6]">Institutional</div>
+        <div class="text-[9px] uppercase tracking-[0.2em] font-black text-brand">Institutional</div>
       </div>
     </div>
     
     <nav class="flex-1 space-y-2">
-      <a [routerLink]="['/constructor']" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+      <a [routerLink]="['/constructor']" class="flex items-center gap-4 px-4 py-3.5 text-on-surface-variant hover:bg-surface-container-high hover:text-white rounded-xl transition-all duration-300 group">
         <span class="material-symbols-outlined text-[22px] group-hover:scale-110 transition-transform">dashboard</span>
         <span class="text-[11px] font-black uppercase tracking-widest">Home Dashboard</span>
       </a>
-      <a [routerLink]="['/constructor/proyectos']" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+      <a [routerLink]="['/constructor/proyectos']" class="flex items-center gap-4 px-4 py-3.5 text-on-surface-variant hover:bg-surface-container-high hover:text-white rounded-xl transition-all duration-300 group">
         <span class="material-symbols-outlined text-[22px] group-hover:scale-110 transition-transform">construction</span>
         <span class="text-[11px] font-black uppercase tracking-widest">Gestionar Proyectos</span>
       </a>
-      <a [routerLink]="['/mapa']" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+      <a [routerLink]="['/mapa']" class="flex items-center gap-4 px-4 py-3.5 text-on-surface-variant hover:bg-surface-container-high hover:text-white rounded-xl transition-all duration-300 group">
         <span class="material-symbols-outlined text-[22px] group-hover:rotate-12 transition-transform">explore</span>
         <span class="text-[11px] font-black uppercase tracking-widest">Explorar Mapa</span>
       </a>
@@ -30,11 +30,11 @@
         <span class="text-[9px] font-black uppercase tracking-[0.3em] text-white/20">Analytics</span>
       </div>
       
-      <a href="#" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+      <a href="#" class="flex items-center gap-4 px-4 py-3.5 text-on-surface-variant hover:bg-surface-container-high hover:text-white rounded-xl transition-all duration-300 group">
         <span class="material-symbols-outlined text-[22px]">bar_chart</span>
         <span class="text-[11px] font-black uppercase tracking-widest">Métricas de Tierra</span>
       </a>
-      <a [routerLink]="['/constructor/legal']" class="flex items-center gap-4 px-4 py-3.5 text-[#3b82f6] font-black border-l-4 border-[#3b82f6] bg-[#3b82f6]/10 rounded-r-xl transition-all duration-300">
+      <a [routerLink]="['/constructor/legal']" class="flex items-center gap-4 px-4 py-3.5 text-brand font-black border-l-4 border-brand bg-brand/10 rounded-r-xl transition-all duration-300">
         <span class="material-symbols-outlined text-[22px]">lock</span>
         <span class="text-[11px] uppercase tracking-widest">Bóveda Legal</span>
       </a>
@@ -43,20 +43,20 @@
     <!-- User Profile Section -->
     <div class="mt-auto px-2 pb-4 space-y-4">
       <div class="relative">
-        <button (click)="toggleMenuCuenta()" class="w-full flex items-center gap-3 p-4 bg-[#131b2e] rounded-2xl border border-white/5 hover:border-[#3b82f6]/50 transition-all group">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#3b82f6] to-blue-700 flex items-center justify-center border border-white/10 shadow-lg group-hover:scale-105 transition-transform">
+        <button (click)="toggleMenuCuenta()" class="w-full flex items-center gap-3 p-4 bg-surface-container-low rounded-2xl border border-white/5 hover:border-brand/50 transition-all group">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-blue-700 flex items-center justify-center border border-white/10 shadow-lg group-hover:scale-105 transition-transform">
             <span class="material-symbols-outlined text-white text-xl">person</span>
           </div>
           <div class="text-left overflow-hidden">
             <p class="text-[11px] font-black text-white leading-none truncate">{{ authService.usuarioActual()?.nombre || 'Constructor Admin' }}</p>
-            <p class="text-[9px] text-[#3b82f6] font-black uppercase tracking-widest mt-1">Gestor de Activos</p>
+            <p class="text-[9px] text-brand font-black uppercase tracking-widest mt-1">Gestor de Activos</p>
           </div>
         </button>
 
         <!-- Dropdown Menu -->
-        <div *ngIf="mostrarMenuCuenta" class="absolute bottom-full left-0 right-0 mb-4 bg-[#131b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in">
-          <div class="p-4 bg-[#0b1326] border-b border-white/5">
-            <p class="text-[10px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">Cuenta Activa</p>
+        <div *ngIf="mostrarMenuCuenta" class="absolute bottom-full left-0 right-0 mb-4 bg-surface-container-low border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in">
+          <div class="p-4 bg-surface border-b border-white/5">
+            <p class="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">Cuenta Activa</p>
             <p class="text-xs font-black text-white mt-1">{{ authService.usuarioActual()?.email || 'admin@constructor.com' }}</p>
           </div>
           <div class="p-2">
@@ -68,9 +68,9 @@
         </div>
       </div>
 
-      <div class="bg-gradient-to-br from-[#131b2e] to-[#0b1326] p-5 rounded-2xl border border-white/5 shadow-xl">
-        <p class="text-[10px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-60 mb-3">Soporte Técnico</p>
-        <button class="w-full py-3 bg-[#31394d] text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-[#3b82f6] transition-colors">
+      <div class="bg-gradient-to-br from-surface-container-low to-surface p-5 rounded-2xl border border-white/5 shadow-xl">
+        <p class="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 mb-3">Soporte Técnico</p>
+        <button class="w-full py-3 bg-surface-bright text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-brand transition-colors">
           Contactar Analista
         </button>
       </div>
@@ -81,15 +81,15 @@
   <div class="flex-1 md:ml-72 flex flex-col h-screen overflow-hidden">
     
     <!-- Header -->
-    <header class="sticky top-0 z-40 bg-[#0b1326]/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-10 py-6 h-24">
+    <header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-10 py-6 h-24">
       <div class="flex items-center gap-8">
         <div class="flex flex-col">
-          <span class="text-[9px] text-[#3b82f6] font-black uppercase tracking-widest">Última Auditoría</span>
+          <span class="text-[9px] text-brand font-black uppercase tracking-widest">Última Auditoría</span>
           <span class="text-sm font-black text-white">24 Oct, 2023</span>
         </div>
         <div class="h-10 w-px bg-white/5 mx-2"></div>
         <div class="flex flex-col">
-          <span class="text-[9px] text-[#3b82f6] font-black uppercase tracking-widest">Estándar de Encriptación</span>
+          <span class="text-[9px] text-brand font-black uppercase tracking-widest">Estándar de Encriptación</span>
           <span class="text-sm font-black text-white flex items-center gap-2">
             <span class="material-symbols-outlined text-base">security</span> AES-256 GCM
           </span>
@@ -100,11 +100,11 @@
           <span class="material-symbols-outlined text-base">add_circle</span>
           NUEVA PUBLICACIÓN LEGAL
         </button>
-        <button class="bg-[#3b82f6] text-white px-8 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-2xl">
+        <button class="bg-brand text-white px-8 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-2xl">
           DESCARGAR PORTAFOLIO PDF
         </button>
-        <div class="h-12 w-12 rounded-xl overflow-hidden border-2 border-[#3b82f6]/30">
-          <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-[#3b82f6]" aria-hidden="true">person</span>
+        <div class="h-12 w-12 rounded-xl overflow-hidden border-2 border-brand/30">
+          <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-brand" aria-hidden="true">person</span>
         </div>
       </div>
     </header>
@@ -116,13 +116,13 @@
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/5 pb-10">
         <div class="space-y-4">
           <h1 class="text-7xl font-black text-white tracking-tighter leading-none">Bóveda Legal</h1>
-          <p class="text-[#3b82f6] text-lg font-black uppercase tracking-widest opacity-60">Repositorio de Activos Digitales Asegurado Criptográficamente</p>
+          <p class="text-brand text-lg font-black uppercase tracking-widest opacity-60">Repositorio de Activos Digitales Asegurado Criptográficamente</p>
         </div>
-        <div class="bg-[#131b2e] px-8 py-5 rounded-2xl border border-white/5 flex flex-col justify-center">
-          <div class="text-[9px] uppercase font-black tracking-[0.2em] text-[#c2c6d6] opacity-40 mb-2">Estado de Bóveda</div>
+        <div class="bg-surface-container-low px-8 py-5 rounded-2xl border border-white/5 flex flex-col justify-center">
+          <div class="text-[9px] uppercase font-black tracking-[0.2em] text-on-surface-variant opacity-40 mb-2">Estado de Bóveda</div>
           <div class="flex items-center gap-3">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#3b82f6] animate-pulse"></span>
-            <span class="text-sm font-black text-[#3b82f6] uppercase tracking-widest">ACTIVA & SINCRONIZADA</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-brand animate-pulse"></span>
+            <span class="text-sm font-black text-brand uppercase tracking-widest">ACTIVA & SINCRONIZADA</span>
           </div>
         </div>
       </div>
@@ -130,63 +130,63 @@
       <!-- Inventory Summary Bento Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
         <!-- Environmental Permits -->
-        <div class="group relative overflow-hidden bg-[#131b2e] p-10 rounded-[2.5rem] shadow-2xl border border-white/5 hover:bg-[#1e293b] transition-all duration-500">
+        <div class="group relative overflow-hidden bg-surface-container-low p-10 rounded-[2.5rem] shadow-2xl border border-white/5 hover:bg-slate-800 transition-all duration-500">
           <div class="relative z-10 flex flex-col h-full">
             <div class="flex justify-between items-start mb-12">
-              <div class="w-16 h-16 rounded-2xl bg-[#3b82f6]/10 flex items-center justify-center border border-[#3b82f6]/20">
-                <span class="material-symbols-outlined text-4xl text-[#3b82f6]" style="font-variation-settings: 'FILL' 1;">eco</span>
+              <div class="w-16 h-16 rounded-2xl bg-brand/10 flex items-center justify-center border border-brand/20">
+                <span class="material-symbols-outlined text-4xl text-brand" style="font-variation-settings: 'FILL' 1;">eco</span>
               </div>
-              <span class="bg-[#3b82f6]/10 text-[#3b82f6] text-[9px] px-4 py-1.5 rounded-full font-black uppercase tracking-widest border border-[#3b82f6]/20">Auditado</span>
+              <span class="bg-brand/10 text-brand text-[9px] px-4 py-1.5 rounded-full font-black uppercase tracking-widest border border-brand/20">Auditado</span>
             </div>
-            <div class="text-[10px] uppercase font-black tracking-[0.2em] text-[#c2c6d6] opacity-40 mb-2">Permisos Ambientales</div>
+            <div class="text-[10px] uppercase font-black tracking-[0.2em] text-on-surface-variant opacity-40 mb-2">Permisos Ambientales</div>
             <div class="text-6xl font-black text-white tracking-tighter mb-8">12 <span class="text-xl font-medium opacity-40">Items</span></div>
             <div class="mt-auto">
-              <div class="w-full bg-[#0b1326] h-2 rounded-full overflow-hidden mb-3">
-                <div class="bg-[#3b82f6] h-full w-[85%] shadow-[0_0_15px_#3b82f6]"></div>
+              <div class="w-full bg-surface h-2 rounded-full overflow-hidden mb-3">
+                <div class="bg-brand h-full w-[85%] shadow-[0_0_15px_#3b82f6]"></div>
               </div>
-              <div class="text-right text-[9px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">85% Cobertura de Verificación</div>
+              <div class="text-right text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">85% Cobertura de Verificación</div>
             </div>
           </div>
           <img alt="" class="absolute top-0 right-0 w-64 h-full object-cover opacity-5 group-hover:scale-110 transition-transform duration-700 pointer-events-none" src="/images/proyecto_torres_prado.webp"/>
         </div>
 
         <!-- Land Titles -->
-        <div class="group relative overflow-hidden bg-[#131b2e] p-10 rounded-[2.5rem] shadow-2xl border border-white/5 hover:bg-[#1e293b] transition-all duration-500">
+        <div class="group relative overflow-hidden bg-surface-container-low p-10 rounded-[2.5rem] shadow-2xl border border-white/5 hover:bg-slate-800 transition-all duration-500">
           <div class="relative z-10 flex flex-col h-full">
             <div class="flex justify-between items-start mb-12">
-              <div class="w-16 h-16 rounded-2xl bg-[#ffb786]/10 flex items-center justify-center border border-[#ffb786]/20">
-                <span class="material-symbols-outlined text-4xl text-[#ffb786]" style="font-variation-settings: 'FILL' 1;">map</span>
+              <div class="w-16 h-16 rounded-2xl bg-tertiary/10 flex items-center justify-center border border-tertiary/20">
+                <span class="material-symbols-outlined text-4xl text-tertiary" style="font-variation-settings: 'FILL' 1;">map</span>
               </div>
-              <span class="bg-[#ffb786]/10 text-[#ffb786] text-[9px] px-4 py-1.5 rounded-full font-black uppercase tracking-widest border border-[#ffb786]/20">Auditado</span>
+              <span class="bg-tertiary/10 text-tertiary text-[9px] px-4 py-1.5 rounded-full font-black uppercase tracking-widest border border-tertiary/20">Auditado</span>
             </div>
-            <div class="text-[10px] uppercase font-black tracking-[0.2em] text-[#c2c6d6] opacity-40 mb-2">Títulos de Propiedad</div>
+            <div class="text-[10px] uppercase font-black tracking-[0.2em] text-on-surface-variant opacity-40 mb-2">Títulos de Propiedad</div>
             <div class="text-6xl font-black text-white tracking-tighter mb-8">8 <span class="text-xl font-medium opacity-40">Items</span></div>
             <div class="mt-auto">
-              <div class="w-full bg-[#0b1326] h-2 rounded-full overflow-hidden mb-3">
-                <div class="bg-[#ffb786] h-full w-[100%] shadow-[0_0_15px_#ffb786]"></div>
+              <div class="w-full bg-surface h-2 rounded-full overflow-hidden mb-3">
+                <div class="bg-tertiary h-full w-[100%] shadow-[0_0_15px_#ffb786]"></div>
               </div>
-              <div class="text-right text-[9px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">100% Despeje Legal</div>
+              <div class="text-right text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">100% Despeje Legal</div>
             </div>
           </div>
           <img alt="" class="absolute top-0 right-0 w-64 h-full object-cover opacity-5 group-hover:scale-110 transition-transform duration-700 pointer-events-none" src="/images/proyecto_equipetrol.webp"/>
         </div>
 
         <!-- Construction Licenses -->
-        <div class="group relative overflow-hidden bg-[#131b2e] p-10 rounded-[2.5rem] shadow-2xl border border-white/5 hover:bg-[#1e293b] transition-all duration-500">
+        <div class="group relative overflow-hidden bg-surface-container-low p-10 rounded-[2.5rem] shadow-2xl border border-white/5 hover:bg-slate-800 transition-all duration-500">
           <div class="relative z-10 flex flex-col h-full">
             <div class="flex justify-between items-start mb-12">
-              <div class="w-16 h-16 rounded-2xl bg-[#3b82f6]/10 flex items-center justify-center border border-[#3b82f6]/20">
-                <span class="material-symbols-outlined text-4xl text-[#3b82f6]" style="font-variation-settings: 'FILL' 1;">architecture</span>
+              <div class="w-16 h-16 rounded-2xl bg-brand/10 flex items-center justify-center border border-brand/20">
+                <span class="material-symbols-outlined text-4xl text-brand" style="font-variation-settings: 'FILL' 1;">architecture</span>
               </div>
-              <span class="bg-[#3b82f6]/10 text-[#3b82f6] text-[9px] px-4 py-1.5 rounded-full font-black uppercase tracking-widest border border-[#3b82f6]/20">Auditado</span>
+              <span class="bg-brand/10 text-brand text-[9px] px-4 py-1.5 rounded-full font-black uppercase tracking-widest border border-brand/20">Auditado</span>
             </div>
-            <div class="text-[10px] uppercase font-black tracking-[0.2em] text-[#c2c6d6] opacity-40 mb-2">Licencias de Construcción</div>
+            <div class="text-[10px] uppercase font-black tracking-[0.2em] text-on-surface-variant opacity-40 mb-2">Licencias de Construcción</div>
             <div class="text-6xl font-black text-white tracking-tighter mb-8">24 <span class="text-xl font-medium opacity-40">Items</span></div>
             <div class="mt-auto">
-              <div class="w-full bg-[#0b1326] h-2 rounded-full overflow-hidden mb-3">
-                <div class="bg-[#3b82f6] h-full w-[62%] shadow-[0_0_15px_#3b82f6]"></div>
+              <div class="w-full bg-surface h-2 rounded-full overflow-hidden mb-3">
+                <div class="bg-brand h-full w-[62%] shadow-[0_0_15px_#3b82f6]"></div>
               </div>
-              <div class="text-right text-[9px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">62% Estado Activo</div>
+              <div class="text-right text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">62% Estado Activo</div>
             </div>
           </div>
           <img alt="" class="absolute top-0 right-0 w-64 h-full object-cover opacity-5 group-hover:scale-110 transition-transform duration-700 pointer-events-none" src="/images/proyecto_calacoto.webp"/>
@@ -194,18 +194,18 @@
       </div>
 
       <!-- Document List Section -->
-      <section class="bg-[#131b2e] rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
-        <div class="px-12 py-10 border-b border-white/5 flex justify-between items-center bg-gradient-to-r from-[#131b2e] to-[#1e293b]">
+      <section class="bg-surface-container-low rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
+        <div class="px-12 py-10 border-b border-white/5 flex justify-between items-center bg-gradient-to-r from-surface-container-low to-slate-800">
           <div>
             <h3 class="text-2xl font-black text-white tracking-tight uppercase">Libro de Documentos Verificados</h3>
-            <p class="text-[10px] text-[#3b82f6] mt-2 font-black tracking-[0.2em] uppercase opacity-60">REGISTRO DE TRANSACCIONES INMUTABLE EN TIEMPO REAL</p>
+            <p class="text-[10px] text-brand mt-2 font-black tracking-[0.2em] uppercase opacity-60">REGISTRO DE TRANSACCIONES INMUTABLE EN TIEMPO REAL</p>
           </div>
           <div class="flex gap-6">
             <div class="relative">
-              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#c2c6d6] text-xl opacity-40">search</span>
-              <input class="bg-[#0b1326] border-none ring-1 ring-white/5 rounded-xl pl-12 pr-6 py-3 text-sm focus:ring-2 focus:ring-[#3b82f6] w-80 transition-all text-white placeholder-[#c2c6d6]/30" placeholder="Buscar hash, nombre o auditor..." type="text"/>
+              <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl opacity-40">search</span>
+              <input class="bg-surface border-none ring-1 ring-white/5 rounded-xl pl-12 pr-6 py-3 text-sm focus:ring-2 focus:ring-brand w-80 transition-all text-white placeholder-on-surface-variant/30" placeholder="Buscar hash, nombre o auditor..." type="text"/>
             </div>
-            <button class="bg-[#1e293b] hover:bg-[#2d3449] px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border border-white/5 text-[#c2c6d6]">
+            <button class="bg-slate-800 hover:bg-surface-variant px-8 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border border-white/5 text-on-surface-variant">
               FILTRAR POR FECHA
             </button>
           </div>
@@ -213,7 +213,7 @@
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="text-[10px] uppercase tracking-[0.2em] font-black text-[#c2c6d6] opacity-40 bg-[#0b1326]/30">
+              <tr class="text-[10px] uppercase tracking-[0.2em] font-black text-on-surface-variant opacity-40 bg-surface/30">
                 <th class="px-12 py-6">Nombre del Documento</th>
                 <th class="px-8 py-6">Auditor Verificado</th>
                 <th class="px-8 py-6">Sello de tiempo</th>
@@ -222,7 +222,7 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-white/5">
-              <tr *ngFor="let doc of documentos" class="group hover:bg-[#1e293b]/50 transition-all duration-300">
+              <tr *ngFor="let doc of documentos" class="group hover:bg-slate-800/50 transition-all duration-300">
                 <td class="px-12 py-8">
                   <div class="flex items-center gap-5">
                     <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center border border-red-500/20">
@@ -230,26 +230,26 @@
                     </div>
                     <div>
                       <div class="text-base font-black text-white tracking-tight">{{ doc.nombre }}</div>
-                      <div class="text-[9px] text-[#3b82f6] font-black uppercase mt-1 tracking-widest opacity-60">{{ doc.categoria }}</div>
+                      <div class="text-[9px] text-brand font-black uppercase mt-1 tracking-widest opacity-60">{{ doc.categoria }}</div>
                     </div>
                   </div>
                 </td>
                 <td class="px-8 py-8">
                   <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center overflow-hidden border border-white/10">
-                      <span class="material-symbols-outlined text-[16px] text-[#3b82f6]" aria-hidden="true">gavel</span>
+                      <span class="material-symbols-outlined text-[16px] text-brand" aria-hidden="true">gavel</span>
                     </div>
                     <span class="text-sm font-black text-white/80">{{ doc.auditor }}</span>
                   </div>
                 </td>
                 <td class="px-8 py-8">
-                  <span class="text-[11px] font-mono text-[#c2c6d6] opacity-60">{{ doc.fecha }}</span>
+                  <span class="text-[11px] font-mono text-on-surface-variant opacity-60">{{ doc.fecha }}</span>
                 </td>
                 <td class="px-8 py-8">
-                  <span class="text-[11px] font-mono text-[#3b82f6] bg-[#3b82f6]/10 px-3 py-1.5 rounded-full border border-[#3b82f6]/20">{{ doc.blockchainId }}</span>
+                  <span class="text-[11px] font-mono text-brand bg-brand/10 px-3 py-1.5 rounded-full border border-brand/20">{{ doc.blockchainId }}</span>
                 </td>
                 <td class="px-12 py-8 text-right">
-                  <button class="text-[10px] font-black uppercase tracking-widest text-[#3b82f6] hover:underline flex items-center gap-2 ml-auto group-hover:translate-x-[-8px] transition-transform">
+                  <button class="text-[10px] font-black uppercase tracking-widest text-brand hover:underline flex items-center gap-2 ml-auto group-hover:translate-x-[-8px] transition-transform">
                     Descargar PDF <span class="material-symbols-outlined text-base">download</span>
                   </button>
                 </td>
@@ -260,43 +260,43 @@
       </section>
 
       <!-- Institutional Proof Section -->
-      <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-[#131b2e] rounded-[3rem] p-16 border border-white/5 shadow-2xl relative overflow-hidden">
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-surface-container-low rounded-[3rem] p-16 border border-white/5 shadow-2xl relative overflow-hidden">
         <div class="space-y-10 relative z-10">
           <div class="space-y-4">
             <h3 class="text-5xl font-black tracking-tighter text-white leading-tight">Marco de Auditoría de Grado Institucional</h3>
-            <p class="text-[#c2c6d6] text-lg font-medium leading-relaxed opacity-60">Nuestra arquitectura de bóveda legal utiliza hashing criptográfico de última generación para garantizar la inmutabilidad del historial legal de sus activos. Cada documento es verificado por firmas legales de primer nivel y registrado con marca de tiempo en un libro institucional privado.</p>
+            <p class="text-on-surface-variant text-lg font-medium leading-relaxed opacity-60">Nuestra arquitectura de bóveda legal utiliza hashing criptográfico de última generación para garantizar la inmutabilidad del historial legal de sus activos. Cada documento es verificado por firmas legales de primer nivel y registrado con marca de tiempo en un libro institucional privado.</p>
           </div>
           <div class="grid grid-cols-2 gap-8">
             <div class="flex gap-5">
-              <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#3b82f6]/10 flex items-center justify-center border border-[#3b82f6]/20">
-                <span class="material-symbols-outlined text-[#3b82f6] text-3xl" style="font-variation-settings: 'FILL' 1;">dataset</span>
+              <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center border border-brand/20">
+                <span class="material-symbols-outlined text-brand text-3xl" style="font-variation-settings: 'FILL' 1;">dataset</span>
               </div>
               <div>
                 <h4 class="text-sm font-black text-white uppercase tracking-wider mb-2">Almacenamiento Inmutable</h4>
-                <p class="text-[10px] text-[#c2c6d6] font-medium opacity-60 leading-relaxed">Los datos persisten en nodos seguros distribuidos con permiso de eliminación cero.</p>
+                <p class="text-[10px] text-on-surface-variant font-medium opacity-60 leading-relaxed">Los datos persisten en nodos seguros distribuidos con permiso de eliminación cero.</p>
               </div>
             </div>
             <div class="flex gap-5">
-              <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#ffb786]/10 flex items-center justify-center border border-[#ffb786]/20">
-                <span class="material-symbols-outlined text-[#ffb786] text-3xl" style="font-variation-settings: 'FILL' 1;">visibility</span>
+              <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-tertiary/10 flex items-center justify-center border border-tertiary/20">
+                <span class="material-symbols-outlined text-tertiary text-3xl" style="font-variation-settings: 'FILL' 1;">visibility</span>
               </div>
               <div>
                 <h4 class="text-sm font-black text-white uppercase tracking-wider mb-2">Transparencia Total</h4>
-                <p class="text-[10px] text-[#c2c6d6] font-medium opacity-60 leading-relaxed">Logs de acceso en tiempo real para cada interacción y descarga de documentos.</p>
+                <p class="text-[10px] text-on-surface-variant font-medium opacity-60 leading-relaxed">Logs de acceso en tiempo real para cada interacción y descarga de documentos.</p>
               </div>
             </div>
           </div>
         </div>
         <div class="relative rounded-[2.5rem] overflow-hidden aspect-video shadow-2xl group border border-white/10">
           <img alt="Obra en curso" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" src="/images/hero_constructor.webp"/>
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] to-transparent flex items-end p-10">
+          <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent flex items-end p-10">
             <div class="flex items-center gap-6">
               <div class="w-16 h-16 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-2xl">
                 <span class="material-symbols-outlined text-white text-3xl animate-pulse">lock</span>
               </div>
               <div>
                 <div class="text-[10px] text-white font-black uppercase tracking-[0.3em]">Encriptación a Nivel Hardware</div>
-                <div class="text-xs text-[#3b82f6] font-black uppercase tracking-widest mt-1">NODO: MAD-NY-01 ACTIVO</div>
+                <div class="text-xs text-brand font-black uppercase tracking-widest mt-1">NODO: MAD-NY-01 ACTIVO</div>
               </div>
             </div>
           </div>

@@ -1,19 +1,19 @@
 <div class="space-y-8 animate-in fade-in duration-700">
   
   <!-- CABECERA DE CONTROL Y SELECTOR DE VISTA -->
-  <header class="bg-[#131b2e]/80 backdrop-blur-md p-6 rounded-3xl border border-white/5 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-6">
+  <header class="bg-surface-container-low/80 backdrop-blur-md p-6 rounded-3xl border border-white/5 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-6">
     <div>
       <h2 class="text-2xl font-black text-white tracking-tight">Suite de Cumplimiento Legal</h2>
       <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-1">Supervisión de Grado Institucional</p>
     </div>
-    <div class="bg-[#060e20] p-1.5 rounded-2xl border border-white/5 flex gap-1 shadow-inner">
-      <button (click)="setVista('consola')" [class]="'px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ' + (vistaActual === 'consola' ? 'bg-[#3b82f6] text-white shadow-lg shadow-[#3b82f6]/20' : 'text-slate-500 hover:text-white')">
+    <div class="bg-surface-container-lowest p-1.5 rounded-2xl border border-white/5 flex gap-1 shadow-inner">
+      <button (click)="setVista('consola')" [class]="'px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ' + (vistaActual === 'consola' ? 'bg-brand text-white shadow-lg shadow-brand/20' : 'text-slate-500 hover:text-white')">
         Salud Legal
       </button>
-      <button (click)="setVista('operativa')" [class]="'px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ' + (vistaActual === 'operativa' ? 'bg-[#3b82f6] text-white shadow-lg shadow-[#3b82f6]/20' : 'text-slate-500 hover:text-white')">
+      <button (click)="setVista('operativa')" [class]="'px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ' + (vistaActual === 'operativa' ? 'bg-brand text-white shadow-lg shadow-brand/20' : 'text-slate-500 hover:text-white')">
         Gestión Operativa
       </button>
-      <button (click)="setVista('timeline')" [class]="'px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ' + (vistaActual === 'timeline' ? 'bg-[#3b82f6] text-white shadow-lg shadow-[#3b82f6]/20' : 'text-slate-500 hover:text-white')">
+      <button (click)="setVista('timeline')" [class]="'px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ' + (vistaActual === 'timeline' ? 'bg-brand text-white shadow-lg shadow-brand/20' : 'text-slate-500 hover:text-white')">
         Cronograma
       </button>
     </div>
@@ -27,19 +27,19 @@
       
       <!-- Institutional Due Diligence Metrics -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-[#222a3d] p-8 rounded-2xl relative overflow-hidden group hover:shadow-2xl hover:shadow-black/40 transition-all duration-300 border border-white/5">
+        <div class="bg-surface-container-high p-8 rounded-2xl relative overflow-hidden group hover:shadow-2xl hover:shadow-black/40 transition-all duration-300 border border-white/5">
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <span class="material-symbols-outlined text-6xl">bolt</span>
           </div>
           <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-black mb-2">Salud de Cumplimiento</p>
-          <h3 class="text-5xl font-black text-[#adc6ff] mb-2">{{ stats.salud }}%</h3>
-          <div class="flex items-center gap-2 text-xs text-[#3b82f6]">
+          <h3 class="text-5xl font-black text-primary mb-2">{{ stats.salud }}%</h3>
+          <div class="flex items-center gap-2 text-xs text-brand">
             <span class="material-symbols-outlined text-sm">verified_user</span>
             <span class="font-bold">{{ documentos.length }} Documentos en bóveda</span>
           </div>
         </div>
 
-        <div class="bg-[#222a3d] p-8 rounded-2xl relative overflow-hidden group hover:shadow-2xl hover:shadow-black/40 transition-all duration-300 border border-white/5">
+        <div class="bg-surface-container-high p-8 rounded-2xl relative overflow-hidden group hover:shadow-2xl hover:shadow-black/40 transition-all duration-300 border border-white/5">
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <span class="material-symbols-outlined text-6xl">pending_actions</span>
           </div>
@@ -51,7 +51,7 @@
           </div>
         </div>
 
-        <div class="bg-[#222a3d] p-8 rounded-2xl relative overflow-hidden group hover:shadow-2xl hover:shadow-black/40 transition-all duration-300 border border-white/5">
+        <div class="bg-surface-container-high p-8 rounded-2xl relative overflow-hidden group hover:shadow-2xl hover:shadow-black/40 transition-all duration-300 border border-white/5">
           <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <span class="material-symbols-outlined text-6xl">category</span>
           </div>
@@ -65,10 +65,10 @@
       </div>
 
       <!-- Architecture Compliance Note -->
-      <section class="bg-[#131b2e] p-8 rounded-3xl border border-white/5 flex flex-col md:flex-row items-center justify-between gap-12 shadow-2xl">
+      <section class="bg-surface-container-low p-8 rounded-3xl border border-white/5 flex flex-col md:flex-row items-center justify-between gap-12 shadow-2xl">
         <div class="max-w-2xl">
           <div class="flex items-center gap-4 mb-6">
-            <span class="bg-[#3b82f6]/20 text-[#3b82f6] p-3 rounded-2xl border border-[#3b82f6]/20 shadow-lg shadow-[#3b82f6]/10">
+            <span class="bg-brand/20 text-brand p-3 rounded-2xl border border-brand/20 shadow-lg shadow-brand/10">
               <span class="material-symbols-outlined font-black">assignment_turned_in</span>
             </span>
             <h2 class="text-2xl font-black text-white tracking-tight">Nota de Cumplimiento Arquitectónico</h2>
@@ -78,23 +78,23 @@
           </p>
         </div>
         <div class="flex -space-x-4">
-          <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-[#3b82f6]" aria-hidden="true">person</span>
-          <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-[#3b82f6]" aria-hidden="true">person</span>
-          <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-[#3b82f6]" aria-hidden="true">person</span>
-          <div class="w-14 h-14 rounded-full ring-4 ring-[#131b2e] bg-[#222a3d] flex items-center justify-center text-xs font-black text-[#3b82f6] shadow-2xl border border-white/5">+2</div>
+          <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-brand" aria-hidden="true">person</span>
+          <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-brand" aria-hidden="true">person</span>
+          <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-brand" aria-hidden="true">person</span>
+          <div class="w-14 h-14 rounded-full ring-4 ring-surface-container-low bg-surface-container-high flex items-center justify-center text-xs font-black text-brand shadow-2xl border border-white/5">+2</div>
         </div>
       </section>
 
       <!-- Legal Items Table -->
-      <div class="bg-[#131b2e] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+      <div class="bg-surface-container-low rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
         <div class="px-8 py-6 flex items-center justify-between border-b border-white/5 bg-white/5">
           <h3 class="text-lg font-black text-white tracking-tight uppercase tracking-widest text-[11px]">Checklist de Cumplimiento</h3>
           <div class="flex items-center gap-4">
-            <button class="flex items-center gap-2 px-4 py-2 bg-[#060e20] rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-all border border-white/5">
+            <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-all border border-white/5">
               <span class="material-symbols-outlined text-sm">filter_list</span>
               Filtrar
             </button>
-            <button class="flex items-center gap-2 px-4 py-2 bg-[#060e20] rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-all border border-white/5">
+            <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-all border border-white/5">
               <span class="material-symbols-outlined text-sm">sort</span>
               Ordenar
             </button>
@@ -103,7 +103,7 @@
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-600 border-b border-white/5 bg-[#060e20]/50">
+              <tr class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-600 border-b border-white/5 bg-surface-container-lowest/50">
                 <th class="px-8 py-5">Nombre del Documento</th>
                 <th class="px-8 py-5">Categoría</th>
                 <th class="px-8 py-5">Estado de Revisión</th>
@@ -115,7 +115,7 @@
               <tr *ngFor="let doc of documentos" class="group hover:bg-white/5 transition-colors">
                 <td class="px-8 py-6">
                   <div class="flex items-center gap-4">
-                    <span class="material-symbols-outlined text-[#3b82f6]">description</span>
+                    <span class="material-symbols-outlined text-brand">description</span>
                     <div>
                       <p class="font-bold text-white text-sm">{{ doc.nombre }}</p>
                       <p class="text-[10px] font-black text-slate-600 uppercase tracking-tighter">ID: {{ doc.id.substring(0,8) }}</p>
@@ -155,7 +155,7 @@
             </tbody>
           </table>
         </div>
-        <div class="px-8 py-5 bg-[#060e20]/50 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-600">
+        <div class="px-8 py-5 bg-surface-container-lowest/50 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-600">
           <span>Expediente: {{ documentos.length }} documentos validados</span>
         </div>
       </div>
@@ -178,11 +178,11 @@
           <button class="bg-rose-500 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-rose-500/20">Subsanar</button>
         </div>
 
-        <div class="bg-[#131b2e] rounded-3xl p-8 border border-white/5 shadow-2xl">
+        <div class="bg-surface-container-low rounded-3xl p-8 border border-white/5 shadow-2xl">
           <h3 class="text-xl font-black text-white mb-8 tracking-tight">Expediente Digital del Proyecto</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="p-5 bg-[#060e20] rounded-2xl border border-white/5 flex items-center gap-4 hover:border-[#3b82f6]/30 transition-all group">
-              <span class="material-symbols-outlined text-[#3b82f6] text-3xl">description</span>
+            <div class="p-5 bg-surface-container-lowest rounded-2xl border border-white/5 flex items-center gap-4 hover:border-brand/30 transition-all group">
+              <span class="material-symbols-outlined text-brand text-3xl">description</span>
               <div class="flex-1">
                 <p class="text-sm font-bold text-white">Escritura de Fideicomiso</p>
                 <p class="text-[10px] text-slate-600 font-black uppercase">v4.2 Final • PDF</p>
@@ -194,7 +194,7 @@
       </div>
 
       <div class="col-span-12 lg:col-span-4 space-y-6">
-        <div class="bg-[#131b2e] rounded-3xl p-8 border-l-4 border-[#3b82f6] shadow-2xl">
+        <div class="bg-surface-container-low rounded-3xl p-8 border-l-4 border-brand shadow-2xl">
           <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-8">Estado de Firmas</h3>
           <div class="space-y-6">
             <div *ngFor="let f of firmas" class="flex items-center justify-between" [class.opacity-40]="f.estado !== 'Firmado'">
@@ -211,25 +211,25 @@
 
     <!-- VISTA 3: CRONOGRAMA (Timeline de Trámites) -->
     <div *ngSwitchCase="'timeline'" class="space-y-8 animate-in slide-in-from-bottom-4 duration-500">
-      <div class="bg-[#131b2e] rounded-3xl border border-white/5 overflow-hidden shadow-2xl flex">
-        <button (click)="setFase('Pre-operativa')" [class]="'flex-1 py-5 text-[10px] font-black uppercase tracking-widest transition-all ' + (faseTimeline === 'Pre-operativa' ? 'bg-[#3b82f6] text-white' : 'text-slate-500 hover:text-white')">Pre-operativa</button>
-        <button (click)="setFase('Operativa')" [class]="'flex-1 py-5 text-[10px] font-black uppercase tracking-widest transition-all ' + (faseTimeline === 'Operativa' ? 'bg-[#3b82f6] text-white' : 'text-slate-500 hover:text-white')">Operativa</button>
-        <button (click)="setFase('Cierre')" [class]="'flex-1 py-5 text-[10px] font-black uppercase tracking-widest transition-all ' + (faseTimeline === 'Cierre' ? 'bg-[#3b82f6] text-white' : 'text-slate-500 hover:text-white')">Cierre</button>
+      <div class="bg-surface-container-low rounded-3xl border border-white/5 overflow-hidden shadow-2xl flex">
+        <button (click)="setFase('Pre-operativa')" [class]="'flex-1 py-5 text-[10px] font-black uppercase tracking-widest transition-all ' + (faseTimeline === 'Pre-operativa' ? 'bg-brand text-white' : 'text-slate-500 hover:text-white')">Pre-operativa</button>
+        <button (click)="setFase('Operativa')" [class]="'flex-1 py-5 text-[10px] font-black uppercase tracking-widest transition-all ' + (faseTimeline === 'Operativa' ? 'bg-brand text-white' : 'text-slate-500 hover:text-white')">Operativa</button>
+        <button (click)="setFase('Cierre')" [class]="'flex-1 py-5 text-[10px] font-black uppercase tracking-widest transition-all ' + (faseTimeline === 'Cierre' ? 'bg-brand text-white' : 'text-slate-500 hover:text-white')">Cierre</button>
       </div>
 
       <div class="relative pl-12 space-y-10">
-        <div class="absolute left-[23px] top-4 bottom-4 w-0.5 bg-[#3b82f6]/20"></div>
+        <div class="absolute left-[23px] top-4 bottom-4 w-0.5 bg-brand/20"></div>
         <div *ngFor="let p of permisosTimeline" class="relative group">
-          <div class="absolute -left-12 top-2 w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center border-4 border-[#0b1326] z-10 shadow-lg shadow-[#3b82f6]/20">
+          <div class="absolute -left-12 top-2 w-10 h-10 rounded-full bg-brand flex items-center justify-center border-4 border-surface z-10 shadow-lg shadow-brand/20">
             <span class="material-symbols-outlined text-white text-sm font-black">check</span>
           </div>
-          <div class="bg-[#131b2e] p-8 rounded-3xl border border-white/5 shadow-2xl group-hover:border-[#3b82f6]/30 transition-all">
+          <div class="bg-surface-container-low p-8 rounded-3xl border border-white/5 shadow-2xl group-hover:border-brand/30 transition-all">
             <div class="flex justify-between items-start mb-6">
               <div>
-                <span class="text-[9px] font-black text-[#3b82f6] uppercase tracking-[0.2em]">{{ p.expediente }}</span>
+                <span class="text-[9px] font-black text-brand uppercase tracking-[0.2em]">{{ p.expediente }}</span>
                 <h4 class="text-xl font-black text-white mt-1">{{ p.titulo }}</h4>
               </div>
-              <button [routerLink]="['/admin/legal/auditoria']" class="p-3 bg-[#060e20] rounded-2xl text-slate-500 hover:text-[#3b82f6] border border-white/5 transition-all">
+              <button [routerLink]="['/admin/legal/auditoria']" class="p-3 bg-surface-container-lowest rounded-2xl text-slate-500 hover:text-brand border border-white/5 transition-all">
                 <span class="material-symbols-outlined">visibility</span>
               </button>
             </div>

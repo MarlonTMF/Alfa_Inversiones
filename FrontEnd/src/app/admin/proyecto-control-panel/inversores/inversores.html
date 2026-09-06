@@ -3,7 +3,7 @@
         <!-- Header Section -->
         <div class="flex justify-between items-end">
             <div>
-                <span class="text-[10px] font-bold text-[#3b82f6] uppercase tracking-[0.2em] block mb-2">Fund Registry v4.2</span>
+                <span class="text-[10px] font-bold text-brand uppercase tracking-[0.2em] block mb-2">Fund Registry v4.2</span>
                 <h1 class="text-4xl font-bold tracking-tight text-white">Registro de Inversores</h1>
             </div>
             <div class="flex gap-4">
@@ -20,7 +20,7 @@
                 <div class="relative z-10">
                     <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4">Capital Recaudado</p>
                     <p class="text-3xl font-bold text-white mb-2">{{ proyecto?.capitalRecaudado | currency:'USD':'symbol':'1.0-0' }}</p>
-                    <div class="flex items-center gap-2 text-[#3b82f6]">
+                    <div class="flex items-center gap-2 text-brand">
                         <span class="material-symbols-outlined text-sm">payments</span>
                         <span class="text-xs font-semibold">Total de Inversiones confirmadas</span>
                     </div>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden">
-                    <div class="bg-[#3b82f6] h-full rounded-full" style="width: 74%"></div>
+                    <div class="bg-brand h-full rounded-full" style="width: 74%"></div>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                                 <tr *ngFor="let inv of inversiones" class="bg-surface-container-high group hover:bg-surface-bright transition-all cursor-pointer">
                                     <td class="px-4 py-5 rounded-l-xl">
                                         <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-[#3b82f6] font-bold text-xs">
+                                            <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-brand font-bold text-xs">
                                               {{ inv.inversor?.nombre?.substring(0,1) }}
                                             </div>
                                             <span class="font-semibold text-sm text-white">{{ inv.inversor?.nombre }}</span>
@@ -95,10 +95,10 @@
                                     <td class="px-4 py-5 text-sm text-on-surface-variant">Inversor Individual</td>
                                     <td class="px-4 py-5 font-mono text-sm text-white">{{ inv.monto | currency:'USD' }}</td>
                                     <td class="px-4 py-5">
-                                        <span class="bg-blue-500/10 text-[#3b82f6] text-[10px] font-bold px-2 py-1 rounded">ACTIVO</span>
+                                        <span class="bg-blue-500/10 text-brand text-[10px] font-bold px-2 py-1 rounded">ACTIVO</span>
                                     </td>
                                     <td class="px-4 py-5 rounded-r-xl text-right">
-                                        <span class="material-symbols-outlined text-on-surface-variant group-hover:text-[#3b82f6] transition-colors">chevron_right</span>
+                                        <span class="material-symbols-outlined text-on-surface-variant group-hover:text-brand transition-colors">chevron_right</span>
                                     </td>
                                 </tr>
                                 <tr *ngIf="inversiones.length === 0">
@@ -117,7 +117,7 @@
                         <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-colors text-white">
                             <span class="material-symbols-outlined text-lg">chevron_left</span>
                         </button>
-                        <button class="w-8 h-8 flex items-center justify-center rounded bg-[#3b82f6] text-white font-bold text-xs">1</button>
+                        <button class="w-8 h-8 flex items-center justify-center rounded bg-brand text-white font-bold text-xs">1</button>
                         <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-colors text-xs font-bold text-white">2</button>
                         <span class="flex items-center text-on-surface-variant">...</span>
                         <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-colors text-white">
@@ -133,10 +133,10 @@
                     <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-6">Analíticas de Participación</h3>
                     <div class="space-y-6">
                         <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-full border-4 border-[#3b82f6] border-t-transparent animate-pulse"></div>
+                            <div class="w-12 h-12 rounded-full border-4 border-brand border-t-transparent animate-pulse"></div>
                             <div>
                                 <p class="text-xs font-bold text-white">Concentración Institucional</p>
-                                <p class="text-lg font-bold text-[#3b82f6]">62.4%</p>
+                                <p class="text-lg font-bold text-brand">62.4%</p>
                             </div>
                         </div>
                         <div class="space-y-3">
@@ -152,7 +152,7 @@
                                 <span class="text-white">62%</span>
                             </div>
                             <div class="w-full h-1 bg-surface-container-lowest rounded-full">
-                                <div class="bg-[#3b82f6] h-full rounded-full" style="width: 62%"></div>
+                                <div class="bg-brand h-full rounded-full" style="width: 62%"></div>
                             </div>
                         </div>
                     </div>
@@ -161,8 +161,8 @@
                 <!-- System Status Card -->
                 <div class="bg-blue-500/5 p-6 rounded-xl border border-blue-500/10">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="w-2 h-2 rounded-full bg-[#3b82f6] shadow-[0_0_8px_rgba(59,130,246,0.8)]"></span>
-                        <span class="text-[10px] font-bold text-[#3b82f6] uppercase">Sincronización Activa</span>
+                        <span class="w-2 h-2 rounded-full bg-brand shadow-[0_0_8px_rgba(59,130,246,0.8)]"></span>
+                        <span class="text-[10px] font-bold text-brand uppercase">Sincronización Activa</span>
                     </div>
                     <p class="text-[10px] text-on-surface-variant">Última sincronización de base de datos: Hoy, 14:02 GMT. Todos los valores reflejan compromisos en tiempo real.</p>
                 </div>

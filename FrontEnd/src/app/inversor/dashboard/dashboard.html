@@ -5,30 +5,30 @@
     <!-- Welcome Header -->
     <section class="mb-12 animate-in fade-in slide-in-from-top-4 duration-700">
       <h1 class="text-3xl font-black text-white mb-2 tracking-tight">Bienvenido, {{ usuario()?.nombre?.split(' ')[0] || 'Inversor' }}</h1>
-      <p class="text-[#c2c6d6] max-w-2xl font-medium">Tu centro de operaciones está actualizado. Revisa el rendimiento de tu portafolio y las nuevas oportunidades de mercado hoy.</p>
+      <p class="text-on-surface-variant max-w-2xl font-medium">Tu centro de operaciones está actualizado. Revisa el rendimiento de tu portafolio y las nuevas oportunidades de mercado hoy.</p>
     </section>
 
     <!-- Quick Stats Banner -->
     <section class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-[#222a3d] p-8 rounded-2xl shadow-2xl shadow-black/20 flex flex-col justify-between border-l-4 border-[#3b82f6] hover:translate-y-[-2px] transition-transform">
+      <div class="bg-surface-container-high p-8 rounded-2xl shadow-2xl shadow-black/20 flex flex-col justify-between border-l-4 border-brand hover:translate-y-[-2px] transition-transform">
         <div>
-          <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#c2c6d6]">Valor Total Neto</span>
+          <span class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant">Valor Total Neto</span>
           <div class="flex items-baseline gap-2 mt-2">
             <span class="text-4xl font-black text-white tracking-tighter">${{ stats.valorNeto }}</span>
-            <span class="text-[#adc6ff] text-xs font-black">{{ stats.crecimiento }}</span>
+            <span class="text-primary text-xs font-black">{{ stats.crecimiento }}</span>
           </div>
         </div>
-        <div class="mt-8 flex items-center gap-2 text-[#c2c6d6] text-[10px] font-black uppercase tracking-widest opacity-60">
+        <div class="mt-8 flex items-center gap-2 text-on-surface-variant text-[10px] font-black uppercase tracking-widest opacity-60">
           <span class="material-symbols-outlined text-sm">trending_up</span>
           Actualizado hace 5 minutos
         </div>
       </div>
 
-      <div (click)="irAlMapa()" class="col-span-1 md:col-span-2 relative overflow-hidden rounded-2xl bg-[#131b2e] flex items-center p-8 border border-white/5 shadow-2xl cursor-pointer group hover:bg-[#1e293b] transition-all">
+      <div (click)="irAlMapa()" class="col-span-1 md:col-span-2 relative overflow-hidden rounded-2xl bg-surface-container-low flex items-center p-8 border border-white/5 shadow-2xl cursor-pointer group hover:bg-slate-800 transition-all">
         <div class="relative z-10 w-1/2">
-          <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#3b82f6]">Próximo Dividendo</span>
+          <span class="text-[10px] font-black uppercase tracking-[0.2em] text-brand">Próximo Dividendo</span>
           <h3 class="text-2xl font-black text-white mt-2 tracking-tight">{{ stats.propiedadDividendo }}</h3>
-          <p class="text-[#c2c6d6] text-xs font-bold mt-1 uppercase tracking-widest opacity-60">Estimado para el {{ stats.fechaDividendo }}</p>
+          <p class="text-on-surface-variant text-xs font-bold mt-1 uppercase tracking-widest opacity-60">Estimado para el {{ stats.fechaDividendo }}</p>
           <div class="mt-6">
             <span class="text-3xl font-black text-white tracking-tighter">${{ stats.proximoDividendo }}</span>
           </div>
@@ -36,53 +36,53 @@
         <div class="absolute right-0 top-0 h-full w-3/4 opacity-30 group-hover:opacity-50 transition-all duration-700">
           <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="/images/proyecto_calacoto.webp"/>
         </div>
-        <div class="absolute inset-0 bg-gradient-to-r from-[#131b2e] via-[#131b2e]/90 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-surface-container-low via-surface-container-low/90 to-transparent"></div>
       </div>
     </section>
 
     <!-- Main Navigation Bento Grid -->
     <section class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
       <!-- Portafolio -->
-      <a [routerLink]="['/inversor/portafolio']" class="md:col-span-8 group relative overflow-hidden rounded-2xl bg-[#222a3d] h-[400px] transition-all hover:bg-[#31394d] active:scale-[0.98] border border-white/5 shadow-2xl cursor-pointer">
+      <a [routerLink]="['/inversor/portafolio']" class="md:col-span-8 group relative overflow-hidden rounded-2xl bg-surface-container-high h-[400px] transition-all hover:bg-surface-bright active:scale-[0.98] border border-white/5 shadow-2xl cursor-pointer">
         <div class="absolute inset-0 z-0">
           <img class="w-full h-full object-cover grayscale opacity-10 group-hover:grayscale-0 group-hover:opacity-30 transition-all duration-700" src="/images/hero_constructor.webp"/>
         </div>
         <div class="relative z-10 p-8 h-full flex flex-col justify-between">
           <div>
             <div class="flex items-center gap-2 mb-3">
-              <span class="material-symbols-outlined text-[#3b82f6] font-black">dashboard</span>
-              <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#3b82f6]">Estrategia</span>
+              <span class="material-symbols-outlined text-brand font-black">dashboard</span>
+              <span class="text-[10px] font-black uppercase tracking-[0.2em] text-brand">Estrategia</span>
             </div>
             <h2 class="text-4xl font-black text-white tracking-tighter">Mi Portafolio</h2>
-            <p class="text-[#c2c6d6] mt-3 max-w-sm font-medium">Gestiona tus activos inmobiliarios y monitorea la rentabilidad histórica de tus participaciones.</p>
+            <p class="text-on-surface-variant mt-3 max-w-sm font-medium">Gestiona tus activos inmobiliarios y monitorea la rentabilidad histórica de tus participaciones.</p>
           </div>
           <div class="flex items-end justify-between">
             <div class="space-y-1">
-              <span class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] opacity-60 block">Activos Totales</span>
+              <span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-60 block">Activos Totales</span>
               <span class="text-2xl font-black text-white tracking-tight">14 Propiedades</span>
             </div>
             <div class="w-32 h-12 flex items-end gap-1.5">
-                <div class="w-2.5 bg-[#3b82f6]/20 h-1/2 rounded-t-sm"></div>
-                <div class="w-2.5 bg-[#3b82f6]/40 h-2/3 rounded-t-sm"></div>
-                <div class="w-2.5 bg-[#3b82f6]/60 h-3/4 rounded-t-sm"></div>
-                <div class="w-2.5 bg-[#3b82f6] h-full rounded-t-sm"></div>
-                <div class="w-2.5 bg-[#3b82f6]/80 h-4/5 rounded-t-sm"></div>
+                <div class="w-2.5 bg-brand/20 h-1/2 rounded-t-sm"></div>
+                <div class="w-2.5 bg-brand/40 h-2/3 rounded-t-sm"></div>
+                <div class="w-2.5 bg-brand/60 h-3/4 rounded-t-sm"></div>
+                <div class="w-2.5 bg-brand h-full rounded-t-sm"></div>
+                <div class="w-2.5 bg-brand/80 h-4/5 rounded-t-sm"></div>
             </div>
           </div>
         </div>
       </a>
 
       <!-- Marketplace -->
-      <div (click)="irAlMapa()" class="md:col-span-4 group relative overflow-hidden rounded-2xl bg-[#2d3449] h-[400px] transition-all hover:translate-y-[-4px] active:scale-[0.98] border border-white/5 shadow-2xl cursor-pointer">
-        <div class="absolute top-4 right-4 z-20 bg-[#3b82f6] text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-lg shadow-[#3b82f6]/20">Nuevo</div>
+      <div (click)="irAlMapa()" class="md:col-span-4 group relative overflow-hidden rounded-2xl bg-surface-variant h-[400px] transition-all hover:translate-y-[-4px] active:scale-[0.98] border border-white/5 shadow-2xl cursor-pointer">
+        <div class="absolute top-4 right-4 z-20 bg-brand text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-lg shadow-brand/20">Nuevo</div>
         <div class="absolute inset-0 z-0">
           <img class="w-full h-full object-cover opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all duration-1000" src="/images/mercado_regional_map.webp"/>
         </div>
         <div class="relative z-10 p-8 h-full flex flex-col justify-end">
-          <div class="bg-[#0b1326]/60 backdrop-blur-xl p-6 rounded-2xl border border-white/10 group-hover:bg-[#0b1326]/80 transition-all">
+          <div class="bg-surface/60 backdrop-blur-xl p-6 rounded-2xl border border-white/10 group-hover:bg-surface/80 transition-all">
             <h2 class="text-2xl font-black text-white tracking-tight">Marketplace</h2>
-            <p class="text-[#c2c6d6] text-xs font-bold mt-2 opacity-80">Explora 3 nuevas oportunidades disponibles hoy.</p>
-            <div class="mt-6 flex items-center gap-2 text-[#3b82f6] font-black text-[10px] uppercase tracking-widest">
+            <p class="text-on-surface-variant text-xs font-bold mt-2 opacity-80">Explora 3 nuevas oportunidades disponibles hoy.</p>
+            <div class="mt-6 flex items-center gap-2 text-brand font-black text-[10px] uppercase tracking-widest">
                 Ver Oportunidades
                 <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </div>
@@ -95,24 +95,24 @@
     <section class="animate-in fade-in duration-1000 delay-300">
       <div class="flex items-center justify-between mb-8">
         <h2 class="text-2xl font-black text-white tracking-tight">Actividad Reciente</h2>
-        <a class="text-[10px] font-black uppercase tracking-widest text-[#3b82f6] hover:underline" href="#">Ver Todo</a>
+        <a class="text-[10px] font-black uppercase tracking-widest text-brand hover:underline" href="#">Ver Todo</a>
       </div>
-      <div class="bg-[#131b2e] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+      <div class="bg-surface-container-low rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
         <div class="divide-y divide-white/5">
           <div *ngFor="let act of actividad" class="p-6 flex items-center justify-between hover:bg-white/5 transition-colors group">
             <div class="flex items-center gap-6">
-              <div [class]="'w-12 h-12 rounded-2xl flex items-center justify-center border border-white/5 ' + (act.positivo ? 'bg-[#3b82f6]/10 text-[#3b82f6]' : 'bg-[#2d3449] text-slate-500')">
+              <div [class]="'w-12 h-12 rounded-2xl flex items-center justify-center border border-white/5 ' + (act.positivo ? 'bg-brand/10 text-brand' : 'bg-surface-variant text-slate-500')">
                 <span class="material-symbols-outlined font-black">
                   {{ act.tipo === 'pago' ? 'payments' : act.tipo === 'doc' ? 'description' : 'apartment' }}
                 </span>
               </div>
               <div>
-                <h4 class="text-sm font-bold text-white mb-1 group-hover:text-[#3b82f6] transition-colors">{{ act.titulo }}</h4>
-                <p class="text-xs font-medium text-[#c2c6d6] opacity-60">{{ act.desc }}</p>
+                <h4 class="text-sm font-bold text-white mb-1 group-hover:text-brand transition-colors">{{ act.titulo }}</h4>
+                <p class="text-xs font-medium text-on-surface-variant opacity-60">{{ act.desc }}</p>
               </div>
             </div>
             <div class="text-right">
-              <div *ngIf="act.monto" [class]="'text-sm font-black tracking-tight mb-1 ' + (act.positivo ? 'text-[#3b82f6]' : 'text-white')">
+              <div *ngIf="act.monto" [class]="'text-sm font-black tracking-tight mb-1 ' + (act.positivo ? 'text-brand' : 'text-white')">
                 {{ act.monto }}
               </div>
               <div class="text-[9px] font-black uppercase tracking-widest text-slate-600">{{ act.fecha }}</div>

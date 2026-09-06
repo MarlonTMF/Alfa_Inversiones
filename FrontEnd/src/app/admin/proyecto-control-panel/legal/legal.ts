@@ -82,7 +82,7 @@ export class ProyectoLegal implements OnInit {
   ];
 
   firmas = [
-    { rol: 'Director General', estado: 'Firmado', icono: 'check_circle', color: 'text-[#3b82f6]' },
+    { rol: 'Director General', estado: 'Firmado', icono: 'check_circle', color: 'text-brand' },
     { rol: 'Inversor Principal', estado: 'Pendiente', icono: 'pending', color: 'text-slate-500' }
   ];
 

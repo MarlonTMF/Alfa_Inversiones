@@ -8,10 +8,10 @@
       <div class="space-y-2">
         <h1 class="text-4xl font-black tracking-tighter text-white">Mi Portafolio de Inversiones</h1>
         <p class="text-slate-400 max-w-2xl leading-relaxed font-medium">
-          Seguimiento en tiempo real de tus proyectos inmobiliarios activos en Bolivia. Revisa el avance de obra y tu rendimiento acumulado con <span class="text-[#3b82f6] font-black">Link.</span>
+          Seguimiento en tiempo real de tus proyectos inmobiliarios activos en Bolivia. Revisa el avance de obra y tu rendimiento acumulado con <span class="text-brand font-black">Link.</span>
         </p>
       </div>
-      <button class="bg-[#3b82f6] hover:bg-blue-600 transition-all px-6 py-3 rounded-xl flex items-center gap-2 font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-500/20 self-start active:scale-95">
+      <button class="bg-brand hover:bg-blue-600 transition-all px-6 py-3 rounded-xl flex items-center gap-2 font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-500/20 self-start active:scale-95">
         <span class="material-symbols-outlined text-sm font-black">add</span>
         Nueva Inversión
       </button>
@@ -20,9 +20,9 @@
     <!-- BEGIN: KPISection -->
     <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <!-- Total Invertido -->
-      <div class="bg-[#1e293b] border border-slate-700/50 p-8 rounded-2xl shadow-2xl shadow-black/20 flex flex-col justify-between min-h-[160px] hover:translate-y-[-2px] transition-transform">
+      <div class="bg-slate-800 border border-slate-700/50 p-8 rounded-2xl shadow-2xl shadow-black/20 flex flex-col justify-between min-h-[160px] hover:translate-y-[-2px] transition-transform">
         <div class="flex items-center gap-2 text-slate-400">
-          <span class="material-symbols-outlined text-[#3b82f6] text-xl font-black">bar_chart</span>
+          <span class="material-symbols-outlined text-brand text-xl font-black">bar_chart</span>
           <span class="text-[10px] font-black tracking-[0.2em] uppercase">Total Invertido</span>
         </div>
         <div class="mt-4 flex items-baseline gap-3">
@@ -35,7 +35,7 @@
       </div>
 
       <!-- Rendimiento Promedio -->
-      <div class="bg-[#1e293b] border border-slate-700/50 p-8 rounded-2xl shadow-2xl shadow-black/20 flex flex-col justify-between min-h-[160px] hover:translate-y-[-2px] transition-transform">
+      <div class="bg-slate-800 border border-slate-700/50 p-8 rounded-2xl shadow-2xl shadow-black/20 flex flex-col justify-between min-h-[160px] hover:translate-y-[-2px] transition-transform">
         <div class="flex items-center gap-2 text-slate-400">
           <span class="material-symbols-outlined text-purple-400 text-xl font-black">schedule</span>
           <span class="text-[10px] font-black tracking-[0.2em] uppercase">Rendimiento Promedio</span>
@@ -50,7 +50,7 @@
       </div>
 
       <!-- Proyectos Activos -->
-      <div class="bg-[#1e293b] border border-slate-700/50 p-8 rounded-2xl shadow-2xl shadow-black/20 flex flex-col justify-between min-h-[160px] hover:translate-y-[-2px] transition-transform">
+      <div class="bg-slate-800 border border-slate-700/50 p-8 rounded-2xl shadow-2xl shadow-black/20 flex flex-col justify-between min-h-[160px] hover:translate-y-[-2px] transition-transform">
         <div class="flex items-center gap-2 text-slate-400">
           <span class="material-symbols-outlined text-orange-400 text-xl font-black">apartment</span>
           <span class="text-[10px] font-black tracking-[0.2em] uppercase">Proyectos Activos</span>
@@ -66,7 +66,7 @@
     <nav class="border-b border-slate-800">
       <ul class="flex gap-8 overflow-x-auto no-scrollbar">
         <li>
-          <a class="block py-5 px-2 text-[#3b82f6] border-b-2 border-[#3b82f6] font-black text-xs uppercase tracking-widest" href="#">
+          <a class="block py-5 px-2 text-brand border-b-2 border-brand font-black text-xs uppercase tracking-widest" href="#">
             En Construcción (3)
           </a>
         </li>
@@ -85,12 +85,12 @@
 
     <!-- BEGIN: ProjectsGrid -->
     <section class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-      <article *ngFor="let p of proyectos" class="bg-[#1e293b] border border-slate-700/50 rounded-3xl overflow-hidden flex flex-col md:flex-row group hover:shadow-2xl hover:shadow-black/40 transition-all duration-300">
+      <article *ngFor="let p of proyectos" class="bg-slate-800 border border-slate-700/50 rounded-3xl overflow-hidden flex flex-col md:flex-row group hover:shadow-2xl hover:shadow-black/40 transition-all duration-300">
         <!-- Thumbnail -->
         <div class="relative w-full md:w-64 h-64 md:h-auto overflow-hidden">
           <img [src]="p.imagen" [alt]="p.nombre" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
           <div class="absolute top-4 left-4 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center gap-2 border border-white/10 shadow-xl">
-            <span class="material-symbols-outlined text-[#3b82f6] text-xs">location_on</span>
+            <span class="material-symbols-outlined text-brand text-xs">location_on</span>
             {{ p.ubicacion }}
           </div>
         </div>
@@ -110,13 +110,13 @@
             <div class="bg-[#161e2d] p-5 rounded-2xl border border-slate-700/30 shadow-inner">
               <div class="flex justify-between items-end mb-3">
                 <span class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Avance de Obra</span>
-                <span class="text-xs font-black text-[#3b82f6]">{{ p.avance }}%</span>
+                <span class="text-xs font-black text-brand">{{ p.avance }}%</span>
               </div>
               <div class="w-full bg-slate-800/50 rounded-full h-2 mb-4 overflow-hidden border border-white/5">
-                <div class="bg-[#3b82f6] h-2 rounded-full shadow-[0_0_12px_rgba(59,130,246,0.5)]" [style.width.%]="p.avance"></div>
+                <div class="bg-brand h-2 rounded-full shadow-[0_0_12px_rgba(59,130,246,0.5)]" [style.width.%]="p.avance"></div>
               </div>
               <div class="flex items-center gap-2 text-[9px] text-slate-400 font-bold uppercase tracking-widest opacity-80">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#3b82f6] shadow-[0_0_8px_rgba(59,130,246,0.5)]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(59,130,246,0.5)]"></span>
                 <span>Fase actual: {{ p.fase }}</span>
               </div>
             </div>
@@ -127,7 +127,7 @@
               <span class="block text-[9px] font-black uppercase tracking-[0.2em] text-slate-600 mb-1">Rendimiento Acumulado</span>
               <span class="text-2xl font-black text-emerald-400 tracking-tighter">{{ p.rendimiento }}</span>
             </div>
-            <button [routerLink]="['/inversor/inversion-detalle']" class="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white hover:text-[#3b82f6] transition-colors group/btn">
+            <button [routerLink]="['/inversor/inversion-detalle']" class="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white hover:text-brand transition-colors group/btn">
               Ver Detalles
               <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
             </button>
