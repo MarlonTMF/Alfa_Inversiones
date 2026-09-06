@@ -27,9 +27,9 @@ export class ConstructorLegalPublicacion {
     this.router.navigate(['/']);
   }
   proyecto = {
-    nombre: 'Skyline Heights Phase II',
+    nombre: 'Condominio Equipetrol Norte',
     id: 'ASSET-4820',
-    ubicacion: 'Silicon Valley, CA',
+    ubicacion: 'Equipetrol Norte, Santa Cruz',
     valoracion: 42.8,
     riesgo: 'Bajo',
     imagen: '/images/proyecto_calacoto.webp'

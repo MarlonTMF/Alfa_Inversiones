@@ -15,24 +15,24 @@ export class InversorAvances {
   
   hitos = [
     {
-      titulo: 'Structure Level 5 Reached',
-      fecha: 'OCT 14, 2023',
-      desc: 'Structural integrity testing completed for the fifth floor mezzanine. Vertical concrete pouring for core columns finished 4 days ahead of schedule.',
+      titulo: 'Estructura: quinto nivel alcanzado',
+      fecha: '14 OCT 2025',
+      desc: 'Concluidas las pruebas de integridad estructural del entrepiso del quinto nivel. El vaciado de columnas del núcleo terminó 4 días antes de lo previsto.',
       imagen: '/images/proyecto_torres_prado.webp',
-      metrica1Label: 'Concrete Volume',
+      metrica1Label: 'Volumen de hormigón',
       metrica1Valor: '1,240 m³',
-      metrica2Label: 'Steel Reinforcement',
-      metrica2Valor: '185 Tons',
+      metrica2Label: 'Acero de refuerzo',
+      metrica2Valor: '185 toneladas',
       verificado: true
     },
     {
-      titulo: 'Foundations Complete',
-      fecha: 'AUG 22, 2023',
-      desc: 'Deep foundation pilings successfully anchored to bedrock at a depth of 45 meters. All seismic dampeners installed and certified by the municipal authority.',
+      titulo: 'Fundaciones concluidas',
+      fecha: '22 AGO 2025',
+      desc: 'Pilotes de fundación profunda anclados a roca firme a 45 metros. Amortiguadores sísmicos instalados y certificados por la autoridad municipal.',
       imagen: '/images/hero_constructor.webp',
-      metrica1Label: 'Excavation Depth',
+      metrica1Label: 'Profundidad de excavación',
       metrica1Valor: '45.0m',
-      metrica2Label: 'Seismic Load',
+      metrica2Label: 'Carga sísmica',
       metrica2Valor: '8.5 Richter',
       verificado: true
     }

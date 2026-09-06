@@ -51,7 +51,7 @@ export class DirectorioInversores {
       color: 'purple'
     },
     { 
-      nombre: 'Nordic Wealth Fund', 
+      nombre: 'Capital Inversiones S.A.', 
       tipo: 'Family Office', 
       capital: '$35,000,000', 
       proyectos: 12, 

@@ -18,9 +18,9 @@ import { AuthService } from '../../auth/services/auth';
 </div>
 <div class="container mx-auto px-12 relative z-10 grid grid-cols-12 gap-8">
 <div class="col-span-12 lg:col-span-7">
-<span class="inline-block mb-6 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-blue-400 text-[0.6875rem] font-bold uppercase tracking-[0.1em]">Red Apex para Propietarios</span>
+<span class="inline-block mb-6 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-blue-400 text-[0.6875rem] font-bold uppercase tracking-[0.1em]">Red LINK para Propietarios</span>
 <h1 class="text-[3.5rem] font-bold leading-[1.1] tracking-tight text-on-surface mb-8">
-                        Monetice su Terreno con la <span class="text-blue-500">Red Apex</span>
+                        Monetice su Terreno con la <span class="text-blue-500">Red LINK</span>
 </h1>
 <p class="text-lg text-on-surface-variant mb-10 max-w-xl leading-relaxed">
                         Transformamos su patrimonio en una oportunidad de inversión institucional. Acceda a una valorización experta y conecte con los constructores de élite del mercado global.
@@ -92,7 +92,7 @@ import { AuthService } from '../../auth/services/auth';
 <div class="text-[5rem] font-black text-blue-500/10 absolute -top-12 -left-4">02</div>
 <div class="relative z-10">
 <span class="text-[0.6875rem] font-bold text-blue-400 uppercase tracking-[0.2em] mb-4 block">Análisis Técnico</span>
-<h4 class="text-xl font-bold text-on-surface mb-4">Evaluación Red Apex</h4>
+<h4 class="text-xl font-bold text-on-surface mb-4">Evaluación Red LINK</h4>
 <p class="text-on-surface-variant leading-relaxed">Nuestros expertos realizan un due-diligence técnico y comercial para validar el potencial del activo.</p>
 </div>
 <div class="mt-8 h-1 bg-surface-container-highest rounded-full overflow-hidden">

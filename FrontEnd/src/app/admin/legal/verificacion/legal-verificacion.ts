@@ -12,12 +12,12 @@ import { RouterLink } from '@angular/router';
 })
 export class LegalVerificacion {
   documento = {
-    nombre: 'Serie A Term Sheet',
-    proyecto: 'Apex Global Infrastructure II',
+    nombre: 'Acta de Constitución de Sociedad',
+    proyecto: 'Torres del Prado',
     version: 'v2.4.0',
     tipo: 'PDF',
-    subidoPor: 'Jonathan Davis',
-    cargo: 'Global Operations Lead',
+    subidoPor: 'Rodrigo Áñez',
+    cargo: 'Jefe de Operaciones',
     fecha: 'Octubre 24, 2023',
     hora: '14:22 GMT',
     hash: 'SHA-256: 8f3d...e29c'

@@ -72,7 +72,7 @@ import { AuthService } from '../../auth/services/auth';
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 <div>
 <span class="text-blue-400 font-bold uppercase tracking-[0.2em] text-xs mb-4 block">Tecnología de Punta</span>
-<h3 class="text-4xl md:text-5xl font-bold tracking-tighter mb-12">La Ventaja Apex</h3>
+<h3 class="text-4xl md:text-5xl font-bold tracking-tighter mb-12">La Ventaja LINK</h3>
 <div class="space-y-12">
 <div class="flex gap-6">
 <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">

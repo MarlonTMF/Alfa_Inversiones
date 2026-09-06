@@ -21,8 +21,8 @@ export class ExplorarDetalle implements OnInit {
 
     // Datos base (pueden ser sobreescritos por ID)
     proyecto: any = {
-        nombre: 'Apex Prime Plaza',
-        ubicacion: 'Metropolitan Hub, Prime District',
+        nombre: 'Complejo Calacoto Business',
+        ubicacion: 'Calacoto, La Paz',
         capitalAsignado: 42.8,
         capitalTotal: 52.0,
         progreso: 82,

@@ -20,7 +20,7 @@ export class LegalConsola {
     { 
       id: 1, 
       titulo: 'Certificación de Impacto Ambiental', 
-      proyecto: 'Lumina Towers', 
+      proyecto: 'Torres del Prado', 
       categoria: 'Ambiental', 
       estado: 'Vencido', 
       fecha: '12 Oct 2023',
@@ -29,7 +29,7 @@ export class LegalConsola {
     { 
       id: 2, 
       titulo: 'Auditoría de Integridad Estructural', 
-      proyecto: 'West Harbor Hub', 
+      proyecto: 'Residencias del Urubó', 
       categoria: 'Estructural', 
       estado: 'Pendiente', 
       fecha: '18 Oct 2023',
@@ -38,7 +38,7 @@ export class LegalConsola {
     { 
       id: 3, 
       titulo: 'Protocolo de Seguridad V2', 
-      proyecto: 'Skyline Estates', 
+      proyecto: 'Condominio Los Tajibos', 
       categoria: 'Operacional', 
       estado: 'Nuevo', 
       fecha: '22 Oct 2023',

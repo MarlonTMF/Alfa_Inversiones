@@ -13,7 +13,7 @@ export class InversorInversionDetalle {
   // Datos simulados para la vista de detalle de una inversión específica
   inversion = {
     id: 'ASSET-8842-LT',
-    nombre: 'Lumina Tower',
+    nombre: 'Torres del Prado',
     descripcion: 'A flagship mixed-use high-rise in the downtown core, featuring LEED Platinum certification and 400,000 sq ft of premium Tier-A commercial space.',
     montoInvertido: 150000,
     rendimientoActual: '+14.2%',
