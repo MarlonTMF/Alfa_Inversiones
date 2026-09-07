@@ -12,6 +12,15 @@
     height: 100%;
 }
 
+/* La tesela de OpenStreetMap es a color; se invierte y se rota el matiz para
+   aproximar un mapa oscuro sin depender de un proveedor con clave (ver
+   admin-mapa.ts). Leaflet crea .leaflet-tile-pane fuera del template de
+   Angular, asi que hace falta ::ng-deep para que el selector le llegue.
+   Los popups y marcadores propios, fuera de esa capa, no se ven afectados. */
+.leaflet-map ::ng-deep .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9) saturate(0.8);
+}
+
 .property-detail-overlay {
     position: absolute;
     top: 24px;

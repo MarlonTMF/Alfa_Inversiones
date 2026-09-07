@@ -116,8 +116,12 @@ export class PasoEspecificaciones implements OnInit, OnDestroy {
             this.zone.runOutsideAngular(() => {
                 this.map = L.map('mapa-inline-container', { zoomControl: false }).setView([-17.3895, -66.1568], 15);
 
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                    maxZoom: 19
+                // Mismo cambio que en mapa.ts: CARTO ahora exige clave y las teselas
+                // gratuitas traen la marca de agua "API key required" incrustada.
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    subdomains: 'abc',
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(this.map);
                 
                 L.control.zoom({ position: 'bottomright' }).addTo(this.map);

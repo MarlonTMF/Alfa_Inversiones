@@ -1,11 +1,21 @@
-import { Injectable, signal } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AmenidadesService {
+  private readonly http = inject(HttpClient);
+
+  /** Filtro Overpass QL y radio de busqueda (metros) por categoria del mapa. */
+  private readonly consultasPorTipo: Record<string, { filtro: string; radio: number }> = {
+    salud: { filtro: '["amenity"~"^(hospital|clinic|doctors|pharmacy)$"]', radio: 1500 },
+    educacion: { filtro: '["amenity"~"^(school|university|college|kindergarten)$"]', radio: 1500 },
+    comercio: { filtro: '["shop"]', radio: 1000 },
+    transporte: { filtro: '["highway"="bus_stop"]', radio: 800 },
+  };
   mostrarMercados = signal(false);
   mostrarTransporte = signal(false);
   mostrarColegios = signal(false);
@@ -24,26 +34,30 @@ export class AmenidadesService {
   toggleColegios() { this.mostrarColegios.update(v => !v); }
   toggleHospitales() { this.mostrarHospitales.update(v => !v); }
 
+  /**
+   * Amenidades reales alrededor de un punto, via Overpass API (el motor de
+   * consultas publico de OpenStreetMap: gratis, sin clave, sin backend
+   * propio). Antes esto generaba puntos aleatorios con nombres inventados
+   * ("SALUD (Mock 4)"): ahora el nombre que se ve en el mapa es el real
+   * (tags.name), tal como esta cargado en OpenStreetMap para ese lugar.
+   */
   obtenerAmenidades(tipo: string, lat: number, lng: number): Observable<any[]> {
     this.iniciarCarga(tipo);
 
-    // TODO REFACTOR BACKEND:
-    // Reemplazar la constante 'elementosMock' y el 'of().pipe(delay)' por la petición real HTTP:
-    // return this.http.get<any[]>(`https://three65-desarrollo-inmobiliario.onrender.com/api/v1/amenidades?tipo=${tipo}&lat=${lat}&lng=${lng}`);
+    const config = this.consultasPorTipo[tipo] ?? { filtro: '["amenity"]', radio: 1200 };
+    const consulta =
+      `[out:json][timeout:15];` +
+      `(node${config.filtro}(around:${config.radio},${lat},${lng});` +
+      `way${config.filtro}(around:${config.radio},${lat},${lng}););` +
+      `out center 30;`;
 
-    const cantidad = Math.floor(Math.random() * 4) + 3;
-    const elementosMock = Array.from({ length: cantidad }).map((_, i) => {
-      const offsetLat = (Math.random() - 0.5) * 0.015;
-      const offsetLng = (Math.random() - 0.5) * 0.015;
-      
-      return {
-        lat: lat + offsetLat,
-        lon: lng + offsetLng,
-        tags: { name: `${tipo.toUpperCase()} (Mock ${i + 1})` }
-      };
-    });
+    const cuerpo = new URLSearchParams({ data: consulta }).toString();
 
-    return of(elementosMock).pipe(delay(800));
+    return this.http
+      .post<{ elements: any[] }>('https://overpass-api.de/api/interpreter', cuerpo, {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      })
+      .pipe(map((res) => res.elements || []));
   }
 
   iniciarCarga(tipo?: string) {

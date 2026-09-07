@@ -51,8 +51,13 @@ export class AdminMapa implements AfterViewInit, OnDestroy {
       zoomControl: false
     });
 
-    this.L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    // CARTO cerro el acceso sin clave a dark_all: la tesela ahora trae la marca
+    // de agua "API key required" horneada en la imagen. Se usa el tile estandar
+    // de OpenStreetMap (a color, sin clave) y se oscurece con CSS (ver
+    // admin-mapa.css .leaflet-map) para conservar el tema oscuro del panel.
+    this.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      subdomains: 'abc',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
     this.L.control.zoom({ position: 'bottomright' }).addTo(this.map);

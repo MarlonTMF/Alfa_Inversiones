@@ -34,12 +34,21 @@ export class Mapa implements AfterViewInit, OnDestroy {
         private readonly cdr: ChangeDetectorRef
     ) {
         effect(() => {
-            if (!this.map) return;
-            
+            // Las 4 señales se leen SIEMPRE, antes del "return" temprano: un
+            // effect() solo seguirá reaccionando a las señales que de verdad
+            // llegue a leer en cada pasada. Si "this.map" fuera falsy la
+            // primerísima vez (el mapa de Leaflet aun no existe, se crea de
+            // forma asincrona en ngAfterViewInit), el return cortaba la
+            // ejecución antes de tocar ninguna señal: el effect quedaba sin
+            // dependencias registradas y nunca volvía a dispararse, asi que
+            // activar un filtro (Salud, Colegios...) no hacia absolutamente
+            // nada, sin error visible en ningun lado.
             this.amenidadesService.mostrarHospitales();
             this.amenidadesService.mostrarColegios();
             this.amenidadesService.mostrarMercados();
             this.amenidadesService.mostrarTransporte();
+
+            if (!this.map) return;
 
             this.zone.runOutsideAngular(() => {
                 this.actualizarCapasAmenidades();
@@ -171,9 +180,13 @@ export class Mapa implements AfterViewInit, OnDestroy {
             zoom: 15
         });
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        // CARTO cerro el acceso sin clave a sus basemaps (light_all/dark_all): las
+        // teselas ahora traen la marca de agua "API key required" horneada en la
+        // imagen. Se usa el tile estandar de OpenStreetMap, a color y sin clave.
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+            subdomains: 'abc',
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
 
         L.control.zoom({ position: 'bottomright' }).addTo(this.map);
