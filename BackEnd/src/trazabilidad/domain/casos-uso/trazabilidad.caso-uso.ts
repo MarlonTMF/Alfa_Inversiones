@@ -6,6 +6,32 @@ import {
 import { DataSource } from 'typeorm';
 import { RegistrarInteresDto } from '../../presentation/dto/registrar-interes.dto.js';
 
+/** Fila cruda que devuelve la consulta SQL a legal_tracking_steps. */
+export interface FilaTrackingStep {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  progress: number | string | null;
+  estimated_date: string | null;
+}
+
+/** Fila cruda que devuelve la consulta SQL de precios a properties. */
+export interface FilaPrecioPropiedad {
+  price_per_m2: number | string | null;
+  total_area: number | string | null;
+  base_price_negotiation: number | string | null;
+}
+
+/** Fila cruda que devuelve la consulta SQL a legal_docs. */
+export interface FilaLegalDoc {
+  id: string;
+  doc_type: string;
+  status: string;
+  file_path: string;
+  updated_at: string;
+}
+
 @Injectable()
 export class TrazabilidadCasoUso {
   constructor(private readonly dataSource: DataSource) {}
@@ -35,7 +61,7 @@ export class TrazabilidadCasoUso {
 
   // 2. Calcular Split Interno (Adaptado a TABLA UNIFICADA properties)
   async calcularSplit(propertyId: string, ventasProyectadas: number) {
-    const res = await this.dataSource.query(
+    const res = await this.dataSource.query<FilaPrecioPropiedad[]>(
       'SELECT price_per_m2, total_area, base_price_negotiation FROM properties WHERE id = $1',
       [propertyId],
     );
@@ -46,9 +72,9 @@ export class TrazabilidadCasoUso {
       );
 
     // Lógica consistente de valoración de suelo
-    const costoSuelo = Number(
-      res[0].base_price_negotiation || res[0].price_per_m2 * res[0].total_area,
-    );
+    const costoSuelo =
+      Number(res[0].base_price_negotiation) ||
+      Number(res[0].price_per_m2) * Number(res[0].total_area);
 
     const splitPropietario = (costoSuelo / ventasProyectadas) * 100;
     const splitConstructor = 100 - splitPropietario;
@@ -70,12 +96,12 @@ export class TrazabilidadCasoUso {
 
   // 3. Consumir Estados Legales y Porcentaje de Avance
   async obtenerEstadoLegal(propertyId: string) {
-    const docs = await this.dataSource.query(
+    const docs = await this.dataSource.query<FilaLegalDoc[]>(
       'SELECT id, doc_type, status, file_path, updated_at FROM legal_docs WHERE property_id = $1',
       [propertyId],
     );
 
-    const steps = await this.dataSource.query(
+    const steps = await this.dataSource.query<FilaTrackingStep[]>(
       'SELECT id, title, description, status, progress, estimated_date FROM legal_tracking_steps WHERE property_id = $1',
       [propertyId],
     );
@@ -84,7 +110,8 @@ export class TrazabilidadCasoUso {
     let progresoGlobal = 0;
     if (steps.length > 0) {
       const sum = steps.reduce(
-        (acc, step) => acc + Number(step.progress || 0),
+        (acc: number, step: FilaTrackingStep) =>
+          acc + Number(step.progress || 0),
         0,
       );
       progresoGlobal = sum / steps.length;

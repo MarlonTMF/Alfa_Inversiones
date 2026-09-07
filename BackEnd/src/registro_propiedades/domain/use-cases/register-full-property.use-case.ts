@@ -121,21 +121,32 @@ export class RegisterFullPropertyUseCase {
         if (files?.multimedia?.length > 0) {
           let firstMedia = true;
           for (const file of files.multimedia) {
-            let res;
             let provider: 'imagekit' | 'cloudinary';
             let type: 'photo' | 'video';
+            let url: string;
+            let publicId: string;
 
+            // Cada rama resuelve "res" con el tipo concreto de su propio
+            // servicio (ImageKit y Cloudinary devuelven formas distintas:
+            // url/fileId vs secure_url/public_id). Antes "res" quedaba
+            // tipado como la union de ambas y se leian las cuatro
+            // propiedades sin distinguir de cual provenia; solo compilaba
+            // porque noImplicitAny estaba apagado en este proyecto.
             if (file.mimetype.startsWith('video/')) {
-              res = await this.cloudinaryService.uploadVideo(file);
+              const res = await this.cloudinaryService.uploadVideo(file);
               provider = 'cloudinary';
               type = 'video';
+              url = res.secure_url;
+              publicId = res.public_id;
             } else {
-              res = await this.imageKitService.uploadFile(
+              const res = await this.imageKitService.uploadFile(
                 file,
                 `media-${property.id}-${Date.now()}`,
               );
               provider = 'imagekit';
               type = 'photo';
+              url = res.url;
+              publicId = res.fileId;
             }
 
             await manager.save(PropertyMultimediaFuenteDatos, {
@@ -143,8 +154,8 @@ export class RegisterFullPropertyUseCase {
               propertyId: property.id,
               type,
               provider,
-              url: res.url || res.secure_url,
-              publicId: res.fileId || res.public_id,
+              url,
+              publicId,
               isMain: firstMedia, // La primera imagen se marca como portada
               label: file.originalname,
             });
