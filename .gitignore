@@ -55,3 +55,12 @@ Thumbs.db
 database.sqlite
 BackEnd/dist/
 BackEnd/database.sqlite
+
+# Variables de entorno: nunca deben commitearse (ver .env.template)
+.env
+.env.*
+!.env.template
+!.env.*.template
+
+# Configuracion local de Claude Code (no es parte del proyecto)
+.claude/
