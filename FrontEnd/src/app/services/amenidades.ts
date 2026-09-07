@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,30 @@ export class AmenidadesService {
   private readonly consultasPorTipo: Record<string, { filtro: string; radio: number }> = {
     salud: { filtro: '["amenity"~"^(hospital|clinic|doctors|pharmacy)$"]', radio: 1500 },
     educacion: { filtro: '["amenity"~"^(school|university|college|kindergarten)$"]', radio: 1500 },
-    comercio: { filtro: '["shop"]', radio: 1000 },
+    // ["shop"] a secas (cualquier valor) obliga a Overpass a recorrer TODA
+    // tienda etiquetada sin importar el tipo: en una ciudad densa (La Paz,
+    // Santa Cruz) la consulta tarda minutos o directamente no responde.
+    // Acotado a los rubros que de verdad describen una "zona comercial".
+    comercio: {
+      filtro: '["shop"~"^(supermarket|mall|convenience|department_store|marketplace|bakery)$"]',
+      radio: 800,
+    },
     transporte: { filtro: '["highway"="bus_stop"]', radio: 800 },
   };
+
+  /**
+   * overpass-api.de es la instancia publica de referencia, pero es un
+   * recurso gratuito compartido por todo internet: bajo carga puede tardar
+   * mucho o directamente no responder, y sin limite de tiempo la barra de
+   * carga se quedaba trabada en 98% para siempre. Si la primera no
+   * responde a tiempo se reintenta una vez contra un espejo alternativo
+   * antes de rendirse.
+   */
+  private readonly espejosOverpass = [
+    'https://overpass-api.de/api/interpreter',
+    'https://overpass.kumi.systems/api/interpreter',
+  ];
+  private readonly tiempoLimiteMs = 12_000;
   mostrarMercados = signal(false);
   mostrarTransporte = signal(false);
   mostrarColegios = signal(false);
@@ -50,14 +71,26 @@ export class AmenidadesService {
       `(node${config.filtro}(around:${config.radio},${lat},${lng});` +
       `way${config.filtro}(around:${config.radio},${lat},${lng}););` +
       `out center 30;`;
-
     const cuerpo = new URLSearchParams({ data: consulta }).toString();
 
+    return this.consultarEspejo(0, cuerpo);
+  }
+
+  private consultarEspejo(indice: number, cuerpo: string): Observable<any[]> {
+    const url = this.espejosOverpass[indice];
+    const esUltimoEspejo = indice === this.espejosOverpass.length - 1;
+
     return this.http
-      .post<{ elements: any[] }>('https://overpass-api.de/api/interpreter', cuerpo, {
+      .post<{ elements: any[] }>(url, cuerpo, {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       })
-      .pipe(map((res) => res.elements || []));
+      .pipe(
+        timeout(this.tiempoLimiteMs),
+        map((res) => res.elements || []),
+        catchError((err) =>
+          esUltimoEspejo ? throwError(() => err) : this.consultarEspejo(indice + 1, cuerpo)
+        ),
+      );
   }
 
   iniciarCarga(tipo?: string) {
