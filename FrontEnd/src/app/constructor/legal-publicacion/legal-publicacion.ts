@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../auth/services/auth';
 
 @Component({
   selector: 'app-constructor-legal-publicacion',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './legal-publicacion.html',
   styleUrl: './legal-publicacion.css'
 })
 export class ConstructorLegalPublicacion {
   mostrarMenuCuenta: boolean = false;
+  referencia: string = '';
 
   constructor(
     public authService: AuthService,
@@ -52,5 +54,36 @@ export class ConstructorLegalPublicacion {
 
   cambiarEstado(nuevoEstado: string) {
     this.estadoActual = nuevoEstado;
+  }
+
+  /**
+   * No hay backend detras de este formulario de demostracion: publicar
+   * agrega la entrada al historial visible del expediente, en vez de que
+   * el boton no hiciera nada al pulsarlo. Sin zone.js (Angular zoneless)
+   * un setTimeout no dispara deteccion de cambios por si solo, asi que se
+   * resuelve en el mismo ciclo del clic.
+   */
+  publicar(): void {
+    if (!this.referencia.trim()) {
+      return;
+    }
+    this.historial.unshift({
+      titulo: `Documento publicado: ${this.referencia.trim()}`,
+      tiempo: 'Ahora',
+      autor: this.authService.usuarioActual()?.nombre || 'Constructora',
+    });
+    this.referencia = '';
+  }
+
+  guardarBorrador(): void {
+    if (!this.referencia.trim()) {
+      return;
+    }
+    this.historial.unshift({
+      titulo: `Borrador guardado: ${this.referencia.trim()}`,
+      tiempo: 'Ahora',
+      autor: this.authService.usuarioActual()?.nombre || 'Constructora',
+    });
+    this.referencia = '';
   }
 }

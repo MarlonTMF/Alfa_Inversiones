@@ -8,8 +8,8 @@
       <div class="flex items-center gap-8">
         <div class="text-lg font-black tracking-tighter text-primary uppercase">Equities Core Platform</div>
         <div class="hidden lg:flex gap-8">
-          <button class="text-xs font-black uppercase tracking-widest text-brand border-b-2 border-brand pb-1">Detalles de Inversión</button>
-          <button class="text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-white pb-1 transition-colors">Análisis de Mercado</button>
+          <a [routerLink]="['/inversor/inversion-detalle']" class="text-xs font-black uppercase tracking-widest text-brand border-b-2 border-brand pb-1">Detalles de Inversión</a>
+          <a [routerLink]="['/inversor/proyecto-analisis']" class="text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-white pb-1 transition-colors">Análisis de Mercado</a>
           <a [routerLink]="['/inversor/legal']" class="text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-white pb-1 transition-colors">Documentos Legales</a>
         </div>
       </div>
@@ -48,7 +48,7 @@
             <span class="material-symbols-outlined text-sm">lock</span>
             Bóveda Legal
           </a>
-          <button class="flex items-center gap-3 px-8 py-4 bg-brand text-white hover:bg-blue-600 text-xs font-black uppercase tracking-widest transition-all rounded-2xl shadow-2xl shadow-blue-900/40">
+          <button disabled title="Próximamente" class="flex items-center gap-3 px-8 py-4 bg-brand text-white text-xs font-black uppercase tracking-widest transition-all rounded-2xl shadow-2xl shadow-blue-900/40 disabled:opacity-40 disabled:cursor-not-allowed">
             <span class="material-symbols-outlined text-sm">download</span>
             Reporte Mensual
           </button>
@@ -196,8 +196,8 @@
   </main>
 
   <!-- Contact Advisor FAB -->
-  <button class="fixed bottom-12 right-12 flex items-center gap-4 px-8 py-5 bg-brand text-white rounded-full shadow-2xl shadow-blue-900/40 hover:scale-105 active:scale-95 transition-all z-50 group">
+  <a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20hablar%20con%20un%20asesor%20sobre%20mi%20inversi%C3%B3n" target="_blank" rel="noopener noreferrer" class="fixed bottom-12 right-12 flex items-center gap-4 px-8 py-5 bg-brand text-white rounded-full shadow-2xl shadow-blue-900/40 hover:scale-105 active:scale-95 transition-all z-50 group">
     <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">chat_bubble</span>
     <span class="text-xs font-black uppercase tracking-widest">Contactar Asesor</span>
-  </button>
+  </a>
 </div>

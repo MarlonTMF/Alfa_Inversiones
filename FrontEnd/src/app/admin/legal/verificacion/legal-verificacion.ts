@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
+type EstadoDocumento = 'pendiente' | 'aprobado' | 'rechazado';
+
 @Component({
   selector: 'app-legal-verificacion',
   standalone: true,
@@ -24,13 +26,32 @@ export class LegalVerificacion {
   };
 
   comentarios = '';
+  estado: EstadoDocumento = 'pendiente';
+
+  private static readonly ZOOM_MIN = 0.75;
+  private static readonly ZOOM_MAX = 1.5;
+  zoom = 1;
+
+  acercar(): void {
+    this.zoom = Math.min(LegalVerificacion.ZOOM_MAX, +(this.zoom + 0.1).toFixed(2));
+  }
+
+  alejar(): void {
+    this.zoom = Math.max(LegalVerificacion.ZOOM_MIN, +(this.zoom - 0.1).toFixed(2));
+  }
+
+  imprimir(): void {
+    window.print();
+  }
 
   aprobar(): void {
-    console.log('Documento aprobado:', this.comentarios);
-    // Navegar de vuelta a la consola
+    this.estado = 'aprobado';
   }
 
   rechazar(): void {
-    console.log('Documento rechazado:', this.comentarios);
+    if (!this.comentarios.trim()) {
+      return; // rechazar exige explicar por que, para que quien sube el documento sepa que corregir
+    }
+    this.estado = 'rechazado';
   }
 }

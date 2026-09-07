@@ -37,8 +37,8 @@
     <div class="px-8 py-6 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
       <h2 class="text-xs font-black uppercase tracking-[0.2em] text-white">Listado de Activos</h2>
       <div class="flex gap-2">
-        <button class="p-2 hover:bg-white/5 rounded-lg text-slate-500 transition-colors"><span class="material-symbols-outlined">filter_list</span></button>
-        <button class="p-2 hover:bg-white/5 rounded-lg text-slate-500 transition-colors"><span class="material-symbols-outlined">file_download</span></button>
+        <button (click)="cicloFiltro()" [title]="filtroEstado || 'Todos'" class="p-2 hover:bg-white/5 rounded-lg text-slate-500 transition-colors relative"><span class="material-symbols-outlined">filter_list</span><span *ngIf="filtroEstado" class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-brand"></span></button>
+        <button (click)="exportarDatos()" class="p-2 hover:bg-white/5 rounded-lg text-slate-500 transition-colors"><span class="material-symbols-outlined">file_download</span></button>
       </div>
     </div>
     
@@ -56,7 +56,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let inv of inversores" class="border-t border-white/5 hover:bg-white/[0.02] transition-colors group">
+          <tr *ngFor="let inv of inversoresFiltrados" class="border-t border-white/5 hover:bg-white/[0.02] transition-colors group">
             <td class="px-8 py-6">
               <div class="flex items-center gap-4">
                 <div [class]="'w-10 h-10 rounded-xl bg-' + inv.color + '-500/10 flex items-center justify-center text-' + inv.color + '-500 font-black'">
@@ -76,7 +76,7 @@
             </td>
             <td class="px-8 py-6">
               <div class="flex items-center gap-2">
-                <span [class.bg-emerald-500]="inv.estado !== 'Pending'" [class.bg-amber-500]="inv.estado === 'Pending'" class="w-1.5 h-1.5 rounded-full"></span>
+                <span [class.bg-emerald-500]="inv.estado !== 'Pendiente'" [class.bg-amber-500]="inv.estado === 'Pendiente'" class="w-1.5 h-1.5 rounded-full"></span>
                 <span class="text-[10px] font-black uppercase tracking-widest text-white">{{ inv.estado }}</span>
               </div>
             </td>
@@ -84,9 +84,7 @@
               <span class="text-[10px] font-medium text-slate-500">{{ inv.ultimaAccion }}</span>
             </td>
             <td class="px-8 py-6 text-right">
-              <button class="p-2 opacity-0 group-hover:opacity-100 transition-all hover:bg-brand/20 rounded-xl text-brand">
-                <span class="material-symbols-outlined">chevron_right</span>
-              </button>
+
             </td>
           </tr>
         </tbody>

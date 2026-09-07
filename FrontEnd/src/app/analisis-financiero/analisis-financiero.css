@@ -89,6 +89,8 @@
 }
 
 .btn-export:hover { background-color: #2563eb; }
+.btn-export:disabled { opacity: 0.4; cursor: not-allowed; background-color: #3b82f6; }
+.btn-export:disabled:hover { background-color: #3b82f6; }
 
 .btn-icon {
     background-color: #1e293b;

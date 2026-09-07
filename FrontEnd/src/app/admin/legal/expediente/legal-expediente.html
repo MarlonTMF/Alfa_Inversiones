@@ -14,7 +14,7 @@
     <div class="lg:col-span-8 space-y-6">
       <div class="flex items-center justify-between mb-2">
         <h3 class="text-xl font-black text-white tracking-tight">Expediente de Obra</h3>
-        <button class="bg-brand text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:brightness-110 transition-all">
+        <button disabled title="Próximamente" class="bg-brand text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
           <span class="material-symbols-outlined text-sm">add</span>
           Subir Documento
         </button>
@@ -64,11 +64,11 @@
           </div>
           <div class="flex items-center justify-between">
             <span class="text-[9px] text-slate-500 font-bold uppercase">{{ contrato.fecha }}</span>
-            <button class="text-[9px] font-black uppercase text-brand hover:underline">Ver Contrato</button>
+            <button disabled title="Próximamente" class="text-[9px] font-black uppercase text-brand disabled:opacity-40 disabled:cursor-not-allowed">Ver Contrato</button>
           </div>
         </div>
         
-        <button class="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-slate-500 text-[10px] font-black uppercase tracking-widest hover:border-brand/30 hover:text-brand transition-all">
+        <button disabled title="Próximamente" class="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-slate-500 text-[10px] font-black uppercase tracking-widest disabled:opacity-40 disabled:cursor-not-allowed">
           Generar Nuevo Contrato
         </button>
       </div>

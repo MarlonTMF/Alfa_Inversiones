@@ -77,9 +77,31 @@ export class ProyectoLegal implements OnInit {
   }
 
   // Propiedades para compatibilidad con el HTML (Vistas Operativa y Timeline)
-  alertasCriticas = [
-    { titulo: 'Licencia de Construcción', mensaje: 'Documentación en regla y vigente.' }
-  ];
+
+  /**
+   * El banner de alerta critica mostraba un mensaje fijo ("Documentación en
+   * regla y vigente") con estilo rojo urgente y un boton "Subsanar": el
+   * texto decia que todo estaba bien pero la tarjeta entera exigia accion
+   * inmediata. Ahora sale de los documentos reales marcados vencido, y solo
+   * aparece cuando de verdad hay algo que subsanar.
+   */
+  get alertasCriticas(): any[] {
+    const vencidos = this.documentos.filter((d) => d.estado === 'vencido');
+    if (!vencidos.length) {
+      return [];
+    }
+    return [{
+      titulo: vencidos.length === 1 ? vencidos[0].nombre : `${vencidos.length} documentos vencidos`,
+      mensaje: vencidos.length === 1
+        ? 'Este documento venció y necesita renovarse.'
+        : 'Hay documentos vencidos que necesitan renovarse.',
+    }];
+  }
+
+  subsanarAlerta(): void {
+    this.filtroEstado = 'vencido';
+    this.vistaActual = 'consola';
+  }
 
   firmas = [
     { rol: 'Director General', estado: 'Firmado', icono: 'check_circle', color: 'text-brand' },
@@ -97,5 +119,31 @@ export class ProyectoLegal implements OnInit {
 
   setFase(f: string): void {
     this.faseTimeline = f;
+  }
+
+  /** Ciclo de filtro sobre el checklist: todos -> pendientes -> vencidos -> todos. */
+  filtroEstado: 'todos' | 'pendiente' | 'vencido' = 'todos';
+
+  cicloFiltro(): void {
+    this.filtroEstado =
+      this.filtroEstado === 'todos' ? 'pendiente' : this.filtroEstado === 'pendiente' ? 'vencido' : 'todos';
+  }
+
+  get documentosFiltrados(): any[] {
+    const base =
+      this.filtroEstado === 'todos'
+        ? this.documentos
+        : this.documentos.filter((d) => d.estado === this.filtroEstado);
+    return [...base].sort((a, b) => {
+      const fa = new Date(a.createdAt || 0).getTime();
+      const fb = new Date(b.createdAt || 0).getTime();
+      return this.ordenAscendente ? fa - fb : fb - fa;
+    });
+  }
+
+  ordenAscendente = false;
+
+  alternarOrden(): void {
+    this.ordenAscendente = !this.ordenAscendente;
   }
 }

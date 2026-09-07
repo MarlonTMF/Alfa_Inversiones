@@ -7,7 +7,8 @@
                 <h1 class="text-4xl font-bold tracking-tight text-white">Registro de Inversores</h1>
             </div>
             <div class="flex gap-4">
-                <button class="bg-surface-container-high text-on-surface-variant px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-surface-bright transition-colors flex items-center gap-2">
+                <button (click)="exportarDatos()" [disabled]="!inversiones.length"
+                        class="bg-surface-container-high text-on-surface-variant px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-surface-bright transition-colors flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
                     <span class="material-symbols-outlined text-sm">download</span>
                     Exportar Datos
                 </button>
@@ -83,7 +84,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let inv of inversiones" class="bg-surface-container-high group hover:bg-surface-bright transition-all cursor-pointer">
+                                <tr *ngFor="let inv of inversionesPagina" class="bg-surface-container-high group hover:bg-surface-bright transition-all cursor-pointer">
                                     <td class="px-4 py-5 rounded-l-xl">
                                         <div class="flex items-center gap-3">
                                             <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-brand font-bold text-xs">
@@ -111,16 +112,18 @@
                     </div>
                 </div>
                 <!-- Pagination -->
-                <div class="flex justify-between items-center px-4">
-                    <p class="text-xs text-on-surface-variant font-medium">Listado de participaciones confirmadas</p>
-                    <div class="flex gap-2">
-                        <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-colors text-white">
+                <div class="flex justify-between items-center px-4" *ngIf="inversiones.length">
+                    <p class="text-xs text-on-surface-variant font-medium">Listado de participaciones confirmadas ({{ inversiones.length }})</p>
+                    <div class="flex gap-2" *ngIf="totalPaginas > 1">
+                        <button (click)="paginaAnterior()" [disabled]="paginaActual === 1"
+                                class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-colors text-white disabled:opacity-30 disabled:cursor-not-allowed">
                             <span class="material-symbols-outlined text-lg">chevron_left</span>
                         </button>
-                        <button class="w-8 h-8 flex items-center justify-center rounded bg-brand text-white font-bold text-xs">1</button>
-                        <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-colors text-xs font-bold text-white">2</button>
-                        <span class="flex items-center text-on-surface-variant">...</span>
-                        <button class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-colors text-white">
+                        <button *ngFor="let n of numerosPagina" (click)="irAPagina(n)"
+                                [class]="n === paginaActual ? 'bg-brand text-white' : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-bright'"
+                                class="w-8 h-8 flex items-center justify-center rounded font-bold text-xs transition-colors">{{ n }}</button>
+                        <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas"
+                                class="w-8 h-8 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-colors text-white disabled:opacity-30 disabled:cursor-not-allowed">
                             <span class="material-symbols-outlined text-lg">chevron_right</span>
                         </button>
                     </div>

@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="flex items-center gap-6">
-        <button class="relative text-on-surface-variant hover:text-primary transition-colors">
+        <button disabled title="Próximamente" class="relative text-on-surface-variant disabled:cursor-not-allowed">
           <span class="material-symbols-outlined">notifications</span>
           <span class="absolute -top-1 -right-1 w-2 h-2 bg-brand rounded-full"></span>
         </button>
@@ -123,7 +123,7 @@
           <div class="bg-surface-container-low rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
             <div class="p-8 border-b border-white/5 flex justify-between items-center">
               <h3 class="text-2xl font-black text-white tracking-tight">Pulso del Proyecto</h3>
-              <button class="text-[10px] font-black uppercase tracking-widest text-brand hover:underline">Ver Historial</button>
+              <a [routerLink]="['/inversor/avances']" class="text-[10px] font-black uppercase tracking-widest text-brand hover:underline">Ver Historial</a>
             </div>
             <div class="divide-y divide-white/5">
               <div *ngFor="let item of pulse" class="p-8 flex gap-8 hover:bg-white/5 transition-colors group">

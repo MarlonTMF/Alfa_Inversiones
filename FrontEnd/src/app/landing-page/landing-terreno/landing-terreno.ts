@@ -26,13 +26,13 @@ import { AuthService } from '../../auth/services/auth';
                         Transformamos su patrimonio en una oportunidad de inversión institucional. Acceda a una valorización experta y conecte con los constructores de élite del mercado global.
                     </p>
 <div class="flex items-center gap-6">
-<button class="bg-brand text-white px-8 py-4 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-blue-500/20">
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20registrar%20mi%20propiedad" target="_blank" rel="noopener noreferrer" class="bg-brand text-white px-8 py-4 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-blue-500/20 inline-block">
                             Registrar Propiedad
-                        </button>
-<button class="flex items-center gap-2 text-blue-400 font-semibold group">
+                        </a>
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20saber%20m%C3%A1s%20sobre%20el%20proceso%20para%20registrar%20mi%20terreno" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-blue-400 font-semibold group">
 <span>Saber más sobre el proceso</span>
 <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
-</button>
+</a>
 </div>
 </div>
 </div>
@@ -122,9 +122,9 @@ import { AuthService } from '../../auth/services/auth';
 <p class="text-lg text-on-surface-variant">Únase a la red de propietarios más exclusiva y convierta su terreno en un proyecto de legado mundial.</p>
 </div>
 <div class="flex flex-col items-center gap-4">
-<button class="bg-brand text-white text-lg px-12 py-5 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-2xl shadow-blue-500/40">
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20registrar%20mi%20propiedad" target="_blank" rel="noopener noreferrer" class="bg-brand text-white text-lg px-12 py-5 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-2xl shadow-blue-500/40 inline-block">
                                 Registrar Mi Propiedad Ahora
-                            </button>
+                            </a>
 <span class="text-[0.6875rem] text-on-surface-variant uppercase tracking-widest font-bold">Sin costos iniciales por evaluación</span>
 </div>
 </div>

@@ -28,12 +28,12 @@ import { AuthService } from '../../auth/services/auth';
                     Acceda a vehículos de inversión optimizados con estructuras de gobernanza de nivel institucional y despliegue de capital en activos premium globales.
                 </p>
 <div class="flex items-center gap-6">
-<button class="bg-brand text-white px-8 py-4 rounded-lg font-bold transition-transform active:scale-95 shadow-lg shadow-blue-500/20">
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20comenzar%20a%20invertir" target="_blank" rel="noopener noreferrer" class="bg-brand text-white px-8 py-4 rounded-lg font-bold transition-transform active:scale-95 shadow-lg shadow-blue-500/20 inline-block">
                         Comenzar Inversión
-                    </button>
-<button class="bg-surface-container-highest/50 backdrop-blur-md text-on-surface px-8 py-4 rounded-lg font-bold border border-outline-variant/30 hover:bg-surface-container-highest transition-colors">
+                    </a>
+<a routerLink="/explorar" class="bg-surface-container-highest/50 backdrop-blur-md text-on-surface px-8 py-4 rounded-lg font-bold border border-outline-variant/30 hover:bg-surface-container-highest transition-colors inline-block">
                         Ver Portafolio
-                    </button>
+                    </a>
 </div>
 </div>
 </section>
@@ -105,8 +105,8 @@ import { AuthService } from '../../auth/services/auth';
 <h2 class="text-3xl font-bold mb-6">¿Preparado para diversificar su capital?</h2>
 <p class="text-on-surface-variant max-w-md mb-8">Únase a una red exclusiva de inversores institucionales y acceda a oportunidades de Real Estate seleccionadas por expertos.</p>
 <div class="flex gap-4">
-<button class="px-6 py-3 bg-blue-600 text-white rounded-lg font-bold">Contactar con un Advisor</button>
-<button class="px-6 py-3 border border-outline-variant text-on-surface rounded-lg font-bold">Descargar Memoria Anual</button>
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20contactar%20con%20un%20advisor" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-bold inline-block">Contactar con un Advisor</a>
+<button disabled title="Próximamente" class="px-6 py-3 border border-outline-variant text-on-surface rounded-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed">Descargar Memoria Anual</button>
 </div>
 </div>
 <div>

@@ -24,12 +24,12 @@ import { AuthService } from '../../auth/services/auth';
                         Transformamos el capital global en infraestructura local. Acceda a fondeo estratégico diseñado para los ritmos reales de la construcción.
                     </p>
 <div class="flex flex-col sm:flex-row gap-4">
-<button class="bg-brand hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20solicitar%20una%20evaluaci%C3%B3n%20para%20mi%20constructora" target="_blank" rel="noopener noreferrer" class="bg-brand hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] inline-block">
                             Solicitar Evaluación
-                        </button>
-<button class="border border-outline-variant hover:border-primary px-8 py-4 rounded-lg text-lg font-bold text-on-surface transition-all">
+                        </a>
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20saber%20los%20requisitos%20para%20registrar%20mi%20constructora" target="_blank" rel="noopener noreferrer" class="border border-outline-variant hover:border-primary px-8 py-4 rounded-lg text-lg font-bold text-on-surface transition-all inline-block">
                             Ver Requisitos
-                        </button>
+                        </a>
 </div>
 </div>
 </div>
@@ -120,9 +120,9 @@ import { AuthService } from '../../auth/services/auth';
 <div class="relative z-10">
 <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-8">¿Listo para escalar su próximo proyecto?</h2>
 <p class="text-on-surface-variant text-xl mb-12 max-w-2xl mx-auto">Nuestro equipo de arquitectos financieros está listo para evaluar su portafolio en menos de 48 horas.</p>
-<button class="bg-brand hover:bg-blue-600 text-white px-12 py-5 rounded-lg text-xl font-bold shadow-lg shadow-blue-500/20 transition-all hover:scale-105">
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20iniciar%20una%20solicitud%20de%20fondeo" target="_blank" rel="noopener noreferrer" class="bg-brand hover:bg-blue-600 text-white px-12 py-5 rounded-lg text-xl font-bold shadow-lg shadow-blue-500/20 transition-all hover:scale-105 inline-block">
                             Iniciar Solicitud Ahora
-                        </button>
+                        </a>
 <p class="mt-8 text-on-surface-variant/60 font-mono text-sm tracking-widest uppercase">Consulta sin compromiso — 100% Confidencial</p>
 </div>
 <div class="absolute inset-0 opacity-10 pointer-events-none">
