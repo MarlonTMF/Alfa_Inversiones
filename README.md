@@ -70,6 +70,13 @@ npm start
 ```
 La app queda disponible en `http://localhost:4200`.
 
+### Tests (backend)
+```bash
+cd BackEnd
+npm test        # unitarios (casos de uso, con mocks)
+npm run test:e2e   # HTTP -> validación -> controlador -> caso de uso, con repositorio en memoria
+```
+
 ## Equipo
 
 Diego García · Marlon T. · Walter Rocha
