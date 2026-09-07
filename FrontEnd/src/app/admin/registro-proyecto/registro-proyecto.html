@@ -19,7 +19,7 @@
   <!-- Stepper Component -->
   <div class="max-w-5xl mx-auto mb-12">
     <div class="flex items-center justify-between gap-4">
-      <div class="flex-1 cursor-pointer group" (click)="irAPaso(1)">
+      <div class="flex-1 cursor-pointer group" (click)="irAPaso(1)" role="button" tabindex="0" [attr.aria-current]="pasoActual === 1 ? 'step' : null" (keydown.enter)="irAPaso(1)" (keydown.space)="irAPaso(1); $event.preventDefault()">
         <div class="h-1 rounded-full transition-all duration-700"
           [ngClass]="pasoActual >= 1 ? 'bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.6)]' : 'bg-surface-container-highest'">
         </div>
@@ -27,7 +27,7 @@
           class="text-[10px] font-black uppercase tracking-[0.2em] mt-3 block group-hover:text-blue-300 transition-colors"
           [ngClass]="pasoActual >= 1 ? 'text-blue-400' : 'text-on-surface-variant/40'">Paso 1: Datos Generales</span>
       </div>
-      <div class="flex-1 cursor-pointer group" (click)="irAPaso(2)">
+      <div class="flex-1 cursor-pointer group" (click)="irAPaso(2)" role="button" tabindex="0" [attr.aria-current]="pasoActual === 2 ? 'step' : null" (keydown.enter)="irAPaso(2)" (keydown.space)="irAPaso(2); $event.preventDefault()">
         <div class="h-1 rounded-full transition-all duration-700"
           [ngClass]="pasoActual >= 2 ? 'bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.6)]' : 'bg-surface-container-highest'">
         </div>
@@ -35,7 +35,7 @@
           class="text-[10px] font-black uppercase tracking-[0.2em] mt-3 block group-hover:text-blue-300 transition-colors"
           [ngClass]="pasoActual >= 2 ? 'text-blue-400' : 'text-on-surface-variant/40'">Paso 2: Finanzas</span>
       </div>
-      <div class="flex-1 cursor-pointer group" (click)="irAPaso(3)">
+      <div class="flex-1 cursor-pointer group" (click)="irAPaso(3)" role="button" tabindex="0" [attr.aria-current]="pasoActual === 3 ? 'step' : null" (keydown.enter)="irAPaso(3)" (keydown.space)="irAPaso(3); $event.preventDefault()">
         <div class="h-1 rounded-full transition-all duration-700"
           [ngClass]="pasoActual >= 3 ? 'bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.6)]' : 'bg-surface-container-highest'">
         </div>
@@ -348,7 +348,7 @@
         <div class="grid grid-cols-4 md:grid-cols-5 gap-3">
           <!-- Renders (Sin portada) -->
           <div *ngFor="let file of form.archivosRenders; let i = index" class="relative aspect-square rounded-xl overflow-hidden group border border-white/5">
-            <img [src]="renderPreviews[i]" class="w-full h-full object-cover"/>
+            <img [src]="renderPreviews[i]" [attr.alt]="'Render ' + (i + 1)" class="w-full h-full object-cover"/>
             <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
               <button (click)="quitarRender(i)" class="text-red-400 p-2">
                 <span class="material-symbols-outlined text-sm">delete</span>
@@ -358,7 +358,7 @@
 
           <!-- Fotos Reales (Con Portada) -->
           <div *ngFor="let file of form.archivosFotos; let i = index" class="relative aspect-square rounded-xl overflow-hidden group border-2 transition-all shadow-lg" [ngClass]="form.portadaIndex === i ? 'border-primary ring-4 ring-primary/20 scale-105 z-10' : 'border-white/5'">
-            <img [src]="fotoPreviews[i]" class="w-full h-full object-cover"/>
+            <img [src]="fotoPreviews[i]" [attr.alt]="'Foto ' + (i + 1)" class="w-full h-full object-cover"/>
             <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col items-center justify-center gap-2 backdrop-blur-sm">
               <button (click)="setPortada(i)" class="text-[6px] font-black uppercase tracking-widest bg-primary text-on-primary px-2 py-1 rounded shadow-lg">
                 {{ form.portadaIndex === i ? 'PORTADA' : 'ASIGNAR PORTADA' }}
@@ -441,7 +441,7 @@
            <!-- Video Preview Card -->
            <div *ngIf="videoId" class="flex items-center gap-4 bg-surface-container-lowest/60 p-3 rounded-2xl border border-green-500/20 animate-in fade-in slide-in-from-top-2">
               <div class="relative w-24 h-16 rounded-lg overflow-hidden border border-white/10">
-                 <img [src]="'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg'" class="w-full h-full object-cover"/>
+                 <img [src]="'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg'" alt="Miniatura del video" class="w-full h-full object-cover"/>
                  <div class="absolute inset-0 flex items-center justify-center bg-black/20">
                     <span class="material-symbols-outlined text-white text-xl">play_circle</span>
                  </div>

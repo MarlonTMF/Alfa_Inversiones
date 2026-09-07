@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -194,6 +194,13 @@ export class ProyectoDetalle implements OnInit {
   nuevaCategoriaNombre = '';
   abrirModalCategorias() { this.mostrarModalCategorias = true; }
   cerrarModalCategorias() { this.mostrarModalCategorias = false; }
+
+  @HostListener('document:keydown.escape')
+  alPresionarEscape(): void {
+    if (this.mostrarModalCategorias) {
+      this.cerrarModalCategorias();
+    }
+  }
   
   agregarCategoria() {
     if (this.nuevaCategoriaNombre.trim()) {

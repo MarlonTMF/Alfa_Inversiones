@@ -89,7 +89,7 @@
             <div class="bg-surface-container-low rounded-3xl overflow-hidden hover:bg-slate-800 transition-all duration-500 border border-white/5 shadow-xl hover:-translate-y-2">
               <div class="flex flex-col md:flex-row h-auto md:h-72">
                 <div class="w-full md:w-2/5 relative h-64 md:h-full">
-                  <img [src]="h.imagen" class="w-full h-full object-cover">
+                  <img [src]="h.imagen" [alt]="h.titulo" class="w-full h-full object-cover">
                   <div *ngIf="h.verificado" class="absolute top-4 left-4 bg-surface/80 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-2 border border-white/10">
                     <span class="material-symbols-outlined text-[14px] text-brand font-black">verified</span>
                     <span class="text-[9px] font-black uppercase tracking-widest text-white">Verificado</span>

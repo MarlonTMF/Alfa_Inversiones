@@ -50,9 +50,11 @@
                     <div *ngFor="let p of proyectosFiltrados" 
                          (click)="seleccionarProyecto(p)"
                          [class.selected-card]="proyectoSeleccionado?.id === p.id"
+                         role="button" tabindex="0" [attr.aria-pressed]="proyectoSeleccionado?.id === p.id"
+                         (keydown.enter)="seleccionarProyecto(p)" (keydown.space)="seleccionarProyecto(p); $event.preventDefault()"
                          class="flex items-center gap-4 p-4 rounded-2xl bg-surface-container-lowest border border-white/5 hover:border-brand/30 transition-all cursor-pointer group">
                         <div class="w-14 h-14 rounded-xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/5">
-                            <img *ngIf="p.renders?.[0]?.url" [src]="p.renders[0].url" class="w-full h-full object-cover">
+                            <img *ngIf="p.renders?.[0]?.url" [src]="p.renders[0].url" [attr.alt]="p.nombre" class="w-full h-full object-cover">
                             <div *ngIf="!p.renders?.[0]?.url" class="w-full h-full flex items-center justify-center bg-blue-500/10 text-blue-500">
                                 <span class="material-symbols-outlined">image</span>
                             </div>
@@ -92,6 +94,8 @@
                     <div *ngFor="let i of inversoresFiltrados" 
                          (click)="seleccionarInversor(i)"
                          [class.selected-card]="inversorSeleccionado?.id === i.id"
+                         role="button" tabindex="0" [attr.aria-pressed]="inversorSeleccionado?.id === i.id"
+                         (keydown.enter)="seleccionarInversor(i)" (keydown.space)="seleccionarInversor(i); $event.preventDefault()"
                          class="flex items-center gap-4 p-5 rounded-2xl bg-surface-container-lowest border border-white/5 hover:border-brand/30 transition-all cursor-pointer group">
                         
                         <div class="w-12 h-12 rounded-full bg-brand/10 flex items-center justify-center text-brand border border-blue-500/20">
@@ -149,7 +153,7 @@
             <div class="bg-surface-container-high rounded-[2.5rem] p-8 border border-white/5 relative overflow-hidden group">
                 <div class="flex items-center gap-6">
                     <div class="w-20 h-20 rounded-[1.5rem] overflow-hidden border-2 border-blue-500/30 shadow-2xl shadow-blue-500/20 bg-black/40">
-                        <img *ngIf="proyectoSeleccionado.renders?.[0]?.url" [src]="proyectoSeleccionado.renders[0].url" class="w-full h-full object-cover">
+                        <img *ngIf="proyectoSeleccionado.renders?.[0]?.url" [src]="proyectoSeleccionado.renders[0].url" [attr.alt]="proyectoSeleccionado.nombre" class="w-full h-full object-cover">
                         <div *ngIf="!proyectoSeleccionado.renders?.[0]?.url" class="w-full h-full flex items-center justify-center text-blue-500">
                             <span class="material-symbols-outlined text-3xl">apartment</span>
                         </div>

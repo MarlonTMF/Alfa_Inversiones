@@ -22,6 +22,17 @@ html, body {
     box-sizing: inherit;
 }
 
+/* Estado de foco visible global. Antes solo lo tenian los componentes
+   nuevos (public-navbar, inversor-layout); el resto de la app (398
+   botones, enlaces y campos) no mostraba ningun indicador al navegar
+   con teclado. :focus-visible evita el anillo en clics de mouse y lo
+   muestra solo cuando el foco llega por teclado. */
+:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
 /* 3. ESTILOS DE LEAFLET Y PINES */
 .marcador-transparente {
     background: transparent;

@@ -50,7 +50,7 @@
             <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-6">Investor Network</p>
             <div class="flex -space-x-3 mb-4">
                 <div *ngFor="let inv of proyecto?.inversiones?.slice(0,3)" class="w-10 h-10 rounded-full border-4 border-surface-container-high bg-surface-container-low flex items-center justify-center text-[10px] font-bold text-white overflow-hidden">
-                    <img *ngIf="inv.inversionista?.usuario?.foto" [src]="inv.inversionista.usuario.foto" class="w-full h-full object-cover">
+                    <img *ngIf="inv.inversionista?.usuario?.foto" [src]="inv.inversionista.usuario.foto" [attr.alt]="inv.inversionista?.usuario?.nombre" class="w-full h-full object-cover">
                     <span *ngIf="!inv.inversionista?.usuario?.foto">{{ inv.inversionista?.usuario?.nombre?.[0] }}</span>
                 </div>
                 <div *ngIf="proyecto?.inversiones?.length > 3" class="w-10 h-10 rounded-full border-4 border-surface-container-high bg-surface-container-low flex items-center justify-center text-[10px] font-bold text-brand">
@@ -69,7 +69,7 @@
         <div class="xl:col-span-2 space-y-6">
             <div class="relative h-[480px] rounded-2xl overflow-hidden group">
                 <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
-                     [src]="portada(proyecto?.property?.multimedia)">
+                     [src]="portada(proyecto?.property?.multimedia)" [attr.alt]="proyecto?.nombre">
                 <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
                 <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                     <div class="space-y-1">
@@ -84,7 +84,7 @@
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-6">
-                <div (click)="setSeccion('bitacora')" class="bg-surface-container-high p-6 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-surface-bright transition-all">
+                <div (click)="setSeccion('bitacora')" role="button" tabindex="0" (keydown.enter)="setSeccion('bitacora')" (keydown.space)="setSeccion('bitacora'); $event.preventDefault()" class="bg-surface-container-high p-6 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-surface-bright transition-all">
                     <div class="w-12 h-12 rounded-lg bg-brand/10 flex items-center justify-center text-brand">
                         <span class="material-symbols-outlined">architecture</span>
                     </div>
@@ -93,7 +93,7 @@
                         <p class="text-[10px] text-on-surface-variant uppercase font-bold">{{ multimediaCount }} Archivos Visuales</p>
                     </div>
                 </div>
-                <div (click)="setSeccion('legal')" class="bg-surface-container-high p-6 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-surface-bright transition-all">
+                <div (click)="setSeccion('legal')" role="button" tabindex="0" (keydown.enter)="setSeccion('legal')" (keydown.space)="setSeccion('legal'); $event.preventDefault()" class="bg-surface-container-high p-6 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-surface-bright transition-all">
                     <div class="w-12 h-12 rounded-lg bg-brand/10 flex items-center justify-center text-brand">
                         <span class="material-symbols-outlined">description</span>
                     </div>

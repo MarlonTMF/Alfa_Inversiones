@@ -23,7 +23,7 @@
       
         <!-- Hero Section -->
         <section class="relative h-[400px] w-full rounded-3xl overflow-hidden shadow-2xl group border border-white/5">
-          <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" [src]="proyecto.imagen"/>
+          <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" [src]="proyecto.imagen" [attr.alt]="proyecto.nombre"/>
           <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
           <div class="absolute bottom-0 left-0 p-10 w-full flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div class="space-y-4">

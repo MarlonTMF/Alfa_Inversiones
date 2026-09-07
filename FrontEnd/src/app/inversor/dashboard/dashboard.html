@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div (click)="irAlMapa()" class="col-span-1 md:col-span-2 relative overflow-hidden rounded-2xl bg-surface-container-low flex items-center p-8 border border-white/5 shadow-2xl cursor-pointer group hover:bg-slate-800 transition-all">
+      <div (click)="irAlMapa()" role="link" tabindex="0" (keydown.enter)="irAlMapa()" (keydown.space)="irAlMapa(); $event.preventDefault()" class="col-span-1 md:col-span-2 relative overflow-hidden rounded-2xl bg-surface-container-low flex items-center p-8 border border-white/5 shadow-2xl cursor-pointer group hover:bg-slate-800 transition-all">
         <div class="relative z-10 w-1/2">
           <span class="text-[10px] font-black uppercase tracking-[0.2em] text-brand">Próximo Dividendo</span>
           <h3 class="text-2xl font-black text-white mt-2 tracking-tight">{{ stats.propiedadDividendo }}</h3>
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="absolute right-0 top-0 h-full w-3/4 opacity-30 group-hover:opacity-50 transition-all duration-700">
-          <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="/images/proyecto_calacoto.webp"/>
+          <img alt="" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="/images/proyecto_calacoto.webp"/>
         </div>
         <div class="absolute inset-0 bg-gradient-to-r from-surface-container-low via-surface-container-low/90 to-transparent"></div>
       </div>
@@ -45,7 +45,7 @@
       <!-- Portafolio -->
       <a [routerLink]="['/inversor/portafolio']" class="md:col-span-8 group relative overflow-hidden rounded-2xl bg-surface-container-high h-[400px] transition-all hover:bg-surface-bright active:scale-[0.98] border border-white/5 shadow-2xl cursor-pointer">
         <div class="absolute inset-0 z-0">
-          <img class="w-full h-full object-cover grayscale opacity-10 group-hover:grayscale-0 group-hover:opacity-30 transition-all duration-700" src="/images/hero_constructor.webp"/>
+          <img alt="" class="w-full h-full object-cover grayscale opacity-10 group-hover:grayscale-0 group-hover:opacity-30 transition-all duration-700" src="/images/hero_constructor.webp"/>
         </div>
         <div class="relative z-10 p-8 h-full flex flex-col justify-between">
           <div>
@@ -73,10 +73,10 @@
       </a>
 
       <!-- Marketplace -->
-      <div (click)="irAlMapa()" class="md:col-span-4 group relative overflow-hidden rounded-2xl bg-surface-variant h-[400px] transition-all hover:translate-y-[-4px] active:scale-[0.98] border border-white/5 shadow-2xl cursor-pointer">
+      <div (click)="irAlMapa()" role="link" tabindex="0" (keydown.enter)="irAlMapa()" (keydown.space)="irAlMapa(); $event.preventDefault()" class="md:col-span-4 group relative overflow-hidden rounded-2xl bg-surface-variant h-[400px] transition-all hover:translate-y-[-4px] active:scale-[0.98] border border-white/5 shadow-2xl cursor-pointer">
         <div class="absolute top-4 right-4 z-20 bg-brand text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-lg shadow-brand/20">Nuevo</div>
         <div class="absolute inset-0 z-0">
-          <img class="w-full h-full object-cover opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all duration-1000" src="/images/mercado_regional_map.webp"/>
+          <img alt="" class="w-full h-full object-cover opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all duration-1000" src="/images/mercado_regional_map.webp"/>
         </div>
         <div class="relative z-10 p-8 h-full flex flex-col justify-end">
           <div class="bg-surface/60 backdrop-blur-xl p-6 rounded-2xl border border-white/10 group-hover:bg-surface/80 transition-all">

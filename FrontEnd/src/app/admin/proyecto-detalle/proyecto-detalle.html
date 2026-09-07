@@ -184,7 +184,9 @@
           <div class="space-y-4">
             <div *ngFor="let cat of categoriasCostos; let catIdx = index" class="bg-surface-container-lowest/60 rounded-2xl border border-white/5 overflow-hidden">
               <!-- Header Categoría -->
-              <div class="p-5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-all" (click)="toggleCategoria(cat)">
+              <div class="p-5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-all" (click)="toggleCategoria(cat)"
+                   role="button" tabindex="0" [attr.aria-expanded]="isCategoriaAbierta(cat)"
+                   (keydown.enter)="toggleCategoria(cat)" (keydown.space)="toggleCategoria(cat); $event.preventDefault()">
                 <div class="flex items-center gap-4">
                   <div class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div>
                   <h5 class="text-xs font-black text-white uppercase tracking-widest">{{ cat }}</h5>
@@ -255,13 +257,13 @@
         <h4 class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Archivos por Sincronizar</h4>
         <div class="grid grid-cols-4 md:grid-cols-6 gap-3">
           <div *ngFor="let p of renderPreviews; let i = index" class="relative aspect-square rounded-xl overflow-hidden group border border-white/10">
-            <img [src]="p" class="w-full h-full object-cover"/>
+            <img [src]="p" [attr.alt]="'Render ' + (i + 1)" class="w-full h-full object-cover"/>
             <button (click)="quitarRender(i)" class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center text-red-400">
               <span class="material-symbols-outlined">delete</span>
             </button>
           </div>
           <div *ngFor="let p of fotoPreviews; let i = index" class="relative aspect-square rounded-xl overflow-hidden group border-2 transition-all" [ngClass]="form.portadaIndex === i ? 'border-primary' : 'border-white/10'">
-            <img [src]="p" class="w-full h-full object-cover"/>
+            <img [src]="p" [attr.alt]="'Foto ' + (i + 1)" class="w-full h-full object-cover"/>
             <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all flex flex-col items-center justify-center gap-1">
               <button (click)="setPortada(i)" class="text-[6px] font-black bg-primary text-on-primary px-2 py-1 rounded">PORTADA</button>
               <button (click)="quitarFoto(i)" class="text-red-400"><span class="material-symbols-outlined text-sm">delete</span></button>

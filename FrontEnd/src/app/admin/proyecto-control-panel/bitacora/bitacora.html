@@ -71,8 +71,8 @@
                 
                 <div class="md:w-1/2 w-full" [ngClass]="{'pl-0 md:pl-12': even, 'pr-0 md:pr-12': !even}">
                     <div class="rounded-2xl overflow-hidden h-64 bg-surface-container-low shadow-2xl group-hover:-translate-y-1 transition-transform relative">
-                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" 
-                             [src]="portada(entrada.multimedia)"/>
+                        <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                             [src]="portada(entrada.multimedia)" [attr.alt]="entrada.descripcion"/>
                     </div>
                 </div>
             </div>
