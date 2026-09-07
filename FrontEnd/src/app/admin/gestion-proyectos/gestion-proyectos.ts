@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { ProyectoService } from '../../core/services/proyecto.service';
 import { AuthService } from '../../auth/services/auth';
 import { HttpErrorResponse } from '@angular/common/http';
+import { imagenPrincipal } from '../../core/media';
 
 @Component({
   selector: 'app-gestion-proyectos',
@@ -142,12 +143,10 @@ export class GestionProyectos implements OnInit {
   }
 
   getImagen(p: any): string {
-    // Si la propiedad tiene imágenes, usar la primera.
-    if (p.property?.multimedia && p.property.multimedia.length > 0) {
-      return p.property.multimedia[0].url;
-    }
-    // Placeholders elegantes
-    if (p.tipoProyecto === 'residencial') return 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=800';
-    return 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800';
+    const respaldo =
+      p.tipoProyecto === 'residencial'
+        ? '/images/proyecto_calacoto.webp'
+        : '/images/proyecto_torres_prado.webp';
+    return imagenPrincipal(p.property?.multimedia, respaldo);
   }
 }

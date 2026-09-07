@@ -22,7 +22,7 @@
                 </label>
             } @else {
                 <div class="file-uploaded-card">
-                    <div class="file-info clickable" (click)="abrirArchivo(documentos['folioReal'][0])">
+                    <div class="file-info clickable" (click)="abrirArchivo(documentos['folioReal'][0])" role="button" tabindex="0" (keydown.enter)="abrirArchivo(documentos['folioReal'][0])" (keydown.space)="abrirArchivo(documentos['folioReal'][0]); $event.preventDefault()">
                         <div class="file-icon-box">
                             <span class="material-symbols-outlined">task</span>
                         </div>
@@ -49,7 +49,7 @@
                 </label>
             } @else {
                 <div class="file-uploaded-card">
-                    <div class="file-info clickable" (click)="abrirArchivo(documentos['certificadoCatastral'][0])">
+                    <div class="file-info clickable" (click)="abrirArchivo(documentos['certificadoCatastral'][0])" role="button" tabindex="0" (keydown.enter)="abrirArchivo(documentos['certificadoCatastral'][0])" (keydown.space)="abrirArchivo(documentos['certificadoCatastral'][0]); $event.preventDefault()">
                         <div class="file-icon-box">
                             <span class="material-symbols-outlined">task</span>
                         </div>
@@ -80,7 +80,7 @@
                     @for (doc of documentos['multimedia']; track doc.name; let i = $index) {
                         <div class="file-uploaded-card !py-3 !rounded-xl">
                             <div class="file-info">
-                                <img *ngIf="doc.type.startsWith('image/')" [src]="obtenerUrl(doc)" class="file-thumb !w-10 !h-10">
+                                <img *ngIf="doc.type.startsWith('image/')" [src]="obtenerUrl(doc)" [attr.alt]="doc.name" class="file-thumb !w-10 !h-10">
                                 <span *ngIf="!doc.type.startsWith('image/')" class="material-symbols-outlined text-blue-400">movie</span>
                                 <span class="file-name !text-xs">{{ doc.name }}</span>
                             </div>

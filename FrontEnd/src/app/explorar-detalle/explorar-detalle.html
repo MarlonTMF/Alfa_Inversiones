@@ -1,44 +1,19 @@
-<nav class="public-navbar">
-    <div class="nav-container">
-        <div class="nav-brand" routerLink="/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
-            <span>Plataforma Orquestadora</span>
-        </div>
-        <div class="nav-links">
-            <a routerLink="/">Inicio</a>
-            <a routerLink="/explorar">Proyectos</a>
-            <a routerLink="/constructor-info">Constructor</a>
-            <a routerLink="/inversor-info">Inversionista</a>
-            <a routerLink="/terreno-info">Propietario de terreno</a>
-            <a routerLink="/ayuda">Ayuda</a>
-        </div>
-        <div class="nav-auth">
-            @if (authService.usuarioActual()) {
-                <div class="user-pill">
-                    <span class="user-name">{{ authService.usuarioActual().nombre }}</span>
-                    <button class="btn-logout-small" (click)="authService.logout()">✕</button>
-                </div>
-            } @else {
-                <button class="btn-login" (click)="mostrarLogin = true">Iniciar Sesión</button>
-            }
-        </div>
-    </div>
-</nav>
+<app-public-navbar></app-public-navbar>
 
-<div class="bg-[#0b1326] text-[#dae2fd] selection:bg-[#adc6ff]/30 min-h-[calc(100vh-70px)] flex flex-col overflow-x-hidden font-sans">
+<div class="bg-surface text-on-surface selection:bg-primary/30 min-h-[calc(100vh-70px)] flex flex-col overflow-x-hidden font-sans">
     
     <!-- Header de navegación secundaria -->
-    <div class="w-full bg-[#131b2e]/50 backdrop-blur-xl border-b border-white/5 px-8 py-4 flex items-center justify-between">
+    <div class="w-full bg-surface-container-low/50 backdrop-blur-xl border-b border-white/5 px-8 py-4 flex items-center justify-between">
         <div class="flex items-center gap-4">
-            <button routerLink="/explorar" class="flex items-center gap-2 text-[#94a3b8] hover:text-white transition-colors text-sm font-bold">
+            <button routerLink="/explorar" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-bold">
                 <span class="material-symbols-outlined text-sm">arrow_back</span>
                 Volver al Mapa
             </button>
             <div class="h-4 w-[1px] bg-white/10 mx-2"></div>
             <div class="flex items-center gap-2 text-sm">
-                <span class="text-[#c2c6d6] font-medium">Análisis Detallado</span>
-                <span class="text-[#c2c6d6]">/</span>
-                <span class="text-[#adc6ff] font-black tracking-tight">{{ proyecto.nombre }}</span>
+                <span class="text-on-surface-variant font-medium">Análisis Detallado</span>
+                <span class="text-on-surface-variant">/</span>
+                <span class="text-primary font-black tracking-tight">{{ proyecto.nombre }}</span>
             </div>
         </div>
     </div>
@@ -48,36 +23,36 @@
       
         <!-- Hero Section -->
         <section class="relative h-[400px] w-full rounded-3xl overflow-hidden shadow-2xl group border border-white/5">
-          <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" [src]="proyecto.imagen"/>
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] via-[#0b1326]/40 to-transparent"></div>
+          <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" [src]="proyecto.imagen" [attr.alt]="proyecto.nombre"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
           <div class="absolute bottom-0 left-0 p-10 w-full flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div class="space-y-4">
               <div class="flex items-center gap-3">
-                <span class="px-3 py-1 bg-[#3b82f6] text-white text-[10px] font-black uppercase tracking-widest rounded-full">Activo Validado</span>
+                <span class="px-3 py-1 bg-brand text-white text-[10px] font-black uppercase tracking-widest rounded-full">Activo Validado</span>
                 <span class="text-white/80 flex items-center gap-1 text-sm font-bold">
                   <span class="material-symbols-outlined text-sm">location_on</span> {{ proyecto.ubicacion }}
                 </span>
               </div>
               <h1 class="text-5xl md:text-6xl font-black tracking-tighter text-white">{{ proyecto.nombre }}</h1>
-              <p class="text-[#c2c6d6] max-w-xl text-lg leading-relaxed font-medium">
+              <p class="text-on-surface-variant max-w-xl text-lg leading-relaxed font-medium">
                 Desarrollo comercial de alta rentabilidad con validación legal y técnica por nuestra red de expertos.
               </p>
             </div>
-            <div class="glass-panel p-8 rounded-3xl border border-white/10 min-w-[340px] space-y-6 bg-[#2d3449]/80 backdrop-blur-xl shadow-2xl">
+            <div class="glass-panel p-8 rounded-3xl border border-white/10 min-w-[340px] space-y-6 bg-surface-variant/80 backdrop-blur-xl shadow-2xl">
               <div class="flex justify-between items-end">
                 <div class="space-y-1">
-                  <p class="text-[10px] font-black uppercase tracking-[0.2em] text-[#3b82f6]">Asignación de Capital</p>
-                  <p class="text-3xl font-black text-white tracking-tighter">${{ proyecto.capitalAsignado }}M <span class="text-sm font-bold text-[#c2c6d6]">/ ${{ proyecto.capitalTotal }}M</span></p>
+                  <p class="text-[10px] font-black uppercase tracking-[0.2em] text-brand">Asignación de Capital</p>
+                  <p class="text-3xl font-black text-white tracking-tighter">${{ proyecto.capitalAsignado }}M <span class="text-sm font-bold text-on-surface-variant">/ ${{ proyecto.capitalTotal }}M</span></p>
                 </div>
                 <div class="text-right">
-                  <p class="text-4xl font-black text-[#3b82f6] tracking-tighter">{{ proyecto.progreso }}%</p>
-                  <p class="text-[10px] font-black uppercase text-[#c2c6d6] tracking-widest">Fondeado</p>
+                  <p class="text-4xl font-black text-brand tracking-tighter">{{ proyecto.progreso }}%</p>
+                  <p class="text-[10px] font-black uppercase text-on-surface-variant tracking-widest">Fondeado</p>
                 </div>
               </div>
-              <div class="w-full h-3 bg-[#0b1326] rounded-full overflow-hidden border border-white/5">
-                <div class="h-full bg-[#3b82f6] shadow-[0_0_20px_rgba(59,130,246,0.6)]" [style.width.%]="proyecto.progreso"></div>
+              <div class="w-full h-3 bg-surface rounded-full overflow-hidden border border-white/5">
+                <div class="h-full bg-brand shadow-[0_0_20px_rgba(59,130,246,0.6)]" [style.width.%]="proyecto.progreso"></div>
               </div>
-              <button [routerLink]="['/explorar/simulador']" class="w-full py-4 bg-[#3b82f6] hover:bg-blue-600 text-white font-black uppercase tracking-widest rounded-xl transition-all active:scale-[0.98] shadow-2xl shadow-blue-500/20">
+              <button [routerLink]="['/explorar/simulador']" class="w-full py-4 bg-brand hover:bg-blue-600 text-white font-black uppercase tracking-widest rounded-xl transition-all active:scale-[0.98] shadow-2xl shadow-blue-500/20">
                 Simular rentabilidad de mi inversión
               </button>
 
@@ -88,13 +63,13 @@
   
         <!-- KPI Bento Grid -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div *ngFor="let kpi of proyecto.kpis" class="bg-[#1e293b] p-8 rounded-3xl hover:bg-[#2d3a4f] transition-all group border border-white/5 shadow-xl">
-            <p class="text-[11px] font-black uppercase tracking-[0.2em] text-[#c2c6d6] mb-4 opacity-60">{{ kpi.label }}</p>
+          <div *ngFor="let kpi of proyecto.kpis" class="bg-slate-800 p-8 rounded-3xl hover:bg-[#2d3a4f] transition-all group border border-white/5 shadow-xl">
+            <p class="text-[11px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-4 opacity-60">{{ kpi.label }}</p>
             <div class="flex items-end justify-between">
               <span class="text-3xl font-black text-white tracking-tighter">{{ kpi.value }}</span>
-              <span class="material-symbols-outlined text-[#3b82f6] text-3xl font-black opacity-30 group-hover:opacity-100 transition-opacity">{{ kpi.icon }}</span>
+              <span class="material-symbols-outlined text-brand text-3xl font-black opacity-30 group-hover:opacity-100 transition-opacity">{{ kpi.icon }}</span>
             </div>
-            <div class="mt-6 pt-6 border-t border-white/5 text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] opacity-40">
+            <div class="mt-6 pt-6 border-t border-white/5 text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40">
               {{ kpi.sub }}
             </div>
           </div>
@@ -105,22 +80,22 @@
           <!-- Center Column -->
           <div class="lg:col-span-8 space-y-8">
             <!-- Project Pulse -->
-            <div class="bg-[#131b2e] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+            <div class="bg-surface-container-low rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
               <div class="p-8 border-b border-white/5 flex justify-between items-center">
                 <h3 class="text-2xl font-black text-white tracking-tight">Pulso del Proyecto</h3>
-                <button class="text-[10px] font-black uppercase tracking-widest text-[#3b82f6] hover:underline">Ver Historial</button>
+                <a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20ver%20el%20historial%20de%20avance%20de%20este%20proyecto" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black uppercase tracking-widest text-brand hover:underline">Ver Historial</a>
               </div>
               <div class="divide-y divide-white/5">
                 <div *ngFor="let item of pulse" class="p-8 flex gap-8 hover:bg-white/5 transition-colors group">
-                  <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-[#222a3d] flex items-center justify-center border border-white/10 group-hover:border-[#3b82f6]/50 transition-colors">
-                    <span class="material-symbols-outlined text-[#3b82f6] text-2xl">{{ item.icon }}</span>
+                  <div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-surface-container-high flex items-center justify-center border border-white/10 group-hover:border-brand/50 transition-colors">
+                    <span class="material-symbols-outlined text-brand text-2xl">{{ item.icon }}</span>
                   </div>
                   <div class="space-y-2">
                     <div class="flex items-center gap-4">
                       <span class="text-lg font-black text-white tracking-tight">{{ item.titulo }}</span>
-                      <span class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6] opacity-40">{{ item.tiempo }}</span>
+                      <span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-40">{{ item.tiempo }}</span>
                     </div>
-                    <p class="text-base text-[#c2c6d6] leading-relaxed font-medium">{{ item.desc }}</p>
+                    <p class="text-base text-on-surface-variant leading-relaxed font-medium">{{ item.desc }}</p>
                   </div>
                 </div>
               </div>
@@ -130,31 +105,31 @@
           <!-- Right Column -->
           <div class="lg:col-span-4 space-y-8">
             <!-- Market Context -->
-            <div class="bg-[#1e293b] p-8 rounded-3xl border border-white/5 shadow-2xl space-y-8">
+            <div class="bg-slate-800 p-8 rounded-3xl border border-white/5 shadow-2xl space-y-8">
               <h3 class="text-xs font-black uppercase tracking-[0.2em] text-white">Mercado Regional</h3>
               <div class="space-y-6">
                 <div class="flex justify-between items-center">
-                  <span class="text-sm font-bold text-[#c2c6d6]">Vacancia Media</span>
+                  <span class="text-sm font-bold text-on-surface-variant">Vacancia Media</span>
                   <div class="text-right">
                     <p class="text-xl font-black text-white tracking-tighter">4.2%</p>
-                    <p class="text-[10px] font-black text-[#3b82f6] uppercase tracking-widest">Bajo Institucional</p>
+                    <p class="text-[10px] font-black text-brand uppercase tracking-widest">Bajo Institucional</p>
                   </div>
                 </div>
                 <div class="flex justify-between items-center">
-                  <span class="text-sm font-bold text-[#c2c6d6]">Crecimiento Alquiler</span>
+                  <span class="text-sm font-bold text-on-surface-variant">Crecimiento Alquiler</span>
                   <div class="text-right">
                     <p class="text-xl font-black text-white tracking-tighter">+12.8%</p>
-                    <p class="text-[10px] font-black text-[#3b82f6] uppercase tracking-widest">Top Tier Market</p>
+                    <p class="text-[10px] font-black text-brand uppercase tracking-widest">Top Tier Market</p>
                   </div>
                 </div>
               </div>
   
               <!-- Map View -->
               <div class="relative h-48 w-full rounded-2xl overflow-hidden border border-white/5">
-                <img class="w-full h-full object-cover opacity-50 grayscale" src="https://lh3.googleusercontent.com/aida/ADBb0ujxOsxLo0Iy0mAAsNhbf08V_EASwADc14Fkwf0TsyIbuGFmoTP919DUIJ1c2eO5QshybWL4CbF-DsCNKKKYaVde4bu15N-BZhpREvy3OmHvCnI0EMCe9tmFlIXJUG9S-IXimv2hb9ORvVeugk5P_YM5RxPcBilKKAmQkXB-2CdbZkWjyPRO1YcbdKdUa5uROBmNRRQqT88Q5x68wx6wCHZUUvVFTzbnzpbgI7lmXBgymBoy-nGZx7CDI4VHKQdOAUybThJxyVqjG-g"/>
+                <img alt="Ubicacion del proyecto" class="w-full h-full object-cover opacity-50 grayscale" src="/images/mercado_regional_map.webp"/>
                 <div class="absolute inset-0 flex items-center justify-center">
-                  <div class="bg-[#3b82f6]/20 p-3 rounded-full border border-[#3b82f6] animate-pulse">
-                    <div class="w-3 h-3 bg-[#3b82f6] rounded-full"></div>
+                  <div class="bg-brand/20 p-3 rounded-full border border-brand animate-pulse">
+                    <div class="w-3 h-3 bg-brand rounded-full"></div>
                   </div>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -31,6 +31,12 @@ export class ProyectoNuevoAvance {
       // Por defecto sugerimos el progreso actual de la fase
       this.form.porcentajeAvance = this.fases[0].progreso;
     }
+  }
+
+  /** El modal solo existe montado mientras esta abierto, asi que Escape siempre debe cerrarlo. */
+  @HostListener('document:keydown.escape')
+  alPresionarEscape(): void {
+    this.cerrar.emit();
   }
 
   seleccionarFase(id: string): void {

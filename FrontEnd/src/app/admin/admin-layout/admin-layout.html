@@ -1,5 +1,23 @@
 <div class="admin-wrapper">
-  <aside class="admin-sidebar">
+  <!-- Backdrop del cajon movil: cierra al tocar fuera. -->
+  <button
+    type="button"
+    class="sidebar-backdrop"
+    [class.visible]="sidebarAbierto"
+    (click)="cerrarSidebar()"
+    aria-label="Cerrar menu"
+    tabindex="-1"
+  ></button>
+
+  <aside class="admin-sidebar" [class.abierto]="sidebarAbierto">
+    <button type="button" class="sidebar-close" (click)="cerrarSidebar()" aria-label="Cerrar menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
     <div class="sidebar-header">
       <div class="logo-container" routerLink="/admin/dashboard" style="cursor: pointer">
         <div class="logo-icon">
@@ -24,7 +42,8 @@
             <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
           </svg>
         </div>
-        <span class="logo-text">ALPHA ORQUESTADOR</span>
+        <span class="logo-text">LINK</span>
+        <span class="logo-sub">Panel Orquestador</span>
       </div>
 
       <div class="profile-wrapper">
@@ -51,7 +70,7 @@
           </div>
           <div class="profile-info">
             <span class="name">{{ authService.usuarioActual()?.nombre || 'Administrador' }}</span>
-            <span class="role">Global Administrator</span>
+            <span class="role">Administrador General</span>
           </div>
         </button>
 
@@ -328,27 +347,6 @@
         </svg>
         <span>Registrar Proyecto</span>
       </a>
-      <a
-        routerLink="/admin/registro-proyecto"
-        routerLinkActive="active"
-        class="nav-item action-link text-blue"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M3 3v18h18"></path>
-          <path d="M19 9l-5 5-4-4-3 3"></path>
-        </svg>
-        <span>Registrar Proyecto</span>
-      </a>
     </nav>
 
     <div class="sidebar-footer">
@@ -359,7 +357,13 @@
   <div class="admin-main">
     <header class="admin-topbar">
       <div class="topbar-left">
-        <button class="menu-toggle">
+        <button
+          type="button"
+          class="menu-toggle"
+          (click)="toggleSidebar()"
+          [attr.aria-expanded]="sidebarAbierto"
+          aria-label="Abrir menu de navegacion"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -430,7 +434,29 @@
           }
         </div>
 
-        <div class="topbar-avatar" (click)="salirAlMapa()" title="Volver al Mapa">
+        <button
+          type="button"
+          class="btn-icon btn-salir"
+          (click)="cerrarSesion()"
+          title="Cerrar sesion"
+          aria-label="Cerrar sesion"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          class="topbar-avatar"
+          (click)="salirAlMapa()"
+          title="Volver al Mapa"
+          aria-label="Volver al mapa de activos"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -445,7 +471,7 @@
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
           </svg>
-        </div>
+        </button>
       </div>
     </header>
 

@@ -1,5 +1,9 @@
-/* 1. LOS IMPORTS SIEMPRE VAN HASTA ARRIBA */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* La fuente se carga desde index.html con <link rel=preconnect>; aqui se
+   pedia por segunda vez con un @import, que ademas bloquea el render. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* 2. RESET GLOBAL Y TIPOGRAFÍA */
 html, body {
@@ -16,6 +20,17 @@ html, body {
 
 *, *:before, *:after {
     box-sizing: inherit;
+}
+
+/* Estado de foco visible global. Antes solo lo tenian los componentes
+   nuevos (public-navbar, inversor-layout); el resto de la app (398
+   botones, enlaces y campos) no mostraba ningun indicador al navegar
+   con teclado. :focus-visible evita el anillo en clics de mouse y lo
+   muestra solo cuando el foco llega por teclado. */
+:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+    border-radius: 4px;
 }
 
 /* 3. ESTILOS DE LEAFLET Y PINES */
@@ -145,17 +160,6 @@ path.poligono-terreno:hover {
     background-color: #2563eb;
 }
 
-@media (max-width: 768px) {
-    .public-navbar {
-        height: auto;
-        padding: 20px;
-    }
-    .nav-container {
-        flex-direction: column;
-        gap: 16px;
-    }
-    .nav-links {
-        display: none; /* Usually you'd use a hamburger menu, but keeping it simple as per original */
-    }
-}
-
+/* El comportamiento responsive de esta barra lo define el componente
+   app-public-navbar, que pliega el menu tras una hamburguesa. */
+

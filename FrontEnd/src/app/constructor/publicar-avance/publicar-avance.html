@@ -1,42 +1,42 @@
-<div class="bg-[#0b1326] text-[#dae2fd] min-h-screen flex overflow-hidden font-sans selection:bg-[#3b82f6]/30">
+<div class="bg-surface text-on-surface min-h-screen flex overflow-hidden font-sans selection:bg-brand/30">
   
   <!-- Sidebar Navigation -->
-  <aside class="hidden md:flex flex-col h-full w-72 fixed left-0 top-0 bg-[#060e20] z-50 py-8 px-6 border-r border-white/5 shadow-2xl bg-gradient-to-b from-[#060e20] to-[#0b1326]">
+  <aside class="hidden md:flex flex-col h-full w-72 fixed left-0 top-0 bg-surface-container-lowest z-50 py-8 px-6 border-r border-white/5 shadow-2xl bg-gradient-to-b from-surface-container-lowest to-surface">
     <div class="mb-12 px-2 flex items-center gap-4">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3b82f6] to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20">
         <span class="material-symbols-outlined text-white text-2xl font-black">architecture</span>
       </div>
       <div>
-        <div class="text-white font-black uppercase tracking-tighter text-lg leading-none">APEX</div>
-        <div class="text-[9px] uppercase tracking-[0.2em] font-black text-[#3b82f6]">Institutional</div>
+        <div class="text-white font-black uppercase tracking-tighter text-lg leading-none">LINK</div>
+        <div class="text-[9px] uppercase tracking-[0.2em] font-black text-brand">Institutional</div>
       </div>
     </div>
     
     <nav class="flex-1 space-y-2">
-      <a [routerLink]="['/constructor']" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+      <a [routerLink]="['/constructor']" class="flex items-center gap-4 px-4 py-3.5 text-on-surface-variant hover:bg-surface-container-high hover:text-white rounded-xl transition-all duration-300 group">
         <span class="material-symbols-outlined text-[22px]">dashboard</span>
         <span class="text-[11px] font-black uppercase tracking-widest">Home Dashboard</span>
       </a>
-      <a [routerLink]="['/constructor/proyectos']" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+      <a [routerLink]="['/constructor/proyectos']" class="flex items-center gap-4 px-4 py-3.5 text-on-surface-variant hover:bg-surface-container-high hover:text-white rounded-xl transition-all duration-300 group">
         <span class="material-symbols-outlined text-[22px]">construction</span>
         <span class="text-[11px] font-black uppercase tracking-widest">Gestionar Proyectos</span>
       </a>
 
       <div class="pt-6 pb-2 px-4">
-        <span class="text-[9px] font-black uppercase tracking-[0.3em] text-[#3b82f6]">Protocolo de Reporte</span>
+        <span class="text-[9px] font-black uppercase tracking-[0.3em] text-brand">Protocolo de Reporte</span>
       </div>
 
-      <a [routerLink]="['/constructor/proyecto-detalle']" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group">
+      <a [routerLink]="['/constructor/proyecto-detalle']" class="flex items-center gap-4 px-4 py-3.5 text-on-surface-variant hover:bg-surface-container-high hover:text-white rounded-xl transition-all duration-300 group">
         <span class="material-symbols-outlined text-[22px]">info</span>
         <span class="text-[11px] uppercase tracking-widest">Volver a Detalles</span>
       </a>
       
-      <a href="#" class="flex items-center gap-4 px-4 py-3.5 text-[#3b82f6] font-black border-l-4 border-[#3b82f6] bg-[#3b82f6]/10 rounded-r-xl transition-all duration-300">
+      <a routerLink="/constructor/publicar-avance" class="flex items-center gap-4 px-4 py-3.5 text-brand font-black border-l-4 border-brand bg-brand/10 rounded-r-xl transition-all duration-300">
         <span class="material-symbols-outlined text-[22px]">history_edu</span>
         <span class="text-[11px] uppercase tracking-widest">Nuevo Reporte</span>
       </a>
 
-      <a [routerLink]="['/mapa']" class="flex items-center gap-4 px-4 py-3.5 text-[#c2c6d6] hover:bg-[#222a3d] hover:text-white rounded-xl transition-all duration-300 group mt-4">
+      <a [routerLink]="['/mapa']" class="flex items-center gap-4 px-4 py-3.5 text-on-surface-variant hover:bg-surface-container-high hover:text-white rounded-xl transition-all duration-300 group mt-4">
         <span class="material-symbols-outlined text-[22px] group-hover:rotate-12 transition-transform">explore</span>
         <span class="text-[11px] font-black uppercase tracking-widest">Explorar Mapa</span>
       </a>
@@ -45,20 +45,20 @@
     <!-- User Profile Section -->
     <div class="mt-auto px-2 pb-4 space-y-4">
       <div class="relative">
-        <button (click)="toggleMenuCuenta()" class="w-full flex items-center gap-3 p-4 bg-[#131b2e] rounded-2xl border border-white/5 hover:border-[#3b82f6]/50 transition-all group">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#3b82f6] to-blue-700 flex items-center justify-center border border-white/10 shadow-lg group-hover:scale-105 transition-transform">
+        <button (click)="toggleMenuCuenta()" class="w-full flex items-center gap-3 p-4 bg-surface-container-low rounded-2xl border border-white/5 hover:border-brand/50 transition-all group">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-blue-700 flex items-center justify-center border border-white/10 shadow-lg group-hover:scale-105 transition-transform">
             <span class="material-symbols-outlined text-white text-xl">person</span>
           </div>
           <div class="text-left overflow-hidden">
             <p class="text-[11px] font-black text-white leading-none truncate">{{ authService.usuarioActual()?.nombre || 'Constructor Admin' }}</p>
-            <p class="text-[9px] text-[#3b82f6] font-black uppercase tracking-widest mt-1">Gestor de Activos</p>
+            <p class="text-[9px] text-brand font-black uppercase tracking-widest mt-1">Gestor de Activos</p>
           </div>
         </button>
 
         <!-- Dropdown Menu -->
-        <div *ngIf="mostrarMenuCuenta" class="absolute bottom-full left-0 right-0 mb-4 bg-[#131b2e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in">
-          <div class="p-4 bg-[#0b1326] border-b border-white/5">
-            <p class="text-[10px] font-black text-[#c2c6d6] uppercase tracking-widest opacity-40">Cuenta Activa</p>
+        <div *ngIf="mostrarMenuCuenta" class="absolute bottom-full left-0 right-0 mb-4 bg-surface-container-low border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in">
+          <div class="p-4 bg-surface border-b border-white/5">
+            <p class="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">Cuenta Activa</p>
             <p class="text-xs font-black text-white mt-1">{{ authService.usuarioActual()?.email || 'admin@constructor.com' }}</p>
           </div>
           <div class="p-2">
@@ -70,14 +70,14 @@
         </div>
       </div>
 
-      <div class="bg-gradient-to-br from-[#131b2e] to-[#0b1326] p-5 rounded-2xl border border-white/5 shadow-xl">
+      <div class="bg-gradient-to-br from-surface-container-low to-surface p-5 rounded-2xl border border-white/5 shadow-xl">
         <div class="flex items-center gap-3 mb-2">
-          <div class="w-8 h-8 rounded-full bg-[#1e293b] flex items-center justify-center overflow-hidden border border-white/10">
-            <img src="https://lh3.googleusercontent.com/aida/ADBb0ujthFBsji73FyzzsDdFn2Qrw6mmbLSMqfiGE3V6BWnZZY_oabf0pWV63nOEUKGXbfvEuHg3QCNmw-aUdZ_fLx3iYgJIn-WOjjqLV3fNEBpGDEHm407qnbY7CUb_rv78rLrpo22H5tptofiy8wVqWQOyWBH9ecU7y86suQs9FJh8PRjWWC5FGKkbHvG6PHpmLDfrrPWn4s2AKXBcjo3hVoneAtTr6qjDvu9nkdyt80jsbJE0O7x3qXdqxfJ1sSrIgS_SGFtNJJtOyeU" class="w-full h-full object-cover">
+          <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center overflow-hidden border border-white/10">
+            <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-brand" aria-hidden="true">person</span>
           </div>
           <div>
             <p class="text-[10px] font-black text-white leading-none">C. Miller</p>
-            <p class="text-[8px] text-[#c2c6d6] uppercase tracking-widest mt-1">Compliance Officer</p>
+            <p class="text-[8px] text-on-surface-variant uppercase tracking-widest mt-1">Compliance Officer</p>
           </div>
         </div>
       </div>
@@ -88,19 +88,19 @@
   <div class="flex-1 md:ml-72 flex flex-col h-screen overflow-hidden">
     
     <!-- Header -->
-    <header class="sticky top-0 z-40 bg-[#0b1326]/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-10 py-6 h-24">
+    <header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-10 py-6 h-24">
       <div class="flex items-center gap-4">
-        <span class="material-symbols-outlined text-[#3b82f6]">history_edu</span>
+        <span class="material-symbols-outlined text-brand">history_edu</span>
         <h1 class="text-lg font-black tracking-widest text-white uppercase">Protocolo de Reporte de Avance</h1>
       </div>
       <div class="flex items-center gap-6">
-        <div class="flex items-center gap-3 px-4 py-2 bg-[#131b2e] rounded-full border border-white/5">
+        <div class="flex items-center gap-3 px-4 py-2 bg-surface-container-low rounded-full border border-white/5">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="text-[9px] font-black uppercase tracking-widest text-[#c2c6d6]">Sincronización Activa</span>
+          <span class="text-[9px] font-black uppercase tracking-widest text-on-surface-variant">Sincronización Activa</span>
         </div>
         <div class="h-10 w-px bg-white/5 mx-2"></div>
-        <div class="h-12 w-12 rounded-xl overflow-hidden border-2 border-[#3b82f6]/30">
-          <img alt="Profile photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujvCjiwOuy8RYYAzZkGxAhH6DlLD9cXQ8g6x8_aPHcn4bGsbNB6-Zkm2lzTbqfu5RYGUEdqU5He6OUnyEkioXlv1HJvZGL82dnI90RqvQz1B_JYZsM6M5lgnt3TQGjaZNWpf9mEjEH1UAYKFPU16FJ-wN8DXP_dD2XvXWphpdKDsdj-U2nLzxIkBWghGbx2QIDA8W2aaSVoKDEBCd3NvPa11k4ht7Vb_PpcvE9-3n4WHkknrHxOqeOoqeWH1lmTuviDDGrqG9iEA"/>
+        <div class="h-12 w-12 rounded-xl overflow-hidden border-2 border-brand/30">
+          <span class="material-symbols-outlined w-full h-full flex items-center justify-center text-brand" aria-hidden="true">person</span>
         </div>
       </div>
     </header>
@@ -114,51 +114,49 @@
         <div class="flex items-center justify-between border-b border-white/5 pb-8">
           <div class="space-y-2">
             <h2 class="text-4xl font-black text-white tracking-tighter">Nuevo Período de Reporte</h2>
-            <p class="text-[#c2c6d6] font-medium text-base opacity-60">Sitio: Distrito Norte Fase IV — Sector 09</p>
+            <p class="text-on-surface-variant font-medium text-base opacity-60">Sitio: Distrito Norte Fase IV — Sector 09</p>
           </div>
-          <div class="flex items-center gap-4 bg-[#131b2e] p-3 px-6 rounded-2xl border border-white/5">
-            <span class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6]">Notificar Inversores</span>
-            <button (click)="toggleNotificacion()" class="w-12 h-6 rounded-full relative transition-all duration-300" [ngClass]="notificarInversores ? 'bg-[#3b82f6]' : 'bg-[#1e293b]'">
+          <div class="flex items-center gap-4 bg-surface-container-low p-3 px-6 rounded-2xl border border-white/5">
+            <span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Notificar Inversores</span>
+            <button (click)="toggleNotificacion()" class="w-12 h-6 rounded-full relative transition-all duration-300" [ngClass]="notificarInversores ? 'bg-brand' : 'bg-slate-800'">
               <span class="absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300" [style.left]="notificarInversores ? '28px' : '4px'"></span>
             </button>
           </div>
         </div>
 
         <!-- Editor Module -->
-        <div class="bg-[#131b2e] rounded-[2rem] p-8 border border-white/5 shadow-2xl space-y-6">
+        <div class="bg-surface-container-low rounded-[2rem] p-8 border border-white/5 shadow-2xl space-y-6">
           <div class="flex items-center justify-between border-b border-white/5 pb-6">
-            <div class="flex gap-4">
-              <button class="w-10 h-10 flex items-center justify-center hover:bg-[#1e293b] rounded-xl transition-all text-[#c2c6d6]"><span class="material-symbols-outlined text-lg">format_bold</span></button>
-              <button class="w-10 h-10 flex items-center justify-center hover:bg-[#1e293b] rounded-xl transition-all text-[#c2c6d6]"><span class="material-symbols-outlined text-lg">format_italic</span></button>
-              <button class="w-10 h-10 flex items-center justify-center hover:bg-[#1e293b] rounded-xl transition-all text-[#c2c6d6]"><span class="material-symbols-outlined text-lg">format_list_bulleted</span></button>
-              <button class="w-10 h-10 flex items-center justify-center hover:bg-[#1e293b] rounded-xl transition-all text-[#c2c6d6]"><span class="material-symbols-outlined text-lg">link</span></button>
-            </div>
-            <span class="text-[9px] font-black uppercase tracking-widest text-[#c2c6d6] opacity-40">Guardado automático hace 14s</span>
+            <span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-60">Descripción del avance</span>
+            <span class="text-[9px] font-black uppercase tracking-widest text-on-surface-variant opacity-40">{{ descripcion.length }} caracteres</span>
           </div>
-          <textarea class="w-full bg-transparent border-none focus:ring-0 text-white placeholder:text-[#c2c6d6]/30 min-h-[250px] resize-none text-lg leading-relaxed outline-none" placeholder="Describe el progreso de la ruta crítica, asignación de recursos y cumplimiento de seguridad..."></textarea>
+          <textarea [(ngModel)]="descripcion" class="w-full bg-transparent border-none focus:ring-0 text-white placeholder:text-on-surface-variant/30 min-h-[250px] resize-none text-lg leading-relaxed outline-none" placeholder="Describe el progreso de la ruta crítica, asignación de recursos y cumplimiento de seguridad..."></textarea>
         </div>
 
         <!-- Multimedia Bento -->
         <div class="grid grid-cols-4 grid-rows-2 gap-6 h-[450px]">
-          <div class="col-span-2 row-span-2 bg-[#131b2e] rounded-[2.5rem] relative group overflow-hidden border border-white/5 shadow-2xl">
-            <img class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida/ADBb0uhbmZSNjgdd2H1OVTXQaCy1bYfOkwx5Ay7cCcO_nKuCyJI_alV4SKUyZ9exPsoFycu_d_G8BQjQ9P25400qh8Jp5Ecxf45NdZ9LwzrK4sfhibPg25kp7BxQOue0VN_ZysqCD7n7DQaPkVi1OjyGDb-yeWeNIKGBJI4mDlWecTufLLsxuTHzT0VEyH05Dgt_1GXRGob6Qoytf_xszoG8M6wDz_Qdna1cP8SKp0wIiHY2hHwWONGtB2D2tkrBgIjMnafAAfDlGUsXgQc"/>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] to-transparent opacity-60"></div>
+          <div class="col-span-2 row-span-2 bg-surface-container-low rounded-[2.5rem] relative group overflow-hidden border border-white/5 shadow-2xl">
+            <img alt="Avance de obra" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-1000" src="/images/hero_constructor.webp"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
             <div class="absolute bottom-6 left-8">
-              <p class="text-[10px] font-black uppercase tracking-[0.2em] text-[#3b82f6]">Cimentación Principal</p>
-              <p class="text-xs text-[#c2c6d6] font-medium opacity-60">Subido: 10:45 AM</p>
+              <p class="text-[10px] font-black uppercase tracking-[0.2em] text-brand">Cimentación Principal</p>
+              <p class="text-xs text-on-surface-variant font-medium opacity-60">Subido: 10:45 AM</p>
             </div>
           </div>
-          <div class="col-span-1 bg-[#131b2e] rounded-[2rem] flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:border-[#3b82f6]/50 transition-all cursor-pointer group shadow-2xl">
-            <span class="material-symbols-outlined text-4xl text-[#3b82f6] group-hover:scale-110 transition-transform mb-3">add_a_photo</span>
-            <p class="text-[10px] font-black uppercase tracking-widest text-[#c2c6d6]">Añadir Captura</p>
+          <div class="col-span-1 bg-surface-container-low rounded-[2rem] flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:border-brand/50 transition-all cursor-pointer group shadow-2xl">
+            <span class="material-symbols-outlined text-4xl text-brand group-hover:scale-110 transition-transform mb-3">add_a_photo</span>
+            <p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Añadir Captura</p>
           </div>
-          <div class="col-span-1 bg-[#131b2e] rounded-[2rem] overflow-hidden border border-white/5 shadow-2xl group">
-            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida/ADBb0ui97Z3UblNdgwwVzPU7tgT7HKa9AMJ2qLG54URPqwlJpTzLq7D5YBLoXpwUA94S9yIt2vwMtzOqPcwa0p9S6MJ_H2wmJSY0P8Jsct5Qt6utqXlHkJoSq4jqkb4LDYQYc8-SlF0x7D3BVElCBQ_3Y1E-JWz4rmquK_CCcC8YSPYU235d9waZSemWpiFPTHTqPRJeLYxd9ogbLv3IdKeYIqK2paxFUAWpwBFH1Hvf5L4s7562bu3axP79F2SDCoPQqv3dH0WGaM-GWGY"/>
+          <div class="col-span-1 bg-surface-container-low rounded-[2rem] overflow-hidden border border-white/5 shadow-2xl group">
+            <img alt="Avance de obra" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" src="/images/proyecto_equipetrol.webp"/>
           </div>
-          <div class="col-span-2 bg-[#131b2e] rounded-[2rem] overflow-hidden relative border border-white/5 shadow-2xl group">
-            <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida/ADBb0ujcggHDS4yNZlQwmoWDFLVkF7p9GJ6OSaMI6uLODKAHVzmSTWrf9VrppQYAzW5o2fkZKuCwMEYiQq4WjNGJIMi_4dmC_oumsm7dRr9bZAf_0shXddC07Uptg1r3_ONmQSO8Y7MReK3K1sLhz42HoMZVVX8go8XU5kphdEQxFJ7ylYNCyz7OEU9_g4Mw5pzZWCViyaedg5LHJQTSJWqpVmTCULVrpTXL8PLw9zyfRMOB0xqmE8ANq9WZO7xDhEn8N7YeHWC2426t71E"/>
-            <div class="absolute inset-0 flex items-center justify-center bg-[#0b1326]/60 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity">
-              <button class="px-8 py-3 bg-[#3b82f6] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-2xl">Reemplazar Media</button>
+          <div class="col-span-2 bg-surface-container-low rounded-[2rem] overflow-hidden relative border border-white/5 shadow-2xl group">
+            <img alt="Avance de obra" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" [src]="mediaPrincipalUrl || '/images/proyecto_torres_prado.webp'"/>
+            <div class="absolute inset-0 flex items-center justify-center bg-surface/60 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity">
+              <label class="px-8 py-3 bg-brand text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-2xl cursor-pointer">
+                Reemplazar Media
+                <input type="file" accept="image/*" class="hidden" (change)="reemplazarMedia($event)">
+              </label>
             </div>
           </div>
         </div>
@@ -167,19 +165,19 @@
       <!-- Right Column: Sidebar Panels -->
       <div class="w-96 space-y-8">
         <!-- Data Integrity Status Card -->
-        <div class="bg-[#131b2e] rounded-[2.5rem] p-8 border border-white/5 shadow-2xl space-y-8">
-          <h3 class="text-[10px] font-black text-[#3b82f6] uppercase tracking-[0.2em] flex items-center gap-3">
+        <div class="bg-surface-container-low rounded-[2.5rem] p-8 border border-white/5 shadow-2xl space-y-8">
+          <h3 class="text-[10px] font-black text-brand uppercase tracking-[0.2em] flex items-center gap-3">
             <span class="material-symbols-outlined text-lg">analytics</span>
             Estado de Integridad
           </h3>
           <div class="space-y-8">
             <div class="space-y-3">
               <div class="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                <span class="text-[#c2c6d6] opacity-40">Score de Validación</span>
-                <span class="text-[#3b82f6]">98.4%</span>
+                <span class="text-on-surface-variant opacity-40">Score de Validación</span>
+                <span class="text-brand">98.4%</span>
               </div>
-              <div class="h-1.5 bg-[#0b1326] rounded-full overflow-hidden">
-                <div class="h-full bg-[#3b82f6] shadow-[0_0_10px_#3b82f6]" style="width: 98.4%;"></div>
+              <div class="h-1.5 bg-surface rounded-full overflow-hidden">
+                <div class="h-full bg-brand shadow-[0_0_10px_#3b82f6]" style="width: 98.4%;"></div>
               </div>
             </div>
             <div class="space-y-6">
@@ -189,16 +187,16 @@
                 </div>
                 <div>
                   <p class="text-sm font-black text-white">Encriptación Verificada</p>
-                  <p class="text-[10px] text-[#c2c6d6] font-medium opacity-60">Protocolo AES-256 activo</p>
+                  <p class="text-[10px] text-on-surface-variant font-medium opacity-60">Protocolo AES-256 activo</p>
                 </div>
               </div>
               <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-xl bg-[#3b82f6]/10 flex items-center justify-center border border-[#3b82f6]/20">
-                  <span class="material-symbols-outlined text-[#3b82f6] text-lg">schedule</span>
+                <div class="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center border border-brand/20">
+                  <span class="material-symbols-outlined text-brand text-lg">schedule</span>
                 </div>
                 <div>
                   <p class="text-sm font-black text-white">Última Sincronización</p>
-                  <p class="text-[10px] text-[#c2c6d6] font-medium opacity-60">09:42:15 UTC Hoy</p>
+                  <p class="text-[10px] text-on-surface-variant font-medium opacity-60">09:42:15 UTC Hoy</p>
                 </div>
               </div>
             </div>
@@ -206,28 +204,35 @@
         </div>
 
         <!-- Milestone Linkage -->
-        <div class="bg-[#131b2e] rounded-[2.5rem] p-8 border border-white/5 shadow-2xl flex flex-col space-y-8 flex-1">
-          <h3 class="text-[10px] font-black text-[#3b82f6] uppercase tracking-[0.2em]">Vinculación de Hitos</h3>
+        <div class="bg-surface-container-low rounded-[2.5rem] p-8 border border-white/5 shadow-2xl flex flex-col space-y-8 flex-1">
+          <h3 class="text-[10px] font-black text-brand uppercase tracking-[0.2em]">Vinculación de Hitos</h3>
           <div class="space-y-4 flex-1 overflow-y-auto no-scrollbar">
             <div *ngFor="let h of hitos" class="p-6 rounded-[1.5rem] transition-all cursor-pointer border border-white/5" 
-                 [ngClass]="h.estado === 'active' ? 'bg-[#3b82f6]/10 border-[#3b82f6]/30' : 'bg-[#0b1326] opacity-60 hover:opacity-100'">
+                 [ngClass]="h.estado === 'active' ? 'bg-brand/10 border-brand/30' : 'bg-surface opacity-60 hover:opacity-100'">
               <div class="flex justify-between items-start mb-2">
-                <span class="text-[10px] font-black uppercase tracking-widest" [ngClass]="h.estado === 'active' ? 'text-[#3b82f6]' : 'text-[#c2c6d6]'">
+                <span class="text-[10px] font-black uppercase tracking-widest" [ngClass]="h.estado === 'active' ? 'text-brand' : 'text-on-surface-variant'">
                   {{ h.id }}
                 </span>
-                <span class="material-symbols-outlined text-base" [ngClass]="h.estado === 'active' ? 'text-[#3b82f6]' : 'text-[#c2c6d6]'">
+                <span class="material-symbols-outlined text-base" [ngClass]="h.estado === 'active' ? 'text-brand' : 'text-on-surface-variant'">
                   {{ h.estado === 'active' ? 'arrow_forward_ios' : 'lock' }}
                 </span>
               </div>
               <p class="text-sm font-black text-white leading-tight mb-2">{{ h.titulo }}</p>
               <div class="flex items-center justify-between">
-                <span class="text-[9px] font-black uppercase tracking-widest text-[#c2c6d6]">
+                <span class="text-[9px] font-black uppercase tracking-widest text-on-surface-variant">
                   {{ h.estado === 'active' ? 'Progreso: ' + h.progreso + '%' : (h.estado === 'pending' ? 'Inicio Pendiente' : 'Programado: ' + h.fecha) }}
                 </span>
               </div>
             </div>
           </div>
-          <button class="w-full py-5 bg-[#3b82f6] text-white rounded-[1.5rem] font-black uppercase text-xs tracking-widest shadow-2xl shadow-blue-900/40 hover:brightness-110 active:scale-95 transition-all">
+          @if (publicado) {
+            <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-brand bg-brand/10 border border-brand/20 rounded-2xl px-4 py-3">
+              <span class="material-symbols-outlined text-base">task_alt</span>
+              Actualización publicada
+            </div>
+          }
+          <button (click)="publicarActualizacion()" [disabled]="!descripcion.trim()"
+                  class="w-full py-5 bg-brand text-white rounded-[1.5rem] font-black uppercase text-xs tracking-widest shadow-2xl shadow-blue-900/40 hover:brightness-110 active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:brightness-100">
             PUBLICAR ACTUALIZACIÓN
           </button>
         </div>

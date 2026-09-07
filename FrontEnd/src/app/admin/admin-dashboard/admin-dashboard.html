@@ -1,33 +1,33 @@
 <div class="page-container fade-in">
   <header class="page-header">
-    <p class="subtitle">ORCHESTRATION HUB</p>
-    <h1>Admin Console</h1>
+    <p class="subtitle">CENTRO DE ORQUESTACIÓN</p>
+    <h1>Panel del Administrador</h1>
   </header>
 
   <div class="stats-grid">
     <div class="stat-card">
-      <span class="stat-label">TOTAL COMPANIES</span>
+      <span class="stat-label">EMPRESAS SOCIAS</span>
       <div class="stat-value-row">
         <span class="stat-value">{{ totalSocios }}</span>
-        <span class="stat-badge">+12%</span>
+        <span class="stat-badge">En vivo</span>
       </div>
     </div>
     <div class="stat-card">
-      <span class="stat-label">TOTAL PROPERTIES</span>
+      <span class="stat-label">PROPIEDADES REGISTRADAS</span>
       <div class="stat-value-row">
-        <span class="stat-value">2,842</span>
-        <span class="stat-badge">+5.4%</span>
+        <span class="stat-value">2.842</span>
+        <span class="stat-badge bg-slate text-slate">Demo</span>
       </div>
     </div>
     <div class="stat-card">
-      <span class="stat-label">ACTIVE PROJECTS</span>
+      <span class="stat-label">PROYECTOS ACTIVOS</span>
       <div class="stat-value-row">
         <span class="stat-value">48</span>
-        <span class="stat-badge bg-slate text-slate">Stable</span>
+        <span class="stat-badge bg-slate text-slate">Demo</span>
       </div>
     </div>
     <div class="stat-card">
-      <span class="stat-label">PLATFORM HEALTH</span>
+      <span class="stat-label">DISPONIBILIDAD</span>
       <div class="stat-value-row">
         <span class="stat-value text-blue">99.9%</span>
         <svg
@@ -52,10 +52,10 @@
         <div class="module-content">
           <h3>Gestión de Constructoras</h3>
           <p>
-            Oversee construction enterprise accounts, manage credentials, and audit operational
-            capacity across the portfolio.
+            Administra las cuentas de las constructoras socias, sus credenciales y su capacidad
+            operativa dentro del portafolio.
           </p>
-          <button class="btn-primary" routerLink="/admin/empresas">Launch Module →</button>
+          <button class="btn-primary" routerLink="/admin/empresas">Abrir módulo →</button>
         </div>
         <div class="module-icon">
           <svg
@@ -85,10 +85,10 @@
         <div class="module-content">
           <h3>Gestión de Terrenos</h3>
           <p>
-            Comprehensive land asset management. Verify titles, geographical data, and regulatory
-            compliance statuses.
+            Gestión integral del banco de tierras: verificación de títulos, datos catastrales y
+            estado de cumplimiento normativo.
           </p>
-          <button class="btn-primary" routerLink="/admin/terrenos">Explore Land Bank →</button>
+          <button class="btn-primary" routerLink="/admin/terrenos">Ver banco de tierras →</button>
         </div>
         <div class="module-icon">
           <svg
@@ -110,7 +110,7 @@
         <div class="module-content">
           <h3>Gestión de Proyectos</h3>
           <p>Administra proyectos inmobiliarios: estado, fases y métricas.</p>
-          <button class="btn-primary" routerLink="/admin/proyectos">Launch Module →</button>
+          <button class="btn-primary" routerLink="/admin/proyectos">Abrir módulo →</button>
         </div>
         <div class="module-icon">
           <svg
@@ -132,28 +132,28 @@
     <div class="activity-column">
       <div class="activity-card">
         <div class="activity-header">
-          <h3>Recent Activity</h3>
-          <span class="live-badge">Live Updates</span>
+          <h3>Actividad Reciente</h3>
+          <span class="live-badge">Datos de demostración</span>
         </div>
         <div class="activity-list">
           <div class="activity-item">
             <div class="activity-dot dot-blue"></div>
             <div class="activity-details">
               <h4>Nuevo Terreno Registrado</h4>
-              <p>Lote 45B - Silicon Valley North</p>
-              <span class="time">2 MINS AGO</span>
+              <p>Lote 45B — Urubó, Santa Cruz</p>
+              <span class="time">HACE 2 MINUTOS</span>
             </div>
           </div>
           <div class="activity-item">
             <div class="activity-dot dot-slate"></div>
             <div class="activity-details">
-              <h4>Constructor Approved</h4>
-              <p>Apex Institutional Builders Ltd.</p>
-              <span class="time">45 MINS AGO</span>
+              <h4>Constructora Aprobada</h4>
+              <p>Constructora Andina S.R.L.</p>
+              <span class="time">HACE 45 MINUTOS</span>
             </div>
           </div>
         </div>
-        <button class="btn-outline-full">VIEW ALL LOGS</button>
+        <button class="btn-outline-full" routerLink="/admin/legal/auditoria">VER BITÁCORA COMPLETA</button>
       </div>
     </div>
   </div>
@@ -161,57 +161,57 @@
   <section class="audit-section">
     <div class="audit-header">
       <div>
-        <h2>Audit Log</h2>
-        <p>Real-time institutional activity monitor</p>
+        <h2>Bitácora de Auditoría</h2>
+        <p>Registro de operaciones sobre la plataforma</p>
       </div>
     </div>
     <div class="table-container">
       <table>
         <thead>
           <tr>
-            <th>TIMESTAMP</th>
-            <th>ADMINISTRATOR</th>
-            <th>ACTION TYPE</th>
-            <th>TARGET ENTITY</th>
-            <th class="text-right">STATUS</th>
+            <th>FECHA Y HORA</th>
+            <th>RESPONSABLE</th>
+            <th>TIPO DE ACCIÓN</th>
+            <th>ENTIDAD AFECTADA</th>
+            <th class="text-right">ESTADO</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="time-cell">Oct 24, 14:22:10</td>
+            <td class="time-cell">24 oct, 14:22:10</td>
             <td>
               <div class="admin-cell">
-                <div class="avatar-sm">SJ</div>
-                <span>Sarah Jenkins</span>
+                <div class="avatar-sm">CM</div>
+                <span>Carla Mendoza</span>
               </div>
             </td>
-            <td class="action-cell">Registry Created</td>
-            <td class="target-cell">North Valleys P4-12</td>
-            <td class="status-cell"><span class="badge-completed">Completed</span></td>
+            <td class="action-cell">Alta de propiedad</td>
+            <td class="target-cell">Urubó sector P4-12</td>
+            <td class="status-cell"><span class="badge-completed">Completado</span></td>
           </tr>
           <tr>
-            <td class="time-cell">Oct 24, 12:45:02</td>
+            <td class="time-cell">24 oct, 12:45:02</td>
             <td>
               <div class="admin-cell">
-                <div class="avatar-sm bg-gray">MW</div>
-                <span>Marcus Wright</span>
+                <div class="avatar-sm bg-gray">RA</div>
+                <span>Rodrigo Áñez</span>
               </div>
             </td>
-            <td class="action-cell">Access Permission Change</td>
-            <td class="target-cell">Global Assets Ltd.</td>
-            <td class="status-cell"><span class="badge-completed">Completed</span></td>
+            <td class="action-cell">Cambio de permisos</td>
+            <td class="target-cell">Inmobiliaria Andina S.R.L.</td>
+            <td class="status-cell"><span class="badge-completed">Completado</span></td>
           </tr>
           <tr>
-            <td class="time-cell">Oct 24, 09:12:44</td>
+            <td class="time-cell">24 oct, 09:12:44</td>
             <td>
               <div class="admin-cell">
-                <div class="avatar-sm">SJ</div>
-                <span>Sarah Jenkins</span>
+                <div class="avatar-sm">CM</div>
+                <span>Carla Mendoza</span>
               </div>
             </td>
-            <td class="action-cell">Batch Update</td>
-            <td class="target-cell">Central District Grid</td>
-            <td class="status-cell"><span class="badge-processing">Processing</span></td>
+            <td class="action-cell">Actualización masiva</td>
+            <td class="target-cell">Distrito Central, Santa Cruz</td>
+            <td class="status-cell"><span class="badge-processing">En proceso</span></td>
           </tr>
         </tbody>
       </table>

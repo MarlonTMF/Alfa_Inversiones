@@ -18,6 +18,13 @@ export class ConstructorDashboard {
     private router: Router
   ) {}
 
+  /** Nombre de pila para el saludo, o la razon social entera si es una empresa. */
+  nombreSaludo(): string {
+    const nombre: string = this.authService.usuarioActual()?.nombre || '';
+    if (!nombre) return 'Constructora';
+    return /S\.?A\.?|S\.?R\.?L\.?|LTDA|&/i.test(nombre) ? nombre : nombre.split(' ')[0];
+  }
+
   toggleMenuCuenta() {
     this.mostrarMenuCuenta = !this.mostrarMenuCuenta;
   }

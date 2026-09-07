@@ -2,7 +2,14 @@ import { Routes } from '@angular/router';
 import { Mapa } from './mapa/mapa';
 import { AnalisisFinanciero } from './analisis-financiero/analisis-financiero';
 import { LandingPage } from './landing-page/landing-page';
-import { authGuard, adminGuard, adminOnlyGuard, superAdminGuard } from './guards/auth-guard';
+import {
+    authGuard,
+    adminGuard,
+    adminOnlyGuard,
+    superAdminGuard,
+    inversorGuard,
+    constructorGuard,
+} from './guards/auth-guard';
 
 export const routes: Routes = [
     { path: '', component: LandingPage },
@@ -32,6 +39,12 @@ export const routes: Routes = [
         loadComponent: () => import('./landing-page/landing-terreno/landing-terreno').then(m => m.LandingTerreno)
     },
     { path: 'analisis/:id', component: AnalisisFinanciero, canActivate: [authGuard] },
+    {
+        // Destino del rol propietario: registrar y dar seguimiento a su terreno.
+        path: 'registro-terreno',
+        loadComponent: () => import('./registro-terreno/registro-terreno').then((m) => m.RegistroTerreno),
+        canActivate: [authGuard],
+    },
 
 
 
@@ -90,6 +103,21 @@ export const routes: Routes = [
                     import('./admin/registro-inversion/registro-inversion').then((m) => m.RegistroInversion),
             },
             {
+                path: 'legal',
+                redirectTo: 'legal/consola',
+                pathMatch: 'full',
+            },
+            {
+                path: 'legal/consola',
+                loadComponent: () =>
+                    import('./admin/legal/consola/legal-consola').then((m) => m.LegalConsola),
+            },
+            {
+                path: 'legal/verificar',
+                loadComponent: () =>
+                    import('./admin/legal/verificacion/legal-verificacion').then((m) => m.LegalVerificacion),
+            },
+            {
                 path: 'legal/gestor',
                 loadComponent: () =>
                     import('./admin/legal/gestor-permisos/gestor-permisos').then((m) => m.GestorPermisos),
@@ -143,69 +171,73 @@ export const routes: Routes = [
         ],
     },
     {
+        // Cascara unica del panel: sidebar en escritorio, barra inferior en
+        // movil, usuario real y cierre de sesion. Las rutas hijas conservan
+        // las mismas URLs de antes.
         path: 'inversor',
-        loadComponent: () => import('./inversor/dashboard/dashboard').then((m) => m.InversorDashboard),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/portafolio',
-        loadComponent: () => import('./inversor/portafolio/portafolio').then((m) => m.InversorPortafolio),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/proyecto-analisis',
-        loadComponent: () => import('./inversor/proyecto-analisis/proyecto-analisis').then((m) => m.ProyectoAnalisis),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/avances',
-        loadComponent: () => import('./inversor/avances/avances').then((m) => m.InversorAvances),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/legal',
-        loadComponent: () => import('./inversor/legal/legal').then((m) => m.InversorLegal),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/terminal',
-        loadComponent: () => import('./inversor/terminal/terminal').then((m) => m.InversorTerminal),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'inversor/inversion-detalle',
-        loadComponent: () => import('./inversor/inversion-detalle/inversion-detalle').then((m) => m.InversorInversionDetalle),
-        canActivate: [authGuard]
+        loadComponent: () =>
+            import('./inversor/inversor-layout/inversor-layout').then((m) => m.InversorLayout),
+        canActivate: [authGuard, inversorGuard],
+        children: [
+            {
+                path: '',
+                loadComponent: () => import('./inversor/dashboard/dashboard').then((m) => m.InversorDashboard),
+            },
+            {
+                path: 'portafolio',
+                loadComponent: () => import('./inversor/portafolio/portafolio').then((m) => m.InversorPortafolio),
+            },
+            {
+                path: 'proyecto-analisis',
+                loadComponent: () => import('./inversor/proyecto-analisis/proyecto-analisis').then((m) => m.ProyectoAnalisis),
+            },
+            {
+                path: 'avances',
+                loadComponent: () => import('./inversor/avances/avances').then((m) => m.InversorAvances),
+            },
+            {
+                path: 'legal',
+                loadComponent: () => import('./inversor/legal/legal').then((m) => m.InversorLegal),
+            },
+            {
+                path: 'terminal',
+                loadComponent: () => import('./inversor/terminal/terminal').then((m) => m.InversorTerminal),
+            },
+            {
+                path: 'inversion-detalle',
+                loadComponent: () => import('./inversor/inversion-detalle/inversion-detalle').then((m) => m.InversorInversionDetalle),
+            },
+        ],
     },
     {
         path: 'constructor',
         loadComponent: () => import('./constructor/dashboard/dashboard').then((m) => m.ConstructorDashboard),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     {
         path: 'constructor/proyectos',
         loadComponent: () => import('./constructor/proyectos/proyectos').then((m) => m.ConstructorProyectos),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     {
         path: 'constructor/proyecto-detalle',
         loadComponent: () => import('./constructor/proyecto-detalle/proyecto-detalle').then((m) => m.ConstructorProyectoDetalle),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     {
         path: 'constructor/publicar-avance',
         loadComponent: () => import('./constructor/publicar-avance/publicar-avance').then((m) => m.ConstructorPublicarAvance),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     {
         path: 'constructor/legal',
         loadComponent: () => import('./constructor/legal/legal').then((m) => m.ConstructorLegal),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     {
         path: 'constructor/legal-publicacion',
         loadComponent: () => import('./constructor/legal-publicacion/legal-publicacion').then((m) => m.ConstructorLegalPublicacion),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     { 
         path: 'ayuda', 

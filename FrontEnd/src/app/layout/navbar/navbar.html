@@ -135,8 +135,8 @@
                                 <p class="dropdown-email">{{ authService.usuarioActual().email }}</p>
                             </div>
                             <div class="dropdown-divider"></div>
-                            <button type="button" class="dropdown-item">Mi Perfil</button>
-                            <button type="button" class="dropdown-item">Configuración</button>
+                            <button type="button" disabled title="Próximamente" class="dropdown-item" style="opacity:.4;cursor:not-allowed">Mi Perfil</button>
+                            <button type="button" disabled title="Próximamente" class="dropdown-item" style="opacity:.4;cursor:not-allowed">Configuración</button>
                             
                             <div class="dropdown-divider"></div>
                             
@@ -167,7 +167,7 @@
                                     </button>
                                 }
                                 @case ('propietario') {
-                                    <button type="button" class="dropdown-item text-primary" routerLink="/propietario/mis-terrenos" (click)="mostrarMenuPerfil = false">
+                                    <button type="button" class="dropdown-item text-primary" routerLink="/registro-terreno" (click)="mostrarMenuPerfil = false">
                                         Mis Terrenos
                                     </button>
                                 }

@@ -1,31 +1,31 @@
 <div class="bg-surface text-on-surface min-h-screen pb-20 md:pb-0 font-body">
-  <header class="w-full lg:pl-64 sticky top-0 z-50 bg-[#131b2e] shadow-[0_1px_2px_rgba(0,0,0,0.1)] flex items-center justify-between px-6 py-4">
+  <header class="w-full lg:pl-64 sticky top-0 z-50 bg-surface-container-low shadow-[0_1px_2px_rgba(0,0,0,0.1)] flex items-center justify-between px-6 py-4">
 
     <div class="flex items-center gap-3">
-      <span class="material-symbols-outlined text-[#adc6ff]">architecture</span>
-      <h1 class="headline-md tracking-tight text-[#adc6ff] text-lg">El Orquestador Inmobiliario</h1>
+      <span class="material-symbols-outlined text-primary">architecture</span>
+      <h1 class="headline-md tracking-tight text-primary text-lg">LINK · Inteligencia Inmobiliaria</h1>
     </div>
     <div class="flex items-center gap-4 relative">
-      <button class="p-2 rounded-full hover:bg-[#222a3d] transition-colors duration-200 active:scale-95 text-[#c2c6d6]">
+      <button class="p-2 rounded-full hover:bg-surface-container-high transition-colors duration-200 active:scale-95 text-on-surface-variant">
         <span class="material-symbols-outlined">notifications</span>
       </button>
       
       <div (click)="toggleMenuPerfil()" class="cursor-pointer flex items-center gap-2 group">
-        <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs ring-2 ring-transparent group-hover:ring-[#3b82f6] transition-all">
+        <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs ring-2 ring-transparent group-hover:ring-brand transition-all">
           SA
         </div>
-        <span class="material-symbols-outlined text-[#c2c6d6] text-sm transition-transform duration-200" [class.rotate-180]="mostrarMenuPerfil">expand_more</span>
+        <span class="material-symbols-outlined text-on-surface-variant text-sm transition-transform duration-200" [class.rotate-180]="mostrarMenuPerfil">expand_more</span>
       </div>
 
       <!-- Profile Dropdown Menu -->
-      <div *ngIf="mostrarMenuPerfil" class="absolute top-12 right-0 w-64 bg-[#131b2e] border border-[#222a3d] rounded-2xl shadow-2xl p-4 z-[70] animate-in fade-in slide-in-from-top-2 duration-200">
-        <div class="flex items-center gap-3 pb-4 border-b border-[#222a3d] mb-4">
-          <div class="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-white font-bold">
+      <div *ngIf="mostrarMenuPerfil" class="absolute top-12 right-0 w-64 bg-surface-container-low border border-surface-container-high rounded-2xl shadow-2xl p-4 z-[70] animate-in fade-in slide-in-from-top-2 duration-200">
+        <div class="flex items-center gap-3 pb-4 border-b border-surface-container-high mb-4">
+          <div class="w-10 h-10 rounded-full bg-brand flex items-center justify-center text-white font-bold">
             {{authService.usuarioActual()?.nombre?.substring(0,1)}}
           </div>
           <div class="overflow-hidden">
             <p class="text-white font-bold text-sm truncate">{{authService.usuarioActual()?.nombre}}</p>
-            <p class="text-[#3b82f6] text-[10px] font-bold uppercase tracking-widest">{{authService.usuarioActual()?.rol}}</p>
+            <p class="text-brand text-[10px] font-bold uppercase tracking-widest">{{authService.usuarioActual()?.rol}}</p>
           </div>
         </div>
 
@@ -85,7 +85,7 @@
           <div class="relative z-10">
             <h3 class="text-2xl font-bold mb-2">Gestión de Constructoras</h3>
             <p class="text-on-surface-variant mb-6 max-w-md">Supervisa las cuentas de empresas constructoras, gestiona credenciales y audita la capacidad operativa en todo el portafolio.</p>
-            <button routerLink="/admin/constructors" class="bg-[#3b82f6] text-white px-6 py-2.5 rounded-lg font-bold flex items-center gap-2 hover:bg-primary-container transition-colors active:scale-95 duration-100">
+            <button routerLink="/admin/registrar-constructor" class="bg-brand text-white px-6 py-2.5 rounded-lg font-bold flex items-center gap-2 hover:bg-primary-container transition-colors active:scale-95 duration-100">
               Abrir Módulo
               <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
@@ -99,7 +99,7 @@
           <div class="relative z-10">
             <h3 class="text-2xl font-bold mb-2">Gestión de Terrenos</h3>
             <p class="text-on-surface-variant mb-6 max-w-md">Gestión integral de activos territoriales. Verifica títulos, datos geográficos y cumplimiento normativo.</p>
-            <button routerLink="/admin/terrenos" class="bg-[#3b82f6] text-white px-6 py-2.5 rounded-lg font-bold flex items-center gap-2 hover:bg-primary-container transition-colors active:scale-95 duration-100">
+            <button routerLink="/admin/terrenos" class="bg-brand text-white px-6 py-2.5 rounded-lg font-bold flex items-center gap-2 hover:bg-primary-container transition-colors active:scale-95 duration-100">
               Explorar Banco de Tierras
               <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
@@ -108,7 +108,7 @@
       </div>
 
       <div class="space-y-6">
-        <div class="bg-surface-container-low rounded-xl p-6 border border-[#222a3d]/50">
+        <div class="bg-surface-container-low rounded-xl p-6 border border-surface-container-high/50">
           <div class="flex items-center justify-between mb-6">
             <h4 class="font-bold tracking-tight">Actividad Reciente</h4>
             <span class="font-label label-sm text-primary">En Vivo</span>
@@ -131,7 +131,7 @@
               </div>
             </div>
           </div>
-          <button class="w-full mt-8 py-3 text-[#c2c6d6] font-label label-sm uppercase border border-[#222a3d] rounded hover:bg-[#222a3d] transition-colors">
+          <button class="w-full mt-8 py-3 text-on-surface-variant font-label label-sm uppercase border border-surface-container-high rounded hover:bg-surface-container-high transition-colors">
             Ver Todos los Registros
           </button>
         </div>
@@ -150,37 +150,37 @@
   </main>
 
   <!-- Navigation -->
-  <aside class="hidden lg:flex flex-col h-full py-8 px-4 w-64 fixed left-0 top-0 bg-[#060e20] shadow-2xl shadow-black/50 z-[60]">
+  <aside class="hidden lg:flex flex-col h-full py-8 px-4 w-64 fixed left-0 top-0 bg-surface-container-lowest shadow-2xl shadow-black/50 z-[60]">
     <div class="mb-10 flex items-center gap-3 px-4">
-      <span class="material-symbols-outlined text-[#3b82f6]">architecture</span>
-      <span class="text-[#3b82f6] font-bold">Orquestador</span>
+      <span class="material-symbols-outlined text-brand">architecture</span>
+      <span class="text-brand font-bold">Orquestador</span>
     </div>
     <nav class="flex-1 space-y-2">
-      <a routerLink="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 bg-[#131b2e] text-[#3b82f6] border-l-4 border-[#3b82f6] transition-all duration-300">
+      <a routerLink="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 bg-surface-container-low text-brand border-l-4 border-brand transition-all duration-300">
         <span class="material-symbols-outlined">dashboard</span>
         <span class="label-sm uppercase tracking-widest">Dashboard</span>
       </a>
-      <a routerLink="/admin/constructors" class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+      <a routerLink="/admin/registrar-constructor" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low hover:text-white transition-all duration-300">
         <span class="material-symbols-outlined">business_center</span>
         <span class="label-sm uppercase tracking-widest">Constructoras</span>
       </a>
-      <a routerLink="/admin/terrenos" class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+      <a routerLink="/admin/terrenos" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low hover:text-white transition-all duration-300">
         <span class="material-symbols-outlined">domain</span>
         <span class="label-sm uppercase tracking-widest">Propiedades</span>
       </a>
     </nav>
   </aside>
 
-  <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 md:hidden bg-[#0b1326]/80 backdrop-blur-xl border-t border-[#222a3d] z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
-    <a routerLink="/admin/dashboard" class="flex flex-col items-center justify-center text-[#3b82f6] p-2 bg-[#3b82f6]/10 rounded-xl scale-105 transition-transform">
+  <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 md:hidden bg-surface/80 backdrop-blur-xl border-t border-surface-container-high z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
+    <a routerLink="/admin/dashboard" class="flex flex-col items-center justify-center text-brand p-2 bg-brand/10 rounded-xl scale-105 transition-transform">
       <span class="material-symbols-outlined">analytics</span>
       <span class="label-sm font-bold uppercase mt-1">Inicio</span>
     </a>
-    <a routerLink="/admin/constructors" class="flex flex-col items-center justify-center text-[#c2c6d6] p-2 hover:bg-[#222a3d]">
+    <a routerLink="/admin/registrar-constructor" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high">
       <span class="material-symbols-outlined">engineering</span>
       <span class="label-sm font-bold uppercase mt-1">Equipos</span>
     </a>
-    <a routerLink="/admin/terrenos" class="flex flex-col items-center justify-center text-[#c2c6d6] p-2 hover:bg-[#222a3d]">
+    <a routerLink="/admin/terrenos" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high">
       <span class="material-symbols-outlined">map</span>
       <span class="label-sm font-bold uppercase mt-1">Terrenos</span>
     </a>

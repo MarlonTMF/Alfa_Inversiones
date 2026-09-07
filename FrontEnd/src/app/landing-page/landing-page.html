@@ -1,22 +1,4 @@
-<nav class="public-navbar">
-    <div class="nav-container">
-        <div class="nav-brand cursor-pointer" routerLink="/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
-            <span>Plataforma Orquestadora</span>
-        </div>
-        <div class="nav-links">
-            <a routerLink="/">Inicio</a>
-            <a routerLink="/explorar">Proyectos</a>
-            <a routerLink="/constructor-info">Constructor</a>
-            <a routerLink="/inversor-info">Inversionista</a>
-            <a routerLink="/terreno-info">Propietario de terreno</a>
-            <a routerLink="/ayuda">Ayuda</a>
-        </div>
-        <div class="nav-auth">
-            <button class="btn-login" (click)="mostrarLogin = true">Iniciar Sesión</button>
-        </div>
-    </div>
-</nav>
+<app-public-navbar></app-public-navbar>
 
 <section class="hero-section">
     <div class="hero-content">
@@ -46,7 +28,7 @@
             <div class="glass-card">
                 <div class="card-header">
                     <div class="pulse-dot"></div>
-                    <span>Orquestador Inmobiliario Activo</span>
+                    <span>LINK · Plataforma activa</span>
                 </div>
                 <h3>¿Quiere vender o desarrollar su propiedad?</h3>
                 <p>Nuestros asesores legales y financieros se encargarán de subir su propiedad al mapa interactivo y conectarlo con constructores.</p>
@@ -164,14 +146,14 @@
 <footer class="footer">
     <div class="footer-brand">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
-        <span>ORQUESTADOR INMOBILIARIO</span>
+        <span>LINK</span>
     </div>
     <div class="contact-info-footer">
-        <span>contacto@orquestador.bo</span>
+        <span>contacto@link.bo</span>
         <span>|</span>
         <span>Oficinas Centrales, Bolivia</span>
     </div>
-    <p class="footer-copy">Plataforma Orquestadora 2026 - Todos los derechos reservados</p>
+    <p class="footer-copy">LINK · Inteligencia Inmobiliaria — Todos los derechos reservados</p>
 </footer>
 
 @if (mostrarLogin) {

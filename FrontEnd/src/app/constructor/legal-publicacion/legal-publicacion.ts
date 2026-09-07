@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../auth/services/auth';
 
 @Component({
   selector: 'app-constructor-legal-publicacion',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './legal-publicacion.html',
   styleUrl: './legal-publicacion.css'
 })
 export class ConstructorLegalPublicacion {
   mostrarMenuCuenta: boolean = false;
+  referencia: string = '';
 
   constructor(
     public authService: AuthService,
@@ -27,12 +29,12 @@ export class ConstructorLegalPublicacion {
     this.router.navigate(['/']);
   }
   proyecto = {
-    nombre: 'Skyline Heights Phase II',
+    nombre: 'Condominio Equipetrol Norte',
     id: 'ASSET-4820',
-    ubicacion: 'Silicon Valley, CA',
+    ubicacion: 'Equipetrol Norte, Santa Cruz',
     valoracion: 42.8,
     riesgo: 'Bajo',
-    imagen: 'https://lh3.googleusercontent.com/aida/ADBb0ui97Z3UblNdgwwVzPU7tgT7HKa9AMJ2qLG54URPqwlJpTzLq7D5YBLoXpwUA94S9yIt2vwMtzOqPcwa0p9S6MJ_H2wmJSY0P8Jsct5Qt6utqXlHkJoSq4jqkb4LDYQYc8-SlF0x7D3BVElCBQ_3Y1E-JWz4rmquK_CCcC8YSPYU235d9waZSemWpiFPTHTqPRJeLYxd9ogbLv3IdKeYIqK2paxFUAWpwBFH1Hvf5L4s7562bu3axP79F2SDCoPQqv3dH0WGaM-GWGY'
+    imagen: '/images/proyecto_calacoto.webp'
   };
 
   historial = [
@@ -52,5 +54,36 @@ export class ConstructorLegalPublicacion {
 
   cambiarEstado(nuevoEstado: string) {
     this.estadoActual = nuevoEstado;
+  }
+
+  /**
+   * No hay backend detras de este formulario de demostracion: publicar
+   * agrega la entrada al historial visible del expediente, en vez de que
+   * el boton no hiciera nada al pulsarlo. Sin zone.js (Angular zoneless)
+   * un setTimeout no dispara deteccion de cambios por si solo, asi que se
+   * resuelve en el mismo ciclo del clic.
+   */
+  publicar(): void {
+    if (!this.referencia.trim()) {
+      return;
+    }
+    this.historial.unshift({
+      titulo: `Documento publicado: ${this.referencia.trim()}`,
+      tiempo: 'Ahora',
+      autor: this.authService.usuarioActual()?.nombre || 'Constructora',
+    });
+    this.referencia = '';
+  }
+
+  guardarBorrador(): void {
+    if (!this.referencia.trim()) {
+      return;
+    }
+    this.historial.unshift({
+      titulo: `Borrador guardado: ${this.referencia.trim()}`,
+      tiempo: 'Ahora',
+      autor: this.authService.usuarioActual()?.nombre || 'Constructora',
+    });
+    this.referencia = '';
   }
 }

@@ -16,23 +16,29 @@ export class App {
     public esAdminRoute: boolean = false;
 
     constructor(private router: Router) {
+        // Evaluamos ya la URL actual: si esperamos al primer NavigationEnd, la
+        // navbar global alcanza a pintarse sobre pantallas que traen la suya
+        // propia (landing, paneles) y se ven dos cabeceras superpuestas.
+        this.esAdminRoute = App.traeNavbarPropia(this.router.url);
+
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {
-            const url = event.urlAfterRedirects;
-            this.esAdminRoute = url.includes('/admin') || 
-                                url.includes('/constructor') || 
-                                url.includes('/inversor') ||
-                                url === '/' ||
-                                url === '' ||
-                                url.includes('/explorar') ||
-                                url.includes('/terreno-info') ||
-                                url.includes('/ayuda');
-
-
+            this.esAdminRoute = App.traeNavbarPropia(event.urlAfterRedirects);
         });
+    }
 
-
+    /** Rutas que ya dibujan su propia cabecera y no deben recibir la global. */
+    private static traeNavbarPropia(url: string): boolean {
+        const ruta = (url || '').split('?')[0];
+        return ruta === '' ||
+               ruta === '/' ||
+               ruta.startsWith('/admin') ||
+               ruta.startsWith('/constructor') ||
+               ruta.startsWith('/inversor') ||
+               ruta.startsWith('/explorar') ||
+               ruta.startsWith('/terreno-info') ||
+               ruta.startsWith('/ayuda');
     }
 
     toggleSidebar(): void {

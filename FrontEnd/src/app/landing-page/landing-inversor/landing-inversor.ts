@@ -1,45 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { PublicNavbar } from '../../layout/public-navbar/public-navbar';
 import { AuthService } from '../../auth/services/auth';
-import { Login } from '../../auth/login/login';
 
 @Component({
   selector: 'app-landing-inversor',
   standalone: true,
-  imports: [CommonModule, RouterLink, Login],
+  imports: [CommonModule, PublicNavbar],
   template: `
-<nav class="public-navbar">
-    <div class="nav-container">
-        <div routerLink="/" class="nav-brand cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
-            <span>Plataforma Orquestadora</span>
-        </div>
-        <div class="nav-links">
-            <a routerLink="/">Inicio</a>
-            <a routerLink="/explorar">Proyectos</a>
-            <a routerLink="/constructor-info">Constructor</a>
-            <a routerLink="/inversor-info" class="active-link">Inversionista</a>
-            <a routerLink="/terreno-info">Propietario de terreno</a>
-            <a routerLink="/ayuda">Ayuda</a>
-        </div>
-        <div class="nav-auth">
-            @if (authService.usuarioActual()) {
-                <div class="user-pill">
-                    <span class="user-name">{{ authService.usuarioActual().nombre }}</span>
-                    <button class="btn-logout-small" (click)="authService.logout()">✕</button>
-                </div>
-            } @else {
-                <button class="btn-login" (click)="mostrarLogin = true">Iniciar Sesión</button>
-            }
-        </div>
-    </div>
-</nav>
+<app-public-navbar></app-public-navbar>
 
 <main class="min-h-screen bg-surface text-on-surface">
 <section class="relative h-[819px] w-full flex items-center px-12 overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img class="w-full h-full object-cover opacity-40 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfYSyozlYqlDpogkLNONNwLgOrGvfkzpgicf81xRZf1YmZ3IsYe_K8dSH05sE-Xi-3Xm2TKWM20-OKJ63AUTnsVz7lK0Zje2ve5ocEf58nPXwWD6fGaplLwHndY-DqBfcuc4Zg8_1FyWTWXYmdmdY2RvAz5UOciw7XE0OcE6ifPOvyzT83LpuIxRObGXjie7Hj3EGfCuDV2odnNtM06DmwxprCEtUMwtXf2uZ7aHn9TNv9yT1FgiAj04fAEj4sSNk6MH2u6aXFLlP6"/>
+<img alt="" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" src="/images/proyecto_equipetrol.webp"/>
 <div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent"></div>
 </div>
 <div class="relative z-10 max-w-4xl">
@@ -54,12 +28,12 @@ import { Login } from '../../auth/login/login';
                     Acceda a vehículos de inversión optimizados con estructuras de gobernanza de nivel institucional y despliegue de capital en activos premium globales.
                 </p>
 <div class="flex items-center gap-6">
-<button class="bg-[#3b82f6] text-white px-8 py-4 rounded-lg font-bold transition-transform active:scale-95 shadow-lg shadow-blue-500/20">
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20comenzar%20a%20invertir" target="_blank" rel="noopener noreferrer" class="bg-brand text-white px-8 py-4 rounded-lg font-bold transition-transform active:scale-95 shadow-lg shadow-blue-500/20 inline-block">
                         Comenzar Inversión
-                    </button>
-<button class="bg-surface-container-highest/50 backdrop-blur-md text-on-surface px-8 py-4 rounded-lg font-bold border border-outline-variant/30 hover:bg-surface-container-highest transition-colors">
+                    </a>
+<a routerLink="/explorar" class="bg-surface-container-highest/50 backdrop-blur-md text-on-surface px-8 py-4 rounded-lg font-bold border border-outline-variant/30 hover:bg-surface-container-highest transition-colors inline-block">
                         Ver Portafolio
-                    </button>
+                    </a>
 </div>
 </div>
 </section>
@@ -114,7 +88,7 @@ import { Login } from '../../auth/login/login';
 </div>
 <div class="relative">
 <div class="aspect-square rounded-3xl overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.5)]">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIMLbFoVuYCftHHWLa90v72mQ8EfKTGLBil736gzni_zEaYatpu9MlIlbyq8rczQnNYfh02IgAD9lqVQ-qGWrGclUyy_M70ZekIKaH-TFTxSG4lcBP_TTp_xnJmwkQqf1KuiAugIN7tPzkKOxC1-bOo14S7JkNiiGGShgBgrccnUI8thLtFEqr25RM2Ys35m_t3I7fW5hJ_xDMKw3SrYD4OQRogY3Mx8RW9uDJD4ljoC1zsCU9L0wZDxtKqkBfdQP3BB4sBpQ_INmT"/>
+<img alt="Proyecto en cartera" class="w-full h-full object-cover" src="/images/proyecto_calacoto.webp"/>
 </div>
 <div class="absolute -bottom-10 -left-10 p-8 glass-panel rounded-2xl border border-white/10 shadow-2xl max-w-xs">
 <div class="flex items-center gap-3 mb-4">
@@ -131,8 +105,8 @@ import { Login } from '../../auth/login/login';
 <h2 class="text-3xl font-bold mb-6">¿Preparado para diversificar su capital?</h2>
 <p class="text-on-surface-variant max-w-md mb-8">Únase a una red exclusiva de inversores institucionales y acceda a oportunidades de Real Estate seleccionadas por expertos.</p>
 <div class="flex gap-4">
-<button class="px-6 py-3 bg-blue-600 text-white rounded-lg font-bold">Contactar con un Advisor</button>
-<button class="px-6 py-3 border border-outline-variant text-on-surface rounded-lg font-bold">Descargar Memoria Anual</button>
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20contactar%20con%20un%20advisor" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-bold inline-block">Contactar con un Advisor</a>
+<button disabled title="Próximamente" class="px-6 py-3 border border-outline-variant text-on-surface rounded-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed">Descargar Memoria Anual</button>
 </div>
 </div>
 <div>
@@ -155,7 +129,7 @@ import { Login } from '../../auth/login/login';
 </div>
 </div>
 <div class="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/5 gap-6">
-<p class="text-xs text-slate-500">© 2024 Plataforma Orquestadora Asset Management. Todos los derechos reservados.</p>
+<p class="text-xs text-slate-500">© LINK · Inteligencia Inmobiliaria. Todos los derechos reservados.</p>
 <div class="flex gap-6">
 <span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-white">public</span>
 <span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-white">business_center</span>
@@ -165,9 +139,6 @@ import { Login } from '../../auth/login/login';
 </footer>
 </main>
 
-@if (mostrarLogin) {
-    <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin()"></app-login>
-}
   `,
   styles: [`
     :host { display: block; overflow-x: hidden; background-color: #0b1326; }
@@ -176,9 +147,4 @@ import { Login } from '../../auth/login/login';
 })
 export class LandingInversor {
     public authService = inject(AuthService);
-    public mostrarLogin = false;
-
-    procesarLogin() {
-        this.mostrarLogin = false;
-    }
 }

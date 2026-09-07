@@ -1,13 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { PublicNavbar } from '../layout/public-navbar/public-navbar';
 import { AuthService } from '../auth/services/auth';
 import { Login } from '../auth/login/login';
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, Login],
+  imports: [CommonModule, RouterLink, Login, PublicNavbar],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css'
 })
@@ -42,23 +43,13 @@ export class LandingPage implements OnInit {
             return;
         }
 
-        const url = `${window.location.origin}${window.location.pathname}?demoUser=${rol}`;
+        const token = this.authService.generarTokenDemo(rol);
+        const url = `${window.location.origin}${window.location.pathname}?demoUser=${rol}&demoToken=${token}`;
         window.open(url, '_blank', 'noopener,noreferrer,width=1500,height=1000');
     }
 
     private redireccionarSegunRol(usuario: any): void {
-        const rol = (usuario?.rol || '').toLowerCase();
-        if (rol === 'inversor' || rol === 'inversionista') {
-            this.router.navigate(['/inversor']);
-        } else if (rol === 'constructor') {
-            this.router.navigate(['/constructor']);
-        } else if (rol === 'admin' || rol === 'super-admin') {
-            this.router.navigate(['/admin/dashboard']);
-        } else if (rol === 'propietario') {
-            this.router.navigate(['/registro-terreno']);
-        } else {
-            this.router.navigate(['/mapa']);
-        }
+        this.router.navigateByUrl(this.authService.rutaInicioPorRol(usuario?.rol));
     }
 
     setTab(tab: 'inversor' | 'constructor' | 'propiedad') {

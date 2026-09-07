@@ -1,16 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth/services/auth';
 import { Login } from '../auth/login/login';
 import { Mapa } from '../mapa/mapa';
 import { ExploradorService } from '../services/explorador';
 import { AmenidadesService } from '../services/amenidades';
+import { PublicNavbar } from '../layout/public-navbar/public-navbar';
 
 @Component({
   selector: 'app-explorar-activos',
   standalone: true,
-  imports: [CommonModule, RouterLink, Login, Mapa],
+  imports: [CommonModule, Login, Mapa, PublicNavbar],
   templateUrl: './explorar-activos.html',
   styleUrl: './explorar-activos.css'
 })

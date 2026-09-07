@@ -40,8 +40,8 @@ export class LegalExpediente {
   ];
 
   contratos = [
-    { id: 'C1', inversor: 'Alexander Vance', monto: '$1,250,000', estado: 'Firmado', fecha: '24 Oct 2023' },
-    { id: 'C2', inversor: 'Nordic Wealth Fund', monto: '$5,000,000', estado: 'Pendiente', fecha: '02 Nov 2023' }
+    { id: 'C1', inversor: 'Alejandro Vargas', monto: '$1,250,000', estado: 'Firmado', fecha: '24 Oct 2023' },
+    { id: 'C2', inversor: 'Capital Inversiones S.A.', monto: '$5,000,000', estado: 'Pendiente', fecha: '02 Nov 2023' }
   ];
 
   alertas = [

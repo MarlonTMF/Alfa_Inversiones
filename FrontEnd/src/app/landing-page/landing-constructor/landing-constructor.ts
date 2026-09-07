@@ -1,45 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { PublicNavbar } from '../../layout/public-navbar/public-navbar';
 import { AuthService } from '../../auth/services/auth';
-import { Login } from '../../auth/login/login';
 
 @Component({
   selector: 'app-landing-constructor',
   standalone: true,
-  imports: [CommonModule, RouterLink, Login],
+  imports: [CommonModule, PublicNavbar],
   template: `
-<nav class="public-navbar">
-    <div class="nav-container">
-        <div routerLink="/" class="nav-brand cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
-            <span>Plataforma Orquestadora</span>
-        </div>
-        <div class="nav-links">
-            <a routerLink="/">Inicio</a>
-            <a routerLink="/explorar">Proyectos</a>
-            <a routerLink="/constructor-info" class="active-link">Constructor</a>
-            <a routerLink="/inversor-info">Inversionista</a>
-            <a routerLink="/terreno-info">Propietario de terreno</a>
-            <a routerLink="/ayuda">Ayuda</a>
-        </div>
-        <div class="nav-auth">
-            @if (authService.usuarioActual()) {
-                <div class="user-pill">
-                    <span class="user-name">{{ authService.usuarioActual().nombre }}</span>
-                    <button class="btn-logout-small" (click)="authService.logout()">✕</button>
-                </div>
-            } @else {
-                <button class="btn-login" (click)="mostrarLogin = true">Iniciar Sesión</button>
-            }
-        </div>
-    </div>
-</nav>
+<app-public-navbar></app-public-navbar>
 
 <main>
 <section class="relative min-h-[870px] flex items-center overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img class="w-full h-full object-cover opacity-30 grayscale brightness-75" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC20WVCMqww7XpSCc9ubv_91uQpuc_QvTEZa3gfg7CpEwS_oRBk_gOfOEpDqoYP0zDk91g6qT2Yu33hPJjlCyzsMjbXXMuDVjADUTo0Qv4-pers6O8ZStyxVPE9WW4b9COgrOn6GtSN6pFEZ_MUrZDi1AUjhRcyh-AmM2yCrifJENd6D8n79NOPSf54mQWQ92Rco38bHxyrHpIAWG4O7NXn8mzgrS69dv4Ky05HGOEzQiFIeoMHgMuOkslo_M3LypIR6gfIBVUR_bu5"/>
+<img alt="" class="w-full h-full object-cover opacity-30 grayscale brightness-75" src="/images/hero_constructor.webp"/>
 <div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent"></div>
 </div>
 <div class="container mx-auto px-6 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -50,12 +24,12 @@ import { Login } from '../../auth/login/login';
                         Transformamos el capital global en infraestructura local. Acceda a fondeo estratégico diseñado para los ritmos reales de la construcción.
                     </p>
 <div class="flex flex-col sm:flex-row gap-4">
-<button class="bg-[#3b82f6] hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20solicitar%20una%20evaluaci%C3%B3n%20para%20mi%20constructora" target="_blank" rel="noopener noreferrer" class="bg-brand hover:bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] inline-block">
                             Solicitar Evaluación
-                        </button>
-<button class="border border-outline-variant hover:border-primary px-8 py-4 rounded-lg text-lg font-bold text-on-surface transition-all">
+                        </a>
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20saber%20los%20requisitos%20para%20registrar%20mi%20constructora" target="_blank" rel="noopener noreferrer" class="border border-outline-variant hover:border-primary px-8 py-4 rounded-lg text-lg font-bold text-on-surface transition-all inline-block">
                             Ver Requisitos
-                        </button>
+                        </a>
 </div>
 </div>
 </div>
@@ -80,7 +54,7 @@ import { Login } from '../../auth/login/login';
 <span class="material-symbols-outlined text-[20rem]" style="font-variation-settings: 'FILL' 1;">speed</span>
 </div>
 </div>
-<div class="md:col-span-5 bg-[#3b82f6] text-white rounded-xl p-12 relative overflow-hidden flex flex-col justify-between">
+<div class="md:col-span-5 bg-brand text-white rounded-xl p-12 relative overflow-hidden flex flex-col justify-between">
 <div class="relative z-10">
 <span class="material-symbols-outlined text-4xl mb-6">assured_workload</span>
 <h4 class="text-3xl font-bold mb-4">Sin Burocracia Bancaria</h4>
@@ -98,7 +72,7 @@ import { Login } from '../../auth/login/login';
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 <div>
 <span class="text-blue-400 font-bold uppercase tracking-[0.2em] text-xs mb-4 block">Tecnología de Punta</span>
-<h3 class="text-4xl md:text-5xl font-bold tracking-tighter mb-12">La Ventaja Apex</h3>
+<h3 class="text-4xl md:text-5xl font-bold tracking-tighter mb-12">La Ventaja LINK</h3>
 <div class="space-y-12">
 <div class="flex gap-6">
 <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
@@ -123,7 +97,7 @@ import { Login } from '../../auth/login/login';
 <div class="relative">
 <div class="bg-surface-container-highest rounded-2xl p-4 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)] border border-outline-variant/30">
 <div class="rounded-xl overflow-hidden aspect-video bg-surface shadow-inner">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZCd4c1DdZZBPeLN_rGVR-XG3D-ufKDWNFmWQKv7bOsjRCJiX1D5f1FJo_mzokiphMe3_NleWteyjHP306H8H1pgZGLSFQssCNJGDqOEWHKdglS8PJ6gJgDhOiARwOybwfS3UXBrqd93b8eCLBxu1tUO29GILrW2jNo1pBSPucfgSdQrdeGKlcPuTNMZTVVl-HWeUMAdEqnBRmc3qI-hdqX2Y-QQrIhLUQYFK8nEP6L_PyGV0YwoB45njLXu4huTV5A6_GGmD72bS2"/>
+<img alt="Proyecto en construccion" class="w-full h-full object-cover" src="/images/proyecto_torres_prado.webp"/>
 </div>
 <div class="absolute -bottom-6 -left-6 glass-card p-6 rounded-xl border border-white/5 shadow-2xl">
 <div class="flex items-center gap-4">
@@ -146,9 +120,9 @@ import { Login } from '../../auth/login/login';
 <div class="relative z-10">
 <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-8">¿Listo para escalar su próximo proyecto?</h2>
 <p class="text-on-surface-variant text-xl mb-12 max-w-2xl mx-auto">Nuestro equipo de arquitectos financieros está listo para evaluar su portafolio en menos de 48 horas.</p>
-<button class="bg-[#3b82f6] hover:bg-blue-600 text-white px-12 py-5 rounded-lg text-xl font-bold shadow-lg shadow-blue-500/20 transition-all hover:scale-105">
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20iniciar%20una%20solicitud%20de%20fondeo" target="_blank" rel="noopener noreferrer" class="bg-brand hover:bg-blue-600 text-white px-12 py-5 rounded-lg text-xl font-bold shadow-lg shadow-blue-500/20 transition-all hover:scale-105 inline-block">
                             Iniciar Solicitud Ahora
-                        </button>
+                        </a>
 <p class="mt-8 text-on-surface-variant/60 font-mono text-sm tracking-widest uppercase">Consulta sin compromiso — 100% Confidencial</p>
 </div>
 <div class="absolute inset-0 opacity-10 pointer-events-none">
@@ -171,7 +145,7 @@ import { Login } from '../../auth/login/login';
 <div class="col-span-1 md:col-span-1">
 <div class="flex items-center gap-3 mb-6">
 <span class="material-symbols-outlined text-blue-400" style="font-variation-settings: 'FILL' 1;">account_balance</span>
-<h1 class="text-xl font-bold tracking-tighter text-blue-500">Plataforma Orquestadora</h1>
+<h1 class="text-xl font-bold tracking-tighter text-blue-500">LINK</h1>
 </div>
 <p class="text-on-surface-variant text-sm leading-relaxed">Infraestructura financiera para el mundo real. Conectando capital con visión arquitectónica.</p>
 </div>
@@ -201,7 +175,7 @@ import { Login } from '../../auth/login/login';
 </div>
 </div>
 <div class="pt-8 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4 text-on-surface-variant text-xs">
-<p>© 2024 Plataforma Orquestadora Institutional. Todos los derechos reservados.</p>
+<p>© LINK · Inteligencia Inmobiliaria. Todos los derechos reservados.</p>
 <div class="flex gap-6">
 <span class="material-symbols-outlined cursor-pointer hover:text-blue-400">public</span>
 <span class="material-symbols-outlined cursor-pointer hover:text-blue-400">groups</span>
@@ -211,9 +185,6 @@ import { Login } from '../../auth/login/login';
 </div>
 </footer>
 
-@if (mostrarLogin) {
-    <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin()"></app-login>
-}
   `,
   styles: [`
     :host { display: block; overflow-x: hidden; background-color: #0b1326; }
@@ -225,9 +196,4 @@ import { Login } from '../../auth/login/login';
 })
 export class LandingConstructor {
     public authService = inject(AuthService);
-    public mostrarLogin = false;
-
-    procesarLogin() {
-        this.mostrarLogin = false;
-    }
 }

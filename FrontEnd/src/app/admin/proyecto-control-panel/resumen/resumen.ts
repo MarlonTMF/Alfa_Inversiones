@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { imagenPrincipal } from '../../../core/media';
 
 @Component({
   selector: 'app-proyecto-resumen',
@@ -16,6 +17,11 @@ export class ProyectoResumen {
   @Input() multimediaCount: number = 0;
   @Input() fases: any[] = [];
   @Output() seccionChange = new EventEmitter<string>();
+
+  /** Portada del proyecto, descartando videos y sin depender de imagenes remotas. */
+  portada(multimedia: any[] | undefined): string {
+    return imagenPrincipal(multimedia, '/images/proyecto_torres_prado.webp');
+  }
 
   setSeccion(s: string) {
     this.seccionChange.emit(s);

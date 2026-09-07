@@ -2,6 +2,7 @@ import { Component, Input, inject, OnInit, ChangeDetectorRef } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { ProyectoNuevoAvance } from './nuevo-avance/nuevo-avance';
 import { ProyectoService } from '../../../core/services/proyecto.service';
+import { imagenPrincipal } from '../../../core/media';
 
 @Component({
   selector: 'app-proyecto-bitacora',
@@ -60,6 +61,11 @@ export class ProyectoBitacora implements OnInit {
       },
       error: (err) => console.error('Error guardando avance', err)
     });
+  }
+
+  /** Portada del avance, descartando videos y sin depender de imagenes remotas. */
+  portada(multimedia: any[] | undefined): string {
+    return imagenPrincipal(multimedia, '/images/hero_constructor.webp');
   }
 
   getProgresoGlobal(): number {

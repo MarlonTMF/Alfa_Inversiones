@@ -1,64 +1,38 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { PublicNavbar } from '../../layout/public-navbar/public-navbar';
 import { AuthService } from '../../auth/services/auth';
-import { Login } from '../../auth/login/login';
 
 @Component({
   selector: 'app-landing-terreno',
   standalone: true,
-  imports: [CommonModule, RouterLink, Login],
+  imports: [CommonModule, PublicNavbar],
   template: `
-<nav class="public-navbar">
-    <div class="nav-container">
-        <div routerLink="/" class="nav-brand cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M9 8h1"></path><path d="M9 12h1"></path><path d="M9 16h1"></path><path d="M14 8h1"></path><path d="M14 12h1"></path><path d="M14 16h1"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path></svg>
-            <span>Plataforma Orquestadora</span>
-        </div>
-        <div class="nav-links">
-            <a routerLink="/">Inicio</a>
-            <a routerLink="/explorar">Proyectos</a>
-            <a routerLink="/constructor-info">Constructor</a>
-            <a routerLink="/inversor-info">Inversionista</a>
-            <a routerLink="/terreno-info" class="active-link">Propietario de terreno</a>
-            <a routerLink="/ayuda">Ayuda</a>
-        </div>
-        <div class="nav-auth">
-            @if (authService.usuarioActual()) {
-                <div class="user-pill">
-                    <span class="user-name">{{ authService.usuarioActual().nombre }}</span>
-                    <button class="btn-logout-small" (click)="authService.logout()">✕</button>
-                </div>
-            } @else {
-                <button class="btn-login" (click)="mostrarLogin = true">Iniciar Sesión</button>
-            }
-        </div>
-    </div>
-</nav>
+<app-public-navbar></app-public-navbar>
 
 <main class="relative">
 <section class="relative min-h-[921px] flex items-center overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img class="w-full h-full object-cover opacity-40 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP9-21FLJ7z8N-SSOV-FunJn9KzgC0pr1d5uWQ7-xCaBormYKr0bdHvPyjHdb5AO6SZJSa9tiglzFTchTDVqIWPk1esR0H2akjmZB2hIo6HyoaRy6tPCrwTTLVdoces_H-UiNKfh1xcDCr5TmHIGjYFmQT71t0mm4Nhb4anYa__B4RN1pHcgIMH2mkn-HU5pxfNHi4915HwqgqqH4OnF-xcFpNcryt9XlusuucSKvqugVZAo--figRvRKF792-8hnu7n6kzPMOzPlT"/>
+<img alt="" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" src="/images/terreno_urubo.webp"/>
 <div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent"></div>
 </div>
 <div class="container mx-auto px-12 relative z-10 grid grid-cols-12 gap-8">
 <div class="col-span-12 lg:col-span-7">
-<span class="inline-block mb-6 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-blue-400 text-[0.6875rem] font-bold uppercase tracking-[0.1em]">Red Apex para Propietarios</span>
+<span class="inline-block mb-6 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-blue-400 text-[0.6875rem] font-bold uppercase tracking-[0.1em]">Red LINK para Propietarios</span>
 <h1 class="text-[3.5rem] font-bold leading-[1.1] tracking-tight text-on-surface mb-8">
-                        Monetice su Terreno con la <span class="text-blue-500">Red Apex</span>
+                        Monetice su Terreno con la <span class="text-blue-500">Red LINK</span>
 </h1>
 <p class="text-lg text-on-surface-variant mb-10 max-w-xl leading-relaxed">
                         Transformamos su patrimonio en una oportunidad de inversión institucional. Acceda a una valorización experta y conecte con los constructores de élite del mercado global.
                     </p>
 <div class="flex items-center gap-6">
-<button class="bg-[#3b82f6] text-white px-8 py-4 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-blue-500/20">
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20registrar%20mi%20propiedad" target="_blank" rel="noopener noreferrer" class="bg-brand text-white px-8 py-4 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-blue-500/20 inline-block">
                             Registrar Propiedad
-                        </button>
-<button class="flex items-center gap-2 text-blue-400 font-semibold group">
+                        </a>
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20saber%20m%C3%A1s%20sobre%20el%20proceso%20para%20registrar%20mi%20terreno" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-blue-400 font-semibold group">
 <span>Saber más sobre el proceso</span>
 <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
-</button>
+</a>
 </div>
 </div>
 </div>
@@ -85,11 +59,11 @@ import { Login } from '../../auth/login/login';
 <span class="text-xl font-bold text-on-surface">+450</span>
 </div>
 </div>
-<img class="absolute right-0 bottom-0 w-1/2 h-2/3 object-contain opacity-20 group-hover:opacity-40 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjIjRspWS-X09Czvgx3FRrEuJsiFkG65Ww2Piv5PSzPYOzLCGVFtIHkQv7U4-cyJ6q7_TGmOIGNYS5yOSjxecAMnT2mX51DFFqHcnyzGWAD7QPM777z0_sP54Xce_OIsa6HOrVv5LbF1ebKAH_E9ryZIzkJ9ScUaxJH4IPcx9BnWR8dcRbO-Q8w8-Nd0QL8uMvb2bkoe_RYQMQYgxWUjqr0ap1tUgUkO5WiPvRxLNlatDc9mbNxhYkgnGFRlXYDEpNYJHVGLR_Ukyt"/>
+<img alt="" class="absolute right-0 bottom-0 w-1/2 h-2/3 object-contain opacity-20 group-hover:opacity-40 transition-opacity" src="/images/terreno_warnes.webp"/>
 </div>
 <div class="md:col-span-4 bg-surface-container-high rounded-xl p-10 flex flex-col justify-end relative overflow-hidden group">
 <div class="absolute inset-0">
-<img class="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTEZ5ueth-eJ3hv54tqxUfY42WNVk5UIu_y3xWq3LTxT5JVgNxpHgBknrvnB71unckGnBDLpR4el82daZpy_d2_22-fnie64fzNrp14vuOZcBxYgPmdF-S_aXsZ4IOcrZjrTipMgQZlRjmnzhlEOBEBBHEsGPdLWYW9qDBKtWu8vUIzTswmv3chnrFhB96bG1oselGPgXkGuUvt7KX0o7BgW_6gGjwHe46J3gHyv1gjJkxSexvC7uLY0hir3eyHvoUMlOwvaycTuyh"/>
+<img alt="" class="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-700" src="/images/mercado_regional_map.webp"/>
 </div>
 <div class="relative z-10">
 <span class="material-symbols-outlined text-4xl text-blue-500 mb-6" data-icon="handshake">handshake</span>
@@ -118,7 +92,7 @@ import { Login } from '../../auth/login/login';
 <div class="text-[5rem] font-black text-blue-500/10 absolute -top-12 -left-4">02</div>
 <div class="relative z-10">
 <span class="text-[0.6875rem] font-bold text-blue-400 uppercase tracking-[0.2em] mb-4 block">Análisis Técnico</span>
-<h4 class="text-xl font-bold text-on-surface mb-4">Evaluación Red Apex</h4>
+<h4 class="text-xl font-bold text-on-surface mb-4">Evaluación Red LINK</h4>
 <p class="text-on-surface-variant leading-relaxed">Nuestros expertos realizan un due-diligence técnico y comercial para validar el potencial del activo.</p>
 </div>
 <div class="mt-8 h-1 bg-surface-container-highest rounded-full overflow-hidden">
@@ -148,9 +122,9 @@ import { Login } from '../../auth/login/login';
 <p class="text-lg text-on-surface-variant">Únase a la red de propietarios más exclusiva y convierta su terreno en un proyecto de legado mundial.</p>
 </div>
 <div class="flex flex-col items-center gap-4">
-<button class="bg-[#3b82f6] text-white text-lg px-12 py-5 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-2xl shadow-blue-500/40">
+<a href="https://wa.me/59165732950?text=Hola%2C%20quisiera%20registrar%20mi%20propiedad" target="_blank" rel="noopener noreferrer" class="bg-brand text-white text-lg px-12 py-5 rounded-lg font-bold tracking-tight hover:brightness-110 active:scale-95 transition-all shadow-2xl shadow-blue-500/40 inline-block">
                                 Registrar Mi Propiedad Ahora
-                            </button>
+                            </a>
 <span class="text-[0.6875rem] text-on-surface-variant uppercase tracking-widest font-bold">Sin costos iniciales por evaluación</span>
 </div>
 </div>
@@ -165,7 +139,7 @@ import { Login } from '../../auth/login/login';
 <div class="col-span-1 md:col-span-2">
 <div class="flex items-center gap-3 mb-6">
 <span class="material-symbols-outlined text-blue-500" data-icon="account_balance">account_balance</span>
-<span class="text-xl font-bold tracking-tighter text-blue-500 font-['Inter']">Plataforma Orquestadora</span>
+<span class="text-xl font-bold tracking-tighter text-blue-500 font-['Inter']">LINK</span>
 </div>
 <p class="text-on-surface-variant max-w-sm text-sm">Plataforma institucional líder en la gestión y monetización de activos inmobiliarios de alto valor. Seguridad, transparencia y red de élite.</p>
 </div>
@@ -187,14 +161,11 @@ import { Login } from '../../auth/login/login';
 </div>
 </div>
 <div class="container mx-auto mt-20 pt-8 border-t border-outline-variant/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">
-<p>© 2024 Plataforma Orquestadora. Todos los derechos reservados.</p>
+<p>© LINK · Inteligencia Inmobiliaria. Todos los derechos reservados.</p>
 <p>Acceso Restringido a Usuarios Autorizados</p>
 </div>
 </footer>
 
-@if (mostrarLogin) {
-    <app-login (cerrarModal)="mostrarLogin = false" (loginExitoso)="procesarLogin()"></app-login>
-}
   `,
   styles: [`
     :host { display: block; overflow-x: hidden; background-color: #0b1326; }
@@ -206,9 +177,4 @@ import { Login } from '../../auth/login/login';
 })
 export class LandingTerreno {
     public authService = inject(AuthService);
-    public mostrarLogin = false;
-
-    procesarLogin() {
-        this.mostrarLogin = false;
-    }
 }

@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div class="space-y-2">
             <div class="flex items-center gap-3">
-                <span class="bg-[#3b82f6]/10 text-[#3b82f6] px-3 py-1 rounded text-[10px] font-black tracking-widest uppercase">{{ proyecto?.estado === 'planificacion' ? 'EN RECAUDACIÓN' : 'EN CONSTRUCCIÓN' }}</span>
+                <span class="bg-brand/10 text-brand px-3 py-1 rounded text-[10px] font-black tracking-widest uppercase">{{ proyecto?.estado === 'planificacion' ? 'EN RECAUDACIÓN' : 'EN CONSTRUCCIÓN' }}</span>
                 <span class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest flex items-center gap-1">
                     <span class="material-symbols-outlined text-xs">location_on</span> {{ proyecto?.property?.ubicacion || 'Ubicación pendiente' }}
                 </span>
@@ -11,8 +11,8 @@
             <h2 class="text-5xl md:text-6xl font-black text-white tracking-tighter">{{ proyecto?.nombre || 'Residencial Sky Tower' }}</h2>
         </div>
         <div class="flex gap-4">
-            <button [routerLink]="['/admin/proyectos', proyecto?.id, 'editar']" class="px-6 py-3 border border-outline-variant/30 text-on-surface-variant text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-[#222a3d] transition-all">Editar Proyecto</button>
-            <button class="px-6 py-3 bg-[#3b82f6] text-white text-xs font-bold uppercase tracking-widest rounded-lg shadow-lg shadow-blue-900/40 active:scale-[0.98] transition-transform">Publicar Reporte</button>
+            <button [routerLink]="['/admin/proyectos', proyecto?.id, 'editar']" class="px-6 py-3 border border-outline-variant/30 text-on-surface-variant text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-surface-container-high transition-all">Editar Proyecto</button>
+            <button disabled title="Próximamente" class="px-6 py-3 bg-brand text-white text-xs font-bold uppercase tracking-widest rounded-lg shadow-lg shadow-blue-900/40 disabled:opacity-40 disabled:cursor-not-allowed">Publicar Reporte</button>
         </div>
     </div>
 
@@ -20,18 +20,18 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Capital Recaudado -->
         <div class="bg-surface-container-high p-8 rounded-xl relative overflow-hidden group">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-[#3b82f6]/5 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
+            <div class="absolute top-0 right-0 w-32 h-32 bg-brand/5 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
             <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-6">Capital Recaudado</p>
             <div class="flex items-baseline gap-2 mb-2">
                 <h3 class="text-4xl font-black text-white">${{ getCapitalRecaudado() | number:'1.2-2' }}M</h3>
                 <span class="text-on-surface-variant text-sm font-medium">/ ${{ getMetaRecaudacion() | number:'1.2-2' }}M</span>
             </div>
             <div class="w-full bg-surface-container-lowest h-2 rounded-full mt-4 mb-2">
-                <div class="bg-[#3b82f6] h-full rounded-full shadow-[0_0_12px_rgba(59,130,246,0.5)]" [style.width.%]="getProgresoRecaudacion()"></div>
+                <div class="bg-brand h-full rounded-full shadow-[0_0_12px_rgba(59,130,246,0.5)]" [style.width.%]="getProgresoRecaudacion()"></div>
             </div>
             <div class="flex justify-between items-center">
-                <span class="text-[#3b82f6] text-xs font-black tracking-widest">{{ getProgresoRecaudacion() | number:'1.1-1' }}% COMPLETE</span>
-                <span class="material-symbols-outlined text-[#3b82f6] text-lg">trending_up</span>
+                <span class="text-brand text-xs font-black tracking-widest">{{ getProgresoRecaudacion() | number:'1.1-1' }}% COMPLETE</span>
+                <span class="material-symbols-outlined text-brand text-lg">trending_up</span>
             </div>
         </div>
 
@@ -39,21 +39,21 @@
         <div class="bg-surface-container-high p-8 rounded-xl relative overflow-hidden group">
             <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-6">ROI Proyectado</p>
             <div class="flex items-center gap-4">
-                <h3 class="text-5xl font-black text-white">{{ dashboard?.roiProyectado || proyecto?.roi || '0.0' }}<span class="text-2xl text-[#3b82f6]">%</span></h3>
+                <h3 class="text-5xl font-black text-white">{{ dashboard?.roiProyectado || proyecto?.roi || '0.0' }}<span class="text-2xl text-brand">%</span></h3>
                 <div class="bg-surface-container-highest px-3 py-1 rounded text-[10px] font-bold text-on-surface-variant">ANUALIZED</div>
             </div>
             <p class="mt-4 text-xs text-on-surface-variant leading-relaxed font-medium">Basado en el análisis financiero y el momentum actual del mercado para este tipo de activos.</p>
         </div>
 
         <!-- Active Inversores -->
-        <div class="bg-surface-container-high p-8 rounded-xl border-l-4 border-[#3b82f6]">
+        <div class="bg-surface-container-high p-8 rounded-xl border-l-4 border-brand">
             <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-6">Investor Network</p>
             <div class="flex -space-x-3 mb-4">
-                <div *ngFor="let inv of proyecto?.inversiones?.slice(0,3)" class="w-10 h-10 rounded-full border-4 border-surface-container-high bg-[#131b2e] flex items-center justify-center text-[10px] font-bold text-white overflow-hidden">
-                    <img *ngIf="inv.inversionista?.usuario?.foto" [src]="inv.inversionista.usuario.foto" class="w-full h-full object-cover">
+                <div *ngFor="let inv of proyecto?.inversiones?.slice(0,3)" class="w-10 h-10 rounded-full border-4 border-surface-container-high bg-surface-container-low flex items-center justify-center text-[10px] font-bold text-white overflow-hidden">
+                    <img *ngIf="inv.inversionista?.usuario?.foto" [src]="inv.inversionista.usuario.foto" [attr.alt]="inv.inversionista?.usuario?.nombre" class="w-full h-full object-cover">
                     <span *ngIf="!inv.inversionista?.usuario?.foto">{{ inv.inversionista?.usuario?.nombre?.[0] }}</span>
                 </div>
-                <div *ngIf="proyecto?.inversiones?.length > 3" class="w-10 h-10 rounded-full border-4 border-surface-container-high bg-[#131b2e] flex items-center justify-center text-[10px] font-bold text-[#3b82f6]">
+                <div *ngIf="proyecto?.inversiones?.length > 3" class="w-10 h-10 rounded-full border-4 border-surface-container-high bg-surface-container-low flex items-center justify-center text-[10px] font-bold text-brand">
                     +{{ proyecto.inversiones.length - 3 }}
                 </div>
                 <div *ngIf="!proyecto?.inversiones?.length" class="text-[10px] font-bold text-on-surface-variant uppercase">Sin inversores aún</div>
@@ -69,23 +69,23 @@
         <div class="xl:col-span-2 space-y-6">
             <div class="relative h-[480px] rounded-2xl overflow-hidden group">
                 <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
-                     [src]="proyecto?.property?.multimedia?.[0]?.url || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200'">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] via-transparent to-transparent"></div>
+                     [src]="portada(proyecto?.property?.multimedia)" [attr.alt]="proyecto?.nombre">
+                <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
                 <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                     <div class="space-y-1">
-                        <div class="bg-[#3b82f6] text-white px-3 py-1 text-[10px] font-black tracking-widest uppercase w-fit mb-2">LIVE FEED</div>
+                        <div class="bg-brand text-white px-3 py-1 text-[10px] font-black tracking-widest uppercase w-fit mb-2">LIVE FEED</div>
                         <h4 class="text-2xl font-bold text-white tracking-tight">Estado de Obra: {{ getFaseActualLabel() }}</h4>
                         <p class="text-on-surface-variant text-sm">Actualizado según reporte de ingeniería</p>
                     </div>
                     <div class="bg-white/10 backdrop-blur-md px-6 py-4 rounded-xl border border-white/5 text-center">
-                        <span class="text-3xl font-black text-[#3b82f6]">{{ getProgresoObra() }}%</span>
+                        <span class="text-3xl font-black text-brand">{{ getProgresoObra() }}%</span>
                         <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest">Global Progress</p>
                     </div>
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-6">
-                <div (click)="setSeccion('bitacora')" class="bg-surface-container-high p-6 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-surface-bright transition-all">
-                    <div class="w-12 h-12 rounded-lg bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6]">
+                <div (click)="setSeccion('bitacora')" role="button" tabindex="0" (keydown.enter)="setSeccion('bitacora')" (keydown.space)="setSeccion('bitacora'); $event.preventDefault()" class="bg-surface-container-high p-6 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-surface-bright transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-brand/10 flex items-center justify-center text-brand">
                         <span class="material-symbols-outlined">architecture</span>
                     </div>
                     <div>
@@ -93,8 +93,8 @@
                         <p class="text-[10px] text-on-surface-variant uppercase font-bold">{{ multimediaCount }} Archivos Visuales</p>
                     </div>
                 </div>
-                <div (click)="setSeccion('legal')" class="bg-surface-container-high p-6 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-surface-bright transition-all">
-                    <div class="w-12 h-12 rounded-lg bg-[#3b82f6]/10 flex items-center justify-center text-[#3b82f6]">
+                <div (click)="setSeccion('legal')" role="button" tabindex="0" (keydown.enter)="setSeccion('legal')" (keydown.space)="setSeccion('legal'); $event.preventDefault()" class="bg-surface-container-high p-6 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-surface-bright transition-all">
+                    <div class="w-12 h-12 rounded-lg bg-brand/10 flex items-center justify-center text-brand">
                         <span class="material-symbols-outlined">description</span>
                     </div>
                     <div>
@@ -127,7 +127,7 @@
                 <!-- Task Item -->
                 <div class="bg-surface-container-high p-5 rounded-xl border-l-2 border-blue-500 group hover:bg-surface-bright transition-all">
                     <div class="flex justify-between items-start mb-3">
-                        <span class="text-[10px] font-black text-[#3b82f6] uppercase tracking-widest">MILESTONE</span>
+                        <span class="text-[10px] font-black text-brand uppercase tracking-widest">MILESTONE</span>
                         <span class="text-[10px] font-bold text-on-surface-variant">DUE 1W</span>
                     </div>
                     <h5 class="text-white text-sm font-bold mb-3 tracking-tight">Firma de contrato Ancla Q2</h5>
@@ -148,12 +148,12 @@
                         <span class="text-[10px] font-bold text-on-surface-variant uppercase">Treasury</span>
                     </div>
                 </div>
-                <button class="w-full py-4 mt-4 border border-outline-variant/20 text-on-surface-variant text-[10px] font-black uppercase tracking-widest rounded-xl hover:text-white hover:bg-[#222a3d] transition-all">
+                <button (click)="setSeccion('planificacion')" class="w-full py-4 mt-4 border border-outline-variant/20 text-on-surface-variant text-[10px] font-black uppercase tracking-widest rounded-xl hover:text-white hover:bg-surface-container-high transition-all">
                     Ver Todas las Tareas
                 </button>
             </div>
             <!-- Side Progress Footer -->
-            <div class="mt-10 p-6 bg-[#060e20] rounded-xl">
+            <div class="mt-10 p-6 bg-surface-container-lowest rounded-xl">
                 <div class="flex items-center gap-4 mb-4">
                     <div class="p-2 bg-orange-900/20 rounded-lg">
                         <span class="material-symbols-outlined text-orange-400">history</span>
@@ -164,11 +164,11 @@
                     </div>
                 </div>
                 <div class="flex gap-1">
-                    <div class="h-1 flex-1 bg-[#3b82f6] rounded-full"></div>
-                    <div class="h-1 flex-1 bg-[#3b82f6] rounded-full"></div>
-                    <div class="h-1 flex-1 bg-[#3b82f6] rounded-full"></div>
-                    <div class="h-1 flex-1 bg-[#3b82f6] rounded-full"></div>
-                    <div class="h-1 flex-1 bg-[#3b82f6] rounded-full"></div>
+                    <div class="h-1 flex-1 bg-brand rounded-full"></div>
+                    <div class="h-1 flex-1 bg-brand rounded-full"></div>
+                    <div class="h-1 flex-1 bg-brand rounded-full"></div>
+                    <div class="h-1 flex-1 bg-brand rounded-full"></div>
+                    <div class="h-1 flex-1 bg-brand rounded-full"></div>
                     <div class="h-1 flex-1 bg-surface-container-highest rounded-full"></div>
                     <div class="h-1 flex-1 bg-surface-container-highest rounded-full"></div>
                 </div>

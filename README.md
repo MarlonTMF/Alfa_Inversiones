@@ -1,69 +1,74 @@
-# 🏢 Plataforma de Inteligencia Inmobiliaria - 365SOFT (Grupo 5)
+# 🏢 LINK — Plataforma de Inteligencia Inmobiliaria
 
-Repositorio central del sistema de soporte para la decisión geoespacial en inversiones inmobiliarias.
+Plataforma que conecta a **constructoras**, **inversionistas** y **propietarios de terreno** alrededor del ciclo de vida completo de un proyecto inmobiliario en Bolivia: desde el registro de un terreno hasta el seguimiento de obra y el retorno de la inversión, sobre un mapa geoespacial interactivo.
 
-## 📂 Estructura del Repositorio (Monorepo)
+Proyecto desarrollado en equipo (365SOFT — Grupo 5) como monorepo full-stack.
 
-- `/frontEnd`: Aplicación cliente (Angular 17+, Leaflet, Tailwind/CSS).
-- `/backEnd`: API y base de datos (Stack a definir).
+- 🌐 **Demo en vivo:** https://inversiones-bo-inmobiliaria.netlify.app/
+- 🔌 **API en producción:** https://alfa-inversiones.onrender.com *(backend en Render free tier: la primera petición puede tardar ~30s en "despertar")*
 
----
+## Demo rápida
 
-## 💻 Estado del Frontend (Fase 1 completada)
+La landing permite entrar directo a cada panel sin registrarse (botones de demo por rol) o con estas credenciales:
 
-El Frontend ya cuenta con el núcleo visual geoespacial funcional:
-1. Mapa base interactivo centrado en Bolivia.
-2. Geolocalización del usuario.
-3. Renderizado de polígonos (terrenos) sobre el mapa.
-4. Panel lateral interactivo con detalles financieros y cálculo automático de `$/m²`.
+| Rol | Email | Contraseña |
+|---|---|---|
+| Administrador | `admin@365soft.com` | `123` |
+| Inversionista | `alex@architect.com` | `alex123` |
+| Constructora | `const@empresa.com` | `123` |
 
-### ⚠️ Contrato de Datos (Atención Backend)
-Actualmente, el Frontend está consumiendo un Mock Local en formato JSON. Para la integración real (Mes 2/3), el **Backend deberá exponer un endpoint (Ej: `GET /api/v1/terrenos`)** que devuelva una lista de objetos **exactamente con esta estructura**:
+Guías paso a paso de cada flujo: [`DEMO_Administrador.md`](DEMO_Administrador.md) · [`DEMO_Inversionista.md`](DEMO_Inversionista.md) · [`DEMO_Constructor.md`](DEMO_Constructor.md) · [`DEMO_Propietario.md`](DEMO_Propietario.md)
 
-\`\`\`json
-[
-  {
-    "id": "TER-001",
-    "poligono": [
-      [-17.3750, -66.1575],
-      [-17.3750, -66.1560],
-      [-17.3765, -66.1560],
-      [-17.3765, -66.1575]
-    ],
-    "precio": 1200000,
-    "superficie": 1500,
-    "ubicacion": "Zona Norte, Av. América"
-  }
-]
-\`\`\`
+## Qué hace
 
-*Nota para el DB Admin: El área del terreno NO es un punto central (lat/lng), es un arreglo de coordenadas que forman el polígono de la manzana/lote.*
+- **Mapa geoespacial interactivo** (Leaflet) con terrenos y proyectos georreferenciados sobre Bolivia, cálculo de precio por m² y polígonos reales de lote.
+- **Panel Administrador**: registro de terrenos, constructoras e inversiones, control de proyectos por fases (planificación → recaudación → construcción → venta), auditoría y verificación legal de documentos.
+- **Panel Constructor**: publicación de avances de obra con bitácora fotográfica, gestión de la bóveda legal del proyecto, análisis de pipeline.
+- **Panel Inversionista**: portafolio de inversiones, seguimiento de avance de obra en tiempo real, terminal de inversión, análisis financiero por proyecto.
+- **Autenticación multirol** con guards de ruta por rol y sesión persistente.
 
+## Stack técnico
 
+**Frontend** — `/FrontEnd`
+- Angular 21 (standalone components, sin NgModules)
+- TypeScript, Tailwind CSS 3
+- Leaflet para el mapa geoespacial
 
-### ⚠️ Contrato de Datos: Capas de Amenidades (Mes 2)
+**Backend** — `/BackEnd`
+- NestJS 11 + TypeScript
+- TypeORM sobre PostgreSQL
+- Autenticación JWT, WebSockets para actualizaciones en tiempo real
+- DTOs validados con `class-validator` en cada endpoint
 
-Para la funcionalidad de activación de capas (Hospitales, Colegios, Mercados, Transporte), el **Frontend NO consumirá APIs externas de mapas directamente** por motivos de rendimiento y arquitectura. 
+**Infraestructura**
+- Frontend: Netlify
+- Backend + PostgreSQL: Render
 
-El equipo de **Backend** es responsable de:
-1. Extraer los datos geoespaciales de Cochabamba (Se sugiere usar Overpass API / OpenStreetMap).
-2. Limpiar y almacenar estos puntos en la base de datos del proyecto.
-3. Exponer un endpoint (Ej: `GET /api/v1/amenidades`) que devuelva la data procesada con la siguiente estructura exacta:
+## Estructura del repositorio (monorepo)
 
-\`\`\`json
-[
-  { 
-    "id": "AM-001", 
-    "tipo": "hospital", 
-    "nombre": "Hospital Viedma", 
-    "coordenadas": [-17.385, -66.148] 
-  },
-  { 
-    "id": "AM-002", 
-    "tipo": "colegio", 
-    "nombre": "Colegio San Agustín", 
-    "coordenadas": [-17.380, -66.160] 
-  }
-]
-\`\`\`
-*Nota: El campo `tipo` debe ser estrictamente uno de estos valores: `hospital`, `colegio`, `mercado`, `transporte`. El Frontend mapeará automáticamente los íconos visuales basándose en este string.*
+```
+/FrontEnd   Aplicación Angular (SPA)
+/BackEnd    API NestJS + PostgreSQL
+```
+
+## Correr el proyecto en local
+
+### Backend
+```bash
+cd BackEnd
+npm install
+cp .env.template .env   # completar con credenciales propias de Postgres
+npm run start:dev
+```
+
+### Frontend
+```bash
+cd FrontEnd
+npm install
+npm start
+```
+La app queda disponible en `http://localhost:4200`.
+
+## Equipo
+
+Diego García · Marlon T. · Walter Rocha

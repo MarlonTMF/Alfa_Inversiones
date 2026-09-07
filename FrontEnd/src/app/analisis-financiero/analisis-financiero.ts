@@ -101,7 +101,7 @@ export class AnalisisFinanciero implements OnInit, OnDestroy {
   }
 
   getFallbackImage(): string {
-    return 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop';
+    return '/images/proyecto_calacoto.webp';
   }
 
   ngOnInit(): void {

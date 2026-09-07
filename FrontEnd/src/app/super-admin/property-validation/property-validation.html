@@ -1,28 +1,28 @@
 <div class="bg-surface text-on-surface min-h-screen pb-24 font-body">
-  <header class="w-full lg:pl-64 sticky top-0 z-50 bg-[#131b2e] shadow-none flex items-center justify-between px-6 py-4">
+  <header class="w-full lg:pl-64 sticky top-0 z-50 bg-surface-container-low shadow-none flex items-center justify-between px-6 py-4">
     <div class="flex items-center gap-3">
-      <span class="material-symbols-outlined text-[#3b82f6]">architecture</span>
-      <h1 class="headline-md tracking-tight text-[#adc6ff] text-lg">The Financial Architect</h1>
+      <span class="material-symbols-outlined text-brand">architecture</span>
+      <h1 class="headline-md tracking-tight text-primary text-lg">The Financial Architect</h1>
     </div>
     <div class="flex items-center gap-4 relative">
-      <button class="material-symbols-outlined text-[#c2c6d6] hover:bg-[#222a3d] transition-colors duration-200 p-2 rounded-full active:scale-95">notifications</button>
+      <button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 p-2 rounded-full active:scale-95">notifications</button>
       
       <div (click)="toggleMenuPerfil()" class="cursor-pointer flex items-center gap-2 group ml-2">
-        <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs ring-2 ring-transparent group-hover:ring-[#3b82f6] transition-all">
+        <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs ring-2 ring-transparent group-hover:ring-brand transition-all">
           SA
         </div>
-        <span class="material-symbols-outlined text-[#c2c6d6] text-sm transition-transform duration-200" [class.rotate-180]="mostrarMenuPerfil">expand_more</span>
+        <span class="material-symbols-outlined text-on-surface-variant text-sm transition-transform duration-200" [class.rotate-180]="mostrarMenuPerfil">expand_more</span>
       </div>
 
       <!-- Profile Dropdown Menu -->
-      <div *ngIf="mostrarMenuPerfil" class="absolute top-12 right-0 w-64 bg-[#131b2e] border border-[#222a3d] rounded-2xl shadow-2xl p-4 z-[70] animate-in fade-in slide-in-from-top-2 duration-200">
-        <div class="flex items-center gap-3 pb-4 border-b border-[#222a3d] mb-4">
-          <div class="w-10 h-10 rounded-full bg-[#3b82f6] flex items-center justify-center text-white font-bold">
+      <div *ngIf="mostrarMenuPerfil" class="absolute top-12 right-0 w-64 bg-surface-container-low border border-surface-container-high rounded-2xl shadow-2xl p-4 z-[70] animate-in fade-in slide-in-from-top-2 duration-200">
+        <div class="flex items-center gap-3 pb-4 border-b border-surface-container-high mb-4">
+          <div class="w-10 h-10 rounded-full bg-brand flex items-center justify-center text-white font-bold">
             {{authService.usuarioActual()?.nombre?.substring(0,1)}}
           </div>
           <div class="overflow-hidden">
             <p class="text-white font-bold text-sm truncate">{{authService.usuarioActual()?.nombre}}</p>
-            <p class="text-[#3b82f6] text-[10px] font-bold uppercase tracking-widest">{{authService.usuarioActual()?.rol}}</p>
+            <p class="text-brand text-[10px] font-bold uppercase tracking-widest">{{authService.usuarioActual()?.rol}}</p>
           </div>
         </div>
 
@@ -38,15 +38,15 @@
   <main class="lg:pl-64 max-w-7xl mx-auto px-6 py-6 space-y-6">
     <div class="max-w-3xl">
       <div class="space-y-1">
-        <span class="text-[0.6875rem] font-bold uppercase tracking-widest text-[#3b82f6]">Propiedades</span>
+        <span class="text-[0.6875rem] font-bold uppercase tracking-widest text-brand">Propiedades</span>
         <h2 class="text-2xl font-bold tracking-tight text-on-surface">Validación de Activo</h2>
         <p class="text-on-surface-variant text-sm">Folio: MX-8829-Z10</p>
       </div>
 
       <nav class="flex space-x-1 bg-surface-container-lowest p-1 rounded-xl mt-6">
-        <button class="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg bg-[#131b2e] text-[#3b82f6] border-b-2 border-[#3b82f6]">Información Técnica</button>
-        <button class="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg text-on-surface-variant hover:bg-[#222a3d] transition-colors">Legal</button>
-        <button class="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg text-on-surface-variant hover:bg-[#222a3d] transition-colors">Multimedia</button>
+        <button class="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg bg-surface-container-low text-brand border-b-2 border-brand">Información Técnica</button>
+        <button class="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors">Legal</button>
+        <button class="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors">Multimedia</button>
       </nav>
 
       <section class="space-y-6 mt-10">
@@ -72,7 +72,7 @@
             Documentación Digital
           </h3>
           <div class="space-y-3">
-            <div class="flex items-center justify-between p-4 bg-surface-container-high rounded-xl group hover:bg-[#2d3449] transition-all cursor-pointer">
+            <div class="flex items-center justify-between p-4 bg-surface-container-high rounded-xl group hover:bg-surface-variant transition-all cursor-pointer">
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center">
                   <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">article</span>
@@ -89,43 +89,43 @@
       </section>
 
       <div class="lg:justify-end flex mt-12">
-        <button class="w-full lg:w-fit px-12 py-4 bg-[#3b82f6] text-white rounded-xl font-bold text-sm uppercase tracking-widest shadow-[0_4px_20px_rgba(59,130,246,0.3)] active:scale-95 transition-all">Guardar Cambios</button>
+        <button class="w-full lg:w-fit px-12 py-4 bg-brand text-white rounded-xl font-bold text-sm uppercase tracking-widest shadow-[0_4px_20px_rgba(59,130,246,0.3)] active:scale-95 transition-all">Guardar Cambios</button>
       </div>
     </div>
   </main>
 
   <!-- Sidebar Consistency -->
-  <aside class="hidden lg:flex flex-col h-full py-8 px-4 w-64 fixed left-0 top-0 bg-[#060e20] shadow-2xl shadow-black/50 z-[60]">
+  <aside class="hidden lg:flex flex-col h-full py-8 px-4 w-64 fixed left-0 top-0 bg-surface-container-lowest shadow-2xl shadow-black/50 z-[60]">
     <div class="mb-10 flex items-center gap-3 px-4">
-      <span class="material-symbols-outlined text-[#3b82f6]">architecture</span>
-      <span class="text-[#3b82f6] font-bold">Architect</span>
+      <span class="material-symbols-outlined text-brand">architecture</span>
+      <span class="text-brand font-bold">Architect</span>
     </div>
     <nav class="flex-1 space-y-2">
-      <a routerLink="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+      <a routerLink="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low hover:text-white transition-all duration-300">
         <span class="material-symbols-outlined">dashboard</span>
         <span class="label-sm uppercase tracking-widest">Dashboard</span>
       </a>
-      <a routerLink="/admin/constructors" class="flex items-center gap-3 px-4 py-3 text-[#c2c6d6] hover:bg-[#131b2e] hover:text-white transition-all duration-300">
+      <a routerLink="/admin/registrar-constructor" class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low hover:text-white transition-all duration-300">
         <span class="material-symbols-outlined">business_center</span>
         <span class="label-sm uppercase tracking-widest">Constructors</span>
       </a>
-      <a routerLink="/admin/terrenos" class="flex items-center gap-3 px-4 py-3 bg-[#131b2e] text-[#3b82f6] border-l-4 border-[#3b82f6] transition-all duration-300">
+      <a routerLink="/admin/terrenos" class="flex items-center gap-3 px-4 py-3 bg-surface-container-low text-brand border-l-4 border-brand transition-all duration-300">
         <span class="material-symbols-outlined">domain</span>
         <span class="label-sm uppercase tracking-widest">Properties</span>
       </a>
     </nav>
   </aside>
 
-  <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 md:hidden bg-[#0b1326]/80 backdrop-blur-xl border-t border-[#222a3d] z-50">
-    <a routerLink="/admin/dashboard" class="flex flex-col items-center justify-center text-[#c2c6d6] p-2">
+  <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 md:hidden bg-surface/80 backdrop-blur-xl border-t border-surface-container-high z-50">
+    <a routerLink="/admin/dashboard" class="flex flex-col items-center justify-center text-on-surface-variant p-2">
       <span class="material-symbols-outlined">analytics</span>
       <span class="label-sm font-bold uppercase mt-1">Stats</span>
     </a>
-    <a routerLink="/admin/constructors" class="flex flex-col items-center justify-center text-[#c2c6d6] p-2">
+    <a routerLink="/admin/registrar-constructor" class="flex flex-col items-center justify-center text-on-surface-variant p-2">
       <span class="material-symbols-outlined">engineering</span>
       <span class="label-sm font-bold uppercase mt-1">Teams</span>
     </a>
-    <a routerLink="/admin/terrenos" class="flex flex-col items-center justify-center text-[#3b82f6] p-2 bg-[#3b82f6]/10 rounded-xl scale-105 transition-transform">
+    <a routerLink="/admin/terrenos" class="flex flex-col items-center justify-center text-brand p-2 bg-brand/10 rounded-xl scale-105 transition-transform">
       <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">domain</span>
       <span class="label-sm font-bold uppercase mt-1">Land</span>
     </a>

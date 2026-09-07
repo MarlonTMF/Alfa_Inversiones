@@ -32,7 +32,7 @@ export class InversorDashboard {
     { 
       titulo: 'Dividendo Recibido - Condominio Los Tajibos', 
       desc: 'Acreditado a tu cuenta bancaria', 
-      monto: '+Bs. 5,900.00', 
+      monto: '+$5,900.00',
       fecha: 'Hoy, 10:45 AM',
       tipo: 'pago',
       positivo: true
@@ -48,7 +48,7 @@ export class InversorDashboard {
     { 
       titulo: 'Inversión Confirmada', 
       desc: 'Fracciones adquiridas en \'Residencias del Urubó\'', 
-      monto: '-Bs. 105,000.00', 
+      monto: '-$105,000.00', 
       fecha: '4 May 2024',
       tipo: 'inv',
       positivo: false

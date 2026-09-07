@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth/services/auth';
 import { Login } from '../auth/login/login';
+import { PublicNavbar } from '../layout/public-navbar/public-navbar';
 
 @Component({
   selector: 'app-explorar-detalle',
   standalone: true,
-  imports: [CommonModule, RouterLink, Login],
+  imports: [CommonModule, RouterLink, Login, PublicNavbar],
   templateUrl: './explorar-detalle.html',
   styleUrl: './explorar-detalle.css'
 })
@@ -20,12 +21,12 @@ export class ExplorarDetalle implements OnInit {
 
     // Datos base (pueden ser sobreescritos por ID)
     proyecto: any = {
-        nombre: 'Apex Prime Plaza',
-        ubicacion: 'Metropolitan Hub, Prime District',
+        nombre: 'Complejo Calacoto Business',
+        ubicacion: 'Calacoto, La Paz',
         capitalAsignado: 42.8,
         capitalTotal: 52.0,
         progreso: 82,
-        imagen: 'https://lh3.googleusercontent.com/aida/ADBb0ujAoHwpKG-YjOt5Un9ooFoeTMupUOg672VgZjDKD62okkHq8DHXGivNExBvJUk_hlLE1lFNfBlsBmDnwgxhncPeRSUg1U_-Ksu6x7nhKcXL4zLKQ3g00ttb4CAx26yWbn945pFnCkza2BbIgiQqsJMaxv_vStEQ5098YI2QFuqv6zPVRem4KRTPr_D25ZZjBwXhKLaVW9KMNE7DOc8O1kMv_FV0eqtyT9Hy1cb38QzH0_mMzedjXcUMHA7IQh_3sn4I9fdRVnDI6CI',
+        imagen: '/images/proyecto_equipetrol.webp',
         roi: '18.4%',
         yield: '8.5%',
         periodo: '5 Años',

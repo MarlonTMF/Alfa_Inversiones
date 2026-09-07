@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Sin imagen disponible">
+  <rect width="800" height="600" fill="#131b2e"/>
+  <g stroke="#2d3449" stroke-width="1">
+    <path d="M0 150h800M0 300h800M0 450h800M200 0v600M400 0v600M600 0v600"/>
+  </g>
+  <g transform="translate(400 275)" fill="none" stroke="#3b82f6" stroke-width="6"
+     stroke-linecap="round" stroke-linejoin="round" opacity=".55">
+    <path d="M-90 60h180"/>
+    <path d="M-60 60V-30a12 12 0 0 1 12-12h96a12 12 0 0 1 12 12v90"/>
+    <path d="M-30-6h6M-30 24h6M12-6h6M12 24h6"/>
+  </g>
+  <text x="400" y="400" fill="#6b7688" font-family="Inter, system-ui, sans-serif"
+        font-size="22" font-weight="600" letter-spacing="2" text-anchor="middle">
+    SIN IMAGEN DISPONIBLE
+  </text>
+</svg>

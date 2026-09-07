@@ -19,7 +19,7 @@
   <!-- Stepper Component -->
   <div class="max-w-5xl mx-auto mb-12">
     <div class="flex items-center justify-between gap-4">
-      <div class="flex-1 cursor-pointer group" (click)="irAPaso(1)">
+      <div class="flex-1 cursor-pointer group" (click)="irAPaso(1)" role="button" tabindex="0" [attr.aria-current]="pasoActual === 1 ? 'step' : null" (keydown.enter)="irAPaso(1)" (keydown.space)="irAPaso(1); $event.preventDefault()">
         <div class="h-1 rounded-full transition-all duration-700"
           [ngClass]="pasoActual >= 1 ? 'bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.6)]' : 'bg-surface-container-highest'">
         </div>
@@ -27,7 +27,7 @@
           class="text-[10px] font-black uppercase tracking-[0.2em] mt-3 block group-hover:text-blue-300 transition-colors"
           [ngClass]="pasoActual >= 1 ? 'text-blue-400' : 'text-on-surface-variant/40'">Paso 1: Datos Generales</span>
       </div>
-      <div class="flex-1 cursor-pointer group" (click)="irAPaso(2)">
+      <div class="flex-1 cursor-pointer group" (click)="irAPaso(2)" role="button" tabindex="0" [attr.aria-current]="pasoActual === 2 ? 'step' : null" (keydown.enter)="irAPaso(2)" (keydown.space)="irAPaso(2); $event.preventDefault()">
         <div class="h-1 rounded-full transition-all duration-700"
           [ngClass]="pasoActual >= 2 ? 'bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.6)]' : 'bg-surface-container-highest'">
         </div>
@@ -35,7 +35,7 @@
           class="text-[10px] font-black uppercase tracking-[0.2em] mt-3 block group-hover:text-blue-300 transition-colors"
           [ngClass]="pasoActual >= 2 ? 'text-blue-400' : 'text-on-surface-variant/40'">Paso 2: Finanzas</span>
       </div>
-      <div class="flex-1 cursor-pointer group" (click)="irAPaso(3)">
+      <div class="flex-1 cursor-pointer group" (click)="irAPaso(3)" role="button" tabindex="0" [attr.aria-current]="pasoActual === 3 ? 'step' : null" (keydown.enter)="irAPaso(3)" (keydown.space)="irAPaso(3); $event.preventDefault()">
         <div class="h-1 rounded-full transition-all duration-700"
           [ngClass]="pasoActual >= 3 ? 'bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.6)]' : 'bg-surface-container-highest'">
         </div>
@@ -60,7 +60,7 @@
             <label class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-3 block">Nombre
               del Proyecto</label>
             <input [(ngModel)]="form.nombre"
-              class="w-full bg-[#060e20] border border-outline-variant/20 rounded-xl py-4 px-5 text-white focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none font-semibold"
+              class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-4 px-5 text-white focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none font-semibold"
               placeholder="Ej: Torre Residencial Horizonte" type="text" />
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -69,7 +69,7 @@
                 de Proyecto</label>
               <div class="relative">
                 <select [(ngModel)]="form.tipoProyecto"
-                  class="w-full bg-[#060e20] border border-outline-variant/20 rounded-xl py-4 px-5 text-white appearance-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none font-semibold">
+                  class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-4 px-5 text-white appearance-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none font-semibold">
                   <option value="residencial">Residencial</option>
                   <option value="comercial">Comercial</option>
                   <option value="industrial">Industrial</option>
@@ -85,7 +85,7 @@
                 de Activo</label>
               <div class="relative">
                 <select [(ngModel)]="form.categoriaActivo"
-                  class="w-full bg-[#060e20] border border-outline-variant/20 rounded-xl py-4 px-5 text-white appearance-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none font-semibold">
+                  class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-4 px-5 text-white appearance-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none font-semibold">
                   <option>Lujo / Premium</option>
                   <option>Estándar</option>
                   <option>Social</option>
@@ -100,7 +100,7 @@
               class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-3 block">Descripción
               Detallada</label>
             <textarea [(ngModel)]="form.descripcion"
-              class="w-full bg-[#060e20] border border-outline-variant/20 rounded-xl py-4 px-5 text-white placeholder:text-on-surface-variant/30 focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none resize-none font-medium"
+              class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-4 px-5 text-white placeholder:text-on-surface-variant/30 focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none resize-none font-medium"
               placeholder="Describa el alcance del desarrollo..." rows="5"></textarea>
           </div>
         </div>
@@ -118,7 +118,7 @@
               / Propiedad</label>
             <div class="relative">
               <select [(ngModel)]="form.propertyId"
-                class="w-full bg-[#060e20] border border-outline-variant/20 rounded-xl py-4 px-5 text-white appearance-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none font-semibold">
+                class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-4 px-5 text-white appearance-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none font-semibold">
                 <option value="">Seleccione un terreno...</option>
                 <option *ngFor="let t of terrenos" [value]="t.id">{{ t.name }}</option>
               </select>
@@ -132,7 +132,7 @@
               / Socio</label>
             <div class="relative">
               <select [(ngModel)]="form.constructorId"
-                class="w-full bg-[#060e20] border border-outline-variant/20 rounded-xl py-4 px-5 text-white appearance-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none font-semibold">
+                class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl py-4 px-5 text-white appearance-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all outline-none font-semibold">
                 <option value="">Seleccione una constructora...</option>
                 <option *ngFor="let c of constructoras" [value]="c.id">{{ c.nombre_empresa }}</option>
               </select>
@@ -161,7 +161,7 @@
               class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant block">Unidades</label>
             <div class="relative">
               <input [(ngModel)]="form.numeroUnidades"
-                class="w-full bg-[#060e20] border border-outline-variant/20 rounded-xl px-5 py-4 text-white focus:ring-2 focus:ring-primary/40 outline-none transition-all font-bold"
+                class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-5 py-4 text-white focus:ring-2 focus:ring-primary/40 outline-none transition-all font-bold"
                 type="number" />
               <span
                 class="absolute right-4 top-4 text-on-surface-variant material-symbols-outlined text-sm">domain</span>
@@ -172,7 +172,7 @@
               Unitario</label>
             <div class="relative">
               <input [(ngModel)]="form.precioUnitario"
-                class="w-full bg-[#060e20] border border-outline-variant/20 rounded-xl px-5 py-4 text-white focus:ring-2 focus:ring-primary/40 outline-none transition-all font-bold"
+                class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-5 py-4 text-white focus:ring-2 focus:ring-primary/40 outline-none transition-all font-bold"
                 type="number" />
               <span class="absolute left-5 top-4 text-on-surface-variant font-black">$</span>
             </div>
@@ -212,21 +212,21 @@
 
         <div class="space-y-4">
           <div *ngFor="let costo of form.costos; let i = index"
-            class="flex items-center gap-4 group bg-[#060e20]/40 p-3 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300">
+            class="flex items-center gap-4 group bg-surface-container-lowest/40 p-3 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300">
             <div class="relative w-44">
               <select [(ngModel)]="costo.categoria"
-                class="w-full bg-[#0b1326] border border-outline-variant/20 rounded-xl px-4 py-3 text-[10px] font-black uppercase tracking-widest text-primary appearance-none focus:border-primary outline-none">
+                class="w-full bg-surface border border-outline-variant/20 rounded-xl px-4 py-3 text-[10px] font-black uppercase tracking-widest text-primary appearance-none focus:border-primary outline-none">
                 <option *ngFor="let cat of categoriasCostos" [value]="cat">{{ cat }}</option>
               </select>
               <span
                 class="material-symbols-outlined absolute right-3 top-3 text-xs text-primary pointer-events-none">expand_more</span>
             </div>
             <input [(ngModel)]="costo.nombre"
-              class="flex-1 bg-[#0b1326] border border-outline-variant/20 rounded-xl px-5 py-3 text-sm text-white font-medium focus:border-primary outline-none transition-all"
+              class="flex-1 bg-surface border border-outline-variant/20 rounded-xl px-5 py-3 text-sm text-white font-medium focus:border-primary outline-none transition-all"
               placeholder="Nombre del concepto..." />
             <div class="relative">
               <input [(ngModel)]="costo.monto"
-                class="w-36 bg-[#0b1326] border border-outline-variant/20 rounded-xl px-4 py-3 text-right text-sm font-black text-white focus:border-primary outline-none transition-all"
+                class="w-36 bg-surface border border-outline-variant/20 rounded-xl px-4 py-3 text-right text-sm font-black text-white focus:border-primary outline-none transition-all"
                 type="number" />
               <span class="absolute left-3 top-3 text-[10px] text-on-surface-variant font-black">$</span>
             </div>
@@ -243,7 +243,7 @@
     <div class="lg:col-span-4 space-y-8">
       <!-- Resumen de Viabilidad -->
       <div
-        class="bg-gradient-to-br from-primary-container/20 to-[#0b1326] p-8 rounded-2xl space-y-8 border border-white/5 shadow-2xl">
+        class="bg-gradient-to-br from-primary-container/20 to-surface p-8 rounded-2xl space-y-8 border border-white/5 shadow-2xl">
         <h3 class="text-xs font-black text-white flex items-center gap-3 uppercase tracking-[0.3em]">
           <span class="material-symbols-outlined text-primary text-sm">info</span>
           Resumen de Viabilidad
@@ -254,7 +254,7 @@
               <span class="text-on-surface-variant">Margen Neto Bruto</span>
               <span class="text-white font-black">{{ getMargenNeto() | number:'1.1-1' }}%</span>
             </div>
-            <div class="w-full bg-[#060e20] h-2 rounded-full overflow-hidden shadow-inner">
+            <div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden shadow-inner">
               <div class="bg-primary h-full transition-all duration-1000 shadow-[0_0_10px_rgba(173,198,255,0.4)]"
                 [style.width.%]="getMargenNeto()"></div>
             </div>
@@ -302,9 +302,9 @@
         <!-- Render Dropzone (Grande) -->
         <div class="md:col-span-2 relative group h-full min-h-[220px]">
           <div class="absolute inset-0 z-0 opacity-10 overflow-hidden rounded-3xl pointer-events-none">
-            <img class="w-full h-full object-cover mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAfVcMfXXXyB3oCqTl1DINF3Mq4z2gbpgwTVw7dOBmXyGc5-7A1Fnh9NJA2WrL9_FJ7paTiezm5wuK-BWatfq9F8zW-UmztCqerhoaFkFGecxzWSM89oVVULYXlE_GU3tNeGbuKrVwEWta7YeuQjCN5RgfWBde3mpRcUqChfk7Z2endlSRycmsVeFJBrbfa_Gh2HbOUMob2vs_cFwvkawXpz8b7MTJ90bPqQOKwRcDCMZbHwse3LurbeKdY326-eUXEx_uif5Hvvoi"/>
+            <img alt="" class="w-full h-full object-cover mix-blend-screen" src="/images/hero_constructor.webp"/>
           </div>
-          <div class="h-full relative bg-[#0b1326]/60 border border-dashed border-outline-variant/30 rounded-3xl p-6 flex flex-col items-center justify-center transition-all hover:border-primary/50 backdrop-blur-sm shadow-xl">
+          <div class="h-full relative bg-surface/60 border border-dashed border-outline-variant/30 rounded-3xl p-6 flex flex-col items-center justify-center transition-all hover:border-primary/50 backdrop-blur-sm shadow-xl">
             <input type="file" (change)="manejarRenders($event)" multiple accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10"/>
             <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                <span class="material-symbols-outlined text-primary text-2xl">architecture</span>
@@ -348,7 +348,7 @@
         <div class="grid grid-cols-4 md:grid-cols-5 gap-3">
           <!-- Renders (Sin portada) -->
           <div *ngFor="let file of form.archivosRenders; let i = index" class="relative aspect-square rounded-xl overflow-hidden group border border-white/5">
-            <img [src]="renderPreviews[i]" class="w-full h-full object-cover"/>
+            <img [src]="renderPreviews[i]" [attr.alt]="'Render ' + (i + 1)" class="w-full h-full object-cover"/>
             <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
               <button (click)="quitarRender(i)" class="text-red-400 p-2">
                 <span class="material-symbols-outlined text-sm">delete</span>
@@ -358,7 +358,7 @@
 
           <!-- Fotos Reales (Con Portada) -->
           <div *ngFor="let file of form.archivosFotos; let i = index" class="relative aspect-square rounded-xl overflow-hidden group border-2 transition-all shadow-lg" [ngClass]="form.portadaIndex === i ? 'border-primary ring-4 ring-primary/20 scale-105 z-10' : 'border-white/5'">
-            <img [src]="fotoPreviews[i]" class="w-full h-full object-cover"/>
+            <img [src]="fotoPreviews[i]" [attr.alt]="'Foto ' + (i + 1)" class="w-full h-full object-cover"/>
             <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all flex flex-col items-center justify-center gap-2 backdrop-blur-sm">
               <button (click)="setPortada(i)" class="text-[6px] font-black uppercase tracking-widest bg-primary text-on-primary px-2 py-1 rounded shadow-lg">
                 {{ form.portadaIndex === i ? 'PORTADA' : 'ASIGNAR PORTADA' }}
@@ -410,7 +410,7 @@
         </div>
         <h4 class="text-[9px] font-black text-white uppercase tracking-[0.3em] mb-4 block">Link de Video Recorrido</h4>
         <div class="flex gap-3">
-           <div class="flex-1 bg-[#060e20] border rounded-xl px-5 py-3 flex items-center gap-3 transition-all"
+           <div class="flex-1 bg-surface-container-lowest border rounded-xl px-5 py-3 flex items-center gap-3 transition-all"
                 [ngClass]="{
                    'border-green-500/50 shadow-[0_0_15px_rgba(34,197,94,0.1)]': videoId,
                    'border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]': videoError,
@@ -439,9 +439,9 @@
         <!-- Feedback Local -->
         <div class="mt-3">
            <!-- Video Preview Card -->
-           <div *ngIf="videoId" class="flex items-center gap-4 bg-[#060e20]/60 p-3 rounded-2xl border border-green-500/20 animate-in fade-in slide-in-from-top-2">
+           <div *ngIf="videoId" class="flex items-center gap-4 bg-surface-container-lowest/60 p-3 rounded-2xl border border-green-500/20 animate-in fade-in slide-in-from-top-2">
               <div class="relative w-24 h-16 rounded-lg overflow-hidden border border-white/10">
-                 <img [src]="'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg'" class="w-full h-full object-cover"/>
+                 <img [src]="'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg'" alt="Miniatura del video" class="w-full h-full object-cover"/>
                  <div class="absolute inset-0 flex items-center justify-center bg-black/20">
                     <span class="material-symbols-outlined text-white text-xl">play_circle</span>
                  </div>
@@ -470,9 +470,9 @@
       </div>
 
       <div class="bg-surface-container-low rounded-3xl border border-white/5 shadow-2xl overflow-hidden">
-        <div class="p-5 bg-[#060e20]/50 border-b border-white/5">
+        <div class="p-5 bg-surface-container-lowest/50 border-b border-white/5">
            <div class="flex gap-2">
-              <input [(ngModel)]="nuevoRequerimientoNombre" class="flex-1 bg-[#0b1326] border border-outline-variant/20 rounded-xl px-4 py-2 text-[8px] font-black text-white uppercase tracking-widest focus:border-primary outline-none" placeholder="AÑADIR..."/>
+              <input [(ngModel)]="nuevoRequerimientoNombre" class="flex-1 bg-surface border border-outline-variant/20 rounded-xl px-4 py-2 text-[8px] font-black text-white uppercase tracking-widest focus:border-primary outline-none" placeholder="AÑADIR..."/>
               <button (click)="agregarRequerimiento()" class="bg-primary text-on-primary p-2 rounded-lg shadow-lg">
                  <span class="material-symbols-outlined font-black text-xs">add</span>
               </button>
@@ -481,7 +481,7 @@
         <div class="max-h-[350px] overflow-y-auto custom-scrollbar">
            <div *ngFor="let doc of form.documentos; let i = index" class="p-5 flex items-center justify-between border-b border-white/5 hover:bg-white/5 transition-all group">
               <div class="flex items-center gap-3">
-                 <div class="w-8 h-8 bg-[#060e20] rounded-lg flex items-center justify-center text-primary border border-white/5 shadow-lg">
+                 <div class="w-8 h-8 bg-surface-container-lowest rounded-lg flex items-center justify-center text-primary border border-white/5 shadow-lg">
                     <span class="material-symbols-outlined text-sm">description</span>
                  </div>
                  <div>
@@ -499,7 +499,7 @@
       <!-- Confirmation Box -->
       <div class="bg-surface-container-high p-6 rounded-3xl border border-white/5 shadow-2xl space-y-4">
          <div class="flex gap-3">
-            <input type="checkbox" class="mt-0.5 w-4 h-4 rounded border-white/20 bg-[#060e20] text-primary focus:ring-primary/40 cursor-pointer"/>
+            <input type="checkbox" class="mt-0.5 w-4 h-4 rounded border-white/20 bg-surface-container-lowest text-primary focus:ring-primary/40 cursor-pointer"/>
             <p class="text-[9px] text-on-surface-variant leading-relaxed font-bold uppercase tracking-wide opacity-80">
                Confirmo que la información multimedia y legal es verídica.
             </p>
@@ -530,7 +530,7 @@
         <span class="material-symbols-outlined text-sm">arrow_forward</span>
       </button>
       <button *ngIf="pasoActual === 3" (click)="finalizar()" [disabled]="cargando"
-        class="flex-1 md:flex-none px-14 py-5 rounded-2xl bg-gradient-to-r from-blue-600 to-[#3b82f6] font-black text-[11px] uppercase tracking-[0.4em] text-white shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:-translate-y-1 transition-all active:scale-95">
+        class="flex-1 md:flex-none px-14 py-5 rounded-2xl bg-gradient-to-r from-blue-600 to-brand font-black text-[11px] uppercase tracking-[0.4em] text-white shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:-translate-y-1 transition-all active:scale-95">
         {{ cargando ? 'Sincronizando...' : 'Finalizar y Publicar' }}
       </button>
     </div>
@@ -541,7 +541,7 @@
 <!-- MODAL GESTIÓN DE CATEGORÍAS -->
 <div *ngIf="mostrarModalCategorias"
   class="fixed inset-0 z-[200] flex items-center justify-center p-6 animate-in fade-in duration-300">
-  <div class="absolute inset-0 bg-[#060e20]/80 backdrop-blur-xl" (click)="cerrarModalCategorias()"></div>
+  <div class="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-xl" (click)="cerrarModalCategorias()"></div>
   <div
     class="bg-surface-container-low w-full max-w-md rounded-3xl border border-white/10 shadow-2xl relative z-10 overflow-hidden animate-in zoom-in-95 duration-300">
     <div
@@ -559,7 +559,7 @@
           Categoría</label>
         <div class="flex gap-3">
           <input [(ngModel)]="nuevaCategoriaNombre"
-            class="flex-1 bg-[#060e20] border border-outline-variant/20 rounded-xl px-5 py-3 text-sm text-white focus:border-primary outline-none font-bold"
+            class="flex-1 bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-5 py-3 text-sm text-white focus:border-primary outline-none font-bold"
             placeholder="NOMBRE..." />
           <button (click)="agregarCategoria()"
             class="bg-primary text-on-primary p-3 rounded-xl hover:scale-105 transition-transform active:scale-95 shadow-lg shadow-primary/20">
@@ -574,7 +574,7 @@
           Disponibles</label>
         <div class="max-h-[300px] overflow-y-auto space-y-2 pr-2 custom-scrollbar">
           <div *ngFor="let cat of categoriasCostos; let i = index"
-            class="flex items-center justify-between bg-[#060e20] p-4 rounded-xl border border-white/5 group hover:border-primary/20 transition-all">
+            class="flex items-center justify-between bg-surface-container-lowest p-4 rounded-xl border border-white/5 group hover:border-primary/20 transition-all">
             <span class="text-[10px] font-black text-white uppercase tracking-widest">{{ cat }}</span>
             <button (click)="eliminarCategoria(i)"
               class="text-on-surface-variant hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-1">
@@ -585,7 +585,7 @@
       </div>
     </div>
 
-    <div class="p-8 bg-[#060e20]/50 border-t border-white/5">
+    <div class="p-8 bg-surface-container-lowest/50 border-t border-white/5">
       <button (click)="cerrarModalCategorias()"
         class="w-full py-4 bg-white/5 hover:bg-white/10 text-white font-black text-[10px] uppercase tracking-widest rounded-xl transition-all active:scale-95">
         Cerrar Configuración
