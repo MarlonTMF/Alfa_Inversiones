@@ -1,5 +1,5 @@
 # 📋 GUÍA DE DEMOSTRACIÓN — ROL: CONSTRUCTOR / DESARROLLADOR
-## Plataforma Orquestadora 365 Desarrollo Inmobiliario
+## LINK — Inteligencia Inmobiliaria
 
 **Credenciales de acceso:** const@empresa.com / 123
 
@@ -23,8 +23,8 @@
 ### Lo que el constructor ve al ingresar:
 
 **Menú lateral izquierdo (Sidebar) con:**
-- Título del portal: **APEX Institutional**.
-- Enlaces principales: **Home Dashboard** | **Gestionar Proyectos** | **Explorar Mapa** | **Métricas de Tierra** | **Bóveda Legal**.
+- Título del portal: **LINK**.
+- Enlaces principales: **Home Dashboard** | **Gestionar Proyectos** | **Explorar Mapa** | **Bóveda Legal** (Métricas de Tierra está marcado como próximamente, todavía no tiene pantalla propia).
 - Card de perfil de usuario en la parte inferior que muestra el nombre de la constructora (ej: *Constructora Delta*), rol *Gestor de Activos* y el botón **[ Cerrar Sesión ]** al hacer clic en él.
 - Botón de **Soporte Técnico**: *Contactar Analista*.
 
@@ -62,7 +62,7 @@ Accesos rápidos con íconos para navegación directa:
 - Lista vertical de proyectos en ejecución asignados a la constructora.
 - Cada fila del proyecto muestra:
   - Miniatura de la obra.
-  - Nombre del proyecto (ej: *"Lumina Tower"*).
+  - Nombre del proyecto (ej: *"Torres del Prado"*).
   - Fase de avance (ej: *"Fase: Cimentación"*).
   - Barra de progreso del avance global (ej: *68%*).
   - Ícono de flecha **[ chevron_right ]** para entrar al detalle.
@@ -91,7 +91,7 @@ Desde el menú lateral izquierdo, hacer clic en la opción **[ Gestionar Proyect
 ## CASO DE USO 4: DETALLE TÉCNICO DE LA OBRA
 
 ### Navegación:
-Desde el Resumen de Proyectos → Hacer clic sobre la tarjeta de un proyecto (ej: *"Lumina Tower"*).
+Desde el Resumen de Proyectos → Hacer clic sobre la tarjeta de un proyecto (ej: *"Torres del Prado"*).
 
 ### Lo que el constructor ve:
 - **Barra superior**: Nombre del proyecto activo.

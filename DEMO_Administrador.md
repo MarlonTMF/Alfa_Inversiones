@@ -1,5 +1,5 @@
 # 📋 GUÍA DE DEMOSTRACIÓN — ROL: ADMINISTRADOR
-## Plataforma Orquestadora 365 Desarrollo Inmobiliario
+## LINK — Inteligencia Inmobiliaria
 
 **Credenciales de acceso:** admin@365soft.com / 123
 
@@ -23,7 +23,7 @@
 ### Lo que el administrador ve al ingresar:
 
 **Barra superior fija (TopBar) con:**
-- Título: **PANEL ORQUESTADOR** (lado izquierdo).
+- Título: **LINK · Panel Orquestador** (lado izquierdo).
 - Estado de red en tiempo real: *"🟢 Conectado • Latencia: 18ms"*.
 - Perfil del Administrador con foto circular, nombre *"Super Orquestador"* y rol *"Global Admin"*.
 - **Icono de Campana** 🔔 para notificaciones del sistema.

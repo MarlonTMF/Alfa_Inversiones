@@ -1,5 +1,5 @@
 # 📋 GUÍA DE DEMOSTRACIÓN — ROL: PROPIETARIO DE TERRENO
-## Plataforma Orquestadora 365 Desarrollo Inmobiliario
+## LINK — Inteligencia Inmobiliaria
 
 ---
 
@@ -8,13 +8,13 @@
 ### Paso a paso:
 1. El propietario del terreno abre la plataforma y ve la **Página de Inicio** pública.
 2. En la barra de navegación superior, hace clic en el enlace **[ Propietario de terreno ]**.
-3. Se abre el portal informativo especializado para propietarios (**Red Apex para Propietarios**).
+3. Se abre el portal informativo especializado para propietarios (**Red LINK para Propietarios**).
 4. El propietario puede visualizar:
-   - **Sección Hero**: Titular *"Monetice su Terreno con la Red Apex"*.
+   - **Sección Hero**: Titular *"Monetice su Terreno con la Red LINK"*.
    - **Sección de Beneficios**: Información técnica sobre la valorización de activos con métricas de precisión (99.4%) y conexión con constructores élite.
    - **Fases del Proceso**:
      - *Fase 1: Registro Digital* (Carga de coordenadas y documentos).
-     - *Fase 2: Evaluación Red Apex* (Due-diligence técnico y comercial).
+     - *Fase 2: Evaluación Red LINK* (Due-diligence técnico y comercial).
      - *Fase 3: Alianza Estratégica* (Presentación a inversores cualificados).
 5. Para comenzar el proceso, el propietario hace clic en el botón azul destacado: **[ Registrar Mi Propiedad Ahora ]**.
 
