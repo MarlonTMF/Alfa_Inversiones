@@ -1,0 +1,19 @@
+# Normaliza los saltos de línea: git guarda todo en LF y lo convierte a
+# CRLF solo al extraer en Windows. Sin esto, cada commit en un checkout
+# de Windows avisa "LF will be replaced by CRLF" en archivos que ya
+# estaban en LF, aunque no haya ningun cambio real de contenido.
+* text=auto eol=lf
+
+# Binarios: nunca tocar saltos de línea ni intentar diff de texto.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.sqlite binary
