@@ -32,4 +32,14 @@ export default tseslint.config(
       'prettier/prettier': ['error', { endOfLine: 'lf' }],
     },
   },
+  {
+    // En los tests, `expect(mock.metodo).toHaveBeenCalled...()` referencia
+    // el metodo de un objeto mockeado sin invocarlo: unbound-method existe
+    // para evitar perder el `this` de una clase real, pero contra un mock
+    // de Jest es un falso positivo constante y no aporta nada.
+    files: ['**/*.spec.ts', 'test/**/*.e2e-spec.ts'],
+    rules: {
+      '@typescript-eslint/unbound-method': 'off',
+    },
+  },
 );
