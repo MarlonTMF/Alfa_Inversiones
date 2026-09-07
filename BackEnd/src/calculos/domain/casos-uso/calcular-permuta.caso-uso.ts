@@ -6,18 +6,45 @@ import {
 import { DataSource } from 'typeorm';
 import { CalculoPermutaDto } from '../../presentation/dto/calculo-permuta.dto.js';
 
+/** Fila cruda que devuelve la consulta SQL de precios a properties. */
+interface FilaPrecioPropiedad {
+  price_per_m2: number | string | null;
+  total_area: number | string | null;
+  base_price_negotiation: number | string | null;
+}
+
+export interface ResultadoPermuta {
+  operacion: string;
+  metricas_entregadas: {
+    terreno_valorado_en: number;
+    precio_unidad: number;
+    ventas_totales_proyectadas: number;
+  };
+  opcion_1_fisica: {
+    descripcion: string;
+    unidades_entregables: number;
+    nota: string;
+  };
+  opcion_2_financiera: {
+    descripcion: string;
+    porcentaje_participacion: number;
+    ingreso_estimado: number;
+    nota: string;
+  };
+}
+
 @Injectable()
 export class CalcularPermutaCasoUso {
   constructor(private readonly dataSource: DataSource) {}
 
-  async ejecutar(dto: CalculoPermutaDto): Promise<any> {
+  async ejecutar(dto: CalculoPermutaDto): Promise<ResultadoPermuta> {
     let costoSuelo = dto.costo_suelo;
 
     // Extracción inteligente desde la base de datos (TABLA UNIFICADA properties)
     if (!costoSuelo) {
       if (dto.terreno_id || dto.property_id) {
         const idToSearch = dto.terreno_id || dto.property_id;
-        const res = await this.dataSource.query(
+        const res = await this.dataSource.query<FilaPrecioPropiedad[]>(
           'SELECT price_per_m2, total_area, base_price_negotiation FROM properties WHERE id = $1',
           [idToSearch],
         );
@@ -25,10 +52,9 @@ export class CalcularPermutaCasoUso {
         if (!res.length) throw new NotFoundException('Propiedad no encontrada');
 
         // Prioriza base_price_negotiation, si es 0 usa (price_per_m2 * total_area)
-        costoSuelo = Number(
-          res[0].base_price_negotiation ||
-            res[0].price_per_m2 * res[0].total_area,
-        );
+        costoSuelo =
+          Number(res[0].base_price_negotiation) ||
+          Number(res[0].price_per_m2) * Number(res[0].total_area);
       } else {
         throw new BadRequestException(
           'Debe proveer costo_suelo, terreno_id o property_id',

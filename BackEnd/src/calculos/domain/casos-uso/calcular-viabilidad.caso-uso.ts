@@ -6,28 +6,67 @@ import {
 import { DataSource } from 'typeorm';
 import { CalculoViabilidadDto } from '../../presentation/dto/calculo-viabilidad.dto.js';
 
+/** Fila cruda que devuelve la consulta SQL de precios a properties. */
+interface FilaPrecioPropiedad {
+  price_per_m2: number | string | null;
+  total_area: number | string | null;
+  base_price_negotiation: number | string | null;
+}
+
+export interface ResultadoViabilidadConstructor {
+  rol: 'constructor';
+  metricas: {
+    costo_suelo: number;
+    costo_construccion: number;
+    ventas_proyectadas: number;
+    utilidad_proyectada: number;
+    incidencia_suelo_porcentaje: number;
+    margen_utilidad_porcentaje: number;
+  };
+  validaciones: {
+    suelo_en_rango_optimo: boolean;
+    utilidad_alcanza_rango: boolean;
+    es_proyecto_viable: boolean;
+  };
+  mensaje: string;
+}
+
+export interface ResultadoViabilidadInversionista {
+  rol: 'inversionista';
+  metricas: {
+    ticket_ingresado: number;
+    flujo_anual: number;
+    payback_years: number;
+    payback_months: number;
+  };
+  mensaje: string;
+}
+
+export type ResultadoViabilidad =
+  | ResultadoViabilidadConstructor
+  | ResultadoViabilidadInversionista;
+
 @Injectable()
 export class CalcularViabilidadCasoUso {
   constructor(private readonly dataSource: DataSource) {}
 
-  async ejecutar(dto: CalculoViabilidadDto): Promise<any> {
+  async ejecutar(dto: CalculoViabilidadDto): Promise<ResultadoViabilidad> {
     let costoSuelo = dto.costo_suelo;
 
     // Si no enviaron costo_suelo pero sí un ID de terreno o propiedad, lo buscamos en BD
     if (!costoSuelo) {
       if (dto.terreno_id || dto.property_id) {
         const idToSearch = dto.terreno_id || dto.property_id;
-        const res = await this.dataSource.query(
+        const res = await this.dataSource.query<FilaPrecioPropiedad[]>(
           'SELECT price_per_m2, total_area, base_price_negotiation FROM properties WHERE id = $1',
           [idToSearch],
         );
         if (!res.length) throw new NotFoundException('Propiedad no encontrada');
 
         // Asuma base_price_negotiation o (price_per_m2 * total_area) como costo
-        costoSuelo = Number(
-          res[0].base_price_negotiation ||
-            res[0].price_per_m2 * res[0].total_area,
-        );
+        costoSuelo =
+          Number(res[0].base_price_negotiation) ||
+          Number(res[0].price_per_m2) * Number(res[0].total_area);
       }
     }
 
@@ -45,7 +84,7 @@ export class CalcularViabilidadCasoUso {
   private calcularLogicaConstructor(
     dto: CalculoViabilidadDto,
     costoSuelo?: number,
-  ) {
+  ): ResultadoViabilidadConstructor {
     if (!costoSuelo)
       throw new BadRequestException(
         'Falta costo_suelo o un ID de terreno válido',
@@ -89,7 +128,9 @@ export class CalcularViabilidadCasoUso {
     };
   }
 
-  private calcularLogicaInversionista(dto: CalculoViabilidadDto) {
+  private calcularLogicaInversionista(
+    dto: CalculoViabilidadDto,
+  ): ResultadoViabilidadInversionista {
     if (!dto.ticket_inversion)
       throw new BadRequestException(
         'Falta parámetro ticket_inversion para el inversionista',
