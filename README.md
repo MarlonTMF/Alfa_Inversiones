@@ -6,6 +6,7 @@ Proyecto desarrollado en equipo (365SOFT — Grupo 5) como monorepo full-stack.
 
 - 🌐 **Demo en vivo:** https://inversiones-bo-inmobiliaria.netlify.app/
 - 🔌 **API en producción:** https://alfa-inversiones.onrender.com *(backend en Render free tier: la primera petición puede tardar ~30s en "despertar")*
+- 🎥 **Video demo:** https://drive.google.com/file/d/1pjhK0PP9lgvs5VrkpDEK3NBYCfRMHmyu/view?usp=sharing
 
 ## Demo rápida
 
