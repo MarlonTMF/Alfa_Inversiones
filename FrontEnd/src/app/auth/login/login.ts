@@ -65,45 +65,11 @@ export class Login implements OnInit {
             return;
         }
 
-        // Bypass de emergencia para Admin
-        if ((this.credenciales.email === 'admin@365soft.com' || this.credenciales.email === 'admin@link.com') && this.credenciales.password === '123') {
-            const usuarioAdmin = {
-                id: '1',
-                nombre: 'Administrador General',
-                email: this.credenciales.email,
-                rol: 'admin'
-            };
-            this.errorLogin = null;
-            this.loginExitoso.emit(usuarioAdmin);
-            this.cerrarModal.emit();
-            return;
-        }
-
-        // Bypass de emergencia para Alejandro (Inversor)
-        if (this.credenciales.email === 'alex@architect.com' && this.credenciales.password === 'alex123') {
-            const usuarioAlex = {
-                id: '2',
-                nombre: 'Alejandro Vargas',
-                email: 'alex@architect.com',
-                rol: 'inversor'
-            };
-            this.errorLogin = null;
-            this.loginExitoso.emit(usuarioAlex);
-            this.cerrarModal.emit();
-            return;
-        }
-
-        // Bypass de emergencia para Constructora
-        if (this.credenciales.email === 'const@empresa.com' && this.credenciales.password === '123') {
-            const usuarioConstructor = {
-                id: '4',
-                nombre: 'Constructora Link S.R.L.',
-                email: 'const@empresa.com',
-                rol: 'constructor'
-            };
-            this.errorLogin = null;
-            this.loginExitoso.emit(usuarioConstructor);
-            this.cerrarModal.emit();
+        // Los usuarios de demostración (ver DEMO_*.md) se validan primero
+        // contra la base simulada: es instantáneo, sin esperar al backend,
+        // y es la única fuente de verdad en vez de tener las mismas
+        // credenciales repetidas también aquí como bypass.
+        if (this.intentarLoginSimulado()) {
             return;
         }
 
@@ -120,25 +86,33 @@ export class Login implements OnInit {
             },
             error: (err) => {
                 console.error('API Login Error:', err);
-                
-                // Fallback a Base de Datos Simulada
-                if (this.isBrowser) {
-                    const dbString = localStorage.getItem('usuariosDB');
-                    const usuariosDB = dbString ? JSON.parse(dbString) : [];
-                    const usuarioValido = usuariosDB.find(
-                        (u: any) => u.email === this.credenciales.email && u.password === this.credenciales.password
-                    );
 
-                    if (usuarioValido) {
-                        this.errorLogin = null;
-                        const usuarioNormalizado = { id: usuarioValido.id || '1', ...usuarioValido };
-                        this.loginExitoso.emit(usuarioNormalizado);
-                        this.cerrarModal.emit();
-                        return;
-                    }
+                // Reintenta contra la base simulada por si se cargó después
+                // del primer intento (inicializarBaseDeDatosSimulada es async).
+                if (!this.intentarLoginSimulado()) {
+                    this.errorLogin = 'Credenciales incorrectas o acceso denegado.';
                 }
-                this.errorLogin = 'Credenciales incorrectas o acceso denegado.';
             }
         });
+    }
+
+    /** true si encontró y emitió un usuario de la base de datos simulada. */
+    private intentarLoginSimulado(): boolean {
+        if (!this.isBrowser) {
+            return false;
+        }
+        const dbString = localStorage.getItem('usuariosDB');
+        const usuariosDB = dbString ? JSON.parse(dbString) : [];
+        const usuarioValido = usuariosDB.find(
+            (u: any) => u.email === this.credenciales.email && u.password === this.credenciales.password
+        );
+        if (!usuarioValido) {
+            return false;
+        }
+        this.errorLogin = null;
+        const usuarioNormalizado = { id: usuarioValido.id || '1', ...usuarioValido };
+        this.loginExitoso.emit(usuarioNormalizado);
+        this.cerrarModal.emit();
+        return true;
     }
 }

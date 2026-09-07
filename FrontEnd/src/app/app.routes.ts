@@ -2,7 +2,14 @@ import { Routes } from '@angular/router';
 import { Mapa } from './mapa/mapa';
 import { AnalisisFinanciero } from './analisis-financiero/analisis-financiero';
 import { LandingPage } from './landing-page/landing-page';
-import { authGuard, adminGuard, adminOnlyGuard, superAdminGuard } from './guards/auth-guard';
+import {
+    authGuard,
+    adminGuard,
+    adminOnlyGuard,
+    superAdminGuard,
+    inversorGuard,
+    constructorGuard,
+} from './guards/auth-guard';
 
 export const routes: Routes = [
     { path: '', component: LandingPage },
@@ -170,7 +177,7 @@ export const routes: Routes = [
         path: 'inversor',
         loadComponent: () =>
             import('./inversor/inversor-layout/inversor-layout').then((m) => m.InversorLayout),
-        canActivate: [authGuard],
+        canActivate: [authGuard, inversorGuard],
         children: [
             {
                 path: '',
@@ -205,32 +212,32 @@ export const routes: Routes = [
     {
         path: 'constructor',
         loadComponent: () => import('./constructor/dashboard/dashboard').then((m) => m.ConstructorDashboard),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     {
         path: 'constructor/proyectos',
         loadComponent: () => import('./constructor/proyectos/proyectos').then((m) => m.ConstructorProyectos),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     {
         path: 'constructor/proyecto-detalle',
         loadComponent: () => import('./constructor/proyecto-detalle/proyecto-detalle').then((m) => m.ConstructorProyectoDetalle),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     {
         path: 'constructor/publicar-avance',
         loadComponent: () => import('./constructor/publicar-avance/publicar-avance').then((m) => m.ConstructorPublicarAvance),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     {
         path: 'constructor/legal',
         loadComponent: () => import('./constructor/legal/legal').then((m) => m.ConstructorLegal),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     {
         path: 'constructor/legal-publicacion',
         loadComponent: () => import('./constructor/legal-publicacion/legal-publicacion').then((m) => m.ConstructorLegalPublicacion),
-        canActivate: [authGuard]
+        canActivate: [authGuard, constructorGuard]
     },
     { 
         path: 'ayuda', 

@@ -43,7 +43,8 @@ export class LandingPage implements OnInit {
             return;
         }
 
-        const url = `${window.location.origin}${window.location.pathname}?demoUser=${rol}`;
+        const token = this.authService.generarTokenDemo(rol);
+        const url = `${window.location.origin}${window.location.pathname}?demoUser=${rol}&demoToken=${token}`;
         window.open(url, '_blank', 'noopener,noreferrer,width=1500,height=1000');
     }
 
