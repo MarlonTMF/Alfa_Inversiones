@@ -64,7 +64,9 @@ export class ProyectosControlador {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async crear(@Body() dto: CrearProyectoDto, @Req() req: Request) {
-    const creatorId = (req as unknown as { user?: { id?: string } }).user?.id;
+    // El payload lo pone AdminGuard tras verificar el JWT: `sub` es el id
+    // real del usuario autenticado (mismo campo que firma iniciar-sesion).
+    const creatorId = (req as unknown as { user?: { sub?: string } }).user?.sub;
     return this.crearProyectoCasoUso.ejecutar(dto, creatorId);
   }
 

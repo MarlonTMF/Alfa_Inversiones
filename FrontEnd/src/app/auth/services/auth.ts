@@ -6,6 +6,15 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AuthService {
     private static readonly STORAGE_KEY = 'usuario365';
+    /**
+     * JWT real que firma el backend al hacer login (ver AutenticacionControlador).
+     * Antes se generaba y nunca se usaba para nada: las peticiones al
+     * backend que requerian ser admin mandaban en su lugar el id del
+     * usuario en un header plano (x-admin-id), sin firma ni verificacion,
+     * facil de falsificar. Ahora este token es el que via interceptor/
+     * servicios se manda como 'Authorization: Bearer <token>'.
+     */
+    private static readonly TOKEN_KEY = 'authToken365';
 
     public usuarioActual = signal<any>(null);
 
@@ -87,7 +96,13 @@ export class AuthService {
         }
     }
 
-    login(usuario: any): void {
+    /**
+     * @param token JWT real devuelto por POST /auth/login. Los logins que no
+     * pasan por el backend real (modo demo, base simulada offline) no tienen
+     * uno: en ese caso las llamadas que requieren rol admin simplemente
+     * seran rechazadas por el backend en vez de aceptar un id sin verificar.
+     */
+    login(usuario: any, token?: string): void {
         const usuarioNormalizado = {
             id: usuario?.id || '1',
             ...usuario,
@@ -98,7 +113,20 @@ export class AuthService {
         if (isPlatformBrowser(this.platformId)) {
             sessionStorage.setItem(AuthService.STORAGE_KEY, JSON.stringify(usuarioNormalizado));
             localStorage.setItem(AuthService.STORAGE_KEY, JSON.stringify(usuarioNormalizado));
+            if (token) {
+                localStorage.setItem(AuthService.TOKEN_KEY, token);
+            } else {
+                localStorage.removeItem(AuthService.TOKEN_KEY);
+            }
         }
+    }
+
+    /** Token real del backend para la sesion actual, o null si no hay uno (login demo/simulado). */
+    obtenerToken(): string | null {
+        if (!isPlatformBrowser(this.platformId)) {
+            return null;
+        }
+        return localStorage.getItem(AuthService.TOKEN_KEY);
     }
 
     logout(): void {
@@ -106,6 +134,7 @@ export class AuthService {
         if (isPlatformBrowser(this.platformId)) {
             sessionStorage.removeItem(AuthService.STORAGE_KEY);
             localStorage.removeItem(AuthService.STORAGE_KEY);
+            localStorage.removeItem(AuthService.TOKEN_KEY);
         }
     }
 

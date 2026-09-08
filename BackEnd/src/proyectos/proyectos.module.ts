@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminGuard } from '../orquestacion/guards/admin.guard.js';
+import { AutenticacionModule } from '../autenticacion/autenticacion.module.js';
 
 import { Proyecto } from './data/fuentes-datos/proyecto.fuente-datos.js';
 import { ProyectoFase } from './data/fuentes-datos/proyecto-fase.fuente-datos.js';
@@ -53,6 +54,9 @@ import { ProyectoMultimediaControlador } from './presentation/controllers/proyec
       ProyectoMultimedia,
       ProyectoAvance,
     ]),
+    // AutenticacionModule re-exporta JwtModule: lo necesita AdminGuard para
+    // verificar el token de la cabecera Authorization.
+    AutenticacionModule,
   ],
   controllers: [ProyectosControlador, ProyectoMultimediaControlador],
   providers: [

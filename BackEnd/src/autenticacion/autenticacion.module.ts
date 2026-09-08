@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
+import { JWT_MODULE_OPTIONS } from '../common/jwt.config.js';
 
 // Data
 import { UsuarioFuenteDatos } from './data/fuentes-datos/usuario.fuente-datos.js';
@@ -17,10 +18,7 @@ import { AutenticacionControlador } from './presentation/controladores/autentica
 @Module({
   imports: [
     TypeOrmModule.forFeature([UsuarioFuenteDatos]),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'clave-secreta-desarrollo-365',
-      signOptions: { expiresIn: '24h' },
-    }),
+    JwtModule.register(JWT_MODULE_OPTIONS),
   ],
   controllers: [AutenticacionControlador],
   providers: [
@@ -31,6 +29,8 @@ import { AutenticacionControlador } from './presentation/controladores/autentica
     RegistrarUsuarioCasoUso,
     IniciarSesionCasoUso,
   ],
-  exports: [USUARIO_REPOSITORIO],
+  // JwtModule se re-exporta para que AdminGuard (orquestacion, proyectos)
+  // pueda verificar el token sin duplicar el registro de JwtModule.
+  exports: [USUARIO_REPOSITORIO, JwtModule],
 })
 export class AutenticacionModule {}

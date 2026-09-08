@@ -27,8 +27,8 @@ export class ExplorarActivos implements OnInit {
         // Asegurarse de que el servicio esté limpio al iniciar si es necesario
     }
 
-    procesarLogin(usuario: any): void {
-        this.authService.login(usuario);
+    procesarLogin({ usuario, token }: { usuario: any; token?: string }): void {
+        this.authService.login(usuario, token);
         this.mostrarLogin = false;
         this.redireccionarSegunRol(usuario);
     }

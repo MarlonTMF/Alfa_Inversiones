@@ -5,54 +5,62 @@ import {
   UnauthorizedException,
   ForbiddenException,
 } from '@nestjs/common';
-import { DataSource } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
+import type { Request } from 'express';
 
+/** Payload que firma IniciarSesionCasoUso al hacer login. */
+interface PayloadJwt {
+  sub: string;
+  email: string;
+  rol: string;
+}
+
+const ROLES_PERMITIDOS = new Set(['admin', 'superadmin', 'super-admin']);
+
+/**
+ * Antes este guard confiaba ciegamente en una cabecera `x-admin-id`
+ * mandada por el propio cliente, sin firma ni verificacion: cualquiera
+ * podia mandar el id de un administrador real (obtenible con solo
+ * loguearse una vez) y quedar autorizado, sin token, sin login, sin
+ * limite de tiempo. El login ya firma un JWT con el rol adentro
+ * (ver iniciar-sesion.caso-uso.ts) que hasta ahora nadie verificaba:
+ * este guard ahora exige y valida ese token real.
+ */
 @Injectable()
 export class AdminGuard implements CanActivate {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const adminId = request.headers['x-admin-id'];
+    const request = context.switchToHttp().getRequest<Request>();
+    const token = this.extraerToken(request);
 
-    if (!adminId) {
+    if (!token) {
       throw new UnauthorizedException(
-        'Falta encabezado de autorización de administrador (x-admin-id)',
+        'Falta el token de autorización (Authorization: Bearer <token>)',
       );
     }
 
+    let payload: PayloadJwt;
     try {
-      const result = await this.dataSource.query(
-        'SELECT rol FROM usuarios WHERE id = $1',
-        [adminId],
-      );
+      payload = await this.jwtService.verifyAsync<PayloadJwt>(token);
+    } catch {
+      throw new UnauthorizedException('Token inválido o expirado');
+    }
 
-      if (result.length === 0) {
-        throw new UnauthorizedException(
-          'Usuario no encontrado en base de datos PostgreSQL',
-        );
-      }
-
-      const rol = String(result[0].rol || '').toLowerCase();
-      const rolesPermitidos = new Set(['admin', 'superadmin', 'super-admin']);
-
-      if (!rolesPermitidos.has(rol)) {
-        throw new ForbiddenException(
-          `Rol '${rol}' insuficiente. Se requieren privilegios de Administrador.`,
-        );
-      }
-
-      request.user = { id: adminId, rol };
-      return true;
-    } catch (error) {
-      if (
-        error instanceof UnauthorizedException ||
-        error instanceof ForbiddenException
-      )
-        throw error;
-      throw new UnauthorizedException(
-        'Error al validar permisos de administrador',
+    const rol = String(payload.rol || '').toLowerCase();
+    if (!ROLES_PERMITIDOS.has(rol)) {
+      throw new ForbiddenException(
+        `Rol '${rol}' insuficiente. Se requieren privilegios de Administrador.`,
       );
     }
+
+    (request as Request & { user: PayloadJwt }).user = payload;
+    return true;
+  }
+
+  private extraerToken(request: Request): string | undefined {
+    const cabecera = request.headers.authorization;
+    if (!cabecera?.startsWith('Bearer ')) return undefined;
+    return cabecera.slice('Bearer '.length).trim() || undefined;
   }
 }

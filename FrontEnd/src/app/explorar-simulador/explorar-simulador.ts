@@ -47,8 +47,8 @@ export class ExplorarSimulador {
         });
     }
 
-    procesarLogin(usuario: any): void {
-        this.authService.login(usuario);
+    procesarLogin({ usuario, token }: { usuario: any; token?: string }): void {
+        this.authService.login(usuario, token);
         this.mostrarLogin = false;
     }
 }

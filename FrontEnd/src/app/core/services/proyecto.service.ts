@@ -12,10 +12,18 @@ export class ProyectoService {
 
   private readonly apiUrl = `${API_URL}/proyectos`;
 
+  /**
+   * Antes mandaba el id del usuario en un header plano (x-admin-id), sin
+   * firma ni verificacion: el backend lo aceptaba tal cual (ver AdminGuard).
+   * Ahora manda el JWT real firmado en el login; si la sesion actual no
+   * tiene uno (login demo/simulado, sin pasar por el backend real), estas
+   * llamadas quedaran sin autorizar y el backend las rechazara.
+   */
   private buildAdminHeaders(): HttpHeaders {
-    const user = this.authService.usuarioActual();
-    const adminId = user?.id || '1';
-    return new HttpHeaders({ 'x-admin-id': adminId });
+    const token = this.authService.obtenerToken();
+    return token
+      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+      : new HttpHeaders();
   }
 
   listarProyectos() {

@@ -81,7 +81,10 @@ export class Login implements OnInit {
             next: (res) => {
                 this.errorLogin = null;
                 const usuario = res.usuario ? { id: res.usuario.id || '1', ...res.usuario } : res.usuario;
-                this.loginExitoso.emit(usuario);
+                // res.token es el JWT real firmado por el backend: hace
+                // falta para que las llamadas que requieren rol admin
+                // (AdminGuard) pasen la verificacion en vez de un id sin firmar.
+                this.loginExitoso.emit({ usuario, token: res.token });
                 this.cerrarModal.emit();
             },
             error: (err) => {
@@ -111,7 +114,11 @@ export class Login implements OnInit {
         }
         this.errorLogin = null;
         const usuarioNormalizado = { id: usuarioValido.id || '1', ...usuarioValido };
-        this.loginExitoso.emit(usuarioNormalizado);
+        // Sin token: este login nunca paso por el backend real, asi que no
+        // hay JWT que mandar. Las llamadas que requieran rol admin en el
+        // backend real fallaran para esta sesion, en vez de aceptar el id
+        // sin verificar como pasaba antes.
+        this.loginExitoso.emit({ usuario: usuarioNormalizado, token: undefined });
         this.cerrarModal.emit();
         return true;
     }
